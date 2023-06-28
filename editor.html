@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+      <link rel="stylesheet" type="text/css" href="editor.css" />
+</head>
+
+<body>
+    <fast-card id="hierarchy-panel" >
+        <div style="padding: 0 10px 10px;">
+            <h4>层级树面板</h4>
+            <fast-tree-view id="hierarchy-tree"> </fast-tree-view>
+        </div>
+    </fast-card>
+    <fast-card id="runtime-panel">
+        <div style="padding: 0 10px 10px;">
+            <h4>编辑器面板</h4>
+            <fast-button>Button</fast-button>
+        </div>
+    </fast-card>
+    <fast-card id="inspector-panel">
+        <div style="padding: 0 10px 10px; ">
+            <h4>属性面板</h4>
+            <fast-accordion id="inspector-accordion">
+            </fast-accordion>
+            <fast-divide></fast-divide>
+            <fast-select id="add-component-select">
+            
+            </fast-select>
+            <fast-button id="add-component-button">添加组件</fast-button>
+        </div>
+    </fast-card>
+
+    <fast-card id="assets-panel">
+        <div style="padding: 0 10px 10px; ">
+            <h4>资源面板</h4>
+            <fast-button id="save-button">保存</fast-button>
+    <fast-button id="play-button">运行</fast-button>
+    <fast-button id="edit-button">编辑</fast-button>
+        </div>
+    </fast-card>
+    <script type="module" src="/editor/index.ts"></script>
+
+</body>
+
+</html>

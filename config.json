@@ -1,0 +1,20 @@
+{
+  "player": {
+    "width": 400,
+    "height": 400
+  },
+  "editor": {
+    "hierarchy": {
+      "width": 200,
+      "height": 600
+    },
+    "runtime": {
+      "width": 600,
+      "height": 600
+    },
+    "inspector": {
+      "width": 600,
+      "height": 600
+    }
+  }
+}

@@ -1,0 +1,27 @@
+body {
+    margin: 0px;
+    overflow: hidden;
+    color: var(--neutral-foreground-rest);
+}
+
+#hierarchy-panel {
+    position: absolute;
+    overflow-y: auto;
+}
+
+#runtime-panel {
+    position: absolute;
+}
+
+#inspector-panel {
+    position: absolute;
+    overflow-y: auto;
+}
+
+#assets-panel {
+    width:1200px;
+    height: 200px;
+    position: absolute;
+    top:400px;
+    left:0px;
+}
