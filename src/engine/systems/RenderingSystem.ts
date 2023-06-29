@@ -91,7 +91,7 @@ export class CanvasContextRenderingSystem extends System {
                         const renderer = child.renderer as BitmapRenderer;
                         context.save();
                         const img = self.gameEngine.resourceManager.getImage(renderer.source);
-                        context.drawImage(img, 0, 0);
+                        context.drawImage(img, renderer.anchor.x, renderer.anchor.y);
 
                         context.restore();
                     } else if (child.renderer instanceof AnimationRenderer) {
