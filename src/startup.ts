@@ -32,7 +32,7 @@ async function startup() {
     engine.addSystem(new PhysicsSystem());
     engine.addSystem(new MouseControlSystem());
     if (engine.mode === "play") {
-        // engine.addSystem(new GamePlaySystem1());
+        engine.addSystem(new GamePlaySystem1());
     }
 
     await engine.loadAssets();
