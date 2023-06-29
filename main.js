@@ -46,9 +46,6 @@ async function startEditor() {
                 contextIsolation: false, //允许渲染进程使用Nodejs
             },
         });
-
-        // DevTools
-        editorProcess.webContents.openDevTools({ mode: "undocked" })
         
         // 等待页面加载完成后显示窗口
         editorProcess.once("ready-to-show", () => {
@@ -80,6 +77,9 @@ async function startEditor() {
         globalShortcut.register("Alt+B", function () {
             runtimeView.webContents.openDevTools();
         });
+
+        // DevTools
+        runtimeView.webContents.openDevTools({ mode: "undocked" })
 
     }
 
