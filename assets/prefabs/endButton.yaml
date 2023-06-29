@@ -1,13 +1,13 @@
 behaviours:
   - type: Transform
     properties:
-      x: 300
-      y: 200
+      x: 0
+      y: 0
       scaleX: 1
       scaleY: 1
-      rotation: 0      
+      rotation: 0
   - type: TextRenderer
     properties:
-      text: 回合数
-      fontSize: 30
-id: RoundDisplay
+      fontSize: 40
+      text: 结束回合
+id: EndButton
