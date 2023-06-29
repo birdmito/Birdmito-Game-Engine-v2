@@ -11,8 +11,8 @@ children:
   - behaviours:
       - type: Transform
         properties:
-          x: 100
-          y: 50
+          x: -460
+          y: -260
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -42,6 +42,14 @@ children:
     prefab:
       type: RoundDisplayPrefabBinding
       properties:
-        roundName: 回合数
-        x: 200
-        y: 350
+        roundName: 当前回合数：1/总回合数：6
+        x: 400
+        y: 0
+  - behaviours: []
+    id: endButton
+    prefab:
+      type: EndButtonPrefabBinding
+      properties:
+        gameObjectName: 结束回合
+        x: 400
+        y: 400

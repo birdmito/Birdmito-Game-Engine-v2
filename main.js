@@ -5,6 +5,10 @@ const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/soilders.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/colonyButton.yaml";
 // const defaultSceneOrPrefab = "./assets/scenes/gaming-scene.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/roundDisplay.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/endButton.yaml";
+
+
 const config = require("./config.json");
 const { app, BrowserWindow, BrowserView, globalShortcut } = require("electron");
 const { generateMainTs } = require("./main/generate-main");

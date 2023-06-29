@@ -6,9 +6,9 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-  - type: ColonyBehaviour    
+  - type: ColonyBehaviour
   - type: TextRenderer
     properties:
-      text: '殖 民 '
       fontSize: 40
+      text: '殖 民 '
 id: ColonyButton

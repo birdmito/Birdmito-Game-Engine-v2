@@ -25,8 +25,8 @@ export class SoilderBehaviour extends Behaviour {
 
     updateTransform(): void {
         const gridSpace = getGameObjectById("Map").getBehaviour(InitialMapBehaviour).gridSpace;
-        const x = this.provinceCoor[0] * gridSpace + gridSpace / 2;
-        const y = this.provinceCoor[1] * gridSpace * (Math.sqrt(3) / 2) + gridSpace * (Math.sqrt(3) / 2) / 2;
+        const x = this.provinceCoor.x * gridSpace + gridSpace / 2;
+        const y = this.provinceCoor.y * gridSpace * (Math.sqrt(3) / 2) + gridSpace * (Math.sqrt(3) / 2) / 2;
         this.gameObject.getBehaviour(Transform).x = x;
         this.gameObject.getBehaviour(Transform).y = y;
     }
