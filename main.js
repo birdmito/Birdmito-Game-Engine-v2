@@ -1,10 +1,10 @@
-// const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
+const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
 // const defaultSceneOrPrefab = "./assets/scenes/login-scene.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/mainRole.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/block.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/soilders.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/colonyButton.yaml";
-const defaultSceneOrPrefab = "./assets/scenes/gaming-scene.yaml";
+// const defaultSceneOrPrefab = "./assets/scenes/gaming-scene.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/roundDisplay.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/endButton.yaml";
 
