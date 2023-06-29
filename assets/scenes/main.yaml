@@ -23,7 +23,7 @@ children:
         prefab:
           type: MainRolePrefabBinding
           properties:
-            userName: MitoLii
+            userName: MitoLi
             action: down
             x: 100
             y: -100
@@ -31,6 +31,14 @@ children:
         prefab:
           type: BlockPrefabBinding
           properties:
+            x: 100
+            y: 200
+      - behaviours: []
+        id: soilders
+        prefab:
+          type: SoildersPrefabBinding
+          properties:
+            soilderName: 1k_Soilder
             x: 100
             y: 200
   - behaviours:

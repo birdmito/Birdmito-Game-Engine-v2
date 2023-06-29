@@ -1,6 +1,8 @@
 const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/mainRole.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/block.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/soilders.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/colonyButton.yaml";
 const config = require("./config.json");
 const { app, BrowserWindow, BrowserView, globalShortcut } = require("electron");
 const { generateMainTs } = require("./main/generate-main");
@@ -155,7 +157,7 @@ class WebSocketProxy {
                 },
             });
             player.loadURL(url);
-            // player.webContents.openDevTools();
+            player.webContents.openDevTools();
         } else {
             runtimeView.webContents.loadURL(url);
         }
