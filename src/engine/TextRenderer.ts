@@ -10,6 +10,9 @@ export class TextRenderer extends Behaviour implements Renderer {
     fontSize = 40;
 
     @string()
+    fontFamily = 'Arial';
+
+    @string()
     text = ''
 
     measuredTextWidth = 0;

@@ -78,7 +78,8 @@ export class CanvasContextRenderingSystem extends System {
                     context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
                     if (child.renderer instanceof TextRenderer) {
                         const renderer = child.renderer as TextRenderer;
-                        context.fillText(renderer.text, 0, renderer.fontSize);
+                        context.font = renderer.fontSize + "px" + " " + renderer.fontFamily;
+                        context.fillText(renderer.text, 0, 0);
                         renderer.measuredTextWidth = context.measureText(renderer.text).width;
                     } else if (child.renderer instanceof ShapeRectRenderer) {
                         const renderer = child.renderer as ShapeRectRenderer;

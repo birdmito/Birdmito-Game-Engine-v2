@@ -17,7 +17,7 @@ export class Camera extends Behaviour {
 
     calculateViewportMatrix() {
         const cameraTransform = this.gameObject.getBehaviour(Transform);
-        const offsetMatrix = new Matrix(1, 0, 0, 1, -100, 0);
+        const offsetMatrix = new Matrix(1, 0, 0, 1, -this.viewportWidth/2, -this.viewportHeight/2);
         let viewportMatrix = invertMatrix(matrixAppendMatrix(cameraTransform.globalMatrix, offsetMatrix));
         return viewportMatrix;
     }
