@@ -158,6 +158,12 @@ export class GameEngine {
         return prefabGameObject;
     }
 
+
+    createPrefab2Children<T extends Binding>(prefabBinding: T, parent: GameObject): void {
+        const prefab = this.createPrefab(prefabBinding);
+        parent.addChild(prefab);
+    }
+
     private unserilize(text: string): GameObject {
         let data: any;
         try {
