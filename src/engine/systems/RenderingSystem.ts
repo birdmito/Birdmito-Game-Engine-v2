@@ -1,5 +1,5 @@
 import { Camera } from "../../behaviours/Camera";
-import { ShapeRectRenderer } from "../../behaviours/ShapeRectRenderer";
+import { ShapeRectRenderer } from "../../behaviours/unneed/ShapeRectRenderer";
 import { GameObject, getGameObjectById } from "../../engine";
 import { AnimationRenderer } from "../AnimationRenderer";
 import { Behaviour } from "../Behaviour";

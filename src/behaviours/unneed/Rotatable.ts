@@ -1,5 +1,5 @@
-import { Behaviour } from "../engine/Behaviour";
-import { Transform } from "../engine/Transform";
+import { Behaviour } from "../../engine/Behaviour";
+import { Transform } from "../../engine/Transform";
 
 export class Rotatable extends Behaviour {
     onTick(duringTime: number) {

@@ -1,8 +1,8 @@
-import { Renderer } from "../engine";
-import { Behaviour } from "../engine/Behaviour";
-import { Rectangle } from "../engine/math";
-import { number } from "../engine/validators/number";
-import { string } from "../engine/validators/string";
+import { Renderer } from "../../engine";
+import { Behaviour } from "../../engine/Behaviour";
+import { Rectangle } from "../../engine/math";
+import { number } from "../../engine/validators/number";
+import { string } from "../../engine/validators/string";
 
 export class ShapeRectRenderer extends Behaviour implements Renderer {
     @number()

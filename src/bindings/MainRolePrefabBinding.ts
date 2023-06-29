@@ -1,4 +1,4 @@
-import { RigidBody } from "../behaviours/RigidBody";
+import { RigidBody } from "../behaviours/unneed/RigidBody";
 import { AnimationRenderer } from "../engine/AnimationRenderer";
 import { TextRenderer } from "../engine/TextRenderer";
 import { number } from "../engine/validators/number";

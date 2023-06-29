@@ -1,7 +1,7 @@
 import { b2DrawFlags } from "@flyover/box2d";
 import config from "../../../config.json";
 import { Camera } from "../../behaviours/Camera";
-import { PhysicsWorld } from "../../behaviours/PhysicsWorld";
+import { PhysicsWorld } from "../../behaviours/unneed/PhysicsWorld";
 import { DebugDraw } from "../../draw";
 import {
     GameObject,

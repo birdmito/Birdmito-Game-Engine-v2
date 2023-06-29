@@ -31,3 +31,10 @@ children:
           rotation: 0
       - type: InitialMapBehaviour
     id: Map
+  - behaviours: []
+    prefab:
+        type: SoildersPrefabBinding
+        properties:
+          soilderName: soilder
+          x: 0
+          y: 0
