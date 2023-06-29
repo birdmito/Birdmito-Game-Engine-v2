@@ -39,3 +39,11 @@ children:
         soilderName: soilder
         x: 100
         y: 350
+  - behaviours: []
+    id: RoundDisplay
+    prefab:
+      type: RoundDisplayPrefabBinding
+      properties:
+        roundName: 回合数
+        x: 200
+        y: 350
