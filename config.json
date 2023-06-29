@@ -9,11 +9,11 @@
       "height": 600
     },
     "runtime": {
-      "width": 600,
-      "height": 600
+      "width": 960,
+      "height": 540
     },
     "inspector": {
-      "width": 600,
+      "width": 300,
       "height": 600
     }
   }

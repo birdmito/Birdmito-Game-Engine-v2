@@ -34,19 +34,22 @@ async function startEditor() {
         ) + 200;
     function createWindow() {
         editorProcess = new BrowserWindow({
-            // width: width,
-            // height: height,
+            width: width,   //
+            height: height, //
             // frame: false,
-            resizable: false,
-            fullscreenable: true, // 添加 fullscreenable 选项
+            // resizable: false,    //
+            fullscreenable: false, // 添加 fullscreenable 选项
             show: false, // 初始隐藏窗口以避免闪烁
-            // fullscreen: true,
+            fullscreen: true,   //
             webPreferences: {
                 nodeIntegration: true, //允许渲染进程使用Nodejs
                 contextIsolation: false, //允许渲染进程使用Nodejs
             },
         });
 
+        // DevTools
+        editorProcess.webContents.openDevTools({ mode: "undocked" })
+        
         // 等待页面加载完成后显示窗口
         editorProcess.once("ready-to-show", () => {
             editorProcess.show();
@@ -63,6 +66,7 @@ async function startEditor() {
             },
         });
         editorProcess.addBrowserView(runtimeView);
+        
         runtimeView.setBounds({
             x: config.editor.hierarchy.width,
             y: 0,
@@ -76,6 +80,7 @@ async function startEditor() {
         globalShortcut.register("Alt+B", function () {
             runtimeView.webContents.openDevTools();
         });
+
     }
 
     app.whenReady().then(() => {
