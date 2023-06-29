@@ -24,18 +24,18 @@ export class GamePlaySystem extends System implements b2ContactListener {
     onStart(): void {
         console.log("开始游戏");
 
-        this.gameEngine.getSystem(PhysicsSystem).SetContactListener(this);
+        // this.gameEngine.getSystem(PhysicsSystem).SetContactListener(this);
 
-        const scene = getGameObjectById("sceneRoot");
-        const blockBinding = new BlockPrefabBinding();
-        blockBinding.x = 100;
-        blockBinding.y = 90;
-        const blockGameObject = this.gameEngine.createPrefab(blockBinding);
-        scene.addChild(blockGameObject);
+        // const scene = getGameObjectById("sceneRoot");
+        // const blockBinding = new BlockPrefabBinding();
+        // blockBinding.x = 100;
+        // blockBinding.y = 90;
+        // const blockGameObject = this.gameEngine.createPrefab(blockBinding);
+        // scene.addChild(blockGameObject);
 
-        setTimeout(() => {
-            scene.removeChild(blockGameObject);
-        }, 3000);
+        // setTimeout(() => {
+        //     scene.removeChild(blockGameObject);
+        // }, 3000);
     }
 
     onUpdate(): void {
