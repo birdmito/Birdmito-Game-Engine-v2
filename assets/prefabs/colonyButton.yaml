@@ -1,12 +1,14 @@
 behaviours:
   - type: Transform
     properties:
-      x: -50
-      y: 5
+      x: 0
+      y: 0
       scaleX: 1
       scaleY: 1
       rotation: 0
+  - type: ColonyBehaviour    
   - type: TextRenderer
     properties:
       text: '殖 民 '
+      fontSize: 40
 id: ColonyButton

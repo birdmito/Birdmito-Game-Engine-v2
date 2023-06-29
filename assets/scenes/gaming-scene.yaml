@@ -32,9 +32,18 @@ children:
       - type: InitialMapBehaviour
     id: Map
   - behaviours: []
+    id: MySolider
     prefab:
-        type: SoildersPrefabBinding
-        properties:
-          soilderName: soilder
-          x: 0
-          y: 0
+      type: SoildersPrefabBinding
+      properties:
+        soilderName: soilder
+        x: 100
+        y: 350
+  - behaviours: []
+    id: RoundDisplay
+    prefab:
+      type: RoundDisplayPrefabBinding
+      properties:
+        roundName: 回合数
+        x: 200
+        y: 350

@@ -1,0 +1,13 @@
+behaviours:
+  - type: Transform
+    properties:
+      x: 300
+      y: 200
+      scaleX: 1
+      scaleY: 1
+      rotation: 0      
+  - type: TextRenderer
+    properties:
+      text: 回合数
+      fontSize: 40
+id: RoundDisplay
