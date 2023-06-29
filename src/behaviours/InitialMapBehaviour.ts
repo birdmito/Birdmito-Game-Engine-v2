@@ -6,9 +6,9 @@ import { GameObject } from "../engine";
 
 export class InitialMapBehaviour extends Behaviour {
     // @number()
-    gridSizeX: number = 10;
+    gridSizeX: number = 1;
     // @number()
-    gridSizeY: number = 10;
+    gridSizeY: number = 1;
     // @number()
     gridSpace: number = 172;
 
