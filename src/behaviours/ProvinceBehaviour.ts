@@ -17,10 +17,4 @@ export class ProvinceBehaviour extends Behaviour {
         this.changeNationId(0);
     }
 
-    onUpdate(): void {
-        //占领地块
-        this.gameObject.onClick = () => {
-            this.changeNationId(1);
-        }
-    }
 }
