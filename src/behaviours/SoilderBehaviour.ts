@@ -17,7 +17,7 @@ export class SoilderBehaviour extends Behaviour {
         this.gameObject.onClick = () => {
             console.log('soilder is cliceked')
             const cbutton = this.gameObject.engine.createPrefab(new colonyPrefabButtonBinding);
-            cbutton.getBehaviour(ColonyBehaviour).coloniedProvince =
+            cbutton.getBehaviour(ColonyBehaviour).provinceToColony =
                 getGameObjectById("Map").getBehaviour(InitialMapBehaviour).provinces[this.provinceCoor.x][this.provinceCoor.y];
             getGameObjectById("ui").addChild(cbutton);
         }

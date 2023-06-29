@@ -9,5 +9,5 @@ behaviours:
   - type: TextRenderer
     properties:
       fontSize: 40
-      text: 回合失败
-id: countTip 
+      text: 'text'
+id: text
