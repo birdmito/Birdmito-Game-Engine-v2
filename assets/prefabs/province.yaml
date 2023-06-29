@@ -1,0 +1,15 @@
+behaviours:
+  - type: Transform
+    properties:
+      x: 250
+      y: 250
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+  - type: ProvinceBehaviour
+    properties:
+      nationId: 0
+  - type: TextRenderer
+    properties:
+      fontSize: 40
+      text: '1111'
