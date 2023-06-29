@@ -9,5 +9,5 @@ behaviours:
   - type: TextRenderer
     properties:
       text: 回合数
-      fontSize: 40
+      fontSize: 30
 id: RoundDisplay
