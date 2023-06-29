@@ -78,9 +78,6 @@ async function startEditor() {
             runtimeView.webContents.openDevTools();
         });
 
-        // DevTools
-        runtimeView.webContents.openDevTools({ mode: "undocked" })
-
     }
 
     app.whenReady().then(() => {
