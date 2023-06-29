@@ -4,7 +4,6 @@ import { ProvincePrefabBinding } from "../bindings/ProvincePrefabBinding";
 
 export class InitialMapBehaviour extends Behaviour {
     onStart(): void {
-        const province = this.gameObject.engine.createPrefab(new ProvincePrefabBinding());
-        this.gameObject.addChild(province);
+        this.gameObject.engine.createPrefab2Children(new ProvincePrefabBinding(), this.gameObject);
     }
 }
