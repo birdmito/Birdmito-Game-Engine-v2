@@ -1,0 +1,54 @@
+behaviours:
+    - type: Transform
+      properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+children:
+    - id: sceneRoot
+      behaviours:
+          - type: Transform
+            properties:
+                x: 0
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+          - type: PhysicsWorld
+      children:
+          - id: mainRole
+            behaviours: []
+            prefab:
+                type: MainRolePrefabBinding
+                properties:
+                    userName: WangZe
+                    action: down
+                    x: 100
+                    y: -100
+          - behaviours: []
+            prefab:
+                type: BlockPrefabBinding
+                properties:
+                    x: 100
+                    y: 200
+    - id: ui
+      behaviours:
+          - type: Transform
+            properties:
+                x: 0
+                y: 200
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+    - id: camera
+      behaviours:
+          - type: Transform
+            properties:
+                x: 200
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+          - type: Camera
