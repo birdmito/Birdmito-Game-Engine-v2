@@ -6,38 +6,35 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
+id: GamingScene
 children:
   - behaviours:
       - type: Transform
         properties:
+          x: 100
+          y: 50
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 40
+          text: 游戏中
+    id: GamingText
+  - behaviours:
+      - type: Transform
+        properties:
           x: 0
           y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: GameStateBehaviour
-    id: sceneRoot
-    children:
-      - behaviours: []
-        id: loginScene
-        prefab:
-          type: LoginScenePrefabBinding
-  - behaviours:
-      - type: Transform
+      - type: InitialMapBehaviour
+    id: Map
+  - behaviours: []
+    prefab:
+        type: SoildersPrefabBinding
         properties:
+          soilderName: soilder
           x: 0
-          y: 200
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-    id: ui
-  - behaviours:
-      - type: Transform
-        properties:
-          x: 200
           y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: Camera
-    id: camera

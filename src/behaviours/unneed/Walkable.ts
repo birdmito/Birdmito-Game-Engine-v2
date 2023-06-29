@@ -1,5 +1,5 @@
-import { Behaviour } from "../engine/Behaviour";
-import { number } from "../engine/validators/number";
+import { Behaviour } from "../../engine/Behaviour";
+import { number } from "../../engine/validators/number";
 import { RigidBody } from "./RigidBody";
 
 export class Walkable extends Behaviour {

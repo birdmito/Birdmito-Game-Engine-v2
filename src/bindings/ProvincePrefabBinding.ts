@@ -1,21 +1,14 @@
+import { ProvinceBehaviour } from "../behaviours/ProvinceBehaviour";
 import { RigidBody } from "../behaviours/unneed/RigidBody";
 import { number } from "../engine/validators/number";
 import { Binding, binding, makeBinding, prefab } from "./Binding";
-@prefab('./assets/prefabs/block.yaml')
-export class BlockPrefabBinding extends Binding {
-
-
+@prefab('./assets/prefabs/province.yaml')
+export class ProvincePrefabBinding extends Binding {
     @number()
     @binding((prefabRoot, value) => {
-        prefabRoot.getBehaviour(RigidBody).x = value;
+        prefabRoot.getBehaviour(ProvinceBehaviour).nationId = value;
     })
-    x: number;
-
-    @number()
-    @binding((prefabRoot, value) => {
-        prefabRoot.getBehaviour(RigidBody).y = value;
-    })
-    y: number;
+    nationId: number;
 
     constructor() {
         super();

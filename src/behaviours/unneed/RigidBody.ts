@@ -1,7 +1,7 @@
 import { b2Body } from "@flyover/box2d";
-import { DebugDraw } from "../draw";
-import { Behaviour } from "../engine/Behaviour";
-import { number } from "../engine/validators/number";
+import { DebugDraw } from "../../draw";
+import { Behaviour } from "../../engine/Behaviour";
+import { number } from "../../engine/validators/number";
 
 export enum RigidBodyType {
     STATIC = 0,

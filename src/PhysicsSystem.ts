@@ -1,6 +1,6 @@
 import { b2Body, b2BodyDef, b2BodyType, b2CircleShape, b2Contact, b2ContactImpulse, b2ContactListener, b2Draw, b2Fixture, b2FixtureDef, b2Manifold, b2PointState, b2PolygonShape, b2Shape, b2Vec2, b2World } from "@flyover/box2d";
-import { BoxCollider, CircleCollider } from "./behaviours/Collider";
-import { RigidBody } from "./behaviours/RigidBody";
+import { BoxCollider, CircleCollider } from "./behaviours/unneed/Collider";
+import { RigidBody } from "./behaviours/unneed/RigidBody";
 import { DebugDraw } from "./draw";
 import { GameObject, getGameObjectById } from "./engine";
 import { Behaviour } from "./engine/Behaviour";

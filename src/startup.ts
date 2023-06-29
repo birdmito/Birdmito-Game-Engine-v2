@@ -16,9 +16,14 @@ async function startup() {
     const engine = new GameEngine(mode);
     engine.defaultSceneName = prefab;
 
-    if (mode === "edit" || mode === "preview") {
+    if (mode === "edit") {
         engine.addSystem(new EditorSystem());
-    } else {
+    } 
+    else if(mode === "preview"){
+        engine.addSystem(new GameLifeCycleSystem());
+        engine.addSystem(new EditorSystem());
+    }
+    else{
         engine.addSystem(new GameLifeCycleSystem());
     }
     engine.addSystem(new TransformSystem());

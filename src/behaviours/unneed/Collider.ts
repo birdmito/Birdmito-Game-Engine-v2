@@ -1,7 +1,7 @@
 import { b2CircleShape, b2PolygonShape, b2Vec2 } from "@flyover/box2d";
-import { DebugDraw } from "../draw";
-import { Behaviour } from "../engine/Behaviour";
-import { number } from "../engine/validators/number";
+import { DebugDraw } from "../../draw";
+import { Behaviour } from "../../engine/Behaviour";
+import { number } from "../../engine/validators/number";
 
 export class CircleCollider extends Behaviour {
     b2CircleShape: b2CircleShape;

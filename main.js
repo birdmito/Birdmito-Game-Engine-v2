@@ -1,6 +1,8 @@
 const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/mainRole.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/block.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/soilders.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/colonyButton.yaml";
 const config = require("./config.json");
 const { app, BrowserWindow, BrowserView, globalShortcut } = require("electron");
 const { generateMainTs } = require("./main/generate-main");
@@ -46,7 +48,7 @@ async function startEditor() {
                 contextIsolation: false, //允许渲染进程使用Nodejs
             },
         });
-        
+
         // 等待页面加载完成后显示窗口
         editorProcess.once("ready-to-show", () => {
             editorProcess.show();
@@ -63,7 +65,7 @@ async function startEditor() {
             },
         });
         editorProcess.addBrowserView(runtimeView);
-        
+
         runtimeView.setBounds({
             x: config.editor.hierarchy.width,
             y: 0,

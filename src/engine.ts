@@ -48,6 +48,7 @@ export class GameEngine {
     storeDuringTime: number = 0;
     resourceManager = new ResourceManager();
     systems: System[] = [];
+    renderSystem: System;
 
     public mode: "edit" | "preview" | "play" = "edit";
 
@@ -121,6 +122,7 @@ export class GameEngine {
         for (const system of this.systems) {
             system.onStart();
         }
+        this.renderSystem = this.getSystem(CanvasContextRenderingSystem);
         this.enterFrame(0);
     }
 

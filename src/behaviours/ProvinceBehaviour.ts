@@ -1,13 +1,26 @@
 import { Behaviour } from "../engine/Behaviour";
+import { TextRenderer } from "../engine/TextRenderer";
 import { Transform } from "../engine/Transform";
+import { number } from "../engine/validators/number";
 
 export class ProvinceBehaviour extends Behaviour {
-    
-    onStart(): void {
+    @number()
+    nationId = 0;
 
+    changeNationId(nationId: number) {
+        this.nationId = nationId;
+        this.gameObject.getBehaviour(TextRenderer).text = this.nationId.toString();
+    }
+
+    onStart(): void {
+        console.log("province start");
+        this.changeNationId(0);
     }
 
     onUpdate(): void {
-
+        //占领地块
+        this.gameObject.onClick = () => {
+            this.changeNationId(1);
+        }
     }
 }
