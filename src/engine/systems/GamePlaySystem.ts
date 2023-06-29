@@ -13,10 +13,19 @@ import { MainRolePrefabBinding } from "../../bindings/MainRolePrefabBinding";
 import { getGameObjectById } from "../../engine";
 import { PhysicsSystem } from "../../PhysicsSystem";
 import { System } from "./System";
+import { ButtonBinding } from "../../bindings/ButtonBinding";
 
 export class GamePlaySystem1 extends System {
     onStart(): void {
         console.log("开始游戏");
+
+        const scene = getGameObjectById("sceneRoot");
+        const buttonBinding = new ButtonBinding();
+        buttonBinding.text = "按钮";
+        buttonBinding.image = "./assets/images/icon.jpg";
+        const buttonGameObject = this.gameEngine.createPrefab(buttonBinding);
+
+        scene.addChild(buttonGameObject);
     }
 }
 

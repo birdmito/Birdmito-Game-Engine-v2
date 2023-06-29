@@ -12,6 +12,14 @@ import { System } from "./System";
 export class CanvasContextRenderingSystem extends System {
     private context: CanvasRenderingContext2D;
     private canvas: HTMLCanvasElement;
+
+    getContext() {
+        return this.context;
+    }
+    getCanvas() {
+        return this.canvas;
+    }
+
     constructor() {
         super();
         const canvas = document.getElementById("game") as HTMLCanvasElement;
@@ -52,8 +60,8 @@ export class CanvasContextRenderingSystem extends System {
     onUpdate(): void {
         const context = this.context;
         const canvas = this.canvas;
-        context.setTransform(1, 0, 0, 1, 0, 0);
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        // context.setTransform(1, 0, 0, 1, 0, 0);
+        // context.clearRect(0, 0, canvas.width, canvas.height);
 
         const cameraGameObject =
             this.gameEngine.mode === "play" ? getGameObjectById("camera") : this.gameEngine.editorGameObject;

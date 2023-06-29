@@ -5,6 +5,7 @@ import { ResourceManager } from "./engine/ResourceManager";
 import { Transform } from "./engine/Transform";
 import { Rectangle } from "./engine/math";
 import { System } from "./engine/systems/System";
+import { CanvasContextRenderingSystem } from "./engine/systems/RenderingSystem";
 
 const gameObjects: { [id: string]: GameObject } = {};
 
@@ -189,6 +190,12 @@ export class GameEngine {
             duringTime -= milesecondPerFrame;
         }
         this.storeDuringTime = duringTime;
+
+        const context = this.getSystem(CanvasContextRenderingSystem).getContext();
+        const canvas = this.getSystem(CanvasContextRenderingSystem).getCanvas();
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
         for (const system of this.systems) {
             system.onUpdate();
         }

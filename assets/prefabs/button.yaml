@@ -1,0 +1,15 @@
+behaviours:
+  - type: Transform
+    properties:
+      x: 0
+      y: -0.0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+  - type: BitmapRenderer
+    properties:
+      source: ./assets/images/icon.jpg
+  - type: TextRenderer
+    properties:
+      text: Button
+  - type: Button

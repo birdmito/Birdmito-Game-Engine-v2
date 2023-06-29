@@ -157,7 +157,7 @@ class WebSocketProxy {
                 },
             });
             player.loadURL(url);
-            // player.webContents.openDevTools();
+            player.webContents.openDevTools();
         } else {
             runtimeView.webContents.loadURL(url);
         }
