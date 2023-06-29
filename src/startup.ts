@@ -3,7 +3,7 @@ import { GameEngine } from "./engine";
 import { AnimationSystem } from "./engine/systems/AnimationSystem";
 import { EditorSystem } from "./engine/systems/EditorSystem";
 import { GameLifeCycleSystem } from "./engine/systems/GameLifeCycleSystem";
-import { GamePlaySystem } from "./engine/systems/GamePlaySystem";
+import { GamePlaySystem, GamePlaySystem1 } from "./engine/systems/GamePlaySystem";
 import { MouseControlSystem } from "./engine/systems/MouseControlSystem";
 import { CanvasContextRenderingSystem } from "./engine/systems/RenderingSystem";
 import { TransformSystem } from "./engine/systems/TransformSystem";
@@ -14,6 +14,8 @@ async function startup() {
     const mode = getQuery().mode;
     const prefab = getQuery().prefab;
     const engine = new GameEngine(mode);
+    engine.defaultSceneName = prefab;
+
     if (mode === "edit" || mode === "preview") {
         engine.addSystem(new EditorSystem());
     } else {
@@ -29,7 +31,7 @@ async function startup() {
     }
 
     await engine.loadAssets();
-    engine.changeScene(decodeURIComponent(prefab));
+    engine.changeScene(prefab);
     engine.start();
 
     const onEnterFrame = (advancedTime: number) => {
@@ -46,7 +48,7 @@ function getQuery(): { [key: string]: string } {
         const tempArr = queryString.split("&");
         for (const kv of tempArr) {
             const [k, v] = kv.split("=");
-            result[k] = v;
+            result[k] = decodeURIComponent(v);
         }
     }
     return result;
