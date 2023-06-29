@@ -22,6 +22,7 @@ children:
     - type: BitmapRenderer
       properties:
         source: ./assets/images/Map_TerrainPlain.png
+    id: Terrain
   - behaviours:
     - type: Transform
       properties:
@@ -30,8 +31,8 @@ children:
         scaleX: 1
         scaleY: 1
         rotation: 0
-    - type: TextRenderer
+    - type: BitmapRenderer
       properties:
-        fontSize: 40
-        text: '1111'
+        source: ./assets/images/color.png
+    id: NationColor
 

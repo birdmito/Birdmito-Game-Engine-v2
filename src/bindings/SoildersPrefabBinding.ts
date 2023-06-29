@@ -14,18 +14,18 @@ export class SoildersPrefabBinding extends Binding {
     })
     soilderName: string
 
-    @number()
-    @binding((prefabRoot, value) => {
-        prefabRoot.getBehaviour(SoilderBehaviour).nationId = value;
-        prefabRoot.getBehaviour(Transform).x = value;
-    })
-    x: number;
+    // @number()
+    // @binding((prefabRoot, value) => {
+    //     prefabRoot.getBehaviour(SoilderBehaviour).nationId = value;
+    //     prefabRoot.getBehaviour(Transform).x = value;
+    // })
+    // x: number;
 
-    @number()
-    @binding((prefabRoot, value) => {
-        prefabRoot.getBehaviour(Transform).y = value;
-    })
-    y: number;
+    // @number()
+    // @binding((prefabRoot, value) => {
+    //     prefabRoot.getBehaviour(Transform).y = value;
+    // })
+    // y: number;
 
     constructor() {
         super();
