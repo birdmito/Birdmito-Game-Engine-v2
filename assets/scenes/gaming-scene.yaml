@@ -32,9 +32,10 @@ children:
       - type: InitialMapBehaviour
     id: Map
   - behaviours: []
+    id: MySolider
     prefab:
-        type: SoildersPrefabBinding
-        properties:
-          soilderName: soilder
-          x: 0
-          y: 0
+      type: SoildersPrefabBinding
+      properties:
+        soilderName: soilder
+        x: 100
+        y: 350
