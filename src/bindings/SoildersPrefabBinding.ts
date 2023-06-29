@@ -1,3 +1,4 @@
+import { SoilderBehaviour } from "../behaviours/SoilderBehaviour";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Transform } from "../engine/Transform";
 import { number } from "../engine/validators/number";
@@ -13,17 +14,18 @@ export class SoildersPrefabBinding extends Binding {
     })
     soilderName: string
 
-    @number()
-    @binding((prefabRoot, value) => {
-        prefabRoot.getBehaviour(Transform).x = value;
-    })
-    x: number;
+    // @number()
+    // @binding((prefabRoot, value) => {
+    //     prefabRoot.getBehaviour(SoilderBehaviour).nationId = value;
+    //     prefabRoot.getBehaviour(Transform).x = value;
+    // })
+    // x: number;
 
-    @number()
-    @binding((prefabRoot, value) => {
-        prefabRoot.getBehaviour(Transform).y = value;
-    })
-    y: number;
+    // @number()
+    // @binding((prefabRoot, value) => {
+    //     prefabRoot.getBehaviour(Transform).y = value;
+    // })
+    // y: number;
 
     constructor() {
         super();

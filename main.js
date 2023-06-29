@@ -1,4 +1,5 @@
 // const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
+// const defaultSceneOrPrefab = "./assets/scenes/login-scene.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/mainRole.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/block.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/soilders.yaml";

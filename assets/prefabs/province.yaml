@@ -2,15 +2,37 @@ behaviours:
   - type: Transform
     properties:
       x: 0
-      y: -10
+      y: 0
       scaleX: 1
       scaleY: 1
       rotation: 0
   - type: ProvinceBehaviour
     properties:
       nationId: 0
-  - type: TextRenderer
-    properties:
-      fontSize: 40
-      text: '1111'
 id: Province
+children:
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: BitmapRenderer
+      properties:
+        source: ./assets/images/Map_TerrainPlain.png
+    id: Terrain
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: BitmapRenderer
+      properties:
+        source: ./assets/images/color.png
+    id: NationColor
+

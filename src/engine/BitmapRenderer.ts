@@ -6,6 +6,7 @@ import { string } from "./validators/string";
 export class BitmapRenderer extends Behaviour implements Renderer {
     @string()
     source = "";
+    
 
     getBounds(): Rectangle {
         const img = this.engine.resourceManager.getImage(this.source)
