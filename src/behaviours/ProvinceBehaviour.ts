@@ -18,7 +18,7 @@ export class ProvinceBehaviour extends Behaviour {
     onStart(): void {
         console.log("province start");
         this.changeNationId(0);
-        this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/color.png';
+        this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/transparent.png';
     }
 
     changeNationId(nationId: number) {

@@ -43,13 +43,13 @@ children:
       type: RoundDisplayPrefabBinding
       properties:
         roundName: 当前回合数：1/总回合数：6
-        x: 50
-        y: -250
+        x: 400
+        y: 0
   - behaviours: []
     id: endButton
     prefab:
       type: EndButtonPrefabBinding
       properties:
         gameObjectName: 结束回合
-        x: 50
-        y: 250
+        x: 400
+        y: 400
