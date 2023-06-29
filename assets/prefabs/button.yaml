@@ -12,4 +12,5 @@ behaviours:
   - type: TextRenderer
     properties:
       text: Button
+      fontSize: 40
   - type: Button

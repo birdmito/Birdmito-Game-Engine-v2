@@ -8,6 +8,6 @@ behaviours:
       rotation: 0
   - type: TextRenderer
     properties:
-      text: Soilder
       fontSize: 40
+      text: Soilder
 id: MySolider
