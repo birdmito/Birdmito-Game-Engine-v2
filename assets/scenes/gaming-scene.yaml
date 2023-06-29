@@ -37,8 +37,6 @@ children:
       type: SoildersPrefabBinding
       properties:
         soilderName: soilder
-        x: 100
-        y: 350
   - behaviours: []
     id: RoundDisplay
     prefab:

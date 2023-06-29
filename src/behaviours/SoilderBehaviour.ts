@@ -7,7 +7,7 @@ import { InitialMapBehaviour } from "./InitialMapBehaviour";
 
 export class SoilderBehaviour extends Behaviour {
     nationId: number = 1;
-    provinceCoor: number[] = [0, 0];
+    provinceCoor: { x: number, y: number } = { x: 0, y: 0 };
 
     onStart(): void {
         this.updateTransform();
@@ -18,15 +18,15 @@ export class SoilderBehaviour extends Behaviour {
             console.log('soilder is cliceked')
             const cbutton = this.gameObject.engine.createPrefab(new colonyPrefabButtonBinding);
             cbutton.getBehaviour(ColonyBehaviour).coloniedProvince =
-                getGameObjectById("Map").getBehaviour(InitialMapBehaviour).provinces[this.provinceCoor[0]][this.provinceCoor[1]];
+                getGameObjectById("Map").getBehaviour(InitialMapBehaviour).provinces[this.provinceCoor.x][this.provinceCoor.y];
             getGameObjectById("ui").addChild(cbutton);
         }
     }
 
     updateTransform(): void {
         const gridSpace = getGameObjectById("Map").getBehaviour(InitialMapBehaviour).gridSpace;
-        const x = gridSpace / 2 + this.provinceCoor[0] * gridSpace + gridSpace / 2;
-        const y = gridSpace / 2 + this.provinceCoor[1] * gridSpace * (Math.sqrt(3) / 2);
+        const x = this.provinceCoor[0] * gridSpace + gridSpace / 2;
+        const y = this.provinceCoor[1] * gridSpace * (Math.sqrt(3) / 2) + gridSpace * (Math.sqrt(3) / 2) / 2;
         this.gameObject.getBehaviour(Transform).x = x;
         this.gameObject.getBehaviour(Transform).y = y;
     }
