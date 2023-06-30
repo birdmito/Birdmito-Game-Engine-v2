@@ -6,7 +6,7 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-  - type: ProvinceBehaviour
+  - type: Province
     properties:
       nationId: 0
 id: Province

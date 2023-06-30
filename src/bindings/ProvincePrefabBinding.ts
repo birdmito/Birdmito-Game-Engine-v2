@@ -1,4 +1,4 @@
-import { ProvinceBehaviour } from "../behaviours/ProvinceBehaviour";
+import { Province } from "../behaviours/Province";
 import { RigidBody } from "../behaviours/unneed/RigidBody";
 import { number } from "../engine/validators/number";
 import { Binding, binding, makeBinding, prefab } from "./Binding";
@@ -6,7 +6,7 @@ import { Binding, binding, makeBinding, prefab } from "./Binding";
 export class ProvincePrefabBinding extends Binding {
     @number()
     @binding((prefabRoot, value) => {
-        prefabRoot.getBehaviour(ProvinceBehaviour).nationId = value;
+        prefabRoot.getBehaviour(Province).nationId = value;
     })
     nationId: number;
 

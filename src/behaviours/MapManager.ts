@@ -4,7 +4,7 @@ import { ProvincePrefabBinding } from "../bindings/ProvincePrefabBinding";
 import { number } from "../engine/validators/number";
 import { GameObject } from "../engine";
 
-export class MapManagerBehaviour extends Behaviour {
+export class MapManager extends Behaviour {
     // @number()
     gridSizeX: number = 10;
     // @number()
