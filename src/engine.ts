@@ -236,6 +236,8 @@ export class GameObject {
     parent: GameObject;
 
     onClick?: (event: GameEngineMouseEvent) => void;
+    onMouseEnter?: (event: GameEngineMouseEvent) => void;
+    onMouseLeave?: (event: GameEngineMouseEvent) => void;
 
     behaviours: Behaviour[] = [];
 
@@ -375,7 +377,9 @@ function extractBehaviour(behaviour: Behaviour): BehaviourData {
 
 export function extractGameObject(gameObject: GameObject): GameObjectData {
     const gameObjectData: GameObjectData = {
+        id: "",
         behaviours: [],
+        children: []
     };
     if (gameObject.id) {
         gameObjectData.id = gameObject.id;
@@ -407,8 +411,16 @@ export function createGameObject(data: GameObjectData, gameEngine: GameEngine): 
         gameObject.engine = gameEngine;
     }
     if (data.id) {
+        console.log("使用了id:", data.id);
+        gameObjects[data.id] = gameObject;
+        // gameObject.id = data.id;
+    }
+    else{
+        // 如果没有id，就使用GameObject_uuid的形式
+        data.id = `GameObject_${gameObject.uuid}`;
         gameObjects[data.id] = gameObject;
         gameObject.id = data.id;
+        // console.log("生成了id:", gameObject.id);
     }
     if (data.prefab) {
         return gameObject;

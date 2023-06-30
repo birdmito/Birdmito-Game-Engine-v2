@@ -6,25 +6,29 @@ import { number } from "./validators/number";
 
 export class TextRenderer extends Behaviour implements Renderer {
 
+    // 字体属性
+    // ---------------------------
     @number()
     fontSize = 40;
-
     @string()
     fontFamily = 'Arial';
-
     @string()
     text = ''
-
     @string()
     color = 'black';
 
+    measuredTextWidth = 0;
+
+    // 锚点
+    // ---------------------------
     anchor: { x: number, y: number } = { x: 0, y: this.fontSize };
     // 锚点类型：左上角，中上，右上角，左中，中心，右中，左下角，中下，右下角
     @string()
     anchorType: 'left-top' | 'center-top' | 'right-top' | 'left-center' | 'center' | 'right-center' | 'left-bottom' | 'center-bottom' | 'right-bottom' = 'left-top';
 
-    measuredTextWidth = 0;
 
+    // 函数逻辑
+    // ---------------------------
     onStart(): void {
         this.setAnchor(this.anchorType);
 
