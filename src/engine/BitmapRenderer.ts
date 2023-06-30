@@ -54,7 +54,6 @@ export class BitmapRenderer extends Behaviour implements Renderer {
         }
     }
 
-
     getBounds(): Rectangle {
         const img = this.engine.resourceManager.getImage(this.source)
         return {
