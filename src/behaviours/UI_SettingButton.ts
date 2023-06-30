@@ -1,4 +1,4 @@
-import { UI_settingWindowPrefabBinding } from "../bindings/UI_SettingWindowPrefabBinding";
+import { UI_settingWindowPrefabBinding } from "../bindings/UI_settingWindowPrefabBinding";
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";

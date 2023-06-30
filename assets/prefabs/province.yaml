@@ -33,6 +33,6 @@ children:
         rotation: 0
     - type: BitmapRenderer
       properties:
-        source: ./assets/images/color.png
+        source: ./assets/images/TESTColor.png
     id: NationColor
 
