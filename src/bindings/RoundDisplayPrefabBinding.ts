@@ -1,3 +1,4 @@
+import { RoundDisplayBehaviour } from "../behaviours/RoundDisplayBehaviour";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Transform } from "../engine/Transform";
 import { number } from "../engine/validators/number";
@@ -8,11 +9,17 @@ import { Binding, binding, makeBinding, prefab } from "./Binding";
 
 export class RoundDisplayPrefabBinding extends Binding {
 
+    // @string()
+    // @binding((prefabRoot, value) => {
+    //     prefabRoot.getBehaviour(TextRenderer).text = value;
+    // })
+    // roundName: string
+
     @string()
     @binding((prefabRoot, value) => {
-        prefabRoot.getBehaviour(TextRenderer).text = value;
+        prefabRoot.getBehaviour(RoundDisplayBehaviour).roundTip = value
     })
-    roundName: string
+    roundTip: string
 
     @number()
     @binding((prefabRoot, value) => {
