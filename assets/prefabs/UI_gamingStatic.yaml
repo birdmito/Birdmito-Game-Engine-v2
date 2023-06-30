@@ -45,5 +45,6 @@ children:
             properties:
               text: 下一回合
               fontSize: 40
+              anchorType: 'center'
           - type: EndButtonBehaviour
         id: NextTurnButton

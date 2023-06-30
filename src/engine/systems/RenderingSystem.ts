@@ -79,6 +79,9 @@ export class CanvasContextRenderingSystem extends System {
                     if (child.renderer instanceof TextRenderer) {
                         const renderer = child.renderer as TextRenderer;
                         context.font = renderer.fontSize + "px" + " " + renderer.fontFamily;
+                        //设置字体颜色
+                        if (renderer.color)
+                            context.fillStyle = renderer.color;
                         context.fillText(renderer.text, renderer.anchor.x, renderer.anchor.y);
                         renderer.measuredTextWidth = context.measureText(renderer.text).width;
                     } else if (child.renderer instanceof ShapeRectRenderer) {
