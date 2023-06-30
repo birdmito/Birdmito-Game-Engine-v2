@@ -29,7 +29,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: InitialMapBehaviour
+      - type: MapManagerBehaviour
     id: Map
   - behaviours: []
     id: MySolider
@@ -41,7 +41,7 @@ children:
     prefab:
       type: RoundDisplayPrefabBinding
       properties:
-        roundName: 当前回合数：1/总回合数：6
+        roundName: 当前回合数：1/总回合数：2
         x: 400
         y: 0
   - behaviours: []
@@ -52,3 +52,5 @@ children:
         gameObjectName: 结束回合
         x: 400
         y: 400
+          
+
