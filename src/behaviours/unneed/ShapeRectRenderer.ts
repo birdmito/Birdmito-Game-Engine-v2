@@ -25,4 +25,8 @@ export class ShapeRectRenderer extends Behaviour implements Renderer {
             height: this.height,
         };
     }
+
+    setAnchor(anchorType: any): void {
+        
+    }
 }
