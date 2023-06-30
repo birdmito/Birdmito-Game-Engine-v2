@@ -7,7 +7,7 @@ export class RoundDisplayBehaviour extends Behaviour {
 
     roundTip:string = ' '
     roundNum:number = 0
-    roundTotalNum:number = 10
+    roundTotalNum:number = 2
 
     onStart(): void {
         this.changeRoundTip()
