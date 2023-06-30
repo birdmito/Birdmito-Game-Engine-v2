@@ -18,29 +18,30 @@ children:
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: "./assets/images/ScreenArt_LoginScene.png"
+          source: "./assets/images/ScreenArt_Start.png"
     id: 背景
   - behaviours:
       - type: Transform
         properties:
-          x: 1220
-          y: 0
+          x: 50
+          y: 600
           scaleX: 1
           scaleY: 1
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: "./assets/images/Icon_PanelFull.png"
-          renderType: 'ui'
-          scaleXForUI: 0.9
-          scaleYForUI: 2.05
+          source: "./assets/images/Icon_PanelTransparent.png"
+          renderType: "ui"
+          scaleXForUI: 0.8
+          scaleYForUI: 1
+          borderWidthForUI: 30
       - type: Click
     id: MainMenuBackGround
   - behaviours:
       - type: Transform
         properties:
-          x: 1400
-          y: 450
+          x: 200
+          y: 750
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -51,8 +52,8 @@ children:
   - behaviours:
       - type: Transform
         properties:
-          x: 1415
-          y: 460
+          x: 215
+          y: 755
           scaleX: 1
           scaleY: 1
           rotation: 0
