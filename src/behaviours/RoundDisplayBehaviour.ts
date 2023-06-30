@@ -7,28 +7,33 @@ export class RoundDisplayBehaviour extends Behaviour {
 
     roundTip:string = ' '
     roundNum:number = 0
-    roundTotalNum:number = 10
+    roundTotalNum:number = 1
 
     onStart(): void {
+
         this.changeRoundTip()
+    
     }
 
-    onUpdate(): void {
+    onUpdate(): void {    
 
-        this.gameObject.onClick = () => {
-            console.log('change roundtip is clicked')
-            // this.changeRoundTip(this.roundNUm,this.roundTotalNum)
-        }
-        
         this.gameObject.getBehaviour(TextRenderer).text = this.roundTip
+    
     }
 
     changeRoundTip(){
-
         
         console.log('回合跳转')
 
-        this.roundNum += 1 
+        if(this.roundNum<this.roundTotalNum){
+
+            this.roundNum += 1 
+
+        }
+        else{
+
+            this.roundNum = this.roundNum
+        }
 
         this.roundTip = '当前回合数: ' + this.roundNum.toString() + ' 总回合数：' + this.roundTotalNum.toString()
 
