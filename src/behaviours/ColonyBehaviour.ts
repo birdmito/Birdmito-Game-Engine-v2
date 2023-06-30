@@ -1,6 +1,6 @@
 import { GameObject, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
-import { ProvinceBehaviour } from "./ProvinceBehaviour";
+import { Province } from "./Province";
 
 export class ColonyBehaviour extends Behaviour {
     provinceToColony: GameObject;
@@ -8,9 +8,11 @@ export class ColonyBehaviour extends Behaviour {
 
     onUpdate(): void {
         this.gameObject.onClick = () => {
-            console.log("殖民is clicked")
-            this.provinceToColony.getBehaviour(ProvinceBehaviour).changeNationId(1);
+            console.log("colonyButton is clicked")
+            this.provinceToColony.getBehaviour(Province).changeNationId(1);
+            console.log("Colony finish")
             this.unitToDestroy.destroy();
+            this.gameObject.destroy();
         }
     }
 }

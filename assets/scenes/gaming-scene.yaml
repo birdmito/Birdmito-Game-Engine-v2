@@ -11,25 +11,12 @@ children:
   - behaviours:
       - type: Transform
         properties:
-          x: -460
-          y: -260
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 40
-          text: 游戏中
-    id: GamingText
-  - behaviours:
-      - type: Transform
-        properties:
           x: 0
           y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: MapManagerBehaviour
+      - type: MapManager
     id: Map
   - behaviours: []
     id: MySolider

@@ -1,10 +1,8 @@
 import { Behaviour } from "../engine/Behaviour";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
-import { TextRenderer } from "../engine/TextRenderer";
-import { Transform } from "../engine/Transform";
-import { number } from "../engine/validators/number";
+import { GameProcess } from "../behaviours/GameProcess";
 
-export class ProvinceBehaviour extends Behaviour {
+export class Province extends Behaviour {
     nationId = 0;
     isOwnable = true;
     apCost = 5;
@@ -21,6 +19,10 @@ export class ProvinceBehaviour extends Behaviour {
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTTransparent.png';
     }
 
+    onUpdate(): void {
+        // console.log("province" + this.nationId + this.gameObject.children[1].getBehaviour(BitmapRenderer).source)
+    }
+
     changeNationId(nationId: number) {
         this.nationId = nationId;
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
@@ -32,6 +34,12 @@ export class ProvinceBehaviour extends Behaviour {
 
     updateProduction(productionPlused: number = 0) {
         this.production = 5 + this.plainPercent * 10 + this.lakePercent * 5 + this.forestPercent * 20 + productionPlused;
+    }
+
+    giveOwnerProduction() {
+        if (this.nationId > 0) {
+            GameProcess.nationList[this.nationId].money += this.production;
+        }
     }
 }
 
