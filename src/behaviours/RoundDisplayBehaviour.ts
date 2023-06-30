@@ -17,6 +17,7 @@ export class RoundDisplayBehaviour extends Behaviour {
 
     onUpdate(): void {    
 
+
         this.gameObject.getBehaviour(TextRenderer).text = this.roundTip
     
     }

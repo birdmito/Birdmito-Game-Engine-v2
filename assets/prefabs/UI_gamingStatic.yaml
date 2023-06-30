@@ -1,0 +1,126 @@
+behaviours:
+  - type: Transform
+    properties:
+      x: 0
+      y: 0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+id: GamingStaticUI
+children:
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: GameProcess
+    id: gameProcess
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 1720
+          y: 880
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    id: NextTurnUI
+    children:
+      - behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_TextFrame5050.png
+              renderType: 'ui'
+              scaleXForUI: 1
+              scaleYForUI: 1
+              borderWidthForUI: 30
+        id: NextTurnImage
+      - behaviours:
+          - type: Transform
+            properties:
+              x: 10
+              y: 35
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              text: 下一回合
+              fontSize: 20
+              color: white
+          - type: UI_NextTurnButton
+        id: NextTurnButton
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 1720
+        y: 950
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    id: turnDisplay
+    children:
+      - behaviours:
+        - type: Transform
+          properties:
+            x: 10
+            y: 35
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            text: 这里应该显示回合数
+            fontSize: 20
+            color: white
+        id: TurnText
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 350
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    id: SettingButton
+    children:
+      - behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 0
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: BitmapRenderer
+          properties:
+            source: ./assets/images/Icon_TextFrame5050.png
+            renderType: 'ui'
+            scaleXForUI: 1
+            scaleYForUI: 1
+            borderWidthForUI: 30
+        id: SettingImage
+      - behaviours:
+        - type: Transform
+          properties:
+            x: 10
+            y: 35
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            text: '设置'
+            fontSize: 20
+            color: white
+        - type: UI_SettingButton
+        id: SettingButton

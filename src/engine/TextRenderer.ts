@@ -15,7 +15,10 @@ export class TextRenderer extends Behaviour implements Renderer {
     @string()
     text = ''
 
-    anchor: { x: number, y: number } = { x: 0, y: 0 };
+    @string()
+    color = 'black';
+
+    anchor: { x: number, y: number } = { x: 0, y: this.fontSize };
     // 锚点类型：左上角，中上，右上角，左中，中心，右中，左下角，中下，右下角
     @string()
     anchorType: 'left-top' | 'center-top' | 'right-top' | 'left-center' | 'center' | 'right-center' | 'left-bottom' | 'center-bottom' | 'right-bottom' = 'left-top';
@@ -25,7 +28,7 @@ export class TextRenderer extends Behaviour implements Renderer {
     onStart(): void {
         this.setAnchor(this.anchorType);
 
-        if(!this.fontSize){
+        if (!this.fontSize) {
             alert('fontSize is required');
         }
     }
@@ -36,11 +39,11 @@ export class TextRenderer extends Behaviour implements Renderer {
             y: this.anchor.y - this.fontSize,
             width: this.measuredTextWidth,
             height: this.fontSize,
-    }
+        }
     }
 
     setAnchor(anchorType) {
-        switch(anchorType) {
+        switch (anchorType) {
             case 'left-top':
                 this.anchor = { x: 0, y: this.fontSize };
                 break;
