@@ -59,6 +59,19 @@ children:
               color: white
           - type: UI_NextTurnButton
         id: NextTurnButton
+        children: 
+          - behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/TESTTransparent.png
+            id: gameOverImage
   - behaviours:
     - type: Transform
       properties:
