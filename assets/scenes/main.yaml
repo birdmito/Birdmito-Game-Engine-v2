@@ -1,3 +1,4 @@
+id: Root
 behaviours:
   - type: Transform
     properties:
@@ -7,7 +8,8 @@ behaviours:
       scaleY: 1
       rotation: 0
 children:
-  - behaviours:
+  - id: sceneRoot
+    behaviours:
       - type: Transform
         properties:
           x: 0
@@ -16,13 +18,14 @@ children:
           scaleY: 1
           rotation: 0
       - type: GameStateBehaviour
-    id: sceneRoot
     children:
-      - behaviours: []
-        id: loginScene
+      - id: LoginScene
+        behaviours: []
+        children: []
         prefab:
           type: LoginScenePrefabBinding
-  - behaviours:
+  - id: camera
+    behaviours:
       - type: Transform
         properties:
           x: 0
@@ -31,9 +34,9 @@ children:
           scaleY: 1
           rotation: 0
       - type: Camera
-    id: camera
     children:
-      - behaviours:
+      - id: uiRoot
+        behaviours:
           - type: Transform
             properties:
               x: 0
@@ -41,4 +44,4 @@ children:
               scaleX: 1
               scaleY: 1
               rotation: 0
-        id: uiRoot
+        children: []

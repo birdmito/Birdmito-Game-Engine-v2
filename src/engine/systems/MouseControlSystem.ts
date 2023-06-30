@@ -14,7 +14,7 @@ export class MouseControlSystem extends System {
             const camera = cameraGameObject.getBehaviour(Camera)
             const viewportMatrix = camera.calculateViewportMatrix()
             const originPoint = { x: e.clientX, y: e.clientY };
-            const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix))
+            const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if (result) {
                 while (result) {
@@ -41,6 +41,44 @@ export class MouseControlSystem extends System {
                         localY: globalPoint.y
                     }
                     this.rootGameObject.onClick(event);
+                }
+            }
+        });
+
+        window.addEventListener('mouseenter', (e) => {
+            console.log('enterListner');
+            // 检测鼠标进入
+            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('camera') : this.gameEngine.editorGameObject;
+            const camera = cameraGameObject.getBehaviour(Camera)
+            const viewportMatrix = camera.calculateViewportMatrix()
+            const originPoint = { x: e.clientX, y: e.clientY };
+            const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
+            let result = this.hitTest(this.rootGameObject, globalPoint);
+            if (result) {
+                while(result){
+                    if(result.onMouseEnter){
+                        const invertGlobalMatrix = invertMatrix(result.getBehaviour(Transform).globalMatrix)
+                        const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
+                        const event: GameEngineMouseEvent = {
+                            globalX: globalPoint.x,
+                            globalY: globalPoint.y,
+                            localX: localPoint.x,
+                            localY: localPoint.y
+                        }
+                        result.onMouseEnter(event);
+                    }
+                    result = result.parent;
+                }
+            }
+            else{
+                if(this.rootGameObject.onMouseEnter){
+                    const event: GameEngineMouseEvent = {
+                        globalX: globalPoint.x,
+                        globalY: globalPoint.y,
+                        localX: globalPoint.x,
+                        localY: globalPoint.y
+                    }
+                    this.rootGameObject.onMouseEnter(event);
                 }
             }
         });

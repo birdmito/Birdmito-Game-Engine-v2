@@ -1,10 +1,9 @@
-import { g } from "vitest/dist/types-2b1c412e";
-import { colonyPrefabButtonBinding } from "../bindings/ColonyButtonPrefabBinding";
+import { UI_SelectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInfoPrefabBinding";
 import { TextPrefabBinding } from "../bindings/TextPrefabBinding";
 import { getBehaviourClassByName, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
-import { ColonyBehaviour } from "./ColonyBehaviour";
+import { UI_ColonyButton } from "./UI_ColonyButton";
 import { GameProcess } from "./GameProcess";
 import { MapManager } from "./MapManager";
 import { Province } from "./Province";

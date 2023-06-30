@@ -9,6 +9,8 @@ export class BitmapRenderer extends Behaviour implements Renderer {
     source = "";
     image: HTMLImageElement;
 
+    // 九宫格
+    // ---------------------------
     @string()
     renderType: 'image' | 'ui' = 'image';
 
@@ -23,11 +25,15 @@ export class BitmapRenderer extends Behaviour implements Renderer {
     scaleY = 1;
     borderWidth = 30;
 
+    // 锚点
+    // ---------------------------
     anchor: { x: number, y: number } = { x: 0, y: 0 };
     // 锚点类型：左上角，中上，右上角，左中，中心，右中，左下角，中下，右下角
     @string()
     anchorType: 'left-top' | 'center-top' | 'right-top' | 'left-center' | 'center' | 'right-center' | 'left-bottom' | 'center-bottom' | 'right-bottom' = 'left-top';
 
+    // 函数逻辑
+    // ---------------------------
     onStart(): void {
         if (this.source) {
             this.image = this.engine.resourceManager.getImage(this.source);
@@ -82,8 +88,5 @@ export class BitmapRenderer extends Behaviour implements Renderer {
                 // alert('anchorType error');
                 break;
         }
-    }
-
-    onUpdate(): void {
     }
 }

@@ -98,8 +98,8 @@ children:
   - behaviours:
     - type: Transform
       properties:
-        x: 350
-        y: 0
+        x: 1720
+        y: 100
         scaleX: 1
         scaleY: 1
         rotation: 0
@@ -136,3 +136,57 @@ children:
             color: white
         - type: UI_SettingButton
         id: SettingButton
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    id: Government
+    children: 
+      - behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 0
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: BitmapRenderer
+          properties:
+            source: ./assets/images/Icon_TextFrame5050.png
+            renderType: 'ui'
+            scaleXForUI: 8
+            scaleYForUI: 1
+            borderWidthForUI: 30
+        id: GovernmentBgImage
+      - behaviours:
+        - type: Transform
+          properties:
+            x: 10
+            y: 35
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            text: '政府'
+            fontSize: 20
+            color: white
+        id: GovernmentText
+      - behaviours:
+        - type: Transform
+          properties:
+            x: 50
+            y: 35
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            text: '金币: 显示金币数谢谢'
+            fontSize: 20
+            color: yellow
+        id: PlayerGoldText

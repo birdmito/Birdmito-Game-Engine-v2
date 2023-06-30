@@ -6,12 +6,15 @@ export class Button extends Behaviour {
     
     onClick() {
         this.gameObject.onClick  = () =>{
-            this.gameObject.getBehaviour(TextRenderer).text = 'clicked';
+            this.gameObject.children[1].getBehaviour(TextRenderer).text = 'clicked';
         }
     }
 
     onStart(): void {
-        this.onClick();
+        // this.onClick();
+        this.gameObject.onMouseEnter = () => {
+            console.log('enter');
+        }
     }
 
     constructor() {

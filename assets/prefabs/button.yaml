@@ -6,11 +6,30 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-  - type: BitmapRenderer
-    properties:
-      source: ./assets/images/icon.jpg
-  - type: TextRenderer
-    properties:
-      text: Button
-      fontSize: 40
   - type: Button
+children:
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: BitmapRenderer
+      properties:
+        source: ./assets/images/icon.jpg
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: TextRenderer
+      properties:
+        text: Button
+        fontSize: 40
+        fontFamily: Arial
+        color: 'black'
