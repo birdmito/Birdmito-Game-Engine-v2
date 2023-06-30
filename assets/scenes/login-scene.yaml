@@ -11,22 +11,56 @@ children:
   - behaviours:
       - type: Transform
         properties:
-          x: 100
-          y: 50
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 40
-          text: 开始游戏
-      - type: LoginBehaviour
-    id: GameStart
-  - behaviours:
-      - type: Transform
-        properties:
           x: 0
           y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: "./assets/images/ScreenArt_LoginScene.png"
+    id: 背景
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 1220
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: "./assets/images/Icon_PanelFull.png"
+          renderType: 'ui'
+          scaleXForUI: 0.9
+          scaleYForUI: 2.05
+      - type: Click
+    id: MainMenuBackGround
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 1400
+          y: 450
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: "./assets/images/Icon_TextFrame15050.png"
+    id: GameStartButtonBackGround
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 1415
+          y: 460
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 30
+          fontFamily: "fangsong" 
+          text: 开始游戏
+      - type: LoginBehaviour
+    id: GameStartButton
+
