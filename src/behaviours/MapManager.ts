@@ -18,15 +18,15 @@ export class MapManager extends Behaviour {
         // 创建六边形网格坐标数组
         const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
         // 创建省份
-        for (let i = 0; i < this.gridSizeX; i++) {
-            for (let j = 0; j < this.gridSizeY; j++) {
+        for(let i = 0; i < this.gridSizeY; i++) {
+            for(let j =0; j < this.gridSizeX; j++) {
                 const province = this.gameObject.engine.createPrefab(new ProvincePrefabBinding());
                 province.getBehaviour(Transform).x = hexGrid[i][j].x;
                 province.getBehaviour(Transform).y = hexGrid[i][j].y;
                 this.gameObject.addChild(province);
-                if (!this.provinces[i])
-                    this.provinces[i] = [];
-                this.provinces[i][j] = province;
+                if(!this.provinces[j])
+                    this.provinces[j] = [];
+                this.provinces[j][i] = province;
             }
         }
     }

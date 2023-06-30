@@ -2,7 +2,7 @@ import { GameObject, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Province } from "./Province";
 
-export class ColonyBehaviour extends Behaviour {
+export class UI_ColonyButton extends Behaviour {
     provinceToColony: GameObject;
     unitToDestroy: GameObject;
 
@@ -12,7 +12,7 @@ export class ColonyBehaviour extends Behaviour {
             this.provinceToColony.getBehaviour(Province).changeNationId(1);
             console.log("Colony finish")
             this.unitToDestroy.destroy();
-            this.gameObject.destroy();
+            getGameObjectById("UI_selectedUnitInfo").destroy();
         }
     }
 }
