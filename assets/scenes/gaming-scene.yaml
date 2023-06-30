@@ -42,7 +42,7 @@ children:
     prefab:
       type: RoundDisplayPrefabBinding
       properties:
-        roundName: 当前回合数：1/总回合数：6
+        roundName: 当前回合数：1/总回合数：2
         x: 400
         y: 0
   - behaviours: []
