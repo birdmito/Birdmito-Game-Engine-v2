@@ -6,6 +6,7 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0      
+  - type: RoundDisplayBehaviour
   - type: TextRenderer
     properties:
       text: 回合数

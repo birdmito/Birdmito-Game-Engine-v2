@@ -1,13 +1,15 @@
 import { colonyPrefabButtonBinding } from "../bindings/ColonyButtonPrefabBinding";
 import { TextPrefabBinding } from "../bindings/TextPrefabBinding";
-import { getGameObjectById } from "../engine";
+import { getBehaviourClassByName, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
 import { ColonyBehaviour } from "./ColonyBehaviour";
 import { MapManagerBehaviour } from "./MapManagerBehaviour";
 import { ProvinceBehaviour } from "./ProvinceBehaviour";
+import { RoundDisplayBehaviour } from "./RoundDisplayBehaviour";
 
 export class EndButtonBehaviour extends Behaviour {
+
     onUpdate(): void {
         this.gameObject.onClick = () => {
             console.log('结束回合 is clicked')
@@ -19,6 +21,8 @@ export class EndButtonBehaviour extends Behaviour {
                 tip.getBehaviour(TextPrefabBinding).text = "游戏失败";
             }
             getGameObjectById("uiRoot").addChild(tip);
+            getGameObjectById("RoundDisplay").getBehaviour(RoundDisplayBehaviour).changeRoundTip()
         }
-    }
+
+}
 }
