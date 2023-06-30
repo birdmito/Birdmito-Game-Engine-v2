@@ -27,11 +27,14 @@ export class GameStateBehaviour extends Behaviour {
         }
 
         //删除旧场景配套UI
-        if (getGameObjectById("uiRoot").children.length > 0) {
-            console.log("uiRoot has " + getGameObjectById("uiRoot").children.length + " children");
-            for (const child of getGameObjectById("uiRoot").children) {
-                console.log("destroy " + child.id);
-                child.destroy();
+        const uiRoot = getGameObjectById("uiRoot");
+        if (uiRoot.children.length > 0) {
+            console.log("uiRoot has " + uiRoot.children.length + " children");
+            for (let i = uiRoot.children.length - 1; i >= 0; i--) {
+                console.log(i);
+                console.log("destroy " + uiRoot.children[i].id);
+                uiRoot.removeChild(uiRoot.children[i]);
+                console.log(uiRoot);
             }
         }
 
@@ -42,7 +45,7 @@ export class GameStateBehaviour extends Behaviour {
         //生成新场景的静态UI
         switch (gameState) {
             case 1:
-                this.gameObject.engine.createPrefab2Children(new UI_gamingStaticPrefabBinding(), getGameObjectById("uiRoot"));
+                this.gameObject.engine.createPrefab2Children(new UI_gamingStaticPrefabBinding(), uiRoot);
                 break;
             default:
                 break;

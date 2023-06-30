@@ -17,6 +17,9 @@ export class GameProcess extends Behaviour {
 
     updateTurn() {
         this.turnrNow += 1;
+        if (this.turnrNow > this.turnTotal) {
+            this.turnrNow = this.turnTotal;
+        }
         getGameObjectById("TurnText").getBehaviour(TextRenderer).text =
             this.turnrNow.toString() + "/" + this.turnTotal.toString();
         if (this.turnrNow === this.turnTotal) {
