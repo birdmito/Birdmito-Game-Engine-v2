@@ -7,7 +7,7 @@ import { Rectangle } from "./engine/math";
 import { System } from "./engine/systems/System";
 import { CanvasContextRenderingSystem } from "./engine/systems/RenderingSystem";
 
-const gameObjects: { [id: string]: GameObject } = {};
+export const gameObjects: { [id: string]: GameObject } = {};
 
 export class Matrix {
     a = 1;
@@ -245,6 +245,7 @@ export class GameObject {
 
     _active: boolean = false;
     engine: GameEngine;
+    gameObject: any;
 
     get active() {
         return this._active;
