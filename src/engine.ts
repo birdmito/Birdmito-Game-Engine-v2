@@ -412,9 +412,9 @@ export function createGameObject(data: GameObjectData, gameEngine: GameEngine): 
         gameObject.engine = gameEngine;
     }
     if (data.id) {
-        console.log("使用了id:", data.id);
+        // console.log("使用了id:", data.id);
         gameObjects[data.id] = gameObject;
-        // gameObject.id = data.id;
+        gameObject.id = data.id;
     }
     else{
         // 如果没有id，就使用GameObject_uuid的形式
