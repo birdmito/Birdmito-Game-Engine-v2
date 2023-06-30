@@ -6,7 +6,7 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-  - type: ProvinceBehaviour
+  - type: Province
     properties:
       nationId: 0
 id: Province
@@ -33,6 +33,6 @@ children:
         rotation: 0
     - type: BitmapRenderer
       properties:
-        source: ./assets/images/color.png
+        source: ./assets/images/TESTColor.png
     id: NationColor
 

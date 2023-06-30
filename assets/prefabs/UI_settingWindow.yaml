@@ -1,12 +1,12 @@
 behaviours:
   - type: Transform
     properties:
-      x: 0
-      y: 0
+      x: 500
+      y: 400
       scaleX: 1
       scaleY: 1
       rotation: 0
-id: LoginScene
+id: SettingWindow
 children:
   - behaviours:
       - type: Transform
@@ -18,50 +18,50 @@ children:
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: "./assets/images/ScreenArt_Start.png"
-    id: 背景
-  - behaviours:
-      - type: Transform
-        properties:
-          x: 50
-          y: 600
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: "./assets/images/Icon_PanelTransparent.png"
-          renderType: "ui"
-          scaleXForUI: 0.8
-          scaleYForUI: 1
+          source: ./assets/images/Icon_TextFrame5050.png
+          renderType: 'ui'
+          scaleXForUI: 2
+          scaleYForUI: 3
           borderWidthForUI: 30
-      - type: Click
-    id: MainMenuBackGround
+    id: SettingImage
   - behaviours:
       - type: Transform
         properties:
-          x: 200
-          y: 750
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: "./assets/images/Icon_TextFrame15050.png"
-    id: GameStartButtonBackGround
-  - behaviours:
-      - type: Transform
-        properties:
-          x: 215
-          y: 755
+          x: 0
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
       - type: TextRenderer
         properties:
-          fontSize: 30
-          fontFamily: "fangsong" 
-          text: 开始游戏
-      - type: LoginBehaviour
-    id: GameStartButton
-
+          fontSize: 40
+          text: '游戏暂停'
+    id: GameOverText
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 40
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 40
+          text: '返回主菜单'
+      - type: UI_ReturnButton
+    id: ReturnButton
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 80
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 40
+          text: '继续游戏'
+      - type: UI_ContinueButton
+    id: ContinueButton

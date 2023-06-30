@@ -29,6 +29,7 @@ export class Behaviour {
     }
 
     destroy() {
+        this.onEnd();
         this.gameObject.removeBehaviour(this);
     }
 

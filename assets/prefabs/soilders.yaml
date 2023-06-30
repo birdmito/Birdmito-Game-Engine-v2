@@ -6,7 +6,7 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-  - type: SoilderBehaviour
+  - type: Soilder
   - type: BitmapRenderer
     properties:
       source: ./assets/images/Interface_MilitaryUnit.png

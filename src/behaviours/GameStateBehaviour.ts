@@ -2,6 +2,8 @@ import { Binding } from "../bindings/Binding";
 import { LoginScenePrefabBinding } from "../bindings/LoginScenePrefabBinding";
 import { GamingScenePrefabBinding } from "../bindings/GamingScenePrefabBinding";
 import { Behaviour } from "../engine/Behaviour";
+import { getGameObjectById } from "../engine";
+import { UI_gamingStaticPrefabBinding } from "../bindings/UI_gamingStaticPrefabBinding";
 
 export class GameStateBehaviour extends Behaviour {
     gameState: number = 0;
@@ -20,10 +22,33 @@ export class GameStateBehaviour extends Behaviour {
     changeGameState(gameState: number) {
         console.log("change scene to " + gameState);
         //删除旧场景
-        if (this.gameObject.children[0])
+        if (this.gameObject.children[0]) {
             this.gameObject.removeChild(this.gameObject.children[0]);
+        }
+
+        //删除旧场景配套UI
+        const uiRoot = getGameObjectById("uiRoot");
+        if (uiRoot.children.length > 0) {
+            console.log("uiRoot has " + uiRoot.children.length + " children");
+            for (let i = uiRoot.children.length - 1; i >= 0; i--) {
+                console.log(i);
+                console.log("destroy " + uiRoot.children[i].id);
+                uiRoot.removeChild(uiRoot.children[i]);
+                console.log(uiRoot);
+            }
+        }
+
         //创建新场景
         const newScene = this.gameObject.engine.createPrefab(this.scenePrefabBindings[gameState]);
         this.gameObject.addChild(newScene);
+
+        //生成新场景的静态UI
+        switch (gameState) {
+            case 1:
+                this.gameObject.engine.createPrefab2Children(new UI_gamingStaticPrefabBinding(), uiRoot);
+                break;
+            default:
+                break;
+        }
     }
 }
