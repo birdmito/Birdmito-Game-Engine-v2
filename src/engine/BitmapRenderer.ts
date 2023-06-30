@@ -17,10 +17,22 @@ export class BitmapRenderer extends Behaviour implements Renderer {
         if(this.source) {
             this.image = this.engine.resourceManager.getImage(this.source);
         }
+        this.setAnchor(this.anchorType);
+
     }
 
-    onUpdate(): void {
-        switch(this.anchorType) {
+    getBounds(): Rectangle {
+        const img = this.engine.resourceManager.getImage(this.source)
+        return {
+            x: this.anchor.x,
+            y: this.anchor.y,
+            width: this.image.width,
+            height: this.image.height,
+        };
+    }
+
+    setAnchor(anchorType) {
+        switch(anchorType) {
             case 'left-top':
                 this.anchor = { x: 0, y: 0 };
                 break;
@@ -50,17 +62,8 @@ export class BitmapRenderer extends Behaviour implements Renderer {
                 break;
             default:
                 this.anchor = { x: 0, y: 0 };
+                // alert('anchorType error');
                 break;
         }
-    }
-
-    getBounds(): Rectangle {
-        const img = this.engine.resourceManager.getImage(this.source)
-        return {
-            x: this.anchor.x,
-            y: this.anchor.y,
-            width: this.image.width,
-            height: this.image.height,
-        };
     }
 }

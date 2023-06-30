@@ -59,7 +59,7 @@ export class CanvasContextRenderingSystem extends System {
 
     onUpdate(): void {
         const context = this.context;
-        const canvas = this.canvas;
+        // const canvas = this.canvas;
         // context.setTransform(1, 0, 0, 1, 0, 0);
         // context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -79,7 +79,7 @@ export class CanvasContextRenderingSystem extends System {
                     if (child.renderer instanceof TextRenderer) {
                         const renderer = child.renderer as TextRenderer;
                         context.font = renderer.fontSize + "px" + " " + renderer.fontFamily;
-                        context.fillText(renderer.text, 0, renderer.fontSize);
+                        context.fillText(renderer.text, renderer.anchor.x, renderer.anchor.y);
                         renderer.measuredTextWidth = context.measureText(renderer.text).width;
                     } else if (child.renderer instanceof ShapeRectRenderer) {
                         const renderer = child.renderer as ShapeRectRenderer;
