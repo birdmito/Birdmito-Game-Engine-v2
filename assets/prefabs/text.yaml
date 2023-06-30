@@ -6,9 +6,8 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-  - type: EndButtonBehaviour   
   - type: TextRenderer
     properties:
       fontSize: 40
-      text: 结束回合
-id: EndButton
+      text: 'text'
+id: text
