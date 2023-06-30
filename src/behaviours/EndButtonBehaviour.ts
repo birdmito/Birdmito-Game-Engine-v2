@@ -4,7 +4,7 @@ import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
 import { ColonyBehaviour } from "./ColonyBehaviour";
-import { InitialMapBehaviour } from "./InitialMapBehaviour";
+import { MapManagerBehaviour } from "./MapManagerBehaviour";
 import { ProvinceBehaviour } from "./ProvinceBehaviour";
 
 export class EndButtonBehaviour extends Behaviour {
@@ -12,7 +12,7 @@ export class EndButtonBehaviour extends Behaviour {
         this.gameObject.onClick = () => {
             console.log('结束回合 is clicked')
             const tip = this.gameObject.engine.createPrefab(new TextPrefabBinding)
-            if (getGameObjectById("Map").getBehaviour(InitialMapBehaviour).provinces[0][0].getBehaviour(ProvinceBehaviour).nationId == 1) {
+            if (getGameObjectById("Map").getBehaviour(MapManagerBehaviour).provinces[0][0].getBehaviour(ProvinceBehaviour).nationId == 1) {
                 tip.getBehaviour(TextPrefabBinding).text = "游戏胜利";
             }
             else {

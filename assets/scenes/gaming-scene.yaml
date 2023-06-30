@@ -29,7 +29,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: InitialMapBehaviour
+      - type: MapManagerBehaviour
     id: Map
   - behaviours: []
     id: MySolider
