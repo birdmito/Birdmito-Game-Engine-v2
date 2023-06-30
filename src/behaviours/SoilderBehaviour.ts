@@ -19,7 +19,8 @@ export class SoilderBehaviour extends Behaviour {
             const cbutton = this.gameObject.engine.createPrefab(new colonyPrefabButtonBinding);
             cbutton.getBehaviour(ColonyBehaviour).provinceToColony =
                 getGameObjectById("Map").getBehaviour(InitialMapBehaviour).provinces[this.provinceCoor.x][this.provinceCoor.y];
-            getGameObjectById("ui").addChild(cbutton);
+            getGameObjectById("uiRoot").addChild(cbutton);
+            cbutton.getBehaviour(ColonyBehaviour).unitToDestroy = this.gameObject;
         }
     }
 

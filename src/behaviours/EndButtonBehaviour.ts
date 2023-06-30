@@ -18,7 +18,7 @@ export class EndButtonBehaviour extends Behaviour {
             else {
                 tip.getBehaviour(TextPrefabBinding).text = "游戏失败";
             }
-            getGameObjectById("ui").addChild(tip);
+            getGameObjectById("uiRoot").addChild(tip);
         }
     }
 }

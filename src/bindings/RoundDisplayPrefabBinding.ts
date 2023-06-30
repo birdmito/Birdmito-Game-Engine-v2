@@ -26,8 +26,6 @@ export class RoundDisplayPrefabBinding extends Binding {
     })
     y: number;
 
-
-
     constructor() {
         super();
         makeBinding(this)
