@@ -1,6 +1,9 @@
 import { Behaviour } from "../engine/Behaviour";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { GameProcess } from "../behaviours/GameProcess";
+import { getGameObjectById } from "../engine";
+import { UI_selectedProvinceInfoPrefabBinding } from "../bindings/UI_selectedProvinceInfoPrefabBinding";
+import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 
 export class Province extends Behaviour {
     nationId = 0;
@@ -20,7 +23,19 @@ export class Province extends Behaviour {
     }
 
     onUpdate(): void {
-        // console.log("province" + this.nationId + this.gameObject.children[1].getBehaviour(BitmapRenderer).source)
+        this.gameObject.onClick = () => {
+            console.log("province is clicked")
+            getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
+            // if (getGameObjectById("UI_selectedUnitInfo") != null) {
+            //     getGameObjectById("UI_selectedUnitInfo").destroy();
+            // }
+            // if (getGameObjectById("UI_selectedProvinceInfo") != null) {
+            //     getGameObjectById("UI_selectedProvinceInfo").destroy();
+            // }
+
+            // const InfoUI = this.gameObject.engine.createPrefab(new UI_selectedProvinceInfoPrefabBinding);
+            // getGameObjectById("uiRoot").addChild(InfoUI);
+        }
     }
 
     changeNationId(nationId: number) {

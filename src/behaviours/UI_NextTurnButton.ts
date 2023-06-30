@@ -1,4 +1,4 @@
-import { UI_SelectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInfoPrefabBinding";
+import { UI_selectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInfoPrefabBinding";
 import { TextPrefabBinding } from "../bindings/TextPrefabBinding";
 import { getBehaviourClassByName, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";

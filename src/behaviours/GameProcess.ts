@@ -37,7 +37,7 @@ export class GameProcess extends Behaviour {
             }
         }
         //更新玩家金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = GameProcess.nationList[1].money.toString();
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + GameProcess.nationList[1].money.toString();
 
         this.turnrNow += 1;
         if (this.turnrNow > this.turnTotal) {

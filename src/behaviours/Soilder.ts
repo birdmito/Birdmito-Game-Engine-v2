@@ -1,9 +1,10 @@
-import { UI_SelectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInfoPrefabBinding";
+import { UI_selectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInfoPrefabBinding";
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
 import { UI_ColonyButton } from "./UI_ColonyButton";
 import { MapManager } from "./MapManager";
+import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 
 export class Soilder extends Behaviour {
     nationId: number = 1;
@@ -17,12 +18,9 @@ export class Soilder extends Behaviour {
     onUpdate(): void {
         this.gameObject.onClick = () => {
             console.log('soilder is cliceked')
-            const InfoUI = this.gameObject.engine.createPrefab(new UI_SelectedUnitInfoPrefabBinding);
-            getGameObjectById("uiRoot").addChild(InfoUI);
-            const ColonyButton = getGameObjectById("UI_ColonyButton");
-            ColonyButton.getBehaviour(UI_ColonyButton).provinceToColony =
-                getGameObjectById("Map").getBehaviour(MapManager).provinces[this.provinceCoor.x][this.provinceCoor.y];
-            ColonyButton.getBehaviour(UI_ColonyButton).unitToDestroy = this.gameObject;
+            getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
+            // const InfoUI = this.gameObject.engine.createPrefab(new UI_selectedUnitInfoPrefabBinding);
+            // getGameObjectById("uiRoot").addChild(InfoUI);
         }
     }
 
