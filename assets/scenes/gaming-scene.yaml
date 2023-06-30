@@ -36,7 +36,6 @@ children:
     prefab:
       type: SoildersPrefabBinding
       properties:
-        soilderName: soilder
   - behaviours: []
     id: RoundDisplay
     prefab:
@@ -53,3 +52,5 @@ children:
         gameObjectName: 结束回合
         x: 400
         y: 400
+          
+

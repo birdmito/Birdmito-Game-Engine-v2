@@ -45,4 +45,8 @@ export class AnimationRenderer extends Behaviour implements Renderer {
             height: 157,
         };
     }
+    
+    setAnchor(anchorType: any): void {
+        
+    }
 }

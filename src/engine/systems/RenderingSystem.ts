@@ -59,7 +59,7 @@ export class CanvasContextRenderingSystem extends System {
 
     onUpdate(): void {
         const context = this.context;
-        const canvas = this.canvas;
+        // const canvas = this.canvas;
         // context.setTransform(1, 0, 0, 1, 0, 0);
         // context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -79,7 +79,7 @@ export class CanvasContextRenderingSystem extends System {
                     if (child.renderer instanceof TextRenderer) {
                         const renderer = child.renderer as TextRenderer;
                         context.font = renderer.fontSize + "px" + " " + renderer.fontFamily;
-                        context.fillText(renderer.text, 0, renderer.fontSize);
+                        context.fillText(renderer.text, renderer.anchor.x, renderer.anchor.y);
                         renderer.measuredTextWidth = context.measureText(renderer.text).width;
                     } else if (child.renderer instanceof ShapeRectRenderer) {
                         const renderer = child.renderer as ShapeRectRenderer;
@@ -91,7 +91,53 @@ export class CanvasContextRenderingSystem extends System {
                         const renderer = child.renderer as BitmapRenderer;
                         context.save();
                         const img = self.gameEngine.resourceManager.getImage(renderer.source);
-                        context.drawImage(img, renderer.anchor.x, renderer.anchor.y);
+
+                        // context.drawImage(img, renderer.anchor.x, renderer.anchor.y);
+
+                        if (renderer.renderType === 'ui') {
+                            const originalWidth = img.width;
+                            const originalHeight = img.height;
+
+                            // 缩放比例
+                            const scaleX = renderer.scaleX;
+                            const scaleY = renderer.scaleY;
+                            // if (renderer.scaleX) {
+                            //     this.scaleX = renderer.scaleX;
+                            // }
+                            // else {
+                            //     this.scaleX = 1
+                            // }
+                            // if (renderer.scaleY) {
+                            //     this.scaleY = renderer.scaleY;
+                            // }
+                            // else {
+                            //     this.scaleY = 1
+                            // }
+
+                            // 边框大小
+                            const borderWidth = 30;
+
+                            // 计算九宫格单元格的大小
+                            const cellSize = Math.floor((Math.min(originalWidth, originalHeight) - (borderWidth * 2)));
+
+                            // 绘制九宫格图片
+                            //图源、起始点、起始点宽高、绘制点、绘制点宽高
+                            context.drawImage(img, 0, 0, borderWidth, borderWidth, renderer.anchor.x, renderer.anchor.y, borderWidth, borderWidth);
+                            context.drawImage(img, borderWidth, 0, cellSize, borderWidth, renderer.anchor.x + borderWidth, renderer.anchor.y, cellSize * scaleX, borderWidth);
+                            context.drawImage(img, originalWidth - borderWidth, 0, borderWidth, borderWidth, renderer.anchor.x + borderWidth + cellSize * scaleX, renderer.anchor.y, borderWidth, borderWidth);
+
+                            context.drawImage(img, 0, borderWidth, borderWidth, cellSize, renderer.anchor.x, renderer.anchor.y + borderWidth, borderWidth, cellSize * scaleY);
+                            context.drawImage(img, borderWidth, borderWidth, cellSize, cellSize, renderer.anchor.x + borderWidth, renderer.anchor.y + borderWidth, cellSize * scaleX, cellSize * scaleY);
+                            context.drawImage(img, originalWidth - borderWidth, borderWidth, borderWidth, cellSize, renderer.anchor.x + borderWidth + cellSize * scaleX, renderer.anchor.y + borderWidth, borderWidth, cellSize * scaleY);
+
+                            context.drawImage(img, 0, originalHeight - borderWidth, borderWidth, borderWidth, renderer.anchor.x, renderer.anchor.y + borderWidth + cellSize * scaleY, borderWidth, borderWidth);
+                            context.drawImage(img, borderWidth, originalHeight - borderWidth, cellSize, borderWidth, renderer.anchor.x + borderWidth, renderer.anchor.y + borderWidth + cellSize * scaleY, cellSize * scaleX, borderWidth);
+                            context.drawImage(img, originalWidth - borderWidth, originalHeight - borderWidth, borderWidth, borderWidth, renderer.anchor.x + borderWidth + cellSize * scaleX, renderer.anchor.y + borderWidth + cellSize * scaleY, borderWidth, borderWidth);
+
+                        }
+                        else {// 图片原始尺寸
+                            context.drawImage(img, renderer.anchor.x, renderer.anchor.y);
+                        }
 
                         context.restore();
                     } else if (child.renderer instanceof AnimationRenderer) {

@@ -16,3 +16,8 @@
     ✔ 自动生成 src/register.ts @done(23-06-28 13:49)
     ✔ 自动生成 assets.yaml @done(23-06-28 13:49)
     ✔ 添加到 ignore @done(23-06-28 13:53)
+
+
+✔ 为TextRenderer添加锚点 @done(23-06-30 09:48)
+✔ 修复TextRenderer的getBounds @done(23-06-30 09:48)
+☐ 引入EventSystem

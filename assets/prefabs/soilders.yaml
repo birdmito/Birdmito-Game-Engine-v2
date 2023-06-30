@@ -7,8 +7,8 @@ behaviours:
       scaleY: 1
       rotation: 0
   - type: SoilderBehaviour
-  - type: TextRenderer
+  - type: BitmapRenderer
     properties:
-      fontSize: 40
-      text: Soilder
+      source: ./assets/images/Interface_MilitaryUnit.png
+      anchorType: 'center'
 id: MySolider

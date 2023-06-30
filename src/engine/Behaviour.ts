@@ -28,6 +28,10 @@ export class Behaviour {
         }
     }
 
+    destroy() {
+        this.gameObject.removeBehaviour(this);
+    }
+
     onStart() {}
 
     onTick(duringTime: number) {}

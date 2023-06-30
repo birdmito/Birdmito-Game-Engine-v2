@@ -48,7 +48,6 @@ export class GameEngine {
     storeDuringTime: number = 0;
     resourceManager = new ResourceManager();
     systems: System[] = [];
-    renderSystem: System;
 
     public mode: "edit" | "preview" | "play" = "edit";
 
@@ -122,7 +121,6 @@ export class GameEngine {
         for (const system of this.systems) {
             system.onStart();
         }
-        this.renderSystem = this.getSystem(CanvasContextRenderingSystem);
         this.enterFrame(0);
     }
 
@@ -199,8 +197,8 @@ export class GameEngine {
         }
         this.storeDuringTime = duringTime;
 
-        const context = this.getSystem(CanvasContextRenderingSystem).getContext();
-        const canvas = this.getSystem(CanvasContextRenderingSystem).getCanvas();
+        const canvas = document.getElementById("game") as HTMLCanvasElement;
+        const context = canvas.getContext("2d");
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -215,6 +213,7 @@ export class GameEngine {
 }
 
 export interface Renderer {
+    setAnchor(anchorType): void;
     getBounds(): Rectangle;
 }
 
@@ -307,6 +306,17 @@ export class GameObject {
             this.behaviours.splice(index, 1);
             behaviour.active = false;
         }
+    }
+
+    destroy() {
+        for (const behaviour of this.behaviours) {
+            behaviour.destroy();
+        }
+        for (const child of this.children) {
+            child.destroy();
+        }
+        this.parent.removeChild(this);
+        delete GameObject.map[this.uuid];
     }
 }
 

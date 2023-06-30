@@ -1,25 +1,50 @@
 import { Renderer } from "../engine";
 import { Behaviour } from "./Behaviour";
 import { Rectangle } from "./math";
+import { number } from "./validators/number";
 import { string } from "./validators/string";
 
 export class BitmapRenderer extends Behaviour implements Renderer {
     @string()
     source = "";
     image: HTMLImageElement;
-    anchor: { x: number, y: number } = { x: 0, y: 0 };
 
+    @string()
+    renderType: 'image' | 'ui' = 'image';
+
+    @string()
+    scaleXForUI = 1;
+    @string()
+    scaleYForUI = 1;
+
+    scaleX = 1;
+    scaleY = 1;
+
+    anchor: { x: number, y: number } = { x: 0, y: 0 };
     // 锚点类型：左上角，中上，右上角，左中，中心，右中，左下角，中下，右下角
+    @string()
     anchorType: 'left-top' | 'center-top' | 'right-top' | 'left-center' | 'center' | 'right-center' | 'left-bottom' | 'center-bottom' | 'right-bottom' = 'left-top';
 
     onStart(): void {
-        if(this.source) {
+        if (this.source) {
             this.image = this.engine.resourceManager.getImage(this.source);
         }
+        this.setAnchor(this.anchorType);
+
     }
 
-    onUpdate(): void {
-        switch(this.anchorType) {
+    getBounds(): Rectangle {
+        const img = this.engine.resourceManager.getImage(this.source)
+        return {
+            x: this.anchor.x,
+            y: this.anchor.y,
+            width: this.image.width,
+            height: this.image.height,
+        };
+    }
+
+    setAnchor(anchorType) {
+        switch(anchorType) {
             case 'left-top':
                 this.anchor = { x: 0, y: 0 };
                 break;
@@ -49,18 +74,14 @@ export class BitmapRenderer extends Behaviour implements Renderer {
                 break;
             default:
                 this.anchor = { x: 0, y: 0 };
+                // alert('anchorType error');
                 break;
         }
+
+        this.scaleX = this.scaleXForUI;
+        this.scaleY = this.scaleYForUI;
     }
 
-
-    getBounds(): Rectangle {
-        const img = this.engine.resourceManager.getImage(this.source)
-        return {
-            x: -this.anchor.x,
-            y: -this.anchor.y,
-            width: this.image.width,
-            height: this.image.height,
-        };
+    onUpdate(): void {
     }
 }
