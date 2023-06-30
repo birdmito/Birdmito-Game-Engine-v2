@@ -80,6 +80,9 @@ export class CanvasContextRenderingSystem extends System {
                     if (child.renderer instanceof TextRenderer) {
                         const renderer = child.renderer as TextRenderer;
                         context.font = renderer.fontSize + "px" + " " + renderer.fontFamily;
+                        //设置字体颜色
+                        if (renderer.color)
+                            context.fillStyle = renderer.color;
                         context.fillText(renderer.text, renderer.anchor.x, renderer.anchor.y);
                         renderer.measuredTextWidth = context.measureText(renderer.text).width;
                     } else if (child.renderer instanceof ShapeRectRenderer) {
@@ -102,21 +105,9 @@ export class CanvasContextRenderingSystem extends System {
                             // 缩放比例
                             const scaleX = renderer.scaleX;
                             const scaleY = renderer.scaleY;
-                            // if (renderer.scaleX) {
-                            //     this.scaleX = renderer.scaleX;
-                            // }
-                            // else {
-                            //     this.scaleX = 1
-                            // }
-                            // if (renderer.scaleY) {
-                            //     this.scaleY = renderer.scaleY;
-                            // }
-                            // else {
-                            //     this.scaleY = 1
-                            // }
 
                             // 边框大小
-                            const borderWidth = 30;
+                            const borderWidth = renderer.borderWidth;
 
                             // 计算九宫格单元格的大小
                             const cellSize = Math.floor((Math.min(originalWidth, originalHeight) - (borderWidth * 2)));

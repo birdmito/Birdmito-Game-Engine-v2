@@ -4,8 +4,8 @@ import { invertMatrix, matrixAppendMatrix } from "../engine/math";
 import { Transform } from "../engine/Transform";
 
 export class Camera extends Behaviour {
-    viewportWidth: number = 960;
-    viewportHeight: number = 540;
+    viewportWidth: number = 1920;
+    viewportHeight: number = 1080;
 
     constructor() {
         super();
