@@ -31,7 +31,7 @@ export class EndButtonBehaviour extends Behaviour {
             console.log('结束回合 is clicked')
 
             const tip = this.gameObject.engine.createPrefab(new TextPrefabBinding)
-            if (getGameObjectById("Map").getBehaviour(InitialMapBehaviour).provinces[0][0].getBehaviour(ProvinceBehaviour).nationId == 1 && this.Isroundover) {
+            if (getGameObjectById("Map").getBehaviour(MapManagerBehaviour).provinces[0][0].getBehaviour(ProvinceBehaviour).nationId == 1 && this.Isroundover) {
                 tip.getBehaviour(TextPrefabBinding).text = "游戏胜利";
                 tip.getBehaviour(TextPrefabBinding).y = 40
             }
