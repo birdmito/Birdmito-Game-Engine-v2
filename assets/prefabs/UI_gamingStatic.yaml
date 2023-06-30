@@ -1,0 +1,50 @@
+behaviours:
+  - type: Transform
+    properties:
+      x: 0
+      y: 0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+id: GamingStaticUI
+children:
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 860
+          y: 440
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    id: NextTurnUI
+    children:
+      - behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_TextFrame5050.png
+              renderType: ui
+              scaleXForUI: 1
+              scaleYForUI: 1
+        id: NextTurnImage
+      - behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              text: 下一回合
+              fontSize: 40
+              anchorType: 'center'
+          - type: EndButtonBehaviour
+        id: NextTurnButton

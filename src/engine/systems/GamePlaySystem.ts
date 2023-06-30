@@ -10,10 +10,41 @@ import {
 } from "@flyover/box2d";
 import { BlockPrefabBinding } from "../../bindings/BlockPrefabBinding";
 import { MainRolePrefabBinding } from "../../bindings/MainRolePrefabBinding";
-import { getGameObjectById } from "../../engine";
+import { GameObject, getGameObjectById } from "../../engine";
 import { PhysicsSystem } from "../../PhysicsSystem";
 import { System } from "./System";
 import { ButtonBinding } from "../../bindings/ButtonBinding";
+import { Transform } from "../Transform";
+import { Behaviour } from "../Behaviour";
+import { Camera } from "../../behaviours/Camera";
+import config from "../../../config.json";
+import { gameObjects } from "../../engine";
+
+export class GamePlaySystem extends System {
+    onStart(): void {
+        if(getGameObjectById("camera")){
+            console.log("no need for camera");
+            return;
+        }
+
+        const  scene = this.gameEngine.rootGameObject.children[0];
+
+        const cameraBehaviour = new Camera();
+        cameraBehaviour.viewportWidth = config.editor.runtime.width;
+        cameraBehaviour.viewportHeight = config.editor.runtime.height;
+
+        const mainCamera = new GameObject();
+        mainCamera.id = "camera";
+        mainCamera.addBehaviour(new Transform());
+        mainCamera.addBehaviour(cameraBehaviour);
+
+        gameObjects["camera"] = mainCamera;
+
+        scene.addChild(mainCamera);
+
+        console.log(scene);
+    }
+}
 
 export class GamePlaySystem1 extends System {
     onStart(): void {
@@ -29,7 +60,7 @@ export class GamePlaySystem1 extends System {
     }
 }
 
-export class GamePlaySystem extends System implements b2ContactListener {
+export class GamePlaySystemWangze extends System implements b2ContactListener {
     onStart(): void {
         console.log("开始游戏");
 
