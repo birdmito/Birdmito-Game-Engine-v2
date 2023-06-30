@@ -36,21 +36,5 @@ children:
     prefab:
       type: SoildersPrefabBinding
       properties:
-  - behaviours: []
-    id: RoundDisplay
-    prefab:
-      type: RoundDisplayPrefabBinding
-      properties:
-        roundName: 当前回合数：1/总回合数：2
-        x: 400
-        y: 0
-  - behaviours: []
-    id: endButton
-    prefab:
-      type: EndButtonPrefabBinding
-      properties:
-        gameObjectName: 结束回合
-        x: 960
-        y: 540
           
 

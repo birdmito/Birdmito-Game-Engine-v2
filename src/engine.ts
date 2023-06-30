@@ -245,6 +245,7 @@ export class GameObject {
 
     _active: boolean = false;
     engine: GameEngine;
+    gameObject: any;
 
     get active() {
         return this._active;
