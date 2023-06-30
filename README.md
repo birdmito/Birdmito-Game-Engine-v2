@@ -12,3 +12,7 @@ please go to `develop` branch.
 1. TSC  
 2. vite  
 3. Electron  
+
+更改画框尺寸：
+1. config文件更改player的数值  
+2. camera文件更改viewport数值  

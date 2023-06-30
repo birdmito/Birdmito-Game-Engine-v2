@@ -4,7 +4,7 @@ import { getBehaviourClassByName, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
 import { ColonyBehaviour } from "./ColonyBehaviour";
-import { InitialMapBehaviour } from "./InitialMapBehaviour";
+import { MapManagerBehaviour } from "./MapManagerBehaviour";
 import { ProvinceBehaviour } from "./ProvinceBehaviour";
 import { RoundDisplayBehaviour } from "./RoundDisplayBehaviour";
 
