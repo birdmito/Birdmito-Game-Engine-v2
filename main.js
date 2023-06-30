@@ -1,13 +1,5 @@
 const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
-// const defaultSceneOrPrefab = "./assets/scenes/login-scene.yaml";
-// const defaultSceneOrPrefab = "./assets/prefabs/UI_SettingButton.yaml";
-// const defaultSceneOrPrefab = "./assets/prefabs/block.yaml";
-// const defaultSceneOrPrefab = "./assets/prefabs/UI_setttingWindow.yaml";
-// const defaultSceneOrPrefab = "./assets/prefabs/UI_gamingStatic.yaml";
-// const defaultSceneOrPrefab = "./assets/scenes/gaming-scene.yaml";
-// const defaultSceneOrPrefab = "./assets/prefabs/roundDisplay.yaml";
-// const defaultSceneOrPrefab = "./assets/prefabs/endButton.yaml";
-// const defaultSceneOrPrefab = "./assets/prefabs/province.yaml"
+// const defaultSceneOrPrefab = "./assets/prefabs/UI_selectedUnitInfo.yaml";
 
 const config = require("./config.json");
 const { app, BrowserWindow, BrowserView, globalShortcut } = require("electron");

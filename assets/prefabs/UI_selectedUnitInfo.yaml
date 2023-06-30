@@ -1,0 +1,47 @@
+behaviours:
+  - type: Transform
+    properties:
+      x: 0
+      y: 0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+id: UI_selectedUnitInfo
+children:
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 300
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: BitmapRenderer
+      properties:
+        source: ./assets/images/Icon_Panel.png
+    id: UnitInfoBgImage
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 300
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    id: UnitInfo
+    children:
+      - behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 0
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            text: '殖民'
+            fontSize: 20
+            color: white
+        - type: UI_ColonyButton
+        id: UI_ColonyButton
