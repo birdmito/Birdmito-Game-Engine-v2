@@ -1,14 +1,20 @@
 import { Behaviour } from "../engine/Behaviour";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { GameProcess } from "../behaviours/GameProcess";
+import { getGameObjectById } from "../engine";
+import { UI_selectedProvinceInfoPrefabBinding } from "../bindings/UI_selectedProvinceInfoPrefabBinding";
+import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
+import { Soilder } from "./Soilder";
 
 export class Province extends Behaviour {
+    coord: { x: number, y: number } = { x: 0, y: 0 };
+
     nationId = 0;
     isOwnable = true;
-    apCost = 5;
+    apCost = 1;
     production = 5;
 
-    plainPercent = 1;
+    plainPercent = 0;
     lakePercent = 0;
     forestPercent = 0;
     mountainPercent = 0;
@@ -16,11 +22,48 @@ export class Province extends Behaviour {
     onStart(): void {
         console.log("province start");
         this.changeNationId(0);
+        this.randomLandscape();
+        this.updateApCost();
+        this.updateProduction();
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTTransparent.png';
     }
 
     onUpdate(): void {
-        // console.log("province" + this.nationId + this.gameObject.children[1].getBehaviour(BitmapRenderer).source)
+        this.gameObject.onClick = () => {
+            console.log("province is clicked")
+            if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof Soilder) {
+                const soilder = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as Soilder;
+                soilder.moveToProvince(this);
+            }
+            getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
+        }
+    }
+
+    //随机生成地貌
+    randomLandscape() {
+        var randomNum = Math.floor(Math.random() * 100) / 100;
+        this.plainPercent = randomNum;
+        randomNum = Math.floor(Math.random() * (1 - this.plainPercent) * 100) / 100;
+        this.forestPercent = randomNum;
+        randomNum = Math.floor(Math.random() * (1 - this.plainPercent - this.forestPercent) * 100) / 100;
+        this.lakePercent = randomNum;
+        this.mountainPercent = 1 - this.plainPercent - this.lakePercent - this.forestPercent;
+        //根据最大地貌设置地块图片
+        const maxPercent = Math.max(this.plainPercent, this.lakePercent, this.forestPercent, this.mountainPercent);
+        switch (maxPercent) {
+            case this.plainPercent:
+                this.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainPlain.png';
+                break;
+            case this.lakePercent:
+                this.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainLake.png';
+                break;
+            case this.forestPercent:
+                this.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainForest.png';
+                break;
+            case this.mountainPercent:
+                this.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainMountain.png';
+                break;
+        }
     }
 
     changeNationId(nationId: number) {
@@ -29,7 +72,8 @@ export class Province extends Behaviour {
     }
 
     updateApCost(apCostPlused: number = 0) {
-        this.apCost = 5 + this.lakePercent * 10 + this.forestPercent * 5 + this.mountainPercent * 20 + apCostPlused;
+        this.apCost = 1 + this.lakePercent * 5 + this.forestPercent * 2 + this.mountainPercent * 10 + apCostPlused;
+        this.apCost = Math.floor(this.apCost);
     }
 
     updateProduction(productionPlused: number = 0) {

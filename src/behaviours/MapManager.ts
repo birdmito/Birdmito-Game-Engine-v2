@@ -3,6 +3,7 @@ import { Transform } from "../engine/Transform";
 import { ProvincePrefabBinding } from "../bindings/ProvincePrefabBinding";
 import { number } from "../engine/validators/number";
 import { GameObject } from "../engine";
+import { Province } from "./Province";
 
 export class MapManager extends Behaviour {
     // @number()
@@ -18,13 +19,14 @@ export class MapManager extends Behaviour {
         // 创建六边形网格坐标数组
         const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
         // 创建省份
-        for(let i = 0; i < this.gridSizeY; i++) {
-            for(let j =0; j < this.gridSizeX; j++) {
+        for (let i = 0; i < this.gridSizeY; i++) {
+            for (let j = 0; j < this.gridSizeX; j++) {
                 const province = this.gameObject.engine.createPrefab(new ProvincePrefabBinding());
                 province.getBehaviour(Transform).x = hexGrid[i][j].x;
                 province.getBehaviour(Transform).y = hexGrid[i][j].y;
+                province.getBehaviour(Province).coord = { x: j, y: i };
                 this.gameObject.addChild(province);
-                if(!this.provinces[j])
+                if (!this.provinces[j])
                     this.provinces[j] = [];
                 this.provinces[j][i] = province;
             }

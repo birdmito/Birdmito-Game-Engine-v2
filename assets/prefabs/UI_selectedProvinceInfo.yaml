@@ -1,4 +1,4 @@
-id: UI_selectedUnitInfo
+id: UI_selectedProvinceInfo
 behaviours:
   - type: Transform
     properties:
@@ -8,7 +8,7 @@ behaviours:
       scaleY: 1
       rotation: 0
 children:
-  - id: UnitInfoBgImage
+  - id: ProvinceInfoBgImage
     behaviours:
       - type: Transform
         properties:
@@ -21,38 +21,22 @@ children:
         properties:
           source: ./assets/images/Icon_Panel.png
     children: []
-  - id: UnitInfo
+  - id: ProvinceInfo
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: 100
+          y: 100
           scaleX: 1
           scaleY: 1
           rotation: 0
     children:
-      - id: UI_ColonyButton
-        behaviours:
-          - type: Transform
-            properties:
-              x: 100
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: 殖民
-              color: white
-          - type: UI_ColonyButton
-        children: []
-      - id: UnitNationText
+      - id: ProvinceNationNameText
         behaviours:
           - type: Transform
             properties:
               x: 0
-              y: 40
+              y: 0
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -61,20 +45,97 @@ children:
               fontSize: 20
               text: '这里应该显示所属国家'
               color: white
-      - id: UnitApText
+        children: []
+      - id: ProvinceProductionText
         behaviours:
           - type: Transform
             properties:
               x: 0
-              y: 80
+              y: 30
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: TextRenderer
             properties:
               fontSize: 20
-              text: '这里应该显示行动力'
+              text: '这里应该显示领地产出'
               color: white
+        children: []
+      - id: ProvinceApCostText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 60
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示邻格单位到达该省份所需行动点'
+              color: white
+        children: []
+      - id: ProvincePlainPercentText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 90
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示平原百分比'
+              color: white
+        children: []
+      - id: ProvinceForestPercentText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 120
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示森林百分比'
+              color: white
+        children: []
+      - id: ProvinceMountainPercentText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 150
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示山地百分比'
+              color: white
+        children: []
+      - id: ProvinceLakePercentText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 180
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示湖泊百分比'
+              color: white
+        children: []
   - id: Close
     behaviours:
       - type: Transform
@@ -117,5 +178,5 @@ children:
               color: white
           - type: DestroyOnClick
             properties:
-              targetID: UI_selectedUnitInfo
+              targetID: UI_selectedProvinceInfo
         children: []

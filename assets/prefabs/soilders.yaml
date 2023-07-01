@@ -11,4 +11,4 @@ behaviours:
     properties:
       source: ./assets/images/Interface_MilitaryUnit.png
       anchorType: 'center'
-id: MySolider
+id: Solider
