@@ -17,6 +17,9 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+          anchorType: "left-top"
+          width: 1920
+          height: 1080
       - type: GameStateBehaviour
     children:
       - id: LoginScene
