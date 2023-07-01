@@ -10,11 +10,12 @@ export class MouseControlSystem extends System {
     onStart() {
         window.addEventListener('mousedown', (e) => {
 
-            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('camera') : this.gameEngine.editorGameObject;
+            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
             const camera = cameraGameObject.getBehaviour(Camera)
             const viewportMatrix = camera.calculateViewportMatrix()
             const originPoint = { x: e.clientX, y: e.clientY };
             const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
+            console.log(globalPoint);
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if (result) {
                 while (result) {
@@ -48,7 +49,7 @@ export class MouseControlSystem extends System {
         window.addEventListener('mouseenter', (e) => {
             console.log('enterListner');
             // 检测鼠标进入
-            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('camera') : this.gameEngine.editorGameObject;
+            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
             const camera = cameraGameObject.getBehaviour(Camera)
             const viewportMatrix = camera.calculateViewportMatrix()
             const originPoint = { x: e.clientX, y: e.clientY };
