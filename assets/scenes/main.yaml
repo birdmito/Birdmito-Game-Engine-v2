@@ -24,7 +24,7 @@ children:
         children: []
         prefab:
           type: LoginScenePrefabBinding
-  - id: camera
+  - id: Camera
     behaviours:
       - type: Transform
         properties:

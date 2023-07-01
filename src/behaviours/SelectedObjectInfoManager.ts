@@ -19,7 +19,12 @@ export class SelectedObjectInfoMangaer extends Behaviour {
             //更新Info界面
             const province = this.selectedBehaviour as Province;
             getGameObjectById("ProvinceNationNameText").getBehaviour(TextRenderer).text = '所属国家：' + province.nationId.toString();
-            getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = '产出：' + province.production.toString();
+            getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = '产出：' + Math.floor(province.production).toString();
+            getGameObjectById("ProvinceApCostText").getBehaviour(TextRenderer).text = '行动点消耗：' + province.apCost.toString();
+            getGameObjectById("ProvincePlainPercentText").getBehaviour(TextRenderer).text = '平原：' + Math.floor(province.plainPercent * 100).toString() + '%';
+            getGameObjectById("ProvinceLakePercentText").getBehaviour(TextRenderer).text = '湖泊：' + Math.floor(province.lakePercent * 100).toString() + '%';
+            getGameObjectById("ProvinceForestPercentText").getBehaviour(TextRenderer).text = '森林：' + Math.floor(province.forestPercent * 100).toString() + '%';
+            getGameObjectById("ProvinceMountainPercentText").getBehaviour(TextRenderer).text = '山地：' + Math.floor(province.mountainPercent * 100).toString() + '%';
         }
     }
 

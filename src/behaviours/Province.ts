@@ -11,7 +11,7 @@ export class Province extends Behaviour {
     apCost = 5;
     production = 5;
 
-    plainPercent = 1;
+    plainPercent = 0;
     lakePercent = 0;
     forestPercent = 0;
     mountainPercent = 0;
@@ -19,6 +19,9 @@ export class Province extends Behaviour {
     onStart(): void {
         console.log("province start");
         this.changeNationId(0);
+        this.randomLandscape();
+        this.updateApCost();
+        this.updateProduction();
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTTransparent.png';
     }
 
@@ -26,15 +29,33 @@ export class Province extends Behaviour {
         this.gameObject.onClick = () => {
             console.log("province is clicked")
             getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
-            // if (getGameObjectById("UI_selectedUnitInfo") != null) {
-            //     getGameObjectById("UI_selectedUnitInfo").destroy();
-            // }
-            // if (getGameObjectById("UI_selectedProvinceInfo") != null) {
-            //     getGameObjectById("UI_selectedProvinceInfo").destroy();
-            // }
+        }
+    }
 
-            // const InfoUI = this.gameObject.engine.createPrefab(new UI_selectedProvinceInfoPrefabBinding);
-            // getGameObjectById("uiRoot").addChild(InfoUI);
+    //随机生成地貌
+    randomLandscape() {
+        var randomNum = Math.floor(Math.random() * 100) / 100;
+        this.plainPercent = randomNum;
+        randomNum = Math.floor(Math.random() * (1 - this.plainPercent) * 100) / 100;
+        this.forestPercent = randomNum;
+        randomNum = Math.floor(Math.random() * (1 - this.plainPercent - this.forestPercent) * 100) / 100;
+        this.lakePercent = randomNum;
+        this.mountainPercent = 1 - this.plainPercent - this.lakePercent - this.forestPercent;
+        //根据最大地貌设置地块图片
+        const maxPercent = Math.max(this.plainPercent, this.lakePercent, this.forestPercent, this.mountainPercent);
+        switch (maxPercent) {
+            case this.plainPercent:
+                this.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainPlain.png';
+                break;
+            case this.lakePercent:
+                this.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainLake.png';
+                break;
+            case this.forestPercent:
+                this.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainForest.png';
+                break;
+            case this.mountainPercent:
+                this.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainMountain.png';
+                break;
         }
     }
 
@@ -45,6 +66,7 @@ export class Province extends Behaviour {
 
     updateApCost(apCostPlused: number = 0) {
         this.apCost = 5 + this.lakePercent * 10 + this.forestPercent * 5 + this.mountainPercent * 20 + apCostPlused;
+        this.apCost = Math.floor(this.apCost);
     }
 
     updateProduction(productionPlused: number = 0) {
