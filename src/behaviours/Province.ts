@@ -2,9 +2,10 @@ import { Behaviour } from "../engine/Behaviour";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { GameProcess } from "../behaviours/GameProcess";
 import { getGameObjectById } from "../engine";
-import { UI_selectedProvinceInfoPrefabBinding } from "../bindings/UI_selectedProvinceInfoPrefabBinding";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Soilder } from "./Soilder";
+import { NationManager } from "./NationManager";
+import { B } from "vitest/dist/types-2b1c412e";
 
 export class Province extends Behaviour {
     coord: { x: number, y: number } = { x: 0, y: 0 };
@@ -18,6 +19,9 @@ export class Province extends Behaviour {
     lakePercent = 0;
     forestPercent = 0;
     mountainPercent = 0;
+
+    buildingList: Building[] = [new Building(this, 'mine', 10, 2, 5)];
+
 
     onStart(): void {
         console.log("province start");
@@ -82,11 +86,48 @@ export class Province extends Behaviour {
 
     giveOwnerProduction() {
         if (this.nationId > 0) {
-            GameProcess.nationList[this.nationId].money += this.production;
+            NationManager.nationList[this.nationId].money += this.production;
+        }
+    }
+
+    updateBuildingInfo() {
+        console.log("updateBuildingInfo");
+        for (let i = 0; i < this.buildingList.length; i++) {
+            if (this.buildingList[i].status == 'building') {
+                this.buildingList[i].buildTimeLeft--;
+                if (this.buildingList[i].buildTimeLeft == 0) {
+                    this.buildingList[i].status = 'finished';
+                    this.updateProduction(this.buildingList[i].production);
+                }
+            }
         }
     }
 }
 
+class Building {
+    constructor(province: Province, type: 'mine' = 'mine', cost = 10, buildTime = 1, production = 5) {
+        this.province = province;
+        this.type = type;
+        this.cost = cost;
+        this.buildTime = buildTime;
+        this.buildTimeLeft = buildTime;
+        this.production = production;
+    }
+    //所属领地
+    province: Province;
+    //建筑类型
+    type: 'mine' = 'mine';
+    //建筑花费
+    cost = 10;
+    //建成所需回合数
+    buildTime = 1;
+    //建成剩余回合数
+    buildTimeLeft = 1;
+    //建筑产出
+    production = 5;
+    //建筑状态
+    status: 'building' | 'finished' = 'building';
+}
 
 // 1. Province：地块属性——Behavior
 //   1. nationId 阵营归属：number

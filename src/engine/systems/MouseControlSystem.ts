@@ -19,14 +19,14 @@ export class MouseControlSystem extends System {
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if (result) {
                 while (result) {
-                    if(code === 0) {    // 左键
+                    if (code === 0) {    // 左键
                         // 如果有onClick事件，callback = onClick，否则callback = onMouseLeftDown
                         this.callback = result.onMouseLeftDown ? result.onMouseLeftDown : result.onClick;
                     }
-                    else if(code === 1) {   // 中键
+                    else if (code === 1) {   // 中键
                         this.callback = result.onMouseMiddleDown;
                     }
-                    else if(code === 2) {   // 右键
+                    else if (code === 2) {   // 右键
                         this.callback = result.onMouseRightDown;
                     }
 
@@ -67,8 +67,8 @@ export class MouseControlSystem extends System {
             const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if (result) {
-                while(result){
-                    if(result.onMouseEnter){
+                while (result) {
+                    if (result.onMouseEnter) {
                         const invertGlobalMatrix = invertMatrix(result.getBehaviour(Transform).globalMatrix)
                         const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
                         const event: GameEngineMouseEvent = {
@@ -82,8 +82,8 @@ export class MouseControlSystem extends System {
                     result = result.parent;
                 }
             }
-            else{
-                if(this.rootGameObject.onMouseEnter){
+            else {
+                if (this.rootGameObject.onMouseEnter) {
                     const event: GameEngineMouseEvent = {
                         globalX: globalPoint.x,
                         globalY: globalPoint.y,
@@ -102,6 +102,7 @@ export class MouseControlSystem extends System {
             const rectangle = gameObject.renderer.getBounds();
             const result = checkPointInRectangle(point, rectangle)
             if (result) {
+                console.log("hit", gameObject.id);
                 return gameObject;
             }
             else {

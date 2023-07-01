@@ -136,6 +136,21 @@ children:
               text: '这里应该显示湖泊百分比'
               color: white
         children: []
+      - id: ProvinceBuildingText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 210
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示建筑'
+              color: white
+        children: []
   - id: Close
     behaviours:
       - type: Transform

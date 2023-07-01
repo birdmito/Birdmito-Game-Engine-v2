@@ -4,7 +4,7 @@ import { GameObject, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Transform } from "../engine/Transform";
-import { MapManager } from "./MapManager";
+import { ProvinceManager } from "./ProvinceManager";
 import { Province } from "./Province";
 import { Soilder } from "./Soilder";
 import { UI_ColonyButton } from "./UI_ColonyButton";
@@ -24,6 +24,13 @@ export class SelectedObjectInfoMangaer extends Behaviour {
             getGameObjectById("ProvinceLakePercentText").getBehaviour(TextRenderer).text = '湖泊：' + Math.floor(province.lakePercent * 100).toString() + '%';
             getGameObjectById("ProvinceForestPercentText").getBehaviour(TextRenderer).text = '森林：' + Math.floor(province.forestPercent * 100).toString() + '%';
             getGameObjectById("ProvinceMountainPercentText").getBehaviour(TextRenderer).text = '山地：' + Math.floor(province.mountainPercent * 100).toString() + '%';
+
+            if (province.buildingList) {
+                for (let i = 0; i < province.buildingList.length; i++) {
+                    const building = province.buildingList[i];
+                    getGameObjectById("ProvinceBuildingText").getBehaviour(TextRenderer).text = building.type + "：" + building.status.toString();
+                }
+            }
         }
         else if (this.selectedBehaviour instanceof Soilder) {
             const soilder = this.selectedBehaviour as Soilder;
@@ -52,7 +59,7 @@ export class SelectedObjectInfoMangaer extends Behaviour {
 
             const ColonyButton = getGameObjectById("UI_ColonyButton");
             ColonyButton.getBehaviour(UI_ColonyButton).provinceToColony =
-                getGameObjectById("Map").getBehaviour(MapManager).provinces[selectedBehaviour.provinceCoor.x][selectedBehaviour.provinceCoor.y];
+                ProvinceManager.provinces[selectedBehaviour.soidlerCoor.x][selectedBehaviour.soidlerCoor.y];
             ColonyButton.getBehaviour(UI_ColonyButton).unitToDestroy = selectedBehaviour.gameObject;
         }
     }
