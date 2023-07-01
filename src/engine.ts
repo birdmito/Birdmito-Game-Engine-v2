@@ -235,7 +235,16 @@ export class GameObject {
     id: string;
     parent: GameObject;
 
+    // input event
+    // ------------------------------
+    /**
+     * @deprecated onClick函数为过时函数，不建议继续使用。
+     * 请使用onMouseLeftDown、onMouseRightDown、onMouseMiddleDown替代。
+     */
     onClick?: (event: GameEngineMouseEvent) => void;
+    onMouseLeftDown?: (event: GameEngineMouseEvent) => void;
+    onMouseMiddleDown?: (event: GameEngineMouseEvent) => void;
+    onMouseRightDown?: (event: GameEngineMouseEvent) => void;
     onMouseEnter?: (event: GameEngineMouseEvent) => void;
     onMouseLeave?: (event: GameEngineMouseEvent) => void;
 

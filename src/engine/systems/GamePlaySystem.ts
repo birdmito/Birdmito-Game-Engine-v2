@@ -22,7 +22,7 @@ import { gameObjects } from "../../engine";
 
 export class GamePlaySystem extends System {
     onStart(): void {
-        if(getGameObjectById("camera")){
+        if(getGameObjectById("Camera")){
             console.log("no need for camera");
             return;
         }
@@ -34,15 +34,19 @@ export class GamePlaySystem extends System {
         cameraBehaviour.viewportHeight = config.editor.runtime.height;
 
         const mainCamera = new GameObject();
-        mainCamera.id = "camera";
+        mainCamera.id = "Camera";
         mainCamera.addBehaviour(new Transform());
         mainCamera.addBehaviour(cameraBehaviour);
 
-        gameObjects["camera"] = mainCamera;
+        gameObjects["Camera"] = mainCamera;
 
         scene.addChild(mainCamera);
 
         console.log(scene);
+    }
+
+    onUpdate(): void {
+        // 如果是id 
     }
 }
 
