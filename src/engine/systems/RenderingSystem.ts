@@ -64,7 +64,7 @@ export class CanvasContextRenderingSystem extends System {
         // context.clearRect(0, 0, canvas.width, canvas.height);
 
         const cameraGameObject =
-            this.gameEngine.mode === "play" ? getGameObjectById("camera") : this.gameEngine.editorGameObject;
+            this.gameEngine.mode === "play" ? getGameObjectById("Camera") : this.gameEngine.editorGameObject;
         
         const camera = cameraGameObject.getBehaviour(Camera);
         const viewportMatrix = camera.calculateViewportMatrix();

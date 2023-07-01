@@ -17,7 +17,7 @@
     ✔ 自动生成 assets.yaml @done(23-06-28 13:49)
     ✔ 添加到 ignore @done(23-06-28 13:53)
 
-    丁禹斯'TODO：
+//TODO 丁禹斯'TODO：
 ✔ 为TextRenderer添加锚点 @done(23-06-30 09:48)
 ✔ 修复TextRenderer的getBounds @done(23-06-30 09:48)
 ✘ 引入EventSystem @cancelled(23-06-30 13:30)
@@ -31,6 +31,10 @@
         ☐ onDown
         ☐ onUp
     ☐ 鼠标悬浮
-☐ 自定义bound
-
-☐ 省份和地块的存储逻辑
+✔ 修复锚点适应九宫格自缩放问题 @done(23-07-01 00:31)
+☐ getBounds优化
+    ✔ 修复bound适应九宫格 @done(23-07-01 00:32)
+    ☐ 自定义bound
+✔ 优化序列化反序列化逻辑 @done(23-06-30 23:29)
+    ✔ 序列化时将id置于最前 @done(23-06-30 23:29)
+    ✔ 反序列化时如果id不存在则自动创建 @done(23-06-30 23:29)
