@@ -33,7 +33,7 @@ export class Transform extends Behaviour {
     @string()
     anchorType: 'left-top' | 'center-top' | 'right-top' | 'left-center' | 'center' | 'right-center' | 'left-bottom' | 'center-bottom' | 'right-bottom' = 'left-top';
     @string()
-    width = '1920';
+    boundWidth = '1920';
     @string()
-    height = '1080';
+    boundHeight = '1080';
 }

@@ -9,14 +9,14 @@ export class TransformSystem extends System {
             const transform = gameObject.getBehaviour(Transform)
 
             // 防御性编程——如果没有设置width和height，就设置为默认值
-            if (transform.width === undefined) {
-                transform.width = '100'
+            if (transform.boundWidth === undefined) {
+                transform.boundWidth = '100'
             }
-            if (transform.height === undefined) {
-                transform.height = '100'
+            if (transform.boundHeight === undefined) {
+                transform.boundHeight = '100'
             }
-            const width = Number(transform.width)
-            const height = Number(transform.height)
+            const width = Number(transform.boundWidth)
+            const height = Number(transform.boundHeight)
             // console.log(width, height)
 
             switch (transform.anchorType) {
