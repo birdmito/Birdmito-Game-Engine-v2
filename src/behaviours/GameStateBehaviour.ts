@@ -50,5 +50,7 @@ export class GameStateBehaviour extends Behaviour {
             default:
                 break;
         }
+
+        this.gameState = gameState;
     }
 }

@@ -39,4 +39,9 @@ export class CameraController extends Behaviour {
 
     onUpdate(): void {
     }
+
+    onEnd(): void {
+        window.removeEventListener("keydown", () => { });
+        window.removeEventListener("wheel", () => { });
+    }
 }
