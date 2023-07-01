@@ -35,7 +35,7 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
+              x: 100
               y: 0
               scaleX: 1
               scaleY: 1
@@ -47,6 +47,34 @@ children:
               color: white
           - type: UI_ColonyButton
         children: []
+      - id: UnitNationText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 40
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示所属国家'
+              color: white
+      - id: UnitApText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 80
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示行动力'
+              color: white
   - id: Close
     behaviours:
       - type: Transform

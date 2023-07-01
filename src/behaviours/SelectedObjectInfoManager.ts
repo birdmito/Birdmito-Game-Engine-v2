@@ -10,7 +10,6 @@ import { Soilder } from "./Soilder";
 import { UI_ColonyButton } from "./UI_ColonyButton";
 
 export class SelectedObjectInfoMangaer extends Behaviour {
-
     onUpdate(): void {
         if (this.selectedBehaviour === null) {
             return;
@@ -25,6 +24,11 @@ export class SelectedObjectInfoMangaer extends Behaviour {
             getGameObjectById("ProvinceLakePercentText").getBehaviour(TextRenderer).text = '湖泊：' + Math.floor(province.lakePercent * 100).toString() + '%';
             getGameObjectById("ProvinceForestPercentText").getBehaviour(TextRenderer).text = '森林：' + Math.floor(province.forestPercent * 100).toString() + '%';
             getGameObjectById("ProvinceMountainPercentText").getBehaviour(TextRenderer).text = '山地：' + Math.floor(province.mountainPercent * 100).toString() + '%';
+        }
+        else if (this.selectedBehaviour instanceof Soilder) {
+            const soilder = this.selectedBehaviour as Soilder;
+            getGameObjectById("UnitNationText").getBehaviour(TextRenderer).text = '所属国家：' + soilder.nationId.toString();
+            getGameObjectById("UnitApText").getBehaviour(TextRenderer).text = '行动点：' + soilder.ap.toString() + '/' + soilder.apMax.toString();
         }
     }
 

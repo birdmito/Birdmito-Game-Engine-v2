@@ -30,7 +30,7 @@ children:
           rotation: 0
       - type: SelectedObjectInfoMangaer
     children: []
-  - id: MySolider
+  - id: SoliderPrefab
     behaviours: []
     children: []
     prefab:

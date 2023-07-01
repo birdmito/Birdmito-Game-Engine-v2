@@ -5,6 +5,7 @@ import { TextRenderer } from "../engine/TextRenderer";
 import { Transform } from "../engine/Transform";
 import { MapManager } from "./MapManager";
 import { Province } from "./Province";
+import { Soilder } from "./Soilder";
 
 export class GameProcess extends Behaviour {
     onStart(): void {
@@ -47,6 +48,12 @@ export class GameProcess extends Behaviour {
             this.turnrNow.toString() + "/" + this.turnTotal.toString();
         if (this.turnrNow === this.turnTotal) {
             this.gameOver();
+        }
+
+        //更新所有单位的ap
+        if (getGameObjectById("Soilder")) {
+            const soilder = getGameObjectById("Soilder").getBehaviour(Soilder);
+            soilder.ap = soilder.apMax;
         }
     }
 

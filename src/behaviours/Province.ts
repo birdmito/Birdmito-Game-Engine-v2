@@ -4,11 +4,14 @@ import { GameProcess } from "../behaviours/GameProcess";
 import { getGameObjectById } from "../engine";
 import { UI_selectedProvinceInfoPrefabBinding } from "../bindings/UI_selectedProvinceInfoPrefabBinding";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
+import { Soilder } from "./Soilder";
 
 export class Province extends Behaviour {
+    coord: { x: number, y: number } = { x: 0, y: 0 };
+
     nationId = 0;
     isOwnable = true;
-    apCost = 5;
+    apCost = 1;
     production = 5;
 
     plainPercent = 0;
@@ -28,6 +31,10 @@ export class Province extends Behaviour {
     onUpdate(): void {
         this.gameObject.onClick = () => {
             console.log("province is clicked")
+            if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof Soilder) {
+                const soilder = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as Soilder;
+                soilder.moveToProvince(this);
+            }
             getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
         }
     }
@@ -65,7 +72,7 @@ export class Province extends Behaviour {
     }
 
     updateApCost(apCostPlused: number = 0) {
-        this.apCost = 5 + this.lakePercent * 10 + this.forestPercent * 5 + this.mountainPercent * 20 + apCostPlused;
+        this.apCost = 1 + this.lakePercent * 5 + this.forestPercent * 2 + this.mountainPercent * 10 + apCostPlused;
         this.apCost = Math.floor(this.apCost);
     }
 
