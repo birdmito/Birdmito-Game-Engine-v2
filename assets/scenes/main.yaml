@@ -37,6 +37,7 @@ children:
           scaleY: 1
           rotation: 0
       - type: Camera
+      - type: CameraController
     children:
       - id: uiRoot
         behaviours:

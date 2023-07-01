@@ -3,7 +3,8 @@ import { GameObject, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Transform } from "../engine/Transform";
-import { MapManager } from "./MapManager";
+import { ProvinceManager } from "./ProvinceManager";
+import { NationManager } from "./NationManager";
 import { Province } from "./Province";
 import { Soilder } from "./Soilder";
 
@@ -17,28 +18,23 @@ export class GameProcess extends Behaviour {
     turnrNow = 0;
     turnTotal = 2;
 
-    //国家
-    nationQuantity = 2;
-    static nationList: Nation[] = [];
+    //所有建筑
+
     initialNation() {
-        for (let i = 0; i < this.nationQuantity; i++) {
+        for (let i = 0; i < NationManager.nationQuantity; i++) {
             const nation = new Nation(i + 1, "玩家", 0, 1);
-            GameProcess.nationList[nation.nationId] = nation;
+            NationManager.nationList[nation.nationId] = nation;
         }
     }
 
 
     nextTurn() {
         //每回合开始时，所有领地给予所属国家产出
-        const mapManager = getGameObjectById("Map").getBehaviour(MapManager);
-        for (let i = 0; i < mapManager.provinces.length; i++) {
-            for (let j = 0; j < mapManager.provinces[i].length; j++) {
-                const province = mapManager.provinces[i][j].getBehaviour(Province);
-                province.giveOwnerProduction();
-            }
-        }
+        ProvinceManager.updateProvince();
+
+
         //更新玩家金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + GameProcess.nationList[1].money.toString();
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + NationManager.nationList[1].money.toString();
 
         this.turnrNow += 1;
         if (this.turnrNow > this.turnTotal) {
@@ -61,7 +57,7 @@ export class GameProcess extends Behaviour {
         console.log("game over");
 
         const tip = this.gameObject.engine.createPrefab(new TextPrefabBinding)
-        if (GameProcess.nationList[1].money > 0) {
+        if (NationManager.nationList[1].money > 0) {
             tip.getBehaviour(TextPrefabBinding).text = "游戏胜利";
             tip.getBehaviour(TextPrefabBinding).y = 40;
         }
@@ -86,3 +82,5 @@ class Nation {
     money: number = 0;
     level: number = 1;
 }
+
+
