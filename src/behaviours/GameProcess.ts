@@ -1,6 +1,7 @@
 import { TextPrefabBinding } from "../bindings/TextPrefabBinding";
 import { GameObject, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
+import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Transform } from "../engine/Transform";
 import { ProvinceManager } from "./ProvinceManager";
@@ -13,6 +14,11 @@ export class GameProcess extends Behaviour {
         this.initialNation();
         this.nextTurn();
     }
+    
+    onUpdate(): void {
+        //更新玩家金钱显示
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + NationManager.nationList[1].money.toString();
+    }
 
     //回合
     turnrNow = 0;
@@ -22,7 +28,7 @@ export class GameProcess extends Behaviour {
 
     initialNation() {
         for (let i = 0; i < NationManager.nationQuantity; i++) {
-            const nation = new Nation(i + 1, "玩家", 0, 1);
+            const nation = new Nation(i + 1, "玩家", 10000, 1);
             NationManager.nationList[nation.nationId] = nation;
         }
     }
@@ -31,10 +37,6 @@ export class GameProcess extends Behaviour {
     nextTurn() {
         //每回合开始时，所有领地给予所属国家产出
         ProvinceManager.updateProvince();
-
-
-        //更新玩家金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + NationManager.nationList[1].money.toString();
 
         this.turnrNow += 1;
         if (this.turnrNow > this.turnTotal) {
@@ -60,10 +62,14 @@ export class GameProcess extends Behaviour {
         if (NationManager.nationList[1].money > 0) {
             tip.getBehaviour(TextPrefabBinding).text = "游戏胜利";
             tip.getBehaviour(TextPrefabBinding).y = 40;
+            getGameObjectById("gameOverImage").getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"
         }
         else {
             tip.getBehaviour(TextPrefabBinding).text = "游戏失败";
-            tip.getBehaviour(TextPrefabBinding).y = 40;
+            tip.getBehaviour(TextPrefabBinding).x = 880;
+            tip.getBehaviour(TextPrefabBinding).y = 200;
+            console.log(this.gameObject)
+            getGameObjectById("gameOverImage").getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Defeat.png"
         }
         getGameObjectById("uiRoot").addChild(tip);
     }

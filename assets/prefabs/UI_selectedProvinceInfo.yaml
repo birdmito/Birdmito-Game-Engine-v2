@@ -136,7 +136,7 @@ children:
               text: '这里应该显示湖泊百分比'
               color: white
         children: []
-      - id: ProvinceBuildingText
+      - id: ProvinceBuildingListRoot
         behaviours:
           - type: Transform
             properties:
@@ -145,11 +145,48 @@ children:
               scaleX: 1
               scaleY: 1
               rotation: 0
+        children: []
+  - id: BuildButton
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children:
+      - id: BuildButtonImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_TextFrame5050.png
+              renderType: 'ui'
+              scaleXForUI: 1
+              scaleYForUI: 1
+              borderWidthForUI: 30
+      - id: BuildButtonText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 20
+              y: 20
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
           - type: TextRenderer
             properties:
               fontSize: 20
-              text: '这里应该显示建筑'
+              text: "建造"
               color: white
+          - type: UI_BuildButton
         children: []
   - id: Close
     behaviours:
