@@ -19,6 +19,7 @@ export class MouseControlSystem extends System {
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if (result) {
                 while (result) {
+                    //TODO 优化，不需要每次都计算
                     if (code === 0) {    // 左键
                         // 如果有onClick事件，callback = onClick，否则callback = onMouseLeftDown
                         this.callback = result.onMouseLeftDown ? result.onMouseLeftDown : result.onClick;
@@ -45,6 +46,7 @@ export class MouseControlSystem extends System {
                 }
             }
             else {
+                //TODO 遗留未修改
                 if (this.rootGameObject.onClick) {
                     const event: GameEngineMouseEvent = {
                         globalX: globalPoint.x,
@@ -57,14 +59,15 @@ export class MouseControlSystem extends System {
             }
         });
 
-        window.addEventListener('mouseenter', (event) => {
-            console.log('enterListner');
+        window.addEventListener('mousemove', (event) => {
+            //TODO 进入应当只触发一次，离开应当只触发一次，不应当一直触发
             // 检测鼠标进入
             const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
             const camera = cameraGameObject.getBehaviour(Camera)
             const viewportMatrix = camera.calculateViewportMatrix()
             const originPoint = { x: event.clientX, y: event.clientY };
             const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
+
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if (result) {
                 while (result) {
