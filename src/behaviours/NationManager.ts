@@ -1,11 +1,6 @@
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
 
-export class NationManager{
-    //国家
-    static nationQuantity = 2;
-    static nationList: Nation[] = [];
-}
 
 class Nation {
     constructor(nationId: number = 1, nationName: string = "玩家", money: number = 0, level: number = 1) {
@@ -19,4 +14,11 @@ class Nation {
 
     money: number = 0;
     level: number = 1;
+}
+
+export class NationManager{
+    //国家
+    static nationQuantity = 2;
+    static nationList: Nation[] = [
+    ];
 }

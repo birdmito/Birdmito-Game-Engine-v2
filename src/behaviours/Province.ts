@@ -5,7 +5,7 @@ import { getGameObjectById } from "../engine";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Soilder } from "./Soilder";
 import { NationManager } from "./NationManager";
-import { B } from "vitest/dist/types-2b1c412e";
+import { Building } from "./Building";
 
 export class Province extends Behaviour {
     coord: { x: number, y: number } = { x: 0, y: 0 };
@@ -20,7 +20,21 @@ export class Province extends Behaviour {
     forestPercent = 0;
     mountainPercent = 0;
 
-    buildingList: Building[] = [new Building(this, 'mine', 10, 2, 5)];
+    buildingList: Building[] = [Province.getBuildingByName('金矿')];
+
+    static allBuildingList: Building[] = [
+        new Building('金矿', 'money', 10, 2, 5),
+    ];
+    static getBuildingByName(name: string): Building {
+        if (Province.allBuildingList.find(building => building.name === name)) {
+            return Province.allBuildingList.find(building => building.name === name);
+        }
+        console.log("error: no building named " + name);
+        return null;
+    }
+
+    //可建造的建筑列表
+    buildableBuildingList: Building[] = Province.allBuildingList;
 
 
     onStart(): void {
@@ -102,31 +116,6 @@ export class Province extends Behaviour {
             }
         }
     }
-}
-
-class Building {
-    constructor(province: Province, type: 'mine' = 'mine', cost = 10, buildTime = 1, production = 5) {
-        this.province = province;
-        this.type = type;
-        this.cost = cost;
-        this.buildTime = buildTime;
-        this.buildTimeLeft = buildTime;
-        this.production = production;
-    }
-    //所属领地
-    province: Province;
-    //建筑类型
-    type: 'mine' = 'mine';
-    //建筑花费
-    cost = 10;
-    //建成所需回合数
-    buildTime = 1;
-    //建成剩余回合数
-    buildTimeLeft = 1;
-    //建筑产出
-    production = 5;
-    //建筑状态
-    status: 'building' | 'finished' = 'building';
 }
 
 // 1. Province：地块属性——Behavior

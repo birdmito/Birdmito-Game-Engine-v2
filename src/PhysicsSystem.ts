@@ -128,7 +128,7 @@ export class Settings {
     // #if B2_ENABLE_PARTICLE
     // Particle iterations are needed for numerical stability in particle
     // simulations with small particles and relatively high gravity.
-    // b2CalculateParticleIterations helps to determine the number.
+    // b2CalculateParticleIterations helps to deter金矿 the number.
     // #endif
     public m_drawShapes: boolean = true;
     // #endif

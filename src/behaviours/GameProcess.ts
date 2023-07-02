@@ -13,6 +13,11 @@ export class GameProcess extends Behaviour {
         this.initialNation();
         this.nextTurn();
     }
+    
+    onUpdate(): void {
+        //更新玩家金钱显示
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + NationManager.nationList[1].money.toString();
+    }
 
     //回合
     turnrNow = 0;
@@ -22,7 +27,7 @@ export class GameProcess extends Behaviour {
 
     initialNation() {
         for (let i = 0; i < NationManager.nationQuantity; i++) {
-            const nation = new Nation(i + 1, "玩家", 0, 1);
+            const nation = new Nation(i + 1, "玩家", 10000, 1);
             NationManager.nationList[nation.nationId] = nation;
         }
     }
@@ -31,10 +36,6 @@ export class GameProcess extends Behaviour {
     nextTurn() {
         //每回合开始时，所有领地给予所属国家产出
         ProvinceManager.updateProvince();
-
-
-        //更新玩家金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + NationManager.nationList[1].money.toString();
 
         this.turnrNow += 1;
         if (this.turnrNow > this.turnTotal) {

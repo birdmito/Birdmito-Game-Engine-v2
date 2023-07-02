@@ -1,0 +1,57 @@
+id: UI_building
+behaviours:
+  - type: Transform
+    properties:
+      x: 0
+      y: 0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+children:
+  - id: buildingImage
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_TextFrame5050.png
+          renderType: 'ui'
+          scaleXForUI: 1
+          scaleYForUI: 1
+          borderWidthForUI: 30
+    children: []
+  - id: buildingInfo
+    behaviours:
+      - type: Transform
+        properties:
+          x: 100
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 20
+          text: '这里应该显示建筑信息'
+          color: white
+    children: []
+  - id: buildingButton
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 50
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 25
+          text: '这里应该显示建造、升级或拆除'
+          color: white
+      - type: UI_BuildingButton
