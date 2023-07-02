@@ -19,31 +19,68 @@ import { Behaviour } from "../Behaviour";
 import { Camera } from "../../behaviours/Camera";
 import config from "../../../config.json";
 import { gameObjects } from "../../engine";
+import { CameraController } from "../../behaviours/CameraController";
+import { GameStateBehaviour } from "../../behaviours/GameStateBehaviour";
 
 export class GamePlaySystem extends System {
     onStart(): void {
-        if(getGameObjectById("camera")){
+        if(getGameObjectById("Camera")){
             console.log("no need for camera");
             return;
         }
 
-        const  scene = this.gameEngine.rootGameObject.children[0];
+        const root = this.rootGameObject.children[0];
 
         const cameraBehaviour = new Camera();
         cameraBehaviour.viewportWidth = config.editor.runtime.width;
         cameraBehaviour.viewportHeight = config.editor.runtime.height;
 
         const mainCamera = new GameObject();
-        mainCamera.id = "camera";
+        mainCamera.id = "Camera";
         mainCamera.addBehaviour(new Transform());
         mainCamera.addBehaviour(cameraBehaviour);
 
-        gameObjects["camera"] = mainCamera;
+        gameObjects["Camera"] = mainCamera;
 
-        scene.addChild(mainCamera);
+        root.addChild(mainCamera);
 
-        console.log(scene);
+        console.log(root);
     }
+
+    onUpdate(): void {
+        // (rootGameObject) -> Root -> sceneRoot
+        const sceneState = this.rootGameObject.children[0].children[0].getBehaviour(GameStateBehaviour).gameState;
+        const camera = getGameObjectById("Camera");
+
+        switch(sceneState){
+            case 0:
+                this.removeCameraController(camera);
+                break;
+            case 1:
+                this.addCameraController(camera);
+                break;
+            default:
+                break;
+        }
+
+
+    }
+
+    addCameraController(camera: GameObject){
+        if(!camera.getBehaviour(CameraController)){
+            camera.addBehaviour(new CameraController());
+            console.log("add camera controller")
+        }
+    }
+    removeCameraController(camera: GameObject){
+        const cameraController = camera.getBehaviour(CameraController);
+        if(cameraController){
+            camera.removeBehaviour(cameraController);
+            console.log("remove camera controller");
+            console.log(camera);
+        }
+    }
+
 }
 
 export class GamePlaySystem1 extends System {

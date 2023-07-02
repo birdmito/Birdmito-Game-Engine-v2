@@ -1,7 +1,8 @@
-import { Matrix } from "../engine";
+import { getGameObjectById, Matrix } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { invertMatrix, matrixAppendMatrix } from "../engine/math";
 import { Transform } from "../engine/Transform";
+
 
 export class Camera extends Behaviour {
     viewportWidth: number = 1920;
@@ -21,4 +22,5 @@ export class Camera extends Behaviour {
         let viewportMatrix = invertMatrix(matrixAppendMatrix(cameraTransform.globalMatrix, offsetMatrix));
         return viewportMatrix;
     }
+
 }

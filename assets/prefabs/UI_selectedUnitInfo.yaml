@@ -1,47 +1,121 @@
+id: UI_selectedUnitInfo
 behaviours:
   - type: Transform
     properties:
       x: 0
-      y: 0
+      y: 300
       scaleX: 1
       scaleY: 1
       rotation: 0
-id: UI_selectedUnitInfo
 children:
-  - behaviours:
-    - type: Transform
-      properties:
-        x: 0
-        y: 300
-        scaleX: 1
-        scaleY: 1
-        rotation: 0
-    - type: BitmapRenderer
-      properties:
-        source: ./assets/images/Icon_Panel.png
-    id: UnitInfoBgImage
-  - behaviours:
-    - type: Transform
-      properties:
-        x: 0
-        y: 300
-        scaleX: 1
-        scaleY: 1
-        rotation: 0
-    id: UnitInfo
+  - id: UnitInfoBgImage
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_Panel.png
+    children: []
+  - id: UnitInfo
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
     children:
-      - behaviours:
-        - type: Transform
-          properties:
-            x: 0
-            y: 0
-            scaleX: 1
-            scaleY: 1
-            rotation: 0
-        - type: TextRenderer
-          properties:
-            text: '殖民'
-            fontSize: 20
-            color: white
-        - type: UI_ColonyButton
-        id: UI_ColonyButton
+      - id: UI_ColonyButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 100
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: 殖民
+              color: white
+          - type: UI_ColonyButton
+        children: []
+      - id: UnitNationText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 40
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示所属国家'
+              color: white
+      - id: UnitApText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 80
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示行动力'
+              color: white
+  - id: Close
+    behaviours:
+      - type: Transform
+        properties:
+          x: 400
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children:
+      - id: CloseImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_TextFrame5050.png
+              renderType: 'ui'
+              scaleXForUI: 1
+              scaleYForUI: 1
+              borderWidthForUI: 30
+      - id: CloseText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 20
+              y: 20
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: 关闭
+              color: white
+          - type: DestroyOnClick
+            properties:
+              targetID: UI_selectedUnitInfo
+        children: []

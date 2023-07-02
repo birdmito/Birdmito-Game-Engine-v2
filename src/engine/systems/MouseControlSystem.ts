@@ -6,19 +6,31 @@ import { System } from "./System";
 
 
 export class MouseControlSystem extends System {
-
+    private callback(event: GameEngineMouseEvent) { }
     onStart() {
-        window.addEventListener('mousedown', (e) => {
+        window.addEventListener('mousedown', (event) => {
+            const code = event.button;
 
-            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('camera') : this.gameEngine.editorGameObject;
+            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
             const camera = cameraGameObject.getBehaviour(Camera)
             const viewportMatrix = camera.calculateViewportMatrix()
-            const originPoint = { x: e.clientX, y: e.clientY };
+            const originPoint = { x: event.clientX, y: event.clientY };
             const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if (result) {
                 while (result) {
-                    if (result.onClick) {
+                    if (code === 0) {    // 左键
+                        // 如果有onClick事件，callback = onClick，否则callback = onMouseLeftDown
+                        this.callback = result.onMouseLeftDown ? result.onMouseLeftDown : result.onClick;
+                    }
+                    else if (code === 1) {   // 中键
+                        this.callback = result.onMouseMiddleDown;
+                    }
+                    else if (code === 2) {   // 右键
+                        this.callback = result.onMouseRightDown;
+                    }
+
+                    if (this.callback) {
                         const invertGlobalMatrix = invertMatrix(result.getBehaviour(Transform).globalMatrix)
                         const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
                         const event: GameEngineMouseEvent = {
@@ -27,7 +39,7 @@ export class MouseControlSystem extends System {
                             localX: localPoint.x,
                             localY: localPoint.y
                         }
-                        result.onClick(event);
+                        this.callback(event);
                     }
                     result = result.parent;
                 }
@@ -45,18 +57,18 @@ export class MouseControlSystem extends System {
             }
         });
 
-        window.addEventListener('mouseenter', (e) => {
+        window.addEventListener('mouseenter', (event) => {
             console.log('enterListner');
             // 检测鼠标进入
-            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('camera') : this.gameEngine.editorGameObject;
+            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
             const camera = cameraGameObject.getBehaviour(Camera)
             const viewportMatrix = camera.calculateViewportMatrix()
-            const originPoint = { x: e.clientX, y: e.clientY };
+            const originPoint = { x: event.clientX, y: event.clientY };
             const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if (result) {
-                while(result){
-                    if(result.onMouseEnter){
+                while (result) {
+                    if (result.onMouseEnter) {
                         const invertGlobalMatrix = invertMatrix(result.getBehaviour(Transform).globalMatrix)
                         const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
                         const event: GameEngineMouseEvent = {
@@ -70,8 +82,8 @@ export class MouseControlSystem extends System {
                     result = result.parent;
                 }
             }
-            else{
-                if(this.rootGameObject.onMouseEnter){
+            else {
+                if (this.rootGameObject.onMouseEnter) {
                     const event: GameEngineMouseEvent = {
                         globalX: globalPoint.x,
                         globalY: globalPoint.y,
@@ -90,6 +102,7 @@ export class MouseControlSystem extends System {
             const rectangle = gameObject.renderer.getBounds();
             const result = checkPointInRectangle(point, rectangle)
             if (result) {
+                console.log("hit", gameObject.id);
                 return gameObject;
             }
             else {

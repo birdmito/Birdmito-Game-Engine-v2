@@ -1,13 +1,22 @@
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
 
-export class NationManager extends Behaviour {
-    onStart(): void {
-    }
+export class NationManager{
+    //国家
+    static nationQuantity = 2;
+    static nationList: Nation[] = [];
+}
 
-    onUpdate(): void {
-        this.gameObject.onClick = () => {
-        }
-
+class Nation {
+    constructor(nationId: number = 1, nationName: string = "玩家", money: number = 0, level: number = 1) {
+        this.nationId = nationId;
+        this.nationName = nationName;
+        this.money = money;
+        this.level = level;
     }
+    nationId: number = 1;  //1-玩家 >2-AI
+    nationName: string = "玩家";
+
+    money: number = 0;
+    level: number = 1;
 }
