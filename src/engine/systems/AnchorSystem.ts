@@ -21,7 +21,8 @@ export class AnchorSystem extends System{
         var minY = transform.y
         var maxX = transform.x
         var maxY = transform.y
-
+        //TODO 计算Bitmap或text的包围盒并加入到自适应包围盒的计算中
+        
         for(const child of gameObject.children){
             const childBound = this.calculateContainerBound(child)
 
@@ -35,3 +36,16 @@ export class AnchorSystem extends System{
         return {minX, minY, maxX, maxY}
     }
 }
+
+
+//TODO 计算Bitmap包围盒
+function calculateBitmapBound(gameObject: GameObject):{minX: number, minY: number, maxX: number, maxY: number}{
+    var minX = 0
+    var minY = 0
+    var maxX = 0
+    var maxY = 0
+
+    return {minX, minY, maxX, maxY}
+}
+
+//TODO 计算Text包围盒

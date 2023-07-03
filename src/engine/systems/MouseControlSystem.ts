@@ -19,7 +19,6 @@ export class MouseControlSystem extends System {
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if (result) {
                 while (result) {
-                    //TODO 优化，不需要每次都计算
                     if (code === 0) {    // 左键
                         // 如果有onClick事件，callback = onClick，否则callback = onMouseLeftDown
                         this.callback = result.onMouseLeftDown ? result.onMouseLeftDown : result.onClick;
