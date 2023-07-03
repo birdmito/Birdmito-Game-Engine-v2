@@ -35,18 +35,31 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 100
-              y: 0
+              x: 425
+              y: 130
               scaleX: 1
               scaleY: 1
               rotation: 0
-          - type: TextRenderer
+          - type: BitmapRenderer
             properties:
-              fontSize: 20
-              text: 殖民
-              color: white
+              source: ./assets/images/Interface_ButtonExplore.png
           - type: UI_ColonyButton
-        children: []
+        children: 
+          - id: UI_ExploreButtonBackGround
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 10
+                  y: 45
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 30
+                  text: 开拓
+                  fontFamily: 'fangsong'
+                  color: white
       - id: UnitNationText
         behaviours:
           - type: Transform
@@ -89,7 +102,7 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
+              x: 100
               y: 0
               scaleX: 1
               scaleY: 1
@@ -98,22 +111,22 @@ children:
             properties:
               source: ./assets/images/Icon_TextFrame5050.png
               renderType: 'ui'
-              scaleXForUI: 1
-              scaleYForUI: 1
-              borderWidthForUI: 30
+              scaleXForUI: 0.4
+              scaleYForUI: 0.4
+              borderWidthForUI: 0.3
       - id: CloseText
         behaviours:
           - type: Transform
             properties:
-              x: 20
-              y: 20
+              x: 106
+              y: -7
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: TextRenderer
             properties:
-              fontSize: 20
-              text: 关闭
+              fontSize: 40
+              text: ×
               color: white
           - type: DestroyOnClick
             properties:

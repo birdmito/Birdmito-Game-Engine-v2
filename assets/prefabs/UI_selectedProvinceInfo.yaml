@@ -80,8 +80,8 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 90
+              x: 300
+              y: -40
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -95,8 +95,8 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 120
+              x: 300
+              y: -10
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -110,8 +110,8 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 150
+              x: 300
+              y: 20
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -125,8 +125,8 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 180
+              x: 300
+              y: 50
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -202,7 +202,7 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
+              x: 100
               y: 0
               scaleX: 1
               scaleY: 1
@@ -211,22 +211,22 @@ children:
             properties:
               source: ./assets/images/Icon_TextFrame5050.png
               renderType: 'ui'
-              scaleXForUI: 1
-              scaleYForUI: 1
-              borderWidthForUI: 30
+              scaleXForUI: 0.4
+              scaleYForUI: 0.4
+              borderWidthForUI: 0.3
       - id: CloseText
         behaviours:
           - type: Transform
             properties:
-              x: 20
-              y: 20
+              x: 106
+              y: -7
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: TextRenderer
             properties:
-              fontSize: 20
-              text: 关闭
+              fontSize: 40
+              text: ×
               color: white
           - type: DestroyOnClick
             properties:
