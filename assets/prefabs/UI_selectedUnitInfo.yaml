@@ -8,7 +8,7 @@ behaviours:
       scaleY: 1
       rotation: 0
 children:
-  - id: UnitInfoBgImage
+  - id: UnitInfoBgBox
     behaviours:
       - type: Transform
         properties:
@@ -17,10 +17,59 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/Icon_Panel.png
-    children: []
+    children: 
+      - id: UnitInfoLayer1
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_Panel_1.png
+        children: []      
+      - id: UnitInfoLayer2  #此处需要添加单位图片
+        behaviours:
+          - type: Transform
+            properties:
+              x: 15
+              y: 21
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_Panel_1.png
+        children: []   
+      - id: UnitInfoLayer3
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_Panel_3.png
+        children: []    
+      - id: UnitInfoLayer4
+        behaviours:
+          - type: Transform
+            properties:
+              x: 15
+              y: 15
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/TESTInterface_Country.png
+        children: []    
   - id: UnitInfo
     behaviours:
       - type: Transform
@@ -102,7 +151,7 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 100
+              x: 0
               y: 0
               scaleX: 1
               scaleY: 1

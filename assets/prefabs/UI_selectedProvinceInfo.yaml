@@ -31,18 +31,18 @@ children:
             properties:
               source: ./assets/images/Icon_Panel_1.png
         children: []      
-      - id: ProvinceInfoLayer1
+      - id: ProvinceInfoLayer2  #此处需要添加省份景观图片
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 0
+              x: 15
+              y: 21
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_Panel_1.png
+              source: ./assets/images/ScreenArt_ProvinceLake.png
         children: []   
       - id: ProvinceInfoLayer3
         behaviours:
@@ -56,7 +56,20 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_Panel_3.png
-        children: []       
+        children: []    
+      - id: ProvinceInfoLayer4
+        behaviours:
+          - type: Transform
+            properties:
+              x: 15
+              y: 15
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/TESTInterface_Country.png
+        children: []     
   - id: ProvinceInfo
     behaviours:
       - type: Transform
