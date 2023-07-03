@@ -3,7 +3,7 @@ behaviours:
   - type: Transform
     properties:
       x: 0
-      y: 300
+      y: 450
       scaleX: 1
       scaleY: 1
       rotation: 0
@@ -92,8 +92,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 400
-          y: 0
+          x: 408
+          y: 13
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -109,25 +109,7 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 0.4
-              scaleYForUI: 0.4
-              borderWidthForUI: 0.3
-      - id: CloseText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 106
-              y: -7
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 40
-              text: ×
-              color: white
+              source: ./assets/images/Icon_Cross.png
           - type: DestroyOnClick
             properties:
               targetID: UI_selectedUnitInfo
