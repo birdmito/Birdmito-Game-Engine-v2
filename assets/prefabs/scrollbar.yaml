@@ -1,0 +1,48 @@
+id: TextContainer
+behaviours:
+  - type: Transform
+    properties:
+      x: 300
+      y: 0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+      boundWidth: '100'
+      boundHeight: '100'
+  - type: ScrollBarBehaviour
+  - type: BitmapRenderer
+    properties:
+      source: ./assets/images/Icon_PanelFull.png
+children:
+  - id: TextArea
+    behaviours:
+      - type: Transform
+        properties:
+          x: 150
+          y: 50
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+          boundWidth: '100'
+          boundHeight: '100'
+      - type: TextRenderer
+        properties:
+          fontSize: 40
+          text: 文本内容
+    children: []
+  - id: Scrollbar
+    behaviours:
+      - type: Transform
+        properties:
+          x: 400
+          y: 100
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+          boundWidth: '100'
+          boundHeight: '100'
+      - type: TextRenderer
+        properties:
+          fontSize: 40
+          text: 滚动条
+    children: []
