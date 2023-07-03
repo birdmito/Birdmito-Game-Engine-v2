@@ -1,5 +1,7 @@
 import { GameObject, Matrix } from "../../engine";
+import { BitmapRenderer } from "../BitmapRenderer";
 import { matrixAppendMatrix } from "../math";
+import { TextRenderer } from "../TextRenderer";
 import { Transform } from "../Transform";
 import { System } from "./System";
 
@@ -15,8 +17,8 @@ export class TransformSystem extends System {
             if (transform.boundHeight === undefined) {
                 transform.boundHeight = '100'
             }
-            const width = Number(transform.boundWidth)
-            const height = Number(transform.boundHeight)
+            transform.width = Number(transform.boundWidth)
+            transform.height = Number(transform.boundHeight)
             // console.log(width, height)
 
             switch (transform.anchorType) {
@@ -24,28 +26,28 @@ export class TransformSystem extends System {
                     transform.anchor = { x: 0, y: 0 };
                     break;
                 case 'center-top':
-                    transform.anchor = { x: -width / 2, y: 0 };
+                    transform.anchor = { x: -transform.width / 2, y: 0 };
                     break;
                 case 'right-top':
-                    transform.anchor = { x: -width, y: 0 };
+                    transform.anchor = { x: -transform.width, y: 0 };
                     break;
                 case 'left-center':
-                    transform.anchor = { x: 0, y: -height / 2 };
+                    transform.anchor = { x: 0, y: -transform.height / 2 };
                     break;
                 case 'center':
-                    transform.anchor = { x: -width / 2, y: -height / 2 };
+                    transform.anchor = { x: -transform.width / 2, y: -transform.height / 2 };
                     break;
                 case 'right-center':
-                    transform.anchor = { x: -width, y: -height / 2 };
+                    transform.anchor = { x: -transform.width, y: -transform.height / 2 };
                     break;
                 case 'left-bottom':
-                    transform.anchor = { x: 0, y: -height };
+                    transform.anchor = { x: 0, y: -transform.height };
                     break;
                 case 'center-bottom':
-                    transform.anchor = { x: -width / 2, y: -height };
+                    transform.anchor = { x: -transform.width / 2, y: -transform.height };
                     break;
                 case 'right-bottom':
-                    transform.anchor = { x: -width, y: -height };
+                    transform.anchor = { x: -transform.width, y: -transform.height };
                     break;
                 default:
                     transform.anchor = { x: 0, y: 0 };
@@ -67,14 +69,5 @@ export class TransformSystem extends System {
         }
         visit(this.rootGameObject)
         visit(this.gameEngine.editorGameObject)
-    }
-
-    setAnchor(anchorType):{ x: number, y: number } {
-        switch (anchorType) {
-            case 'left-top':
-                return { x: 0, y: 0 };
-            default:
-                return { x: 0, y: 0 };
-        }
     }
 }
