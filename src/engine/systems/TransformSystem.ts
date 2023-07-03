@@ -26,7 +26,7 @@ export class TransformSystem extends System {
                     transform.anchor = { x: 0, y: 0 };
                     break;
                 case 'center-top':
-                    transform.anchor = { x: -transform.width / 2, y: 0 };
+                    transform.anchor = { x: -transform.width * transform.scaleX / 2, y: 0 };
                     break;
                 case 'right-top':
                     transform.anchor = { x: -transform.width, y: 0 };
