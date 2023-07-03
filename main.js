@@ -1,6 +1,6 @@
-// const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
+const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/UI_selectedUnitInfo.yaml";
-const defaultSceneOrPrefab = "./assets/prefabs/scrollbar.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/scrollbar.yaml";
 
 
 const config = require("./config.json");
