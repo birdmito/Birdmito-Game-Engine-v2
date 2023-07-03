@@ -48,20 +48,24 @@ export class GamePlaySystem extends System {
     }
 
     onUpdate(): void {
-        // (rootGameObject) -> Root -> sceneRoot
-        const sceneState = this.rootGameObject.children[0].children[0].getBehaviour(GameStateBehaviour).gameState;
-        const camera = getGameObjectById("Camera");
+        //TODO 修复打开预制体时没有gameState会报错的问题
+        // if(!this.rootGameObject.children[0].children[0].getBehaviour(GameStateBehaviour).gameState){
+        //     return;
+        // }
+        // // (rootGameObject) -> Root -> sceneRoot
+        // const sceneState = this.rootGameObject.children[0].children[0].getBehaviour(GameStateBehaviour).gameState;
+        // const camera = getGameObjectById("Camera");
 
-        switch(sceneState){
-            case 0:
-                this.removeCameraController(camera);
-                break;
-            case 1:
-                this.addCameraController(camera);
-                break;
-            default:
-                break;
-        }
+        // switch(sceneState){
+        //     case 0:
+        //         this.removeCameraController(camera);
+        //         break;
+        //     case 1:
+        //         this.addCameraController(camera);
+        //         break;
+        //     default:
+        //         break;
+        // }
 
 
     }

@@ -14,5 +14,8 @@ export class Click extends Behaviour {
         this.gameObject.onMouseMiddleDown  = () =>{
             console.log('middle down');
         }
+        this.gameObject.onMouseEnter  = () =>{
+            console.log('enter');
+        }
     }
 }

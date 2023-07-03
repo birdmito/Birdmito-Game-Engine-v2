@@ -2,6 +2,7 @@ import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";
 
 export class Button extends Behaviour {
+    //TODO Button
     state: 'idle' | 'hover' | 'pressed' | 'disabled';    // 按钮状态
     
     onClick() {

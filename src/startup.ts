@@ -1,5 +1,6 @@
 import { PhysicsSystem } from "./PhysicsSystem";
 import { GameEngine } from "./engine";
+import { AnchorSystem } from "./engine/systems/AnchorSystem";
 import { AnimationSystem } from "./engine/systems/AnimationSystem";
 import { EditorSystem } from "./engine/systems/EditorSystem";
 import { GameLifeCycleSystem } from "./engine/systems/GameLifeCycleSystem";
@@ -27,6 +28,7 @@ async function startup() {
         engine.addSystem(new GameLifeCycleSystem());
     }
     engine.addSystem(new TransformSystem());
+    engine.addSystem(new AnchorSystem())
     if (engine.mode === "play") {
         engine.addSystem(new GamePlaySystem());
     }

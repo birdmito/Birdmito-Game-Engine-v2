@@ -36,4 +36,6 @@ export class Transform extends Behaviour {
     boundWidth = '1920';
     @string()
     boundHeight = '1080';
+    width = 0;
+    height = 0;
 }
