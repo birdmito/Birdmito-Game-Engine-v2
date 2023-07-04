@@ -7,6 +7,7 @@ import { System } from "./System";
 
 export class MouseControlSystem extends System {
     private callback(event: GameEngineMouseEvent) { }
+    private currentHoverGameObject: GameObject | null = null;
     onStart() {
         window.addEventListener('mousedown', (event) => {
             const code = event.button;
@@ -59,7 +60,7 @@ export class MouseControlSystem extends System {
         });
 
         window.addEventListener('mousemove', (event) => {
-            //TODO 进入应当只触发一次，离开应当只触发一次，不应当一直触发
+            //TODO  理清楚这里的逻辑，是否为对比冒泡捕获存储的GameObject结构树
             // 检测鼠标进入
             const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
             const camera = cameraGameObject.getBehaviour(Camera)
@@ -70,16 +71,19 @@ export class MouseControlSystem extends System {
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if (result) {
                 while (result) {
-                    if (result.onMouseEnter) {
-                        const invertGlobalMatrix = invertMatrix(result.getBehaviour(Transform).globalMatrix)
-                        const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
-                        const event: GameEngineMouseEvent = {
-                            globalX: globalPoint.x,
-                            globalY: globalPoint.y,
-                            localX: localPoint.x,
-                            localY: localPoint.y
+                    if(this.currentHoverGameObject !== result){
+                        if (result.onMouseEnter) {
+                            this.currentHoverGameObject = result;
+                            const invertGlobalMatrix = invertMatrix(result.getBehaviour(Transform).globalMatrix)
+                            const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
+                            const event: GameEngineMouseEvent = {
+                                globalX: globalPoint.x,
+                                globalY: globalPoint.y,
+                                localX: localPoint.x,
+                                localY: localPoint.y
+                            }
+                            result.onMouseEnter(event);
                         }
-                        result.onMouseEnter(event);
                     }
                     result = result.parent;
                 }
@@ -104,7 +108,7 @@ export class MouseControlSystem extends System {
             const rectangle = gameObject.renderer.getBounds();
             const result = checkPointInRectangle(point, rectangle)
             if (result) {
-                console.log("hit", gameObject.id);
+                // console.log("hit", gameObject.id);
                 return gameObject;
             }
             else {

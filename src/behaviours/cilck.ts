@@ -17,5 +17,8 @@ export class Click extends Behaviour {
         this.gameObject.onMouseEnter  = () =>{
             console.log('enter');
         }
+        this.gameObject.onMouseLeave  = () =>{
+            console.log('leave');
+        }
     }
 }

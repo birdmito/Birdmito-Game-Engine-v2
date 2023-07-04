@@ -300,7 +300,7 @@ export class GameObject {
                 return child;
             }
         }
-        throw new Error(`找不到id为${id}的子对象`);
+        console.warn(`找不到id为${id}的子对象`);
         return null;
     }
 

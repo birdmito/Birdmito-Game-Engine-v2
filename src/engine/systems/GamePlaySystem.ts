@@ -48,24 +48,24 @@ export class GamePlaySystem extends System {
     }
 
     onUpdate(): void {
-        //TODO 修复打开预制体时没有gameState会报错的问题
-        // if(!this.rootGameObject.children[0].children[0].getBehaviour(GameStateBehaviour).gameState){
-        //     return;
-        // }
-        // // (rootGameObject) -> Root -> sceneRoot
-        // const sceneState = this.rootGameObject.children[0].children[0].getBehaviour(GameStateBehaviour).gameState;
-        // const camera = getGameObjectById("Camera");
+        // (rootGameObject) -> Root ? 没有说明是预制体      
+        if(!this.rootGameObject.getChildById("Root")){
+            return;
+        }
+        // (rootGameObject) -> Root -> sceneRoot
+        const sceneState = this.rootGameObject.children[0].children[0].getBehaviour(GameStateBehaviour).gameState;
+        const camera = getGameObjectById("Camera");
 
-        // switch(sceneState){
-        //     case 0:
-        //         this.removeCameraController(camera);
-        //         break;
-        //     case 1:
-        //         this.addCameraController(camera);
-        //         break;
-        //     default:
-        //         break;
-        // }
+        switch(sceneState){
+            case 0:
+                this.removeCameraController(camera);
+                break;
+            case 1:
+                this.addCameraController(camera);
+                break;
+            default:
+                break;
+        }
 
 
     }
