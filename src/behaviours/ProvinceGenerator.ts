@@ -40,7 +40,7 @@ export class ProvinceGenerator extends Behaviour {
         //     }
         // }
 
-        console.log(generatedTerrain);
+        // console.log(generatedTerrain);
 
         // 创建六边形网格坐标数组
         const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
@@ -57,7 +57,7 @@ export class ProvinceGenerator extends Behaviour {
                     Province.provinces[j] = [];
                 Province.provinces[j][i] = province;
 
-                console.log(generatedTerrain[j][i]);
+                // console.log(generatedTerrain[j][i]);
                 switch (generatedTerrain[j][i]) {
                     case 0:
                         provinceBehaviour.isOwnable = false;

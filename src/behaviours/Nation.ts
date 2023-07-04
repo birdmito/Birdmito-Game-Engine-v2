@@ -14,7 +14,7 @@ export class Nation {
         this.level = level;
         this.techTree = Technology.copyAllTechList();
         this.techPerTurn = 0;
-        this.currentTech = '农业';
+        this.currentTechName = '探秘奥坎之径';
     }
     nationId: number = 1;  //1-玩家 >2-AI
     nationName: string = "玩家";
@@ -24,7 +24,7 @@ export class Nation {
     level: number = 1;
 
     techTree: Technology[] = Technology.copyAllTechList();
-    currentTech: string = '农业'
+    currentTechName: string = '探秘奥坎之径'
 }
 
 // export class NationManager{

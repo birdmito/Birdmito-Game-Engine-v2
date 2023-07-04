@@ -1,0 +1,84 @@
+id: UI_techWindow
+behaviours:
+  - type: Transform
+    properties:
+      x: 0
+      y: 0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+children:
+  - id: TechWindowBgImage
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_TextFrame5050.png
+          renderType: 'ui'
+          scaleXForUI: 14
+          scaleYForUI: 10
+          borderWidthForUI: 30
+    children: []
+  - id: TechWindowItemListRoot
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: LayoutGroup
+        properties:
+          layoutType: vertical
+          spacing: 100
+  - id: Close
+    behaviours:
+      - type: Transform
+        properties:
+          x: 600
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children:
+      - id: CloseImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_TextFrame5050.png
+              renderType: 'ui'
+              scaleXForUI: 1
+              scaleYForUI: 1
+              borderWidthForUI: 30
+      - id: CloseText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 20
+              y: 20
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: 关闭
+              color: white
+          - type: DestroyOnClick
+            properties:
+              targetID: UI_techWindow
+        children: []
