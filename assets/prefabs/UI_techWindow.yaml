@@ -1,4 +1,4 @@
-id: UI_governmentWindow
+id: UI_techWindow
 behaviours:
   - type: Transform
     properties:
@@ -8,7 +8,7 @@ behaviours:
       scaleY: 1
       rotation: 0
 children:
-  - id: GovernmentBgImage
+  - id: TechWindowBgImage
     behaviours:
       - type: Transform
         properties:
@@ -21,69 +21,29 @@ children:
         properties:
           source: ./assets/images/Icon_TextFrame5050.png
           renderType: 'ui'
-          scaleXForUI: 16
-          scaleYForUI: 15
+          scaleXForUI: 14
+          scaleYForUI: 10
           borderWidthForUI: 30
-  - id: TechnologyText
+    children: []
+  - id: TechWindowItemListRoot
     behaviours:
       - type: Transform
         properties:
           x: 0
-          y: 200
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: TextRenderer
+      - type: LayoutGroup
         properties:
-          fontSize: 20
-          text: 研究科技
-          color: white
-  - id: TechnologyText
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 400
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/Icon_TextFrame5050.png
-          renderType: 'ui'
-          scaleXForUI: 3
-          scaleYForUI: 1
-          borderWidthForUI: 30
-  - id: TechWindowRoot
-    behaviours:
-      - type: Transform
-        properties:
-          x: 400
-          y: 400
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-  - id: UpgradeButton
-    behaviours:
-      - type: Transform
-        properties:
-          x: 200
-          y: 200
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 20
-          text: 国家升级
-          color: white
-      - type: UI_UpgradeButton 
+          layoutType: vertical
+          spacing: 100
   - id: Close
     behaviours:
       - type: Transform
         properties:
           x: 600
-          y: 500
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -120,5 +80,5 @@ children:
               color: white
           - type: DestroyOnClick
             properties:
-              targetID: UI_governmentWindow
+              targetID: UI_techWindow
         children: []

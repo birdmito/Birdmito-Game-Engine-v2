@@ -24,6 +24,24 @@ export class Technology {
         return techList;
     }
 
+    static getAvailableTech(nationId: number): Technology[] {
+        let techList: Technology[] = [];
+        for (let i = 0; i < Nation.nationList[nationId].techTree.length; i++) {
+            var isAvailable = true;
+            let tech = Nation.nationList[nationId].techTree[i];
+            for (const preTech of tech.preTech) {
+                if (this.getTechByName(nationId, preTech).techProcess < this.getTechByName(nationId, preTech).techProcessMax) {
+                    isAvailable = false;
+                    break;
+                }
+            }
+            if (isAvailable) {
+                techList.push(tech);
+            }
+        }
+        return techList;
+    }
+
     private constructor(techName: string, preTech: string[], techProcessMax: number) {
         this.techName = techName;
         this.preTech = preTech;
