@@ -54,7 +54,7 @@ export class Province extends Behaviour {
     onStart(): void {
         console.log("province start");
         this.changeNationId(0);
-        this.randomLandscape();
+        // this.randomLandscape();
         this.updateApCost();
         this.updateProduction();
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTTransparent.png';

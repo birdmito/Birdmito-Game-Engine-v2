@@ -19,9 +19,6 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-          anchorType: left-top
-          boundWidth: 1920
-          boundHeight: 1080
       - type: GameStateBehaviour
     children:
       - id: LoginScene
@@ -38,6 +35,8 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+          boundWidth: '100'
+          boundHeight: '100'
           boundWidth: '100'
           boundHeight: '100'
       - type: Camera

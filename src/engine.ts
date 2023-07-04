@@ -295,6 +295,16 @@ export class GameObject {
         child.active = false;
     }
 
+    getChildById(id: string): GameObject {
+        for (const child of this.children) {
+            if (child.id === id) {
+                return child;
+            }
+        }
+        console.warn(`找不到id为${id}的子对象`);
+        return null;
+    }
+
     addBehaviour(behaviour: Behaviour) {
         this.behaviours.push(behaviour);
         behaviour.gameObject = this;

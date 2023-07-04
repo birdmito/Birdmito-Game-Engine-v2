@@ -48,6 +48,10 @@ export class GamePlaySystem extends System {
     }
 
     onUpdate(): void {
+        // (rootGameObject) -> Root ? 没有说明是预制体      
+        if(!this.rootGameObject.getChildById("Root")){
+            return;
+        }
         // (rootGameObject) -> Root -> sceneRoot
         const sceneState = this.rootGameObject.children[0].children[0].getBehaviour(GameStateBehaviour).gameState;
         const camera = getGameObjectById("Camera");

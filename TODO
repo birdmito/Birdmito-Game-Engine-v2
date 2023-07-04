@@ -40,13 +40,19 @@
     ✔ 反序列化时如果id不存在则自动创建 @done(23-06-30 23:29)
 ☐ CameraController
     ✔ 相机移动 @done(23-07-01 18:10)
-    ☐ 相机缩放
+    ✔ 相机缩放 @done(23-07-03 22:56)
     ☐ 仅在游戏场景中生效
-        ✔ 通过在GamePlaySystem判断游戏场景id来判断是否在游戏场景中 @done(23-07-01 20:56)
+        ✔ 通过在GamePlaySystem                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ☐ 判断游戏场景id来判断是否在游戏场景中
         ☐ 解决重新回到主菜单未成功删除CameraController的问题
+        ✔ 解决打开预制体而未进入游戏场景时GamePlaySystem获取gameState报错问题 @done(23-07-04 09:13)
 ✔ MouseControllSystem支持更多的鼠标点击操作 @done(23-07-01 18:13)
     ✔ 鼠标左中右键 @done(23-07-01 18:13)
     ✔ 将onClick标识为过时函数 @done(23-07-01 18:13)
-☐ 将在Renderer上设置锚点的逻辑拓展到Transform上
+✔ 将在Renderer上设置锚点的逻辑拓展到Transform上 @done(23-07-04 08:59)
     ✔ 设置锚点和包围盒宽高 @done(23-07-02 00:34)
-    ☐ 根据所有子物体计算自适应包围盒
+    ✔ 根据所有子物体计算自适应包围盒 @done(23-07-04 08:59)
+        ✔ 计算子物体 @done(23-07-02 22:21)
+        ✔ 计算子物体上的Renderer @done(23-07-03 15:01)
+            ✔ 不考虑Renderer的锚点 @done(23-07-03 15:00)
+            ✔ 考虑Renderer的锚点 @done(23-07-03 15:00)
+        ✔ 将anchor分离出来成为一个单独的系统 @done(23-07-04 08:59)

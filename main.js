@@ -1,5 +1,7 @@
 const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/UI_selectedUnitInfo.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/scrollbar.yaml";
+
 
 const config = require("./config.json");
 const { app, BrowserWindow, BrowserView, globalShortcut } = require("electron");
@@ -46,7 +48,7 @@ async function startEditor() {
                 contextIsolation: false, //允许渲染进程使用Nodejs
             },
         });
-
+        
         // 等待页面加载完成后显示窗口
         editorProcess.once("ready-to-show", () => {
             editorProcess.show();
@@ -63,7 +65,6 @@ async function startEditor() {
             },
         });
         editorProcess.addBrowserView(runtimeView);
-
         runtimeView.setBounds({
             x: config.editor.hierarchy.width,
             y: 0,
