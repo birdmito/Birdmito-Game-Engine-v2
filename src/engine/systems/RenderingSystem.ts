@@ -77,6 +77,7 @@ export class CanvasContextRenderingSystem extends System {
         // context.setTransform(1, 0, 0, 1, 0, 0);
         // context.clearRect(0, 0, canvas.width, canvas.height);
 
+
         const cameraGameObject =
             this.gameEngine.mode === "play" ? getGameObjectById("Camera") : this.gameEngine.editorGameObject;
         
@@ -173,6 +174,6 @@ export class CanvasContextRenderingSystem extends System {
                 visitChildren(child);
             }
         }
-        visitChildren(this.rootGameObject);
+        visitChildren(this.rootGameObject);        
     }
 }
