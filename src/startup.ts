@@ -4,7 +4,7 @@ import { AnchorSystem } from "./engine/systems/AnchorSystem";
 import { AnimationSystem } from "./engine/systems/AnimationSystem";
 import { EditorSystem } from "./engine/systems/EditorSystem";
 import { GameLifeCycleSystem } from "./engine/systems/GameLifeCycleSystem";
-import { GamePlaySystem, GamePlaySystem1 } from "./engine/systems/GamePlaySystem";
+import { GamePlaySystem } from "./engine/systems/GamePlaySystem";
 import { MouseControlSystem } from "./engine/systems/MouseControlSystem";
 import { CanvasContextRenderingSystem } from "./engine/systems/RenderingSystem";
 import { TransformSystem } from "./engine/systems/TransformSystem";
@@ -27,8 +27,8 @@ async function startup() {
     else{
         engine.addSystem(new GameLifeCycleSystem());
     }
-    engine.addSystem(new TransformSystem());
     engine.addSystem(new AnchorSystem())
+    engine.addSystem(new TransformSystem());
     if (engine.mode === "play") {
         engine.addSystem(new GamePlaySystem());
     }

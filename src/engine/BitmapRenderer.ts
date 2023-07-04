@@ -62,17 +62,6 @@ export class BitmapRenderer extends Behaviour implements Renderer {
 
     // 函数逻辑
     // ---------------------------
-    onStart(): void {
-        if (this.source) {
-            this.image = this.engine.resourceManager.getImage(this.source);
-        }
-        this.scaleX = this.scaleXForUI;
-        this.scaleY = this.scaleYForUI;
-        this.borderWidth = this.borderWidthForUI;
-
-        this.setAnchor(this.anchorType);
-    }
-
     getBounds(): Rectangle {
 
         var width = this.image.width;

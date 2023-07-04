@@ -1,3 +1,4 @@
+import { s } from "vitest/dist/types-2b1c412e";
 import { Matrix } from "../engine";
 import { Behaviour } from "./Behaviour";
 import { number } from "./validators/number";
@@ -32,10 +33,8 @@ export class Transform extends Behaviour {
     // 锚点类型：左上角，中上，右上角，左中，中心，右中，左下角，中下，右下角
     @string()
     anchorType: 'left-top' | 'center-top' | 'right-top' | 'left-center' | 'center' | 'right-center' | 'left-bottom' | 'center-bottom' | 'right-bottom' = 'left-top';
-    @string()
-    boundWidth = '1920';
-    @string()
-    boundHeight = '1080';
-    width = 0;
-    height = 0;
+    anchorBound:{minX: number, minY: number, maxX: number, maxY: number} = {minX: 0, minY: 0, maxX: 0, maxY: 0};
+    width = 0
+    height = 0
+
 }

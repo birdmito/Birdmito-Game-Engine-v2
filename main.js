@@ -46,7 +46,7 @@ async function startEditor() {
                 contextIsolation: false, //允许渲染进程使用Nodejs
             },
         });
-
+        
         // 等待页面加载完成后显示窗口
         editorProcess.once("ready-to-show", () => {
             editorProcess.show();
@@ -63,7 +63,6 @@ async function startEditor() {
             },
         });
         editorProcess.addBrowserView(runtimeView);
-
         runtimeView.setBounds({
             x: config.editor.hierarchy.width,
             y: 0,

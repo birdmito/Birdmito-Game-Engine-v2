@@ -36,6 +36,20 @@ export class CanvasContextRenderingSystem extends System {
     }
 
     onAddComponent(gameObject: GameObject, component: Behaviour): void {
+        // 加载BitmapRenderer的图片
+        if(component instanceof BitmapRenderer){
+            if(!component.source){
+                throw new Error(`${gameObject.id}'s BitmapRenderer source is null`)
+            }
+            component.image = this.gameEngine.resourceManager.getImage(component.source)
+
+            component.scaleX = component.scaleXForUI;
+            component.scaleY = component.scaleYForUI;
+            component.borderWidth = component.borderWidthForUI;
+    
+            component.setAnchor(component.anchorType);           
+        }
+
         if (
             component instanceof ShapeRectRenderer ||
             component instanceof TextRenderer ||
