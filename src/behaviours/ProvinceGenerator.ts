@@ -99,7 +99,7 @@ export class ProvinceGenerator extends Behaviour {
         const subRandomPercent2 = Math.random() * (1 - mainRandomPercent - subRandomPercent1)
         const subRandomPercent3 = 1 - mainRandomPercent - subRandomPercent1 - subRandomPercent2;
 
-        console.log("mainTerrain: " + mainTerrain + " Percent: " + mainRandomPercent);
+        // console.log("mainTerrain: " + mainTerrain + " Percent: " + mainRandomPercent);
 
         switch (mainTerrain) {
             case TerrainType.Ocean:
