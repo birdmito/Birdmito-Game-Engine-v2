@@ -1,28 +1,35 @@
-import { UI_BuildingButton } from "../behaviours/UI_BuildingButton";
+import { UI_ItemButton } from "../behaviours/UI_ItemButton";
 import { TextRenderer } from "../engine/TextRenderer";
 import { number } from "../engine/validators/number";
 import { string } from "../engine/validators/string";
 import { Binding, binding, makeBinding, prefab } from "./Binding";
-@prefab('./assets/prefabs/UI_building.yaml')
-export class UI_buildingPrefabBinding extends Binding {
+@prefab('./assets/prefabs/UI_item.yaml')
+export class UI_itemPrefabBinding extends Binding {
 
     @string()
     @binding((prefabRoot, value) => {
         prefabRoot.children[1].getBehaviour(TextRenderer).text = value;
     })
-    buildingInfo: string;
+    itemInfo: string;
 
     @string()
     @binding((prefabRoot, value) => {
         prefabRoot.children[2].getBehaviour(TextRenderer).text = value;
     })
-    buildingEventText: string;
+    itemClickEventText: string;
 
     @string()
     @binding((prefabRoot, value) => {
-        prefabRoot.children[2].getBehaviour(UI_BuildingButton).buildingName = value;
+        prefabRoot.children[2].getBehaviour(UI_ItemButton).itemName = value;
     })
-    buildingName: string;
+    item: string;
+
+
+    @string()
+    @binding((prefabRoot, value) => {
+        prefabRoot.children[2].getBehaviour(UI_ItemButton).idInList = value;
+    })
+    idInList: number;
 
 
 

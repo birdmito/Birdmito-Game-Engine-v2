@@ -5,7 +5,7 @@ import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
 import { UI_ColonyButton } from "./UI_ColonyButton";
 import { GameProcess } from "./GameProcess";
-import { ProvinceManager } from "./ProvinceManager";
+import { ProvinceGenerator } from "./ProvinceGenerator";
 import { Province } from "./Province";
 
 export class UI_NextTurnButton extends Behaviour {

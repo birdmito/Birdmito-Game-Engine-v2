@@ -194,6 +194,10 @@ children:
               scaleX: 1
               scaleY: 1
               rotation: 0
+          - type: LayoutGroup
+            properties:
+              layoutType: vertical
+              spacing: 100
         children: []
   - id: BuildButton
     behaviours:
@@ -236,6 +240,98 @@ children:
               text: "建造"
               color: white
           - type: UI_BuildButton
+        children: []
+  - id: ProductWindowRoot
+    behaviours:
+      - type: Transform
+        properties:
+          x: 1000
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children: []
+  - id: RecuitButton
+    behaviours:
+      - type: Transform
+        properties:
+          x: 100
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children:
+      - id: RecuitButtonImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_TextFrame5050.png
+              renderType: 'ui'
+              scaleXForUI: 1
+              scaleYForUI: 1
+              borderWidthForUI: 30
+      - id: RecruitButtonText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 20
+              y: 20
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: "招募"
+              color: white
+          - type: UI_RecruitButton
+        children: []
+  - id: ProductQueue
+    behaviours:
+      - type: Transform
+        properties:
+          x: 600
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children: 
+      - id: ProductQueueRootBgImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_TextFrame5050.png
+              renderType: 'ui'
+              scaleXForUI: 2
+              scaleYForUI: 10
+              borderWidthForUI: 30
+      - id: ProductQueueRoot
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: LayoutGroup
+            properties:
+              layoutType: vertical
+              spacing: 100
         children: []
   - id: Close
     behaviours:

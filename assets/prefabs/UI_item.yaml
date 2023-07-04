@@ -1,4 +1,4 @@
-id: UI_building
+id: UI_itemInProvinceWindow
 behaviours:
   - type: Transform
     properties:
@@ -37,7 +37,7 @@ children:
       - type: TextRenderer
         properties:
           fontSize: 20
-          text: '这里应该显示建筑信息'
+          text: '这里应该显示建筑或单位信息'
           color: white
     children: []
   - id: buildingButton
@@ -52,6 +52,6 @@ children:
       - type: TextRenderer
         properties:
           fontSize: 25
-          text: '这里应该显示建造、升级或拆除'
+          text: '这里应该显示建造、升级、拆除或取消'
           color: white
-      - type: UI_BuildingButton
+      - type: UI_ItemButton

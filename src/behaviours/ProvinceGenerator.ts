@@ -4,23 +4,41 @@ import { ProvincePrefabBinding } from "../bindings/ProvincePrefabBinding";
 import { number } from "../engine/validators/number";
 import { GameObject } from "../engine";
 import { Province } from "./Province";
-import { MapGenerator } from "./MapGenerator";
-import { TerrainType } from "./MapGenerator";
+import { MapGenerator, TerrainType } from "./MapGenerator";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 
-export class ProvinceManager extends Behaviour {
-    // @number()
-    gridSizeX: number = 30;
-    // @number()
-    gridSizeY: number = 30;
-    // @number()
+export class ProvinceGenerator extends Behaviour {
+    gridSizeX: number = 50;
+    gridSizeY: number = 50;
     gridSpace: number = 172;
+    landPercentage: number = 20;
 
-    static provinces: GameObject[][] = [];
+    // static provinces: GameObject[][] = [];
 
     onStart(): void {
-        const mapGenerator = new MapGenerator(this.gridSizeX, this.gridSizeY, 20);
+
+
+        const mapGenerator = new MapGenerator(this.gridSizeX, this.gridSizeY, this.landPercentage);
         const generatedTerrain:TerrainType[][] = mapGenerator.generateMap();
+
+          // 为岛屿设置随机地形类型
+        const numIslands = Math.floor((this.gridSizeX * this.gridSizeY * this.landPercentage) / 100);
+    
+        for (let i = 0; i < numIslands; i++) {
+        const islandX = Math.floor(Math.random() * this.gridSizeX);
+        const islandY = Math.floor(Math.random() * this.gridSizeY);
+        
+        // 随机分配地形类型给岛屿方块
+        const randomNum = Math.random();
+        if (randomNum < 0.25) {
+            generatedTerrain[islandY][islandX] = TerrainType.Plain;     // 平原
+        } else if (randomNum < 0.6) {                    // 更新此条件
+            generatedTerrain[islandY][islandX] = TerrainType.Mountain;  // 山脉
+        } else {
+            generatedTerrain[islandY][islandX] = TerrainType.Forest;    // 森林
+        }
+        }
+
         console.log(generatedTerrain);
         
         // 创建六边形网格坐标数组
@@ -34,9 +52,9 @@ export class ProvinceManager extends Behaviour {
                 const provinceBehaviour = province.getBehaviour(Province);
                 provinceBehaviour.coord = { x: j, y: i };
                 this.gameObject.addChild(province);
-                if (!ProvinceManager.provinces[j])
-                    ProvinceManager.provinces[j] = [];
-                ProvinceManager.provinces[j][i] = province;
+                if (!Province.provinces[j])
+                    Province.provinces[j] = [];
+                Province.provinces[j][i] = province;
 
                 console.log(generatedTerrain[j][i]);
                 switch(generatedTerrain[j][i]) {
@@ -52,7 +70,27 @@ export class ProvinceManager extends Behaviour {
         }
 
         
+
+
+
+
+        // // 创建六边形网格坐标数组
+        // const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
+        // // 创建省份
+        // for (let i = 0; i < this.gridSizeY; i++) {
+        //     for (let j = 0; j < this.gridSizeX; j++) {
+        //         const province = this.gameObject.engine.createPrefab(new ProvincePrefabBinding());
+        //         province.getBehaviour(Transform).x = hexGrid[i][j].x;
+        //         province.getBehaviour(Transform).y = hexGrid[i][j].y;
+        //         province.getBehaviour(Province).coord = { x: j, y: i };
+        //         this.gameObject.addChild(province);
+        //         if (!Province.provinces[j])
+        //         Province.provinces[j] = [];
+        //         Province.provinces[j][i] = province;
+        //     }
+        // }
     }
+
 
     randomSubTerrain(provinceBehaviour:Province, mainTerrain:TerrainType) {
         const mainRandomPercent = (Math.random() +1)/2;
@@ -98,7 +136,7 @@ export class ProvinceManager extends Behaviour {
 
 
     }
-
+    
     // 创建六边形网格坐标数组
     createHexGrid(gridSizeX, gridSizeY, spacing) {
         const hexGrid = [];
@@ -115,14 +153,14 @@ export class ProvinceManager extends Behaviour {
         return hexGrid;
     }
 
-    static updateProvince() {
-        //每回合开始时，所有领地给予所属国家产出
-        for (let i = 0; i < ProvinceManager.provinces.length; i++) {
-            for (let j = 0; j < ProvinceManager.provinces[i].length; j++) {
-                const province = ProvinceManager.provinces[i][j].getBehaviour(Province);
-                province.giveOwnerProduction();
-                province.updateBuildingInfo();
-            }
-        }
-    }
+    // static updateProvince() {
+    //     //每回合开始时，所有领地给予所属国家产出
+    //     for (let i = 0; i < Province.provinces.length; i++) {
+    //         for (let j = 0; j < Province.provinces[i].length; j++) {
+    //             const province = Province.provinces[i][j].getBehaviour(Province);
+    //             province.giveOwnerProduction();
+    //             province.updateBuildingInfo();
+    //         }
+    //     }
+    // }
 }
