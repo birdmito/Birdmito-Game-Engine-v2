@@ -7,6 +7,7 @@ import { Nation } from "./Nation";
 import { Province } from "./Province";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
+import { Technology } from "./Technology";
 
 export class GameProcess extends Behaviour {
     onStart(): void {
@@ -14,16 +15,13 @@ export class GameProcess extends Behaviour {
     }
 
     onUpdate(): void {
-        //更新玩家金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nationList[1].dora.toString();
     }
 
     //回合
     turnrNow = 1;
     turnTotal = 100;
 
-    //所有建筑
-
+    //初始化国家
     initialNation() {
         for (let i = 0; i < Nation.nationQuantity; i++) {
             const nation = new Nation(i + 1, "玩家", 10000, 1);
@@ -35,6 +33,7 @@ export class GameProcess extends Behaviour {
     nextTurn() {
         //每回合开始时，所有领地给予所属国家产出
         Province.updateProvince();
+        this.updateNationTechPerTurn();
 
         this.turnrNow += 1;
         if (this.turnrNow > this.turnTotal) {
@@ -50,6 +49,17 @@ export class GameProcess extends Behaviour {
         if (getGameObjectById("Soilder")) {
             const soilder = getGameObjectById("Soilder").getBehaviour(UnitBehaviour);
             soilder.unitParam.ap = soilder.unitParam.apMax;
+        }
+
+        //更新每个国家当前科技的研究进度
+        for (let i = 1; i < Nation.nationList.length - 1; i++) {
+            const nation = Nation.nationList[i];
+            if (nation.currentTech) {
+                Technology.getTechByName(i, nation.currentTech).techProcess += nation.techPerTurn;
+                console.log(nation.currentTech);
+                console.log(Technology.getTechByName(nation.nationId, nation.currentTech).techProcess);
+                console.log(Technology.getTechByName(nation.nationId, nation.currentTech).techProcessMax);
+            }
         }
     }
 
@@ -71,5 +81,22 @@ export class GameProcess extends Behaviour {
         }
         getGameObjectById("uiRoot").addChild(tip);
     }
-}
 
+    //遍历所有领地，并更新所属国家的每回合科技点
+    updateNationTechPerTurn() {
+        //先清零
+        for (let i = 1; i < Nation.nationList.length - 1; i++) {
+            Nation.nationList[i].techPerTurn = 0;
+        }
+
+        //再更新
+        for (let i = 0; i < Province.provinces.length; i++) {
+            for (let j = 0; j < Province.provinces[i].length; j++) {
+                if (Province.provinces[i][j].getBehaviour(Province).nationId === 0) continue;  //如果该领地没有归属国家，则跳过
+                const province = Province.provinces[i][j].getBehaviour(Province);
+                const nation = Nation.nationList[province.nationId];
+                nation.techPerTurn += province.provinceProduction.techPoint;
+            }
+        }
+    }
+}

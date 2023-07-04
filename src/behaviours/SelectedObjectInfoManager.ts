@@ -29,8 +29,8 @@ export class SelectedObjectInfoMangaer extends Behaviour {
             getGameObjectById("ProvinceLakePercentText").getBehaviour(TextRenderer).text = '湖泊：' + Math.floor(province.lakePercent * 100).toString() + '%';
             getGameObjectById("ProvinceForestPercentText").getBehaviour(TextRenderer).text = '森林：' + Math.floor(province.forestPercent * 100).toString() + '%';
             getGameObjectById("ProvinceMountainPercentText").getBehaviour(TextRenderer).text = '山地：' + Math.floor(province.mountainPercent * 100).toString() + '%';
-            this.updateSelectedProvinceBuildingList();
-            this.updateSelectedProvinceProductQueue();
+            this.updateSelectedProvinceBuildingListUI();
+            this.updateSelectedProvinceProductQueueUI();
 
         }
         else if (this.selectedBehaviour instanceof UnitBehaviour) {
@@ -63,7 +63,7 @@ export class SelectedObjectInfoMangaer extends Behaviour {
                 getGameObjectById("RecuitButton").destroy();
             }
 
-            this.updateSelectedProvinceBuildingList();
+            this.updateSelectedProvinceBuildingListUI();
         }
         else if (selectedBehaviour instanceof UnitBehaviour) {
             this.engine.createPrefab2Children(new UI_selectedUnitInfoPrefabBinding, getGameObjectById("uiRoot"));
@@ -75,7 +75,7 @@ export class SelectedObjectInfoMangaer extends Behaviour {
         }
     }
 
-    updateSelectedProvinceBuildingList() {
+    updateSelectedProvinceBuildingListUI() {
         if (!(this.selectedBehaviour instanceof Province)) {
             //发出警告
             console.warn("当前选中项不是省份，但调用了updateSelectedProvinceBuildingList方法");
@@ -109,7 +109,7 @@ export class SelectedObjectInfoMangaer extends Behaviour {
         }
     }
 
-    updateSelectedProvinceProductQueue() {
+    updateSelectedProvinceProductQueueUI() {
         if (!(this.selectedBehaviour instanceof Province)) {
             //发出警告
             console.warn("当前选中项不是省份，但调用了updateSelectedProvinceProductQueue方法");
