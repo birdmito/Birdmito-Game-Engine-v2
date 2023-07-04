@@ -268,6 +268,7 @@ export class AnchorSystem extends System{
             case 'right-bottom':
                 return {x: -transform.width, y: -transform.height}
             default:
+                transform.anchorType = 'left-top'
                 return {x: 0, y: 0}
         }
     }

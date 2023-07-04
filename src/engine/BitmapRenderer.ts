@@ -62,6 +62,7 @@ export class BitmapRenderer extends Behaviour implements Renderer {
 
     // 函数逻辑
     // ---------------------------
+    //TODO 六边形包围盒
     getBounds(): Rectangle {
 
         var width = this.image.width;
