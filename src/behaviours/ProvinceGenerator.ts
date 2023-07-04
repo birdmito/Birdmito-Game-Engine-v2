@@ -8,8 +8,8 @@ import { MapGenerator, TerrainType } from "./MapGenerator";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 
 export class ProvinceGenerator extends Behaviour {
-    gridSizeX: number = 70;
-    gridSizeY: number = 70;
+    gridSizeX: number = 30;
+    gridSizeY: number = 30;
     gridSpace: number = 172;
     landPercentage: number = 40;
     landNum: number = 10;
@@ -99,7 +99,7 @@ export class ProvinceGenerator extends Behaviour {
         const subRandomPercent2 = Math.random() * (1 - mainRandomPercent - subRandomPercent1)
         const subRandomPercent3 = 1 - mainRandomPercent - subRandomPercent1 - subRandomPercent2;
 
-        console.log("mainTerrain: " + mainTerrain + " Percent: " + mainRandomPercent);
+        // console.log("mainTerrain: " + mainTerrain + " Percent: " + mainRandomPercent);
 
         switch (mainTerrain) {
             case TerrainType.Ocean:

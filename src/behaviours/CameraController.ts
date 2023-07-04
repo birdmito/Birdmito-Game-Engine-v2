@@ -25,13 +25,13 @@ export class CameraController extends Behaviour {
             if (event.deltaY < 0) {
                 // 用户向上滚动
                 console.log("Mouse wheel up");
-                getGameObjectById("sceneRoot").getBehaviour(Transform).scaleX += 0.01;
-                getGameObjectById("sceneRoot").getBehaviour(Transform).scaleY += 0.01;
+                getGameObjectById("sceneRoot").getBehaviour(Transform).scaleX += 0.02;
+                getGameObjectById("sceneRoot").getBehaviour(Transform).scaleY += 0.02;
             } else if (event.deltaY > 0) {
                 // 用户向下滚动
                 console.log("Mouse wheel down");
-                getGameObjectById("sceneRoot").getBehaviour(Transform).scaleX -= 0.01;
-                getGameObjectById("sceneRoot").getBehaviour(Transform).scaleY -= 0.01;
+                getGameObjectById("sceneRoot").getBehaviour(Transform).scaleX -= 0.02;
+                getGameObjectById("sceneRoot").getBehaviour(Transform).scaleY -= 0.02;
             }
         });
 

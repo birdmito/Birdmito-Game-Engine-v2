@@ -42,6 +42,7 @@ export class Province extends Behaviour {
 
     //可建造的建筑列表
     buildableBuildingList: Building[] = Building.allBuildingList;
+
     //可招募的单位
     recruitableList: UnitParam[] = UnitParam.allUnitParamList;
 
@@ -121,6 +122,7 @@ export class Province extends Behaviour {
     }
 
     giveOwnerProduction() {
+        // console.log("giveOwnerProduction")
         //给予所属国家产出
         if (this.nationId > 0) {
             Nation.nationList[this.nationId].dora += this.provinceProduction.dora;
@@ -129,7 +131,7 @@ export class Province extends Behaviour {
 
     updateProductProcess() {
         //推进生产队列
-        console.log("updateProductProcess");
+        // console.log("updateProductProcess");
         const currentItem = this.productQueue[0];
         if (this.productQueue.length > 0) {
             currentItem.productProcess += this.provinceProduction.production + this.productionLeft;
