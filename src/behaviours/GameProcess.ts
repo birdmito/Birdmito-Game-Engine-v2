@@ -3,40 +3,38 @@ import { GameObject, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { TextRenderer } from "../engine/TextRenderer";
-import { Transform } from "../engine/Transform";
-import { ProvinceManager } from "./ProvinceManager";
-import { NationManager } from "./NationManager";
+import { Nation } from "./Nation";
 import { Province } from "./Province";
-import { Soilder } from "./Soilder";
+import { UnitBehaviour } from "./UnitBehaviour";
+import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 
 export class GameProcess extends Behaviour {
     onStart(): void {
         this.initialNation();
-        this.nextTurn();
     }
-    
+
     onUpdate(): void {
         //更新玩家金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + NationManager.nationList[1].money.toString();
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nationList[1].dora.toString();
     }
 
     //回合
-    turnrNow = 0;
-    turnTotal = 2;
+    turnrNow = 1;
+    turnTotal = 100;
 
     //所有建筑
 
     initialNation() {
-        for (let i = 0; i < NationManager.nationQuantity; i++) {
+        for (let i = 0; i < Nation.nationQuantity; i++) {
             const nation = new Nation(i + 1, "玩家", 10000, 1);
-            NationManager.nationList[nation.nationId] = nation;
+            Nation.nationList[nation.nationId] = nation;
         }
     }
 
 
     nextTurn() {
         //每回合开始时，所有领地给予所属国家产出
-        ProvinceManager.updateProvince();
+        Province.updateProvince();
 
         this.turnrNow += 1;
         if (this.turnrNow > this.turnTotal) {
@@ -50,7 +48,7 @@ export class GameProcess extends Behaviour {
 
         //更新所有单位的ap
         if (getGameObjectById("Soilder")) {
-            const soilder = getGameObjectById("Soilder").getBehaviour(Soilder);
+            const soilder = getGameObjectById("Soilder").getBehaviour(UnitBehaviour);
             soilder.ap = soilder.apMax;
         }
     }
@@ -59,7 +57,7 @@ export class GameProcess extends Behaviour {
         console.log("game over");
 
         const tip = this.gameObject.engine.createPrefab(new TextPrefabBinding)
-        if (NationManager.nationList[1].money > 0) {
+        if (Nation.nationList[1].dora > 0) {
             tip.getBehaviour(TextPrefabBinding).text = "游戏胜利";
             tip.getBehaviour(TextPrefabBinding).y = 40;
             getGameObjectById("gameOverImage").getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"
@@ -74,19 +72,4 @@ export class GameProcess extends Behaviour {
         getGameObjectById("uiRoot").addChild(tip);
     }
 }
-
-class Nation {
-    constructor(nationId: number = 1, nationName: string = "玩家", money: number = 0, level: number = 1) {
-        this.nationId = nationId;
-        this.nationName = nationName;
-        this.money = money;
-        this.level = level;
-    }
-    nationId: number = 1;  //1-玩家 >2-AI
-    nationName: string = "玩家";
-
-    money: number = 0;
-    level: number = 1;
-}
-
 

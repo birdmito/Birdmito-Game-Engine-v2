@@ -1,14 +1,14 @@
-id: UI_buildWindow
+id: UI_productWindow
 behaviours:
   - type: Transform
     properties:
-      x: 600
+      x: 0
       y: 0
       scaleX: 1
       scaleY: 1
       rotation: 0
 children:
-  - id: BuildWindowBgImage
+  - id: ProductWindowBgImage
     behaviours:
       - type: Transform
         properties:
@@ -25,6 +25,19 @@ children:
           scaleYForUI: 10
           borderWidthForUI: 30
     children: []
+  - id: ProductWindowItemListRoot
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: LayoutGroup
+        properties:
+          layoutType: vertical
+          spacing: 100
   - id: Close
     behaviours:
       - type: Transform
@@ -67,5 +80,5 @@ children:
               color: white
           - type: DestroyOnClick
             properties:
-              targetID: UI_selectedProvinceInfo
+              targetID: UI_productWindow
         children: []

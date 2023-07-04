@@ -1,41 +1,55 @@
 import { Behaviour } from "../engine/Behaviour";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { GameProcess } from "../behaviours/GameProcess";
-import { getGameObjectById } from "../engine";
+import { GameObject, getGameObjectById } from "../engine";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
-import { Soilder } from "./Soilder";
-import { NationManager } from "./NationManager";
+import { UnitBehaviour } from "./UnitBehaviour";
+import { Nation } from "./Nation";
 import { Building } from "./Building";
+import { Resource } from "./Resource";
+import { ProductingItem } from "./ProductingItem";
+import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
+import { Binding } from "../bindings/Binding";
+import { UnitParam } from "./UnitParam";
 
 export class Province extends Behaviour {
+    static provinces: GameObject[][] = [];
+    static updateProvince() {
+        //每回合开始时，所有领地给予所属国家产出
+        for (let i = 0; i < Province.provinces.length; i++) {
+            for (let j = 0; j < Province.provinces[i].length; j++) {
+                const province = Province.provinces[i][j].getBehaviour(Province);
+                province.giveOwnerProduction();
+                province.updateProductProcess();
+            }
+        }
+    }
+
     coord: { x: number, y: number } = { x: 0, y: 0 };
 
     nationId = 0;
     isOwnable = true;
     apCost = 1;
-    production = 5;
+    provinceProduction: Resource = new Resource(0, 0, 0);
 
     plainPercent = 0;
     lakePercent = 0;
     forestPercent = 0;
     mountainPercent = 0;
 
-    buildingList: Building[] = [Province.getBuildingByName('金矿')];
+    buildingList: Building[] = [];
 
-    static allBuildingList: Building[] = [
-        new Building('金矿', 'money', 10, 2, 5),
-    ];
-    static getBuildingByName(name: string): Building {
-        if (Province.allBuildingList.find(building => building.name === name)) {
-            return Province.allBuildingList.find(building => building.name === name);
-        }
-        console.log("error: no building named " + name);
-        return null;
-    }
 
     //可建造的建筑列表
-    buildableBuildingList: Building[] = Province.allBuildingList;
+    buildableBuildingList: Building[] = Building.allBuildingList;
+    //可招募的单位
+    recruitableList: UnitParam[] = UnitParam.allUnitParamList;
 
+    //生产队列
+    productQueue: ProductingItem[] = [];
+
+    //残留生产力
+    productionLeft: number = 0;
 
     onStart(): void {
         console.log("province start");
@@ -49,8 +63,8 @@ export class Province extends Behaviour {
     onUpdate(): void {
         this.gameObject.onClick = () => {
             console.log("province is clicked")
-            if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof Soilder) {
-                const soilder = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as Soilder;
+            if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof UnitBehaviour) {
+                const soilder = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as UnitBehaviour;
                 soilder.moveToProvince(this);
             }
             getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
@@ -85,39 +99,66 @@ export class Province extends Behaviour {
     }
 
     changeNationId(nationId: number) {
+        //改变领地所属国家
         this.nationId = nationId;
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
     }
 
     updateApCost(apCostPlused: number = 0) {
+        //更新行动力消耗
         this.apCost = 1 + this.lakePercent * 5 + this.forestPercent * 2 + this.mountainPercent * 10 + apCostPlused;
         this.apCost = Math.floor(this.apCost);
     }
 
-    updateProduction(productionPlused: number = 0) {
-        this.production = 5 + this.plainPercent * 10 + this.lakePercent * 5 + this.forestPercent * 20 + productionPlused;
+    updateProduction() {
+        //更新省份产出
+        this.provinceProduction.dora = 5 + this.plainPercent * 10 + this.lakePercent * 5 + this.forestPercent * 20;
+        this.provinceProduction.production = 5 + this.plainPercent * 10 + this.lakePercent * 5 + this.forestPercent * 20;
+        for (const building of this.buildingList) {
+            this.provinceProduction = this.provinceProduction.add(building.buildingProduction);
+        }
+        this.provinceProduction.floor();
     }
 
     giveOwnerProduction() {
+        //给予所属国家产出
         if (this.nationId > 0) {
-            NationManager.nationList[this.nationId].money += this.production;
+            Nation.nationList[this.nationId].dora += this.provinceProduction.dora;
         }
     }
 
-    updateBuildingInfo() {
-        console.log("updateBuildingInfo");
-        for (let i = 0; i < this.buildingList.length; i++) {
-            if (this.buildingList[i].status == 'building') {
-                this.buildingList[i].buildTimeLeft--;
-                if (this.buildingList[i].buildTimeLeft == 0) {
-                    this.buildingList[i].status = 'finished';
-                    this.updateProduction(this.buildingList[i].production);
-                }
+    updateProductProcess() {
+        //推进生产队列
+        console.log("updateProductProcess");
+        const currentItem = this.productQueue[0];
+        if (this.productQueue.length > 0) {
+            currentItem.productProcess += this.provinceProduction.production + this.productionLeft;
+            this.productionLeft = 0;
+        }
+
+        //生产完成
+        if (this.productQueue.length > 0 && currentItem.productProcess >= currentItem.productProcessMax) {
+            this.productionLeft = currentItem.productProcess - currentItem.productProcessMax;  //残留生产力
+            this.productQueue.shift();
+            if (currentItem.productType == 'building') {
+                const newBuilding = Building.copyBuilding(Building.getBuildingByName(currentItem.productName));
+                this.buildingList.push(newBuilding);
+                this.updateProduction();
+            }
+            else if (currentItem.productType == 'unit') {
+                const newUnitParam = UnitParam.copyUnitParam(UnitParam.getUnitParamByName(currentItem.productName), 1);
+                const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
+                const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
+                prefabBehavior.unitParam = newUnitParam;
+                prefabBehavior.soidlerCoor = this.coord;
+                getGameObjectById("UnitRoot").addChild(newUnitPrefab);
+            }
+            else {
+                console.log("无法识别的生产类型")
             }
         }
     }
 }
-
 // 1. Province：地块属性——Behavior
 //   1. nationId 阵营归属：number
 //     1. 0 代表无归属（野地），1 为玩家，2 及以上代表 AI，每个数字都是一个 AI 的 ID

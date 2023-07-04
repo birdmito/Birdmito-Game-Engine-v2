@@ -17,7 +17,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: ProvinceManager
+      - type: ProvinceGenerator
     children: []
   - id: SelectedObjectInfoMangaer
     behaviours:
@@ -30,8 +30,20 @@ children:
           rotation: 0
       - type: SelectedObjectInfoMangaer
     children: []
-  - id: SoliderPrefab
-    behaviours: []
-    children: []
-    prefab:
-      type: SoildersPrefabBinding
+  - id: UnitRoot
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children: 
+    - id: UnitPrefab
+      behaviours: []
+      children: []
+      prefab:
+        type: UnitPrefabBinding
+
+      

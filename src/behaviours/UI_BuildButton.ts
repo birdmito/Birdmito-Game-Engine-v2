@@ -1,5 +1,5 @@
-import { UI_buildWindowPrefabBinding } from "../bindings/UI_buildWindowPrefabBinding";
-import { UI_buildingPrefabBinding } from "../bindings/UI_buildingPrefabBinding";
+import { UI_productWindowPrefabBinding } from "../bindings/UI_buildWindowPrefabBinding";
+import { UI_itemPrefabBinding as UI_itemPrefabBinding } from "../bindings/UI_itemPrefabBinding";
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
@@ -11,20 +11,21 @@ export class UI_BuildButton extends Behaviour {
     onStart(): void {
 
         this.gameObject.onMouseLeftDown = () => {
-            const buildWindow = this.gameObject.engine.createPrefab(new UI_buildWindowPrefabBinding);
+            const buildWindow = this.gameObject.engine.createPrefab(new UI_productWindowPrefabBinding);
+            // if (getGameObjectById("UI_productWindow")) {
+            //     getGameObjectById("UI_productWindow").destroy();  // 如果已经存在，就销毁
+            // }
             const provinceToBuild = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as Province;
-            for (const Building of provinceToBuild.buildableBuildingList) {
-                const buildingUiBinding = new UI_buildingPrefabBinding;
-                buildingUiBinding.buildingInfo = "建筑名：" + Building.name +
-                    "\n建造花费：" + Building.cost + "\n建造回合数：" + Building.buildTime + "\n建筑产出：" + Building.production;
-                buildingUiBinding.buildingEventText = "建造";
-                buildingUiBinding.buildingName = Building.name;
+            for (const building of provinceToBuild.buildableBuildingList) {
+                const buildingUiBinding = new UI_itemPrefabBinding;
+                buildingUiBinding.itemInfo = building.getInfo();
+                buildingUiBinding.itemClickEventText = "建造";
+                buildingUiBinding.item = building.name;
                 const buildingPrefab = this.gameObject.engine.createPrefab(buildingUiBinding);
-                buildingPrefab.getBehaviour(Transform).y = 30 + provinceToBuild.buildableBuildingList.indexOf(Building) * 40;
-                buildWindow.addChild(buildingPrefab);
+                buildWindow.children[1].addChild(buildingPrefab);
             }
-            this.gameObject.parent.addChild(buildWindow);
-            // getGameObjectById("BuildWindowRoot").addChild(buildWindow);
+            getGameObjectById("ProductWindowRoot").addChild(buildWindow);
+            // this.gameObject.parent.addChild(buildWindow);
         }
     }
 

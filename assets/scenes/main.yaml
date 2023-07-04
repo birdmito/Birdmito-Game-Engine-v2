@@ -7,6 +7,8 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
+      boundWidth: '100'
+      boundHeight: '100'
 children:
   - id: sceneRoot
     behaviours:
@@ -17,7 +19,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-          anchorType: "left-top"
+          anchorType: left-top
           boundWidth: 1920
           boundHeight: 1080
       - type: GameStateBehaviour
@@ -36,6 +38,8 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+          boundWidth: '100'
+          boundHeight: '100'
       - type: Camera
       - type: CameraController
     children:
@@ -45,7 +49,9 @@ children:
             properties:
               x: 0
               y: 0
-              scaleX: 1
-              scaleY: 1
+              scaleX: 0.7
+              scaleY: 0.7
               rotation: 0
+              boundWidth: '100'
+              boundHeight: '100'
         children: []

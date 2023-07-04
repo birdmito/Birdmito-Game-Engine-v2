@@ -5,7 +5,7 @@ import { number } from "../engine/validators/number";
 import { GameObject } from "../engine";
 import { Province } from "./Province";
 
-export class ProvinceManager extends Behaviour {
+export class ProvinceGenerator extends Behaviour {
     // @number()
     gridSizeX: number = 10;
     // @number()
@@ -13,7 +13,7 @@ export class ProvinceManager extends Behaviour {
     // @number()
     gridSpace: number = 172;
 
-    static provinces: GameObject[][] = [];
+    // static provinces: GameObject[][] = [];
 
     onStart(): void {
         // 创建六边形网格坐标数组
@@ -26,9 +26,9 @@ export class ProvinceManager extends Behaviour {
                 province.getBehaviour(Transform).y = hexGrid[i][j].y;
                 province.getBehaviour(Province).coord = { x: j, y: i };
                 this.gameObject.addChild(province);
-                if (!ProvinceManager.provinces[j])
-                    ProvinceManager.provinces[j] = [];
-                ProvinceManager.provinces[j][i] = province;
+                if (!Province.provinces[j])
+                Province.provinces[j] = [];
+                Province.provinces[j][i] = province;
             }
         }
     }
@@ -49,14 +49,14 @@ export class ProvinceManager extends Behaviour {
         return hexGrid;
     }
 
-    static updateProvince() {
-        //每回合开始时，所有领地给予所属国家产出
-        for (let i = 0; i < ProvinceManager.provinces.length; i++) {
-            for (let j = 0; j < ProvinceManager.provinces[i].length; j++) {
-                const province = ProvinceManager.provinces[i][j].getBehaviour(Province);
-                province.giveOwnerProduction();
-                province.updateBuildingInfo();
-            }
-        }
-    }
+    // static updateProvince() {
+    //     //每回合开始时，所有领地给予所属国家产出
+    //     for (let i = 0; i < Province.provinces.length; i++) {
+    //         for (let j = 0; j < Province.provinces[i].length; j++) {
+    //             const province = Province.provinces[i][j].getBehaviour(Province);
+    //             province.giveOwnerProduction();
+    //             province.updateBuildingInfo();
+    //         }
+    //     }
+    // }
 }

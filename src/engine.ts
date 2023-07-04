@@ -6,6 +6,7 @@ import { Transform } from "./engine/Transform";
 import { Rectangle } from "./engine/math";
 import { System } from "./engine/systems/System";
 import { CanvasContextRenderingSystem } from "./engine/systems/RenderingSystem";
+import { LayoutGroup } from "./engine/LayoutGroup";
 
 export const gameObjects: { [id: string]: GameObject } = {};
 
@@ -425,7 +426,7 @@ export function createGameObject(data: GameObjectData, gameEngine: GameEngine): 
         gameObjects[data.id] = gameObject;
         gameObject.id = data.id;
     }
-    else{
+    else {
         // 如果没有id，就使用GameObject_uuid的形式
         data.id = `GameObject_${gameObject.uuid}`;
         gameObjects[data.id] = gameObject;

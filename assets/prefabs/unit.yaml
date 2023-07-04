@@ -6,9 +6,9 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-  - type: Soilder
+  - type: UnitBehaviour
   - type: BitmapRenderer
     properties:
       source: ./assets/images/Interface_MilitaryUnit.png
       anchorType: 'center'
-id: Solider
+id: Unit
