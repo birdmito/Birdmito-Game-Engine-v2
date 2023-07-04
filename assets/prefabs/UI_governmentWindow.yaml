@@ -24,6 +24,46 @@ children:
           scaleXForUI: 16
           scaleYForUI: 15
           borderWidthForUI: 30
+  - id: CurrentTech
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 400
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children:
+      - id: CurrentTechText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: 这里应该显示当前科技
+              color: white
+      - id: CurrentTechImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_TextFrame5050.png
+              renderType: 'ui'
+              scaleXForUI: 3
+              scaleYForUI: 1
+              borderWidthForUI: 30
   - id: TechnologyText
     behaviours:
       - type: Transform
@@ -38,12 +78,12 @@ children:
           fontSize: 20
           text: 研究科技
           color: white
-  - id: TechnologyText
+  - id: TechnologyImage
     behaviours:
       - type: Transform
         properties:
           x: 0
-          y: 400
+          y: 200
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -54,6 +94,7 @@ children:
           scaleXForUI: 3
           scaleYForUI: 1
           borderWidthForUI: 30
+      - type: UI_TechButton
   - id: TechWindowRoot
     behaviours:
       - type: Transform

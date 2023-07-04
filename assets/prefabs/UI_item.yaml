@@ -8,7 +8,7 @@ behaviours:
       scaleY: 1
       rotation: 0
 children:
-  - id: buildingImage
+  - id: itemImage
     behaviours:
       - type: Transform
         properties:
@@ -25,7 +25,7 @@ children:
           scaleYForUI: 1
           borderWidthForUI: 30
     children: []
-  - id: buildingInfo
+  - id: itemInfo
     behaviours:
       - type: Transform
         properties:
@@ -40,7 +40,7 @@ children:
           text: '这里应该显示建筑或单位信息'
           color: white
     children: []
-  - id: buildingButton
+  - id: itemButton
     behaviours:
       - type: Transform
         properties:

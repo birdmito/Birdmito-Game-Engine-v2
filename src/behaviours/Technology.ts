@@ -1,7 +1,8 @@
 import { Behaviour } from "../engine/Behaviour";
 import { Nation } from "./Nation";
+import { infoShowable } from "./infoShowable";
 
-export class Technology {
+export class Technology implements infoShowable {
     static allTechList: Technology[] = [
         new Technology("探秘奥坎之径", [], 100),
         new Technology("我来我见我征服", ["探秘奥坎之径"], 200),
@@ -23,14 +24,14 @@ export class Technology {
         new Technology("秘源驱动机械", ["奇迹工坊之路"], 200),
         new Technology("发掘秘源之金", ["奇迹工坊之路"], 200),
         new Technology("机械飞升", ["秘源驱动机械"], 300),
-        new Technology("新型机械工业", ["秘源驱动机械","发掘秘源之金"], 300),
+        new Technology("新型机械工业", ["秘源驱动机械", "发掘秘源之金"], 300),
         new Technology("浪淘尽现黄金", ["发掘秘源之金"], 300),
         new Technology("秘源金销全国", ["发掘秘源之金"], 300),
         new Technology("秘源金再升级", ["发掘秘源之金"], 300),
         new Technology("幻影通讯之径", [], 100),
         new Technology("开发通讯仪器", ["幻影通讯之径"], 200),
         new Technology("翻译各族文字", ["幻影通讯之径"], 200),
-        new Technology("城邦经济契约", ["开发通讯仪器","翻译各族文字"], 300),
+        new Technology("城邦经济契约", ["开发通讯仪器", "翻译各族文字"], 300),
     ];
 
     static getTechByName(nationId: number, techName: string): Technology {
@@ -83,4 +84,8 @@ export class Technology {
     techProcess: number = 0;
     //科技研究所需进度
     techProcessMax: number = 100;
+
+    getInfo(): string {
+        return this.techName + " " + this.techProcess + "/" + this.techProcessMax;
+    }
 }

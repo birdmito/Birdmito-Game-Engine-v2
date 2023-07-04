@@ -1,4 +1,3 @@
-import { UI_governmentWindowPrefabBinding } from "../bindings/UI_GovernmentWindowPrefabBinding";
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";

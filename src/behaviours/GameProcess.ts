@@ -12,7 +12,7 @@ import { Technology } from "./Technology";
 export class GameProcess extends Behaviour {
     onStart(): void {
         this.initialNation();
-        
+
     }
 
     onUpdate(): void {
@@ -55,11 +55,11 @@ export class GameProcess extends Behaviour {
         //更新每个国家当前科技的研究进度
         for (let i = 1; i < Nation.nationList.length - 1; i++) {
             const nation = Nation.nationList[i];
-            if (nation.currentTech) {
-                Technology.getTechByName(i, nation.currentTech).techProcess += nation.techPerTurn;
-                console.log(nation.currentTech);
-                console.log(Technology.getTechByName(nation.nationId, nation.currentTech).techProcess);
-                console.log(Technology.getTechByName(nation.nationId, nation.currentTech).techProcessMax);
+            if (nation.currentTechName) {
+                Technology.getTechByName(i, nation.currentTechName).techProcess += nation.techPerTurn;
+                console.log(nation.currentTechName);
+                console.log(Technology.getTechByName(nation.nationId, nation.currentTechName).techProcess);
+                console.log(Technology.getTechByName(nation.nationId, nation.currentTechName).techProcessMax);
             }
         }
     }
