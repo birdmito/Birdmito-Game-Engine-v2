@@ -52,34 +52,16 @@ export class Technology implements infoShowable {
         return techList;
     }
 
-    static getAvailableTech(nationId: number): Technology[] {
-        let techList: Technology[] = [];
-        for (let i = 0; i < Nation.nationList[nationId].techTree.length; i++) {
-            var isAvailable = true;
-            let tech = Nation.nationList[nationId].techTree[i];
-            for (const preTech of tech.preTech) {
-                if (this.getTechByName(nationId, preTech).techProcess < this.getTechByName(nationId, preTech).techProcessMax) {
-                    isAvailable = false;
-                    break;
-                }
-            }
-            if (isAvailable) {
-                techList.push(tech);
-            }
-        }
-        return techList;
-    }
-
     private constructor(techName: string, preTech: string[], techProcessMax: number) {
         this.techName = techName;
-        this.preTech = preTech;
+        this.preTechName = preTech;
         this.techProcessMax = techProcessMax;
     }
 
     //科技名称
     techName: string = "科技";
     //前置科技
-    preTech: string[] = [];
+    preTechName: string[] = [];
     //科技研究进度
     techProcess: number = 0;
     //科技研究所需进度

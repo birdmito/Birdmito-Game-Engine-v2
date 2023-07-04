@@ -26,8 +26,10 @@ export class UI_Government extends Behaviour {
                 getGameObjectById("GovernmentWindowRoot").children[0].destroy();
             }
             getGameObjectById("GovernmentWindowRoot").addChild(governmentWindow);//更新玩家帝国当前科技显示 
-            getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
-                "当前科技：" + Technology.getTechByName(1, Nation.nationList[1].currentTechName).getInfo();
+            if (Nation.nationList[1].currentTechName !== '') {
+                getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
+                    "当前科技：" + Technology.getTechByName(1, Nation.nationList[1].currentTechName).getInfo();
+            }
         }
     }
 }
