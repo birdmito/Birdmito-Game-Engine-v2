@@ -11,6 +11,7 @@ import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 export class GameProcess extends Behaviour {
     onStart(): void {
         this.initialNation();
+        
     }
 
     onUpdate(): void {

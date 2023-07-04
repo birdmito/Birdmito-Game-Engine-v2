@@ -203,11 +203,15 @@ export class GameEngine {
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.clearRect(0, 0, canvas.width, canvas.height);
 
+        //OPTIMIZE 绘制1920*1080的红色矩形边框
+        context.strokeStyle = "red";
+        context.strokeRect(0, 0, 1920*0.7, 1080*0.7);
+
         for (const system of this.systems) {
             system.onUpdate();
         }
         for (const system of this.systems) {
-            system.onLaterUpdate();
+            system.onLaterUpdate();22
         }
         this.lastTime = advancedTime;
     }
