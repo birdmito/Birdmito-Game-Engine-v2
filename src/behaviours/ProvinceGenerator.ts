@@ -19,7 +19,7 @@ export class ProvinceGenerator extends Behaviour {
     onStart(): void {
 
 
-        const mapGenerator = new MapGenerator(this.gridSizeX, this.gridSizeY, this.landPercentage, landNum);
+        const mapGenerator = new MapGenerator(this.gridSizeX, this.gridSizeY, this.landPercentage, this.landNum);
         const generatedTerrain: TerrainType[][] = mapGenerator.generateMap();
 
         // // 为岛屿设置随机地形类型
