@@ -1,0 +1,17 @@
+id: Ai_Enemies
+behaviours:
+  - type: Transform
+    properties:
+      x: 400
+      y: 100
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+      boundWidth: '100'
+      boundHeight: '100'
+  - type: Ai_Enemies       
+  - type: TextRenderer
+    properties:
+      fontSize: 40
+      text: 'Ai'
+children: []

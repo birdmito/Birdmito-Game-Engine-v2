@@ -4,7 +4,7 @@ import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Transform } from "../engine/Transform";
 
-export class ScrollBarBehaviour extends Behaviour {
+export class ScrollBar extends Behaviour {
 
     textArea: GameObject
     up: GameObject

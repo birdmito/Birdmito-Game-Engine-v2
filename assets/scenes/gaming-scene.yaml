@@ -7,6 +7,8 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
+      boundWidth: '100'
+      boundHeight: '100'
 children:
   - id: Map
     behaviours:
@@ -28,6 +30,8 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+          boundWidth: '100'
+          boundHeight: '100'
       - type: SelectedObjectInfoMangaer
     children: []
   - id: UnitRoot
@@ -46,4 +50,10 @@ children:
       prefab:
         type: UnitPrefabBinding
 
-      
+        - id: AIEnemiesPrefab
+    behaviours: []
+    children: []
+    prefab:
+      type: Ai_EnemiesPrefabBinding
+
+
