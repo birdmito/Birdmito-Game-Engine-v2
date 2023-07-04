@@ -8,6 +8,28 @@ behaviours:
       scaleY: 1
       rotation: 0
 children:
+  - id: GovernmentWindowRoot
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/TEST19201080.png
+    id: BackgroundImage
+  - behaviours:
   - id: gameOverImage
     behaviours:
       - type: Transform
@@ -46,8 +68,8 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 0
+              x: -90
+              y: -90
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -100,13 +122,13 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 1695
-          y: 755
+          x: 1530
+          y: 1015
           scaleX: 1
           scaleY: 1
           rotation: 0
     children:
-      - id: SettingImage
+      - id: SettingImage #设置按钮
         behaviours:
           - type: Transform
             properties:

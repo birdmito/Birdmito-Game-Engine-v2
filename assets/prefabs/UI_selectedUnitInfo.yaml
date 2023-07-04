@@ -42,7 +42,7 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_Panel_1.png
+              source: ./assets/images/ScreenArt_Unit.png
         children: []   
       - id: UnitInfoLayer3
         behaviours:

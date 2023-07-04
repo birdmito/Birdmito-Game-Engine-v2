@@ -12,6 +12,7 @@ import { Technology } from "./Technology";
 export class GameProcess extends Behaviour {
     onStart(): void {
         this.initialNation();
+        
     }
 
     onUpdate(): void {
