@@ -8,39 +8,40 @@ import { MapGenerator, TerrainType } from "./MapGenerator";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 
 export class ProvinceGenerator extends Behaviour {
-    gridSizeX: number = 50;
-    gridSizeY: number = 50;
+    gridSizeX: number = 70;
+    gridSizeY: number = 70;
     gridSpace: number = 172;
-    landPercentage: number = 20;
+    landPercentage: number = 40;
+    landNum: number = 10;
 
     // static provinces: GameObject[][] = [];
 
     onStart(): void {
 
 
-        const mapGenerator = new MapGenerator(this.gridSizeX, this.gridSizeY, this.landPercentage);
-        const generatedTerrain:TerrainType[][] = mapGenerator.generateMap();
+        const mapGenerator = new MapGenerator(this.gridSizeX, this.gridSizeY, this.landPercentage, landNum);
+        const generatedTerrain: TerrainType[][] = mapGenerator.generateMap();
 
-          // 为岛屿设置随机地形类型
-        const numIslands = Math.floor((this.gridSizeX * this.gridSizeY * this.landPercentage) / 100);
-    
-        for (let i = 0; i < numIslands; i++) {
-        const islandX = Math.floor(Math.random() * this.gridSizeX);
-        const islandY = Math.floor(Math.random() * this.gridSizeY);
-        
-        // 随机分配地形类型给岛屿方块
-        const randomNum = Math.random();
-        if (randomNum < 0.25) {
-            generatedTerrain[islandY][islandX] = TerrainType.Plain;     // 平原
-        } else if (randomNum < 0.6) {                    // 更新此条件
-            generatedTerrain[islandY][islandX] = TerrainType.Mountain;  // 山脉
-        } else {
-            generatedTerrain[islandY][islandX] = TerrainType.Forest;    // 森林
-        }
-        }
+        // // 为岛屿设置随机地形类型
+        // const numIslands = Math.floor((this.gridSizeX * this.gridSizeY * this.landPercentage) / 1000);
+
+        // for (let i = 0; i < numIslands; i++) {
+        //     const islandX = Math.floor(Math.random() * this.gridSizeX);
+        //     const islandY = Math.floor(Math.random() * this.gridSizeY);
+
+        //     // 随机分配地形类型给岛屿方块
+        //     const randomNum = Math.random();
+        //     if (randomNum < 0.25) {
+        //         generatedTerrain[islandY][islandX] = TerrainType.Plain;     // 平原
+        //     } else if (randomNum < 0.6) {                    // 更新此条件
+        //         generatedTerrain[islandY][islandX] = TerrainType.Mountain;  // 山脉
+        //     } else {
+        //         generatedTerrain[islandY][islandX] = TerrainType.Forest;    // 森林
+        //     }
+        // }
 
         console.log(generatedTerrain);
-        
+
         // 创建六边形网格坐标数组
         const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
         // 创建省份
@@ -57,7 +58,7 @@ export class ProvinceGenerator extends Behaviour {
                 Province.provinces[j][i] = province;
 
                 console.log(generatedTerrain[j][i]);
-                switch(generatedTerrain[j][i]) {
+                switch (generatedTerrain[j][i]) {
                     case 0:
                         provinceBehaviour.isOwnable = false;
                         break;
@@ -69,7 +70,7 @@ export class ProvinceGenerator extends Behaviour {
             }
         }
 
-        
+
 
 
 
@@ -92,26 +93,26 @@ export class ProvinceGenerator extends Behaviour {
     }
 
 
-    randomSubTerrain(provinceBehaviour:Province, mainTerrain:TerrainType) {
-        const mainRandomPercent = (Math.random() +1)/2;
+    randomSubTerrain(provinceBehaviour: Province, mainTerrain: TerrainType) {
+        const mainRandomPercent = (Math.random() + 1) / 2;
         const subRandomPercent1 = Math.random() * (1 - mainRandomPercent)
         const subRandomPercent2 = Math.random() * (1 - mainRandomPercent - subRandomPercent1)
-        const subRandomPercent3 = 1 -mainRandomPercent- subRandomPercent1 - subRandomPercent2;
+        const subRandomPercent3 = 1 - mainRandomPercent - subRandomPercent1 - subRandomPercent2;
 
         console.log("mainTerrain: " + mainTerrain + " Percent: " + mainRandomPercent);
 
-        switch(mainTerrain) {
-            case TerrainType.Ocean: 
+        switch (mainTerrain) {
+            case TerrainType.Ocean:
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainOcean.png';
                 break;
-            case TerrainType.Plain: 
+            case TerrainType.Plain:
                 provinceBehaviour.plainPercent = mainRandomPercent;
                 provinceBehaviour.forestPercent = subRandomPercent1;
                 provinceBehaviour.mountainPercent = subRandomPercent2;
                 provinceBehaviour.lakePercent = subRandomPercent3;
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainPlain.png';
                 break;
-            case TerrainType.Forest: 
+            case TerrainType.Forest:
                 provinceBehaviour.forestPercent = mainRandomPercent;
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.mountainPercent = subRandomPercent2;
@@ -136,7 +137,7 @@ export class ProvinceGenerator extends Behaviour {
 
 
     }
-    
+
     // 创建六边形网格坐标数组
     createHexGrid(gridSizeX, gridSizeY, spacing) {
         const hexGrid = [];

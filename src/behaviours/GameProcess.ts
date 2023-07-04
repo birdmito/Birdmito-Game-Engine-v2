@@ -49,7 +49,7 @@ export class GameProcess extends Behaviour {
         //更新所有单位的ap
         if (getGameObjectById("Soilder")) {
             const soilder = getGameObjectById("Soilder").getBehaviour(UnitBehaviour);
-            soilder.ap = soilder.apMax;
+            soilder.unitParam.ap = soilder.unitParam.apMax;
         }
     }
 
