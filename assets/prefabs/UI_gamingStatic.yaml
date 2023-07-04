@@ -8,19 +8,8 @@ behaviours:
       scaleY: 1
       rotation: 0
 children:
-  - behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/TEST19201080.png
-    id: BackgroundImage
-  - behaviours:
+  - id: gameOverImage
+    behaviours:
       - type: Transform
         properties:
           x: 0
@@ -66,8 +55,8 @@ children:
             properties:
               source: ./assets/images/Interface_ButtonRound.png
               anchorType: center
-        id: NextTurnImage
-      - behaviours:
+      - id: NextTurnImage
+        behaviours:
           - type: Transform
             properties:
               x: 10
