@@ -1,3 +1,4 @@
+id: UI_gamingStatic
 behaviours:
   - type: Transform
     properties:
@@ -6,7 +7,6 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-id: GamingStaticUI
 children:
   - behaviours:
       - type: Transform
@@ -18,9 +18,24 @@ children:
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: ./assets/images/TESTTransparent.png
-    id: gameOverImage
+          source: ./assets/images/TEST19201080.png
+    id: BackgroundImage
   - behaviours:
+  - id: gameOverImage
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/TESTTransparent.png
+    children: []
+  - id: gameProcess
+    behaviours:
       - type: Transform
         properties:
           x: 0
@@ -29,18 +44,19 @@ children:
           scaleY: 1
           rotation: 0
       - type: GameProcess
-    id: gameProcess
-  - behaviours:
+    children: []
+  - id: NextTurnUI
+    behaviours:
       - type: Transform
         properties:
-          x: 1720
-          y: 880
+          x: 1920
+          y: 1080
           scaleX: 1
           scaleY: 1
           rotation: 0
-    id: NextTurnUI
     children:
-      - behaviours:
+      - id: NextTurnImage
+        behaviours:
           - type: Transform
             properties:
               x: 0
@@ -50,11 +66,8 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 1
-              scaleYForUI: 1
-              borderWidthForUI: 30
+              source: ./assets/images/Interface_ButtonRound.png
+              anchorType: center
         id: NextTurnImage
       - behaviours:
           - type: Transform
@@ -66,127 +79,145 @@ children:
               rotation: 0
           - type: TextRenderer
             properties:
-              text: 下一回合
               fontSize: 20
+              text: 下一回合
               color: white
           - type: UI_NextTurnButton
-        id: NextTurnButton
-  - behaviours:
-    - type: Transform
-      properties:
-        x: 1720
-        y: 950
-        scaleX: 1
-        scaleY: 1
-        rotation: 0
-    id: turnDisplay
+        children: []
+  - id: turnDisplay
+    behaviours:
+      - type: Transform
+        properties:
+          x: 1720
+          y: 950
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
     children:
-      - behaviours:
-        - type: Transform
-          properties:
-            x: 10
-            y: 35
-            scaleX: 1
-            scaleY: 1
-            rotation: 0
-        - type: TextRenderer
-          properties:
-            text: 这里应该显示回合数
-            fontSize: 20
-            color: white
-        id: TurnText
-  - behaviours:
-    - type: Transform
-      properties:
-        x: 1720
-        y: 100
-        scaleX: 1
-        scaleY: 1
-        rotation: 0
-    id: SettingButton
+      - id: TurnText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 10
+              y: 35
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: 这里应该显示回合数
+              color: white
+        children: []
+  - id: SettingButton
+    behaviours:
+      - type: Transform
+        properties:
+          x: 1695
+          y: 755
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
     children:
-      - behaviours:
-        - type: Transform
-          properties:
-            x: 0
-            y: 0
-            scaleX: 1
-            scaleY: 1
-            rotation: 0
-        - type: BitmapRenderer
-          properties:
-            source: ./assets/images/Icon_TextFrame5050.png
-            renderType: 'ui'
-            scaleXForUI: 1
-            scaleYForUI: 1
-            borderWidthForUI: 30
-        id: SettingImage
-      - behaviours:
-        - type: Transform
-          properties:
-            x: 10
-            y: 35
-            scaleX: 1
-            scaleY: 1
-            rotation: 0
-        - type: TextRenderer
-          properties:
-            text: '设置'
-            fontSize: 20
-            color: white
-        - type: UI_SettingButton
-        id: SettingButton
-  - behaviours:
-    - type: Transform
-      properties:
-        x: 0
-        y: 0
-        scaleX: 1
-        scaleY: 1
-        rotation: 0
-    id: Government
-    children: 
-      - behaviours:
-        - type: Transform
-          properties:
-            x: 0
-            y: 0
-            scaleX: 1
-            scaleY: 1
-            rotation: 0
-        - type: BitmapRenderer
-          properties:
-            source: ./assets/images/Icon_TextFrame5050.png
-            renderType: 'ui'
-            scaleXForUI: 8
-            scaleYForUI: 1
-            borderWidthForUI: 30
-        id: GovernmentBgImage
-      - behaviours:
-        - type: Transform
-          properties:
-            x: 10
-            y: 35
-            scaleX: 1
-            scaleY: 1
-            rotation: 0
-        - type: TextRenderer
-          properties:
-            text: '政府'
-            fontSize: 20
-            color: white
-        id: GovernmentText
-      - behaviours:
-        - type: Transform
-          properties:
-            x: 50
-            y: 35
-            scaleX: 1
-            scaleY: 1
-            rotation: 0
-        - type: TextRenderer
-          properties:
-            text: '金币: 显示金币数谢谢'
-            fontSize: 20
-            color: yellow
-        id: PlayerGoldText
+      - id: SettingImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Interface_ButtonControl.png
+          - type: UI_SettingButton
+        children: []
+  - id: Government
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: UI_Government
+    children:
+      - id: GovernmentBgImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_TextFrame5050.png
+              renderType: ui
+              scaleXForUI: 15
+              scaleYForUI: 1
+              borderWidthForUI: 30
+        children: []
+      - id: GovernmentText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 10
+              y: 35
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: 政府
+              color: white
+        children: []
+      - id: PlayerGoldText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 100
+              y: 35
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示多拉'
+              color: yellow
+        children: []
+      - id: PlayerLevelText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 300
+              y: 35
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示政府等级'
+              color: green
+        children: []
+      - id: PlayerTechText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 500
+              y: 35
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示科技等级'
+              color: blue
+        children: []
