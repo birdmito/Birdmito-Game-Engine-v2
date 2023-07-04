@@ -15,12 +15,34 @@ export class ProvinceManager extends Behaviour {
     gridSizeY: number = 30;
     // @number()
     gridSpace: number = 172;
+    // @number()
+    landPercentage: number = 20;
 
     static provinces: GameObject[][] = [];
 
     onStart(): void {
-        const mapGenerator = new MapGenerator(this.gridSizeX, this.gridSizeY, 20);
+
+        const mapGenerator = new MapGenerator(this.gridSizeX, this.gridSizeY, this.landPercentage);
         const generatedTerrain:TerrainType[][] = mapGenerator.generateMap();
+
+          // 为岛屿设置随机地形类型
+        const numIslands = Math.floor((this.gridSizeX * this.gridSizeY * this.landPercentage) / 100);
+    
+        for (let i = 0; i < numIslands; i++) {
+        const islandX = Math.floor(Math.random() * this.gridSizeX);
+        const islandY = Math.floor(Math.random() * this.gridSizeY);
+        
+        // 随机分配地形类型给岛屿方块
+        const randomNum = Math.random();
+        if (randomNum < 0.25) {
+            generatedTerrain[islandY][islandX] = TerrainType.Plain;     // 平原
+        } else if (randomNum < 0.6) {                    // 更新此条件
+            generatedTerrain[islandY][islandX] = TerrainType.Mountain;  // 山脉
+        } else {
+            generatedTerrain[islandY][islandX] = TerrainType.Forest;    // 森林
+        }
+        }
+
         console.log(generatedTerrain);
         
         // 创建六边形网格坐标数组

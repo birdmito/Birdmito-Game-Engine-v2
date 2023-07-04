@@ -7,6 +7,8 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
+      boundWidth: '100'
+      boundHeight: '100'
 children:
   - id: Map
     behaviours:
@@ -17,6 +19,8 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+          boundWidth: '100'
+          boundHeight: '100'
       - type: ProvinceManager
     children: []
   - id: SelectedObjectInfoMangaer
@@ -28,6 +32,8 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+          boundWidth: '100'
+          boundHeight: '100'
       - type: SelectedObjectInfoMangaer
     children: []
   - id: SoliderPrefab
@@ -35,3 +41,10 @@ children:
     children: []
     prefab:
       type: SoildersPrefabBinding
+  - id: AIEnemiesPrefab
+    behaviours: []
+    children: []
+    prefab:
+      type: Ai_EnemiesPrefabBinding
+
+
