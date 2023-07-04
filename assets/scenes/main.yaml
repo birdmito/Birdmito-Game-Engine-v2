@@ -7,8 +7,6 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-      boundWidth: '100'
-      boundHeight: '100'
 children:
   - id: sceneRoot
     behaviours:
@@ -35,8 +33,6 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-          boundWidth: '100'
-          boundHeight: '100'
       - type: Camera
       - type: CameraController
     children:
@@ -49,6 +45,4 @@ children:
               scaleX: 1
               scaleY: 1
               rotation: 0
-              boundWidth: '100'
-              boundHeight: '100'
         children: []

@@ -15,15 +15,19 @@ import { PhysicsSystem } from "../../PhysicsSystem";
 import { System } from "./System";
 import { ButtonBinding } from "../../bindings/ButtonBinding";
 import { Transform } from "../Transform";
-import { Behaviour } from "../Behaviour";
 import { Camera } from "../../behaviours/Camera";
 import config from "../../../config.json";
 import { gameObjects } from "../../engine";
 import { CameraController } from "../../behaviours/CameraController";
 import { GameStateBehaviour } from "../../behaviours/GameStateBehaviour";
+import { Point, Hexagon, checkPointInHexagon } from "../math";
 
 export class GamePlaySystem extends System {
     onStart(): void {
+        const point: Point = { x: 1.5, y: 0 };
+        const hexagon: Hexagon = { x: 0, y: 0, circumradius: 2 };
+        console.warn(checkPointInHexagon(point, hexagon));
+
         if(getGameObjectById("Camera")){
             console.log("no need for camera");
             return;
@@ -44,7 +48,7 @@ export class GamePlaySystem extends System {
 
         root.addChild(mainCamera);
 
-        console.log(root);
+        // console.log(root);
     }
 
     onUpdate(): void {
