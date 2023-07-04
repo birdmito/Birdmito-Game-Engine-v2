@@ -7,7 +7,6 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-      anchorType: center
 children:
   - id: sceneRoot
     behaviours:
