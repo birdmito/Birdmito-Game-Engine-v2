@@ -129,7 +129,7 @@ export class Province extends Behaviour {
 
     updateProductProcess() {
         //推进生产队列
-        console.log("updateProductProcess");
+        // console.log("updateProductProcess");
         const currentItem = this.productQueue[0];
         if (this.productQueue.length > 0) {
             currentItem.productProcess += this.provinceProduction.production + this.productionLeft;

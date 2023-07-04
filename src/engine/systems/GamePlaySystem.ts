@@ -24,7 +24,7 @@ import { Point, Hexagon, checkPointInHexagon } from "../math";
 
 export class GamePlaySystem extends System {
     onStart(): void {
-        const point: Point = { x: 1.5, y: 0 };
+        const point: Point = { x: 1.5 , y: 0 };
         const hexagon: Hexagon = { x: 0, y: 0, circumradius: 2 };
         console.warn(checkPointInHexagon(point, hexagon));
 

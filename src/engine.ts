@@ -7,6 +7,7 @@ import { Rectangle } from "./engine/math";
 import { System } from "./engine/systems/System";
 import { CanvasContextRenderingSystem } from "./engine/systems/RenderingSystem";
 import { LayoutGroup } from "./engine/LayoutGroup";
+import { AnchorSystem } from "./engine/systems/AnchorSystem";
 
 export const gameObjects: { [id: string]: GameObject } = {};
 
@@ -154,6 +155,9 @@ export class GameEngine {
         const prefabGameObject = this.unserilize(text);
         prefabGameObject.addBehaviour(prefabBinding);
         prefabGameObject.prefabData = prefabBinding;
+
+        this.getSystem(AnchorSystem).calculateContainerBound(prefabGameObject);
+
         return prefabGameObject;
     }
 
