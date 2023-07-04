@@ -50,10 +50,5 @@ children:
       prefab:
         type: UnitPrefabBinding
 
-        - id: AIEnemiesPrefab
-    behaviours: []
-    children: []
-    prefab:
-      type: Ai_EnemiesPrefabBinding
 
 
