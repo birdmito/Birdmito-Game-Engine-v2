@@ -3,12 +3,12 @@ behaviours:
   - type: Transform
     properties:
       x: 0
-      y: 300
+      y: 450
       scaleX: 1
       scaleY: 1
       rotation: 0
 children:
-  - id: ProvinceInfoBgImage
+  - id: ProvinceInfoBgBox
     behaviours:
       - type: Transform
         properties:
@@ -17,10 +17,59 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/Icon_Panel.png
-    children: []
+    children: 
+      - id: ProvinceInfoLayer1
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_Panel_1.png
+        children: []      
+      - id: ProvinceInfoLayer2  #此处需要添加省份景观图片
+        behaviours:
+          - type: Transform
+            properties:
+              x: 15
+              y: 21
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/ScreenArt_ProvinceLake.png
+        children: []   
+      - id: ProvinceInfoLayer3
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_Panel_3.png
+        children: []    
+      - id: ProvinceInfoLayer4
+        behaviours:
+          - type: Transform
+            properties:
+              x: 15
+              y: 15
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/TESTInterface_Country.png
+        children: []     
   - id: ProvinceInfo
     behaviours:
       - type: Transform
@@ -192,8 +241,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 400
-          y: 0
+          x: 408
+          y: 13
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -202,32 +251,14 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 100
+              x: 0
               y: 0
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 0.4
-              scaleYForUI: 0.4
-              borderWidthForUI: 0.3
-      - id: CloseText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 106
-              y: -7
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 40
-              text: ×
-              color: white
+              source: ./assets/images/Icon_Cross.png
           - type: DestroyOnClick
             properties:
               targetID: UI_selectedProvinceInfo
