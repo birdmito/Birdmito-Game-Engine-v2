@@ -62,29 +62,13 @@ children:
           fontSize: 20
           text: 研究科技
           color: white
-  - id: TechnologyImage
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 200
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/Icon_TextFrame5050.png
-          renderType: 'ui'
-          scaleXForUI: 3
-          scaleYForUI: 1
-          borderWidthForUI: 30
       - type: UI_TechButton
   - id: TechWindowRoot
     behaviours:
       - type: Transform
         properties:
-          x: 400
-          y: 400
+          x: 700
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -108,7 +92,7 @@ children:
       - type: Transform
         properties:
           x: 600
-          y: 500
+          y: 550
           scaleX: 1
           scaleY: 1
           rotation: 0

@@ -64,6 +64,7 @@ export class GameProcess extends Behaviour {
                     currentTech.techProcess = currentTech.techProcessMax;
                     console.log(nation.currentTechName + "研究完成");
                     nation.currentTechName = "";
+                    nation.randomTechList = nation.getRandomTechNameList();
                 }
             }
         }

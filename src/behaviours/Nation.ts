@@ -15,6 +15,7 @@ export class Nation {
         this.techTree = Technology.copyAllTechList();
         this.techPerTurn = 0;
         this.currentTechName = '探秘奥坎之径';
+        this.provinceOwnedCoordList = new Array<{ x: number, y: number }>();
     }
     nationId: number = 1;  //1-玩家 >2-AI
     nationName: string = "玩家";
@@ -26,6 +27,9 @@ export class Nation {
     techTree: Technology[] = Technology.copyAllTechList();
     currentTechName: string = '探秘奥坎之径'
     randomTechList: Technology[] = [];
+
+    provinceOwnedCoordList: { x: number, y: number }[] = [];
+    //Nation.nationList[1].provinceOwnedCoordList 玩家所拥有的所有地块列表
 
     getRandomTechNameList(): Technology[] {
         //遍历玩家可研究且未完成的科技，并从中随机抽取三个
