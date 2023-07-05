@@ -15,19 +15,8 @@ export class UI_TechButton extends Behaviour {
             }
             const newTechWindow = this.engine.createPrefab(new UI_techWindowPrefabBinding)
             const itemRoot = newTechWindow.getChildById("TechWindowItemListRoot");
-            //遍历玩家可研究的科技，并从中随机抽取三个
-            const nation = Nation.nationList[1];
-            const techList = Technology.getAvailableTech(nation.nationId);
-            const techListRandom: Technology[] = [];
-            //不重复的抽取三个科技
-            while (techListRandom.length < 3) {
-                const random = Math.floor(Math.random() * techList.length);
-                if (!techListRandom.includes(techList[random])) {
-                    techListRandom.push(techList[random]);
-                }
-            }
 
-            for (const techRandom of techListRandom) {
+            for (const techRandom of Nation.nationList[1].randomTechList) {
                 const techItemBinding = new UI_itemPrefabBinding();
                 console.log("添加科技" + techRandom.techName + "到科技窗口")
                 techItemBinding.item = techRandom.techName;
@@ -37,6 +26,11 @@ export class UI_TechButton extends Behaviour {
                 itemRoot.addChild(techItem);
             }
             techWindowRoot.addChild(newTechWindow);
+        }
+
+        if (Nation.nationList[1].currentTechName !== '') {
+            getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
+                "当前科技：" + Technology.getTechByName(1, Nation.nationList[1].currentTechName).getInfo();
         }
     }
 }

@@ -103,6 +103,9 @@ export class Province extends Behaviour {
         //改变领地所属国家
         this.nationId = nationId;
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
+        if (nationId > 0) {
+            Nation.nationList[nationId].provinceOwnedCoordList.push(this.coord);
+        }
     }
 
     updateApCost(apCostPlused: number = 0) {
