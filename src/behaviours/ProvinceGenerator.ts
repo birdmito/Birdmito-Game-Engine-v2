@@ -8,10 +8,10 @@ import { MapGenerator, TerrainType } from "./MapGenerator";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 
 export class ProvinceGenerator extends Behaviour {
-    gridSizeX: number = 50;
-    gridSizeY: number = 50;
+    gridSizeX: number = 20;
+    gridSizeY: number = 20;
     gridSpace: number = 172;
-    landPercentage: number = 20;
+    landPercentage: number = 10;
 
     // static provinces: GameObject[][] = [];
 

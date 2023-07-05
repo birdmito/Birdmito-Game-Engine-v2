@@ -7,6 +7,7 @@ import { Nation } from "./Nation";
 import { Province } from "./Province";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
+import { Ai_Enemies } from "./Ai_Enemies";
 
 export class GameProcess extends Behaviour {
     onStart(): void {
@@ -49,8 +50,12 @@ export class GameProcess extends Behaviour {
         //更新所有单位的ap
         if (getGameObjectById("Soilder")) {
             const soilder = getGameObjectById("Soilder").getBehaviour(UnitBehaviour);
-            soilder.ap = soilder.apMax;
+            // soilder.ap = soilder.apMax;
         }
+
+        //更新Ai位置
+        getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
+
     }
 
     gameOver() {
