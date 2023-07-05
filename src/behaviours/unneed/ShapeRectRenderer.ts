@@ -17,6 +17,7 @@ export class ShapeRectRenderer extends Behaviour implements Renderer {
     })
     color = "red";
 
+    hitAreaType: 'rectangle' | 'hexagon' = 'rectangle';
     getBounds(): Rectangle {
         return {
             x: 0,

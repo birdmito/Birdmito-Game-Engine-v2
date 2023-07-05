@@ -1,3 +1,4 @@
+import { s } from "vitest/dist/types-2b1c412e";
 import { Renderer } from "../engine";
 import { Behaviour } from "./Behaviour";
 import { Rectangle } from "./math";
@@ -60,27 +61,6 @@ export class BitmapRenderer extends Behaviour implements Renderer {
     @string()
     anchorType: 'left-top' | 'center-top' | 'right-top' | 'left-center' | 'center' | 'right-center' | 'left-bottom' | 'center-bottom' | 'right-bottom' = 'left-top';
 
-    // 函数逻辑
-    // ---------------------------
-    //TODO 六边形包围盒
-    getBounds(): Rectangle {
-
-        var width = this.image.width;
-        var height = this.image.height;
-
-        if(this.renderType === 'ui'){
-            width = this.uiGridWidth;
-            height = this.uiGridHeight;
-        }
-
-        return {
-            x: this.anchor.x,
-            y: this.anchor.y,
-            width: width,
-            height: height,
-        };
-    }
-
     setAnchor(anchorType) {
 
         var width = this.image.width;
@@ -125,4 +105,51 @@ export class BitmapRenderer extends Behaviour implements Renderer {
                 break;
         }
     }
+
+    // 点击区域包围盒
+    // ---------------------------
+    //TODO 更多包围盒
+    @string()
+    hitAreaType: 'rectangle' | 'hexagon' | 'circle' = 'rectangle';
+    getBounds() {
+        var width = this.image.width;
+        var height = this.image.height;
+
+        switch(this.hitAreaType){
+            case 'rectangle':
+                if(this.renderType === 'ui'){
+                    width = this.uiGridWidth;
+                    height = this.uiGridHeight;
+                }
+                return {
+                    x: this.anchor.x,
+                    y: this.anchor.y,
+                    width: width,
+                    height: height,
+                };
+            case 'hexagon':
+                const circumradius = height / 2;
+                return{
+                    x: this.anchor.x + width / 2,   //因为六边形默认以真实锚点为中心生成，所以需要将中心点映射到图片中心
+                    y: this.anchor.y + height / 2,  //因为六边形默认以真实锚点为中心生成，所以需要将中心点映射到图片中心
+                    circumradius: circumradius
+                }
+            case 'circle':
+                throw new Error('暂未实现circle包围盒');
+            default:
+                this.hitAreaType = 'rectangle';
+                if(this.renderType === 'ui'){
+                    width = this.uiGridWidth;
+                    height = this.uiGridHeight;
+                }
+                return {
+                    x: this.anchor.x,
+                    y: this.anchor.y,
+                    width: width,
+                    height: height,
+                };
+        }
+
+    }
+
 }

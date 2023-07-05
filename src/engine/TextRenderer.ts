@@ -25,27 +25,7 @@ export class TextRenderer extends Behaviour implements Renderer {
     // 锚点类型：左上角，中上，右上角，左中，中心，右中，左下角，中下，右下角
     @string()
     anchorType: 'left-top' | 'center-top' | 'right-top' | 'left-center' | 'center' | 'right-center' | 'left-bottom' | 'center-bottom' | 'right-bottom' = 'left-top';
-
-
-    // 函数逻辑
-    // ---------------------------
-    onStart(): void {
-        this.setAnchor(this.anchorType);
-
-        if (!this.fontSize) {
-            alert('fontSize is required');
-        }
-    }
-
-    getBounds(): Rectangle {
-        return {
-            x: this.anchor.x,
-            y: this.anchor.y - this.fontSize,
-            width: this.measuredTextWidth,
-            height: this.fontSize,
-        }
-    }
-
+    
     setAnchor(anchorType) {
         switch (anchorType) {
             case 'left-top':
@@ -61,6 +41,7 @@ export class TextRenderer extends Behaviour implements Renderer {
                 this.anchor = { x: 0, y: this.fontSize / 2 };
                 break;
             case 'center':
+                //OPTIMIZE
                 this.anchor = { x: -this.measuredTextWidth / 2, y: this.fontSize / 2 };
                 break;
             case 'right-center':
@@ -81,4 +62,34 @@ export class TextRenderer extends Behaviour implements Renderer {
                 break;
         }
     }
+    // 点击区域包围盒
+    // ---------------------------
+     hitAreaType: 'rectangle' | 'hexagon' | 'circle' = 'rectangle';
+
+    getBounds(): Rectangle {
+        return {
+            x: this.anchor.x,
+            y: this.anchor.y - this.fontSize,
+            width: this.measuredTextWidth,
+            height: this.fontSize,
+        }
+    }
+
+    // 函数逻辑
+    // ---------------------------
+    onStart(): void {
+        const canvas = document.getElementById('game') as HTMLCanvasElement;
+        const context = canvas.getContext('2d');
+        this.measuredTextWidth = context.measureText(this.text).width;
+
+        this.setAnchor(this.anchorType);
+
+        if (!this.fontSize) {
+            alert('fontSize is required');
+        }
+    }
+
+
+
+
 }
