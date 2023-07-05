@@ -49,7 +49,6 @@ export class CanvasContextRenderingSystem extends System {
     
             component.setAnchor(component.anchorType);           
         }
-
         if (
             component instanceof ShapeRectRenderer ||
             component instanceof TextRenderer ||

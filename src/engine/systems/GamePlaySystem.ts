@@ -24,13 +24,13 @@ import { Point, Hexagon, checkPointInHexagon } from "../math";
 
 export class GamePlaySystem extends System {
     onStart(): void {
-        const point: Point = { x: 1.5 , y: 0.4 };
-        const hexagon: Hexagon = { x: 0, y: 0, circumradius: 2 };
-        console.warn(checkPointInHexagon(point, hexagon));
+        // const point: Point = { x: 5 , y: 0.2 };
+        // const hexagon: Hexagon = { x: 0, y: 0, circumradius: 2 };
+        // console.warn(checkPointInHexagon(point, hexagon));
 
         if(getGameObjectById("Camera")){
             console.log("no need for camera");
-            return;
+            return;    
         }
 
         const root = this.rootGameObject.children[0];
@@ -50,12 +50,18 @@ export class GamePlaySystem extends System {
 
         // console.log(root);
     }
-
+    //OPTIMIZE  
+    isPrefab = false;   
     onUpdate(): void {
-        // (rootGameObject) -> Root ? 没有说明是预制体      
+        // (rootGameObject) -> Root ? 没有说明是预制体   
+        if(this.isPrefab){
+            return;
+        }   
         if(!this.rootGameObject.getChildById("Root")){
+            this.isPrefab = true;
             return;
         }
+
         // (rootGameObject) -> Root -> sceneRoot
         const sceneState = this.rootGameObject.children[0].children[0].getBehaviour(GameStateBehaviour).gameState;
         const camera = getGameObjectById("Camera");

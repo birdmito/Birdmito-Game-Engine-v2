@@ -1,8 +1,8 @@
 behaviours:
   - type: Transform
     properties:
-      x: 500
-      y: 400
+      x: 960 #1920/2
+      y: 540 #1080/2
       scaleX: 1
       scaleY: 1
       rotation: 0
@@ -20,10 +20,25 @@ children:
         properties:
           source: ./assets/images/Icon_TextFrame5050.png
           renderType: 'ui'
-          scaleXForUI: 2
-          scaleYForUI: 3
-          borderWidthForUI: 30
+          scaleXForUI: 12
+          scaleYForUI: 12
+          borderWidthForUI: 15
+          anchorType: center
     id: SettingImage
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: -100
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 40
+          text: '游戏菜单'
+          anchorType: center
+    id: SettingText
   - behaviours:
       - type: Transform
         properties:
@@ -36,6 +51,7 @@ children:
         properties:
           fontSize: 40
           text: '游戏暂停'
+          anchorType: center
     id: GameOverText
   - behaviours:
       - type: Transform
@@ -49,6 +65,7 @@ children:
         properties:
           fontSize: 40
           text: '返回主菜单'
+          anchorType: center
       - type: UI_ReturnButton
     id: ReturnButton
   - behaviours:
@@ -63,5 +80,6 @@ children:
         properties:
           fontSize: 40
           text: '继续游戏'
+          anchorType: center
       - type: UI_ContinueButton
     id: ContinueButton
