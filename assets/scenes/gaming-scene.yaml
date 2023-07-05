@@ -7,8 +7,6 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-      boundWidth: '100'
-      boundHeight: '100'
 children:
   - id: Map
     behaviours:
@@ -30,8 +28,6 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-          boundWidth: '100'
-          boundHeight: '100'
       - type: SelectedObjectInfoMangaer
     children: []
   - id: UnitRoot
@@ -43,12 +39,12 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-    children: 
-    - id: UnitPrefab
-      behaviours: []
-      children: []
-      prefab:
-        type: UnitPrefabBinding
+    children:
+      - id: UnitPrefab
+        behaviours: []
+        children: []
+        prefab:
+          type: UnitPrefabBinding
     - id: AiPrefab
       behaviours: []
       children: []

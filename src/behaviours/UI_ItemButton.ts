@@ -64,13 +64,12 @@ export class UI_ItemButton extends Behaviour {
                     //向生产队列中push item
                     targetProvince.productQueue.push(new ProductingItem(this.itemName, UnitParam.getUnitParamByName(this.itemName).recruitProcessMax, 'unit'));
                     Nation.nationList[1].dora -= originUnitParam.cost;
-
-                // const newUnitParam = UnitParam.copyUnitParam(UnitParam.getUnitParamByName(this.itemName), 1);
-                // const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
-                // const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
-                // prefabBehavior.unitParam = newUnitParam;
-                // prefabBehavior.soidlerCoor = targetProvince.coord;
-                // getGameObjectById("UnitRoot").addChild(newUnitPrefab);
+                    break;
+                case "研究":
+                    console.log("研究 is clicked");
+                    //更改当前科技
+                    Nation.nationList[1].currentTechName = this.itemName;
+                    break;
                 default:
                     console.log("Item" + this.gameObject.id + ": " + this.itemName + "没有设置点击事件)");
                     return;

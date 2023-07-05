@@ -15,8 +15,9 @@ export class Building implements infoShowable {
         console.log(this)
     }
     static allBuildingList: Building[] = [
-        new Building('金矿', 10, 30, new Resource(5, 0, 0), new Resource(2, 0, 0), false),
-        new Building('兵营', 50, 50, new Resource(0, 0, 0), new Resource(5, 0, 0), true),
+        new Building('金矿', 100, 30, new Resource(5, 0, 0), new Resource(2, 0, 0), false),
+        new Building('兵营', 200, 50, new Resource(0, 0, 0), new Resource(5, 0, 0), true),
+        new Building('大学', 200, 50, new Resource(0, 0, 5), new Resource(10, 0, 0), false)
     ];
 
     //建筑名称

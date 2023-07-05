@@ -1,5 +1,6 @@
 const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
-// const defaultSceneOrPrefab = "./assets/prefabs/AI_Enemies.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/UI_gamingStatic.yaml";
+
 
 const config = require("./config.json");
 const { app, BrowserWindow, BrowserView, globalShortcut } = require("electron");

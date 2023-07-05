@@ -28,6 +28,44 @@ export type Rectangle = {
     x: number, y: number, width: number, height: number
 }
 
+export type Hexagon = {
+    x: number, y: number, circumradius: number
+}
+
+export function calculateHexagonPoints(hexagon: Hexagon): Point[] {
+    const { x, y, circumradius } = hexagon;
+    const points: Point[] = [];
+    for (let i = 0; i < 6; i++) {
+        const point = {
+            x: x + circumradius * Math.sin(i * Math.PI / 3),
+            y: y + circumradius * Math.cos(i * Math.PI / 3)
+        }
+        points.push(point);
+    }
+    // console.log(points);
+    return points;
+}
+
+export function checkPointInHexagon(point: Point, hexagon: Hexagon) {
+    const { x, y, circumradius } = hexagon;
+    const points = calculateHexagonPoints(hexagon);
+    var intersections = 0;
+
+    for (var i = 0, j = points.length - 1; i < points.length; j = i++) {
+      var point1 = points[i];
+      var point2 = points[j];
+  
+      if (
+        (point1.y > x) !== (point2.y > y) &&
+        x < ((point2.x - point1.x) * (y - point1.y)) / (point2.y - point1.y) + point1.x
+      ) {
+        intersections++;
+      }
+    }
+  
+    return intersections % 2 === 1;
+}
+
 export function checkPointInRectangle(point: Point, rectangle: Rectangle) {
     return (
         point.x >= rectangle.x &&

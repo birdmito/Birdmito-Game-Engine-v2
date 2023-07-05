@@ -8,6 +8,7 @@ import { Province } from "./Province";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Ai_Enemies } from "./Ai_Enemies";
+import { Technology } from "./Technology";
 
 export class GameProcess extends Behaviour {
     onStart(): void {
@@ -51,6 +52,18 @@ export class GameProcess extends Behaviour {
         if (getGameObjectById("Soilder")) {
             const soilder = getGameObjectById("Soilder").getBehaviour(UnitBehaviour);
             // soilder.ap = soilder.apMax;
+            soilder.unitParam.ap = soilder.unitParam.apMax;
+        }
+
+        //更新每个国家当前科技的研究进度
+        for (let i = 1; i < Nation.nationList.length - 1; i++) {
+            const nation = Nation.nationList[i];
+            if (nation.currentTechName) {
+                Technology.getTechByName(i, nation.currentTechName).techProcess += nation.techPerTurn;
+                console.log(nation.currentTechName);
+                console.log(Technology.getTechByName(nation.nationId, nation.currentTechName).techProcess);
+                console.log(Technology.getTechByName(nation.nationId, nation.currentTechName).techProcessMax);
+            }
         }
 
         //更新Ai位置
