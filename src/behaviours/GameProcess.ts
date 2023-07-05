@@ -17,7 +17,7 @@ export class GameProcess extends Behaviour {
 
     onUpdate(): void {
         //更新玩家金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nationList[1].dora.toString();
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nations[1].dora.toString();
     }
 
     //回合
@@ -29,7 +29,7 @@ export class GameProcess extends Behaviour {
     initialNation() {
         for (let i = 0; i < Nation.nationQuantity; i++) {
             const nation = new Nation(i + 1, "玩家", 10000, 1);
-            Nation.nationList[nation.nationId] = nation;
+            Nation.nations[nation.nationId] = nation;
             //nation.randomTechNameList无法在构造器中初始化，因为Technology.getTechByName()需要Nation.techTree
             nation.randomTechList = nation.getRandomTechNameList();
         }
@@ -58,8 +58,8 @@ export class GameProcess extends Behaviour {
         }
 
         //更新每个国家当前科技的研究进度
-        for (let i = 1; i < Nation.nationList.length - 1; i++) {
-            const nation = Nation.nationList[i];
+        for (let i = 1; i < Nation.nations.length - 1; i++) {
+            const nation = Nation.nations[i];
             const currentTech = Technology.getTechByName(nation.nationId, nation.currentTechName);
             if (nation.currentTechName) {
                 currentTech.techProcess += nation.techPerTurn;
@@ -72,8 +72,8 @@ export class GameProcess extends Behaviour {
             }
         }
 
-        //更新Ai位置
-        getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
+        // //更新Ai位置
+        // getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
 
     }
 
@@ -81,7 +81,7 @@ export class GameProcess extends Behaviour {
         console.log("game over");
 
         const tip = this.gameObject.engine.createPrefab(new TextPrefabBinding)
-        if (Nation.nationList[1].dora > 0) {
+        if (Nation.nations[1].dora > 0) {
             tip.getBehaviour(TextPrefabBinding).text = "游戏胜利";
             tip.getBehaviour(TextPrefabBinding).y = 40;
             getGameObjectById("gameOverImage").getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"

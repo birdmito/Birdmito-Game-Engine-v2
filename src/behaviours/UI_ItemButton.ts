@@ -35,11 +35,11 @@ export class UI_ItemButton extends Behaviour {
                         return;
                     }
 
-                    if (Nation.nationList[1].dora >= newBuilding.cost) {
+                    if (Nation.nations[1].dora >= newBuilding.cost) {
                         console.log("建造成功");
                         //向生产队列中push item
                         targetProvince.productQueue.push(new ProductingItem(newBuilding.name, newBuilding.productProcessMax, 'building'));
-                        Nation.nationList[1].dora -= newBuilding.cost;
+                        Nation.nations[1].dora -= newBuilding.cost;
                     }
                     else {
                         console.log("金币不足");
@@ -50,25 +50,25 @@ export class UI_ItemButton extends Behaviour {
                     targetProvince.updateProduction();  //拆除建筑时，资源产出减少
                     console.log("拆除成功");
                     console.log("获得金币：" + originBuilding.cost);
-                    Nation.nationList[1].dora += originBuilding.cost;
+                    Nation.nations[1].dora += originBuilding.cost;
                     break;
                 case "取消":
                     console.log("取消 is clicked");
                     targetProvince.productQueue.splice(this.idInList, 1);  //从生产列表中删除
                     console.log("取消成功");
                     console.log("获得金币：" + originBuilding.cost);
-                    Nation.nationList[1].dora += originBuilding.cost;
+                    Nation.nations[1].dora += originBuilding.cost;
                     break;
                 case "招募":
                     console.log("招募 is clicked");
                     //向生产队列中push item
                     targetProvince.productQueue.push(new ProductingItem(this.itemName, UnitParam.getUnitParamByName(this.itemName).recruitProcessMax, 'unit'));
-                    Nation.nationList[1].dora -= originUnitParam.cost;
+                    Nation.nations[1].dora -= originUnitParam.cost;
                     break;
                 case "研究":
                     console.log("研究 is clicked");
                     //更改当前科技
-                    Nation.nationList[1].currentTechName = this.itemName;
+                    Nation.nations[1].currentTechName = this.itemName;
                     break;
                 default:
                     console.log("Item" + this.gameObject.id + ": " + this.itemName + "没有设置点击事件)");
