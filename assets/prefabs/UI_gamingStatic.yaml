@@ -41,6 +41,121 @@ children:
           rotation: 0
       - type: GameProcess
     children: []
+  - id: MapFrame #地图边框
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children:
+      - id: MapFrameImageTopLeft
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_FrameMap_1.png
+              anchorType: left-top
+      - id: MapFrameImageTopRight
+        behaviours:
+          - type: Transform
+            properties:
+              x: 1920
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 90
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_FrameMap_1.png
+              anchorType: left-top
+      - id: MapFrameImageBottomLeft
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 1080
+              scaleX: 1
+              scaleY: 1
+              rotation: 270
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_FrameMap_1.png
+              anchorType: left-top
+      - id: MapFrameImageBottomRight
+        behaviours:
+          - type: Transform
+            properties:
+              x: 1920
+              y: 1080
+              scaleX: 1
+              scaleY: 1
+              rotation: 180
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_FrameMap_1.png
+              anchorType: left-top
+      - id: MapFrameImageLeft
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_FrameMap_2.png
+              anchorType: left-top
+      - id: MapFrameImageRight
+        behaviours:
+          - type: Transform
+            properties:
+              x: 1920
+              y: 1080
+              scaleX: 1
+              scaleY: 1
+              rotation: 180
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_FrameMap_2.png
+              anchorType: left-top
+      - id: MapFrameImageTop
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_FrameMap_3.png
+              anchorType: left-top
+      - id: MapFrameImageBottom
+        behaviours:
+          - type: Transform
+            properties:
+              x: 1920
+              y: 1080
+              scaleX: 1
+              scaleY: 1
+              rotation: 180
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_FrameMap_3.png
+              anchorType: left-top
+        children: []
   - id: NextTurnUI
     behaviours:
       - type: Transform
@@ -51,12 +166,12 @@ children:
           scaleY: 1
           rotation: 0
     children:
-      - id: NextTurnImage
+      - id: NextTurnImage #下一回合按钮
         behaviours:
           - type: Transform
             properties:
-              x: -90
-              y: -90
+              x: -100
+              y: -100
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -64,7 +179,20 @@ children:
             properties:
               source: ./assets/images/Interface_ButtonRound.png
               anchorType: center
-      - id: NextTurnImage
+      - id: NextTurnFrame #下一回合边框
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_FrameRound.png
+              anchorType: right-bottom
+      - id: NextTurnText
         behaviours:
           - type: Transform
             properties:
@@ -84,8 +212,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 1720
-          y: 950
+          x: 1920
+          y: 1080
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -94,8 +222,8 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 10
-              y: 35
+              x: -99.5
+              y: -99.5
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -104,13 +232,14 @@ children:
               fontSize: 20
               text: 这里应该显示回合数
               color: white
+              anchorType: center
         children: []
   - id: SettingButton
     behaviours:
       - type: Transform
         properties:
           x: 1530
-          y: 1015
+          y: 1020
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -157,20 +286,19 @@ children:
               scaleYForUI: 1
               borderWidthForUI: 30
         children: []
-      - id: GovernmentText
+      - id: GovernmentButton #政府按钮
         behaviours:
           - type: Transform
             properties:
-              x: 10
-              y: 35
+              x: 0
+              y: 0
               scaleX: 1
               scaleY: 1
               rotation: 0
-          - type: TextRenderer
+          - type: BitmapRenderer
             properties:
-              fontSize: 20
-              text: 政府
-              color: white
+              source: ./assets/images/TESTInterface_ButtonCountry.png #这里的政府图标还要更改
+              anchorType: left-top
         children: []
       - id: PlayerGoldText
         behaviours:

@@ -1,14 +1,15 @@
-id: UI_itemInProvinceWindow
+id: UI_tip
 behaviours:
   - type: Transform
     properties:
-      x: 0
-      y: 0
+      x: 1000
+      y: 200
       scaleX: 1
       scaleY: 1
       rotation: 0
+  - type: SelfDestroy
 children:
-  - id: itemImage
+  - id: tipBgImage
     behaviours:
       - type: Transform
         properties:
@@ -21,37 +22,21 @@ children:
         properties:
           source: ./assets/images/Icon_TextFrame5050.png
           renderType: 'ui'
-          scaleXForUI: 1
+          scaleXForUI: 10
           scaleYForUI: 1
           borderWidthForUI: 30
     children: []
-  - id: itemInfo
+  - id: tipText
     behaviours:
       - type: Transform
         properties:
-          x: 100
-          y: 0
+          x: 20
+          y: 20
           scaleX: 1
           scaleY: 1
           rotation: 0
       - type: TextRenderer
         properties:
-          fontSize: 20
-          text: '这里应该显示建筑或单位信息'
+          fontSize: 35
+          text: '这里应该显示提示信息'
           color: white
-    children: []
-  - id: itemButton
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 50
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 25
-          text: '这里应该显示建造、升级、拆除或取消'
-          color: white
-      - type: UI_ItemButton
