@@ -21,7 +21,7 @@ children:
         rotation: 0
     - type: BitmapRenderer
       properties:
-        source: ./assets/images/Map_TerrainPlain.png
+        source: ./assets/images/Map_TerrainPlain_0.png
     id: Terrain
   - behaviours:
     - type: Transform

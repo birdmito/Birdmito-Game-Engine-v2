@@ -14,7 +14,8 @@ export class UI_Government extends Behaviour {
         //更新玩家帝国金钱显示
         getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nations[1].dora.toString();
         //更新玩家帝国等级显示
-        getGameObjectById("PlayerLevelText").getBehaviour(TextRenderer).text = '等级：' + Nation.nations[1].level.toString();
+        getGameObjectById("PlayerLevelText").getBehaviour(TextRenderer).text = '等级：' + Nation.nations[1].level.toString() +
+            " 城市數量：" + Nation.nations[1].cityList.length.toString() + '/' + Nation.nations[1].cityMax.toString();
         //更新玩家帝国科技点增长显示
         getGameObjectById("PlayerTechText").getBehaviour(TextRenderer).text = '科技点：+' + Nation.nations[1].techPerTurn.toString();
 
@@ -28,7 +29,7 @@ export class UI_Government extends Behaviour {
             getGameObjectById("GovernmentWindowRoot").addChild(governmentWindow);//更新玩家帝国当前科技显示 
             if (Nation.nations[1].currentTechName !== '') {
                 getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
-                    "当前科技：" + Technology.getTechByName(1, Nation.nations[1].currentTechName).getInfo();
+                    "当前科技：" + Technology.getNationTechByName(1, Nation.nations[1].currentTechName).getInfo();
             }
         }
     }

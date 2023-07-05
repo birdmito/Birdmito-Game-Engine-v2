@@ -84,7 +84,7 @@ children:
       - type: TextRenderer
         properties:
           fontSize: 20
-          text: 国家升级
+          text: "这里应该显示国家升级及其所需多拉"
           color: white
       - type: UI_UpgradeButton 
   - id: Close

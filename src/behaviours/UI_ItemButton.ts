@@ -1,6 +1,3 @@
-import { EmscriptenRegisteredPointer } from "@zhobo63/imgui-ts/src/emscripten";
-import { UI_productWindowPrefabBinding } from "../bindings/UI_buildWindowPrefabBinding";
-import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";
@@ -12,6 +9,7 @@ import { Resource } from "./Resource";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { UnitParam } from "./UnitParam";
 import { UnitBehaviour } from "./UnitBehaviour";
+import { generateTip } from "./Tip";
 
 //在ui界面中，根据EventText的不同，实现点击后建造或者拆除等生产队列操作
 export class UI_ItemButton extends Behaviour {
@@ -34,6 +32,12 @@ export class UI_ItemButton extends Behaviour {
                         console.log("建筑" + newBuilding.name + "在同一省份中只能建造一次");
                         return;
                     }
+                    //省份最多有10个建筑
+                    if (targetProvince.buildingList.length >= 10) {
+                        console.log("省份最多只能建造10个建筑");
+                        generateTip(this, "省份最多只能建造10个建筑");
+                        return;
+                    }
 
                     if (Nation.nations[1].dora >= newBuilding.cost) {
                         console.log("建造成功");
@@ -43,6 +47,7 @@ export class UI_ItemButton extends Behaviour {
                     }
                     else {
                         console.log("金币不足");
+                        generateTip(this, "金币不足");
                     }
                     break;
                 case "拆除":
@@ -56,8 +61,14 @@ export class UI_ItemButton extends Behaviour {
                     console.log("取消 is clicked");
                     targetProvince.productQueue.splice(this.idInList, 1);  //从生产列表中删除
                     console.log("取消成功");
-                    console.log("获得金币：" + originBuilding.cost);
-                    Nation.nations[1].dora += originBuilding.cost;
+                    if (originBuilding) {
+                        console.log("获得金币：" + originBuilding.cost);
+                        Nation.nations[1].dora += originBuilding.cost;
+                    }
+                    if (originUnitParam) {
+                        console.log("获得金币：" + originUnitParam.cost);
+                        Nation.nations[1].dora += originUnitParam.cost;
+                    }
                     break;
                 case "招募":
                     console.log("招募 is clicked");

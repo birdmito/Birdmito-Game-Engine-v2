@@ -212,7 +212,7 @@ children:
           - type: TextRenderer
             properties:
               fontSize: 20
-              text: '这里应该显示政府等级'
+              text: '这里应该显示政府等级和城市数量'
               color: green
         children: []
       - id: PlayerTechText

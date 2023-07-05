@@ -11,6 +11,7 @@ import { ProductingItem } from "./ProductingItem";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { Binding } from "../bindings/Binding";
 import { UnitParam } from "./UnitParam";
+import { Calculator } from "./Calculator";
 
 export class Province extends Behaviour {
     static provinces: GameObject[][] = [];
@@ -19,8 +20,9 @@ export class Province extends Behaviour {
         for (let i = 0; i < Province.provinces.length; i++) {
             for (let j = 0; j < Province.provinces[i].length; j++) {
                 const province = Province.provinces[i][j].getBehaviour(Province);
-                province.giveOwnerProduction();
-                province.updateProductProcess();
+                province.updateProduction();  //更新领地产出
+                province.giveOwnerProduction();  //给予所属国家产出
+                province.updateProductProcess();  //更新生产队列
             }
         }
     }
@@ -31,6 +33,7 @@ export class Province extends Behaviour {
     isOwnable = true;
     apCost = 1;
     provinceProduction: Resource = new Resource(0, 0, 0);
+    provinceProductionBonus: Resource = new Resource(0, 0, 0);
 
     plainPercent = 0;
     lakePercent = 0;
@@ -38,6 +41,8 @@ export class Province extends Behaviour {
     mountainPercent = 0;
 
     buildingList: Building[] = [];
+
+    isCity: boolean = false;
 
 
     //可建造的建筑列表
@@ -62,7 +67,6 @@ export class Province extends Behaviour {
     }
 
     onUpdate(): void {
-        this.updateProduction();
         this.gameObject.onClick = () => {
             console.log("province is clicked")
             if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof UnitBehaviour) {
@@ -105,7 +109,7 @@ export class Province extends Behaviour {
         this.nationId = nationId;
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
         if (nationId > 0) {
-            Nation.nations[nationId].provinceOwnedCoordList.push(this.coord);
+            Nation.nations[nationId].provinceOwnedList.push(this);
             if (Nation.nations[nationId].capitalProvinceCoord === undefined) {
                 Nation.nations[nationId].capitalProvinceCoord = this.coord;  //将首个被占领的领地设为首都
                 console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvinceCoord);
@@ -121,12 +125,7 @@ export class Province extends Behaviour {
 
     updateProduction() {
         //更新省份产出
-        this.provinceProduction.dora = 5 + this.plainPercent * 10 + this.lakePercent * 20 + this.forestPercent * 10;
-        this.provinceProduction.production = 5 + this.plainPercent * 5 + this.lakePercent * 20 + this.forestPercent * 15;
-        for (const building of this.buildingList) {
-            this.provinceProduction = this.provinceProduction.add(building.buildingProduction);
-        }
-        this.provinceProduction.floor();
+        Calculator.calculateProvinceProduction(this);
     }
 
     giveOwnerProduction() {
@@ -134,6 +133,7 @@ export class Province extends Behaviour {
         //给予所属国家产出
         if (this.nationId > 0) {
             Nation.nations[this.nationId].dora += this.provinceProduction.dora;
+            Nation.nations[this.nationId].techPerTurn += this.provinceProduction.techPoint;
         }
     }
 
@@ -167,6 +167,12 @@ export class Province extends Behaviour {
                 console.log("无法识别的生产类型")
             }
         }
+    }
+
+    becomeCity(): void {
+        //升级为城市
+        this.isCity = true;
+        Nation.nations[this.nationId].cityList.push(this);
     }
 }
 // 1. Province：地块属性——Behavior

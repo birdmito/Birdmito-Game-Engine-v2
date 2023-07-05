@@ -251,7 +251,7 @@ children:
           scaleY: 1
           rotation: 0
     children: []
-  - id: RecuitButton
+  - id: RecruitButton
     behaviours:
       - type: Transform
         properties:
