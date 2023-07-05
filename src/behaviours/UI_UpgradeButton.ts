@@ -6,7 +6,7 @@ import { Nation } from "./Nation";
 export class UI_UpgradeButton extends Behaviour {
     onUpdate(): void {
         this.gameObject.onMouseLeftDown = () => {
-            const playerNation = Nation.nationList[1];
+            const playerNation = Nation.nations[1];
             //判断金币数
             if (playerNation.dora >= playerNation.level * 100) {
                 playerNation.level++;

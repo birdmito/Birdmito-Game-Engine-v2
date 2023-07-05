@@ -74,8 +74,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: 50
+          y: 300
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -94,7 +94,7 @@ children:
               source: ./assets/images/Interface_ButtonExplore.png
           - type: UI_ColonyButton
         children: 
-          - id: UI_ExploreButtonBackGround
+          - id: ColonyText
             behaviours:
               - type: Transform
                 properties:

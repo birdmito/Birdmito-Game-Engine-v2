@@ -62,6 +62,7 @@ export class Province extends Behaviour {
     }
 
     onUpdate(): void {
+        this.updateProduction();
         this.gameObject.onClick = () => {
             console.log("province is clicked")
             if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof UnitBehaviour) {
@@ -104,7 +105,11 @@ export class Province extends Behaviour {
         this.nationId = nationId;
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
         if (nationId > 0) {
-            Nation.nationList[nationId].provinceOwnedCoordList.push(this.coord);
+            Nation.nations[nationId].provinceOwnedCoordList.push(this.coord);
+            if (Nation.nations[nationId].capitalProvinceCoord === undefined) {
+                Nation.nations[nationId].capitalProvinceCoord = this.coord;  //将首个被占领的领地设为首都
+                console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvinceCoord);
+            }
         }
     }
 
@@ -116,8 +121,8 @@ export class Province extends Behaviour {
 
     updateProduction() {
         //更新省份产出
-        this.provinceProduction.dora = 5 + this.plainPercent * 10 + this.lakePercent * 5 + this.forestPercent * 20;
-        this.provinceProduction.production = 5 + this.plainPercent * 10 + this.lakePercent * 5 + this.forestPercent * 20;
+        this.provinceProduction.dora = 5 + this.plainPercent * 10 + this.lakePercent * 20 + this.forestPercent * 10;
+        this.provinceProduction.production = 5 + this.plainPercent * 5 + this.lakePercent * 20 + this.forestPercent * 15;
         for (const building of this.buildingList) {
             this.provinceProduction = this.provinceProduction.add(building.buildingProduction);
         }
@@ -128,7 +133,7 @@ export class Province extends Behaviour {
         // console.log("giveOwnerProduction")
         //给予所属国家产出
         if (this.nationId > 0) {
-            Nation.nationList[this.nationId].dora += this.provinceProduction.dora;
+            Nation.nations[this.nationId].dora += this.provinceProduction.dora;
         }
     }
 

@@ -1,0 +1,42 @@
+id: UI_tip
+behaviours:
+  - type: Transform
+    properties:
+      x: 1000
+      y: 200
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+  - type: SelfDestroy
+children:
+  - id: tipBgImage
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_TextFrame5050.png
+          renderType: 'ui'
+          scaleXForUI: 10
+          scaleYForUI: 1
+          borderWidthForUI: 30
+    children: []
+  - id: tipText
+    behaviours:
+      - type: Transform
+        properties:
+          x: 20
+          y: 20
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 35
+          text: '这里应该显示提示信息'
+          color: white

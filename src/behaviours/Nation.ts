@@ -5,7 +5,7 @@ import { Technology } from "./Technology";
 
 export class Nation {
     static nationQuantity = 2;
-    static nationList: Nation[] = [];
+    static nations: Nation[] = [];
 
     constructor(nationId: number = 1, nationName: string = "玩家", product: number = 0, level: number = 1) {
         this.nationId = nationId;
@@ -16,6 +16,7 @@ export class Nation {
         this.techPerTurn = 0;
         this.currentTechName = '探秘奥坎之径';
         this.provinceOwnedCoordList = new Array<{ x: number, y: number }>();
+        this.capitalProvinceCoord = undefined;
     }
     nationId: number = 1;  //1-玩家 >2-AI
     nationName: string = "玩家";
@@ -29,7 +30,8 @@ export class Nation {
     randomTechList: Technology[] = [];
 
     provinceOwnedCoordList: { x: number, y: number }[] = [];
-    //Nation.nationList[1].provinceOwnedCoordList 玩家所拥有的所有地块列表
+    capitalProvinceCoord: { x: number, y: number };
+    // Nation.nationList[1].provinceOwnedCoordList
 
     getRandomTechNameList(): Technology[] {
         //遍历玩家可研究且未完成的科技，并从中随机抽取三个
