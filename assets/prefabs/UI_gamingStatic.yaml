@@ -192,6 +192,7 @@ children:
             properties:
               source: ./assets/images/Icon_FrameRound.png
               anchorType: right-bottom
+              hitAreaType: none
       - id: NextTurnText
         behaviours:
           - type: Transform

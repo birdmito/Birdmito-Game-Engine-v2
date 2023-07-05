@@ -110,7 +110,7 @@ export class MouseControlSystem extends System {
             const hitAreaType = gameObject.renderer.hitAreaType;
             const result = this.checkPointInHitArea(point, hitAreaType, hitArea)
             if (result) {
-                // console.log("hit", gameObject);
+                // console.log("hit", gameObject.id);
                 return gameObject;
             }
             else {
@@ -140,6 +140,10 @@ export class MouseControlSystem extends System {
                 return checkPointInRectangle(point, hitArea);
             case 'hexagon':
                 return checkPointInHexagon(point, hitArea);
+            case 'circle':
+                return false;
+            case 'none':
+                return false;
             default:
                 throw new Error('未知的hitAreaType,策划请检查.yaml文件并核对hitAreaType，开发请检查Renderer代码');
         }

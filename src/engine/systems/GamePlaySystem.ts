@@ -30,7 +30,7 @@ export class GamePlaySystem extends System {
 
         if(getGameObjectById("Camera")){
             console.log("no need for camera");
-            return;
+            return;    
         }
 
         const root = this.rootGameObject.children[0];
