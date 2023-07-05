@@ -10,19 +10,13 @@ export class Ai_Enemies extends Behaviour {
     aiCoor: { x: number, y: number } = { x: 0, y: 0 };
 
     onStart(): void {
-
         this.updateTransform();
-
     }
 
     onUpdate(): void { 
-
         this.updateTransform();
-
         this.gameObject.onMouseLeftDown = () => {
-
             console.log('enemies is cliceked');
-
         }
     }
 
@@ -35,16 +29,12 @@ export class Ai_Enemies extends Behaviour {
     }
 
     moveToOtherProvinces(): void {
-
-        const playerSoilderCoor = getGameObjectById("Unit").getBehaviour(UnitBehaviour).soidlerCoor
-        this.aiCoor = playerSoilderCoor
-
-        // const playersProvincesCoor = getGameObjectById("Province").getBehaviour(Province).coord;
-        // this.aiCoor = playersProvincesCoor;
-
         const playersProvinces = getGameObjectById("Province").getBehaviour(Province);
-        let playersProvincesID = playersProvinces.nationId;
-
+        const playerSoilderCoor = getGameObjectById("Unit").getBehaviour(UnitBehaviour).soidlerCoor
+        const playersProvincesID = playersProvinces.nationId;   
+        const playersProvincesCoor = playersProvinces.coord;
+        this.aiCoor = playerSoilderCoor
+        // this.aiCoor = playersProvincesCoor;
         if(playersProvincesID === 1) {
             console.log('AI进入玩家省份');
             console.log(playersProvincesID);
@@ -53,28 +43,16 @@ export class Ai_Enemies extends Behaviour {
             console.log('AI进入其他省份');
             console.log(playersProvincesID);
         }
-
-        // const playersProvinces = getGameObjectById("Province").getBehaviour(Province);
-        // let playersProvincesID = playersProvinces.nationId;
-        // if(playersProvincesID === 1 ) {
-        //     console.log('enemies is attacking');
-        //     playersProvinces.changeNationId(0);  
-        // }
-        // else{
-        //     console.log('敌人没有攻击');
-        // }
-
+        
         // this.attack();
-
     }
 
     attack(): void {
         const playersProvinces = getGameObjectById("Province").getBehaviour(Province);
-        let playersProvincesID = playersProvinces.nationId;
+        const playersProvincesID = playersProvinces.nationId;
         if(playersProvincesID == 1 ) {
             console.log('enemies is attacking');
             playersProvinces.changeNationId(0);  
         }
     }
-
 }
