@@ -110,7 +110,7 @@ export class BitmapRenderer extends Behaviour implements Renderer {
     // ---------------------------
     //TODO 更多包围盒
     @string()
-    hitAreaType: 'rectangle' | 'hexagon' | 'circle' = 'rectangle';
+    hitAreaType: 'rectangle' | 'hexagon' | 'circle' | 'none' = 'rectangle';
     getBounds() {
         var width = this.image.width;
         var height = this.image.height;
@@ -136,6 +136,13 @@ export class BitmapRenderer extends Behaviour implements Renderer {
                 }
             case 'circle':
                 throw new Error('暂未实现circle包围盒');
+            case 'none':
+                return{
+                    x: 0,
+                    y: 0,
+                    width: 0,
+                    height: 0,
+                }
             default:
                 this.hitAreaType = 'rectangle';
                 if(this.renderType === 'ui'){
