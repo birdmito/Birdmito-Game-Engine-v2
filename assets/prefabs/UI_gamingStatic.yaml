@@ -294,8 +294,8 @@ children:
             properties:
               x: 0
               y: 0
-              scaleX: 1
-              scaleY: 1
+              scaleX: .75
+              scaleY: .75
               rotation: 0
           - type: BitmapRenderer
             properties:
