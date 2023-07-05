@@ -37,6 +37,7 @@ children:
         properties:
           fontSize: 40
           text: '游戏菜单'
+          anchorType: center
     id: SettingText
   - behaviours:
       - type: Transform
@@ -50,6 +51,7 @@ children:
         properties:
           fontSize: 40
           text: '游戏暂停'
+          anchorType: center
     id: GameOverText
   - behaviours:
       - type: Transform
@@ -63,6 +65,7 @@ children:
         properties:
           fontSize: 40
           text: '返回主菜单'
+          anchorType: center
       - type: UI_ReturnButton
     id: ReturnButton
   - behaviours:
@@ -77,5 +80,6 @@ children:
         properties:
           fontSize: 40
           text: '继续游戏'
+          anchorType: center
       - type: UI_ContinueButton
     id: ContinueButton
