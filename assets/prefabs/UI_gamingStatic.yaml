@@ -51,7 +51,7 @@ children:
           scaleY: 1
           rotation: 0
     children:
-      - id: NextTurnImage
+      - id: NextTurnImage #下一回合按钮
         behaviours:
           - type: Transform
             properties:
@@ -64,7 +64,20 @@ children:
             properties:
               source: ./assets/images/Interface_ButtonRound.png
               anchorType: center
-      - id: NextTurnImage
+      - id: NextTurnFrame #下一回合边框
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_FrameRound.png
+              anchorType: right-bottom
+      - id: NextTurnText
         behaviours:
           - type: Transform
             properties:
@@ -110,7 +123,7 @@ children:
       - type: Transform
         properties:
           x: 1530
-          y: 1015
+          y: 1020
           scaleX: 1
           scaleY: 1
           rotation: 0
