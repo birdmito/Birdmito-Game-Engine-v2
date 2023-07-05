@@ -3,7 +3,7 @@ import { Binding } from "./bindings/Binding";
 import { Behaviour } from "./engine/Behaviour";
 import { ResourceManager } from "./engine/ResourceManager";
 import { Transform } from "./engine/Transform";
-import { Rectangle } from "./engine/math";
+import { Hexagon, Rectangle } from "./engine/math";
 import { System } from "./engine/systems/System";
 import { CanvasContextRenderingSystem } from "./engine/systems/RenderingSystem";
 import { LayoutGroup } from "./engine/LayoutGroup";
@@ -48,6 +48,7 @@ export class GameEngine {
     editorGameObject = new GameObject();
     lastTime: number = 0;
     storeDuringTime: number = 0;
+    deltaTime: number = 0;
     resourceManager = new ResourceManager();
     systems: System[] = [];
 
@@ -201,6 +202,7 @@ export class GameEngine {
             duringTime -= milesecondPerFrame;
         }
         this.storeDuringTime = duringTime;
+        this.deltaTime = advancedTime - this.lastTime;
 
         const canvas = document.getElementById("game") as HTMLCanvasElement;
         const context = canvas.getContext("2d");
@@ -222,8 +224,9 @@ export class GameEngine {
 }
 
 export interface Renderer {
+    hitAreaType;
     setAnchor(anchorType): void;
-    getBounds(): Rectangle;
+    getBounds(): Rectangle | Hexagon;
 }
 
 export interface GameEngineMouseEvent {
