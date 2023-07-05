@@ -32,6 +32,10 @@ export type Hexagon = {
     x: number, y: number, circumradius: number
 }
 
+export type Circle = {
+    x: number, y: number, radius: number
+}
+
 export function calculateHexagonPoints(hexagon: Hexagon): Point[] {
     const { x, y, circumradius } = hexagon;
     const points: Point[] = [];
@@ -47,17 +51,18 @@ export function calculateHexagonPoints(hexagon: Hexagon): Point[] {
 }
 
 export function checkPointInHexagon(point: Point, hexagon: Hexagon) {
-    const { x, y, circumradius } = hexagon;
-    const points = calculateHexagonPoints(hexagon);
     var intersections = 0;
+    const hexagonPoints = calculateHexagonPoints(hexagon);
+    const pointX = point.x;
+    const pointY = point.y;
 
-    for (var i = 0, j = points.length - 1; i < points.length; j = i++) {
-      var point1 = points[i];
-      var point2 = points[j];
+    for (var i = 0, j = hexagonPoints.length - 1; i < hexagonPoints.length; j = i++) {
+      var hexagonPoint1 = hexagonPoints[i];
+      var hexagonPoint2 = hexagonPoints[j];
   
       if (
-        (point1.y > x) !== (point2.y > y) &&
-        x < ((point2.x - point1.x) * (y - point1.y)) / (point2.y - point1.y) + point1.x
+        (hexagonPoint1.y > pointY) !== (hexagonPoint2.y > pointY) &&
+        pointX < ((hexagonPoint2.x - hexagonPoint1.x) * (pointY - hexagonPoint1.y)) / (hexagonPoint2.y - hexagonPoint1.y) + hexagonPoint1.x
       ) {
         intersections++;
       }
@@ -75,8 +80,11 @@ export function checkPointInRectangle(point: Point, rectangle: Rectangle) {
     )
 }
 
-
-
+export function checkPointInCircle(point: Point, circle: Circle) {
+    const { x, y, radius } = circle;
+    const distance = Math.sqrt(Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2));
+    return distance <= radius;
+}
 
 /**
  * 

@@ -23,7 +23,7 @@ children:
           renderType: 'ui'
           scaleXForUI: 14
           scaleYForUI: 10
-          borderWidthForUI: 30
+          borderWidthForUI: 15
     children: []
   - id: TechWindowItemListRoot
     behaviours:
@@ -63,7 +63,7 @@ children:
               renderType: 'ui'
               scaleXForUI: 1
               scaleYForUI: 1
-              borderWidthForUI: 30
+              borderWidthForUI: 15
       - id: CloseText
         behaviours:
           - type: Transform

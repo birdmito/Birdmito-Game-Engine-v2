@@ -8,7 +8,47 @@ behaviours:
       scaleY: 1
       rotation: 0
 children:
-  - id: ProvinceInfoBgBox
+  - id: ProductQueue #生产队列
+    behaviours:
+      - type: Transform
+        properties:
+          x: 410
+          y: 9
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children: 
+      - id: ProductQueueRootBgImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_TextFrame5050.png
+              renderType: 'ui'
+              scaleXForUI: 5
+              scaleYForUI: 12
+              borderWidthForUI: 15
+      - id: ProductQueueRoot
+        behaviours:
+          - type: Transform
+            properties:
+              x: 50
+              y: 0 
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: LayoutGroup
+            properties:
+              layoutType: vertical
+              spacing: 100
+        children: []
+  - id: ProvinceInfoBgBox #省份信息背景框
     behaviours:
       - type: Transform
         properties:
@@ -68,14 +108,14 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/TESTInterface_Country.png
+              source: ./assets/images/TESTInterface_Country.png #此处需要添加国家图标
         children: []     
   - id: ProvinceInfo
     behaviours:
       - type: Transform
         properties:
-          x: 100
-          y: 100
+          x: 50
+          y: 300
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -224,7 +264,7 @@ children:
               renderType: 'ui'
               scaleXForUI: 1
               scaleYForUI: 1
-              borderWidthForUI: 30
+              borderWidthForUI: 15
       - id: BuildButtonText
         behaviours:
           - type: Transform
@@ -251,7 +291,7 @@ children:
           scaleY: 1
           rotation: 0
     children: []
-  - id: RecuitButton
+  - id: RecruitButton
     behaviours:
       - type: Transform
         properties:
@@ -276,7 +316,7 @@ children:
               renderType: 'ui'
               scaleXForUI: 1
               scaleYForUI: 1
-              borderWidthForUI: 30
+              borderWidthForUI: 15
       - id: RecruitButtonText
         behaviours:
           - type: Transform
@@ -292,46 +332,6 @@ children:
               text: "招募"
               color: white
           - type: UI_RecruitButton
-        children: []
-  - id: ProductQueue
-    behaviours:
-      - type: Transform
-        properties:
-          x: 600
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-    children: 
-      - id: ProductQueueRootBgImage
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 2
-              scaleYForUI: 10
-              borderWidthForUI: 30
-      - id: ProductQueueRoot
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: LayoutGroup
-            properties:
-              layoutType: vertical
-              spacing: 100
         children: []
   - id: Close
     behaviours:

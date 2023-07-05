@@ -98,11 +98,11 @@ export class MapGenerator {
         for (let x = 0; x < this.width; x++) {
           if (map[y][x] === TerrainType.Land) {
             const randomNum = Math.random();
-            if (randomNum < 0.9) {
+            if (randomNum < 0.4) {
               map[y][x] = TerrainType.Plain;
-            } else if (randomNum < 0.93) {
+            } else if (randomNum < 0.5) {
               map[y][x] = TerrainType.Lake;
-            } else if (randomNum < 0.96) {
+            } else if (randomNum < 0.7) {
               map[y][x] = TerrainType.Mountain;
             } else {
               map[y][x] = TerrainType.Forest;

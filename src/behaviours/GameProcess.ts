@@ -14,15 +14,16 @@ import { ColonialProvinces } from "./ColonialProvinces";
 export class GameProcess extends Behaviour {
     onStart(): void {
         this.initialNation();
+        this.nextTurn();
     }
 
     onUpdate(): void {
         //更新玩家金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nationList[1].dora.toString();
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nations[1].dora.toString();
     }
 
     //回合
-    turnrNow = 1;
+    turnrNow = 0;
     turnTotal = 100;
 
     //所有建筑
@@ -30,7 +31,7 @@ export class GameProcess extends Behaviour {
     initialNation() {
         for (let i = 0; i < Nation.nationQuantity; i++) {
             const nation = new Nation(i + 1, "玩家", 10000, 1);
-            Nation.nationList[nation.nationId] = nation;
+            Nation.nations[nation.nationId] = nation;
             //nation.randomTechNameList无法在构造器中初始化，因为Technology.getTechByName()需要Nation.techTree
             nation.randomTechList = nation.getRandomTechNameList();
         }
@@ -38,7 +39,12 @@ export class GameProcess extends Behaviour {
 
 
     nextTurn() {
-        //每回合开始时，所有领地给予所属国家产出
+        //清零所有国家的科技点增长
+        for (let i = 1; i < Nation.nations.length - 1; i++) {
+            const nation = Nation.nations[i];
+            nation.techPerTurn = 100;
+        }
+        //每回合开始时，更新领地属性
         Province.updateProvince();
 
         this.turnrNow += 1;
@@ -58,20 +64,8 @@ export class GameProcess extends Behaviour {
             soilder.unitParam.ap = soilder.unitParam.apMax;
         }
 
-        //更新每个国家当前科技的研究进度
-        for (let i = 1; i < Nation.nationList.length - 1; i++) {
-            const nation = Nation.nationList[i];
-            const currentTech = Technology.getTechByName(nation.nationId, nation.currentTechName);
-            if (nation.currentTechName) {
-                currentTech.techProcess += nation.techPerTurn;
-                if (currentTech.techProcess >= currentTech.techProcessMax) {
-                    currentTech.techProcess = currentTech.techProcessMax;
-                    console.log(nation.currentTechName + "研究完成");
-                    nation.currentTechName = "";
-                    nation.randomTechList = nation.getRandomTechNameList();
-                }
-            }
-        }
+        //更新国家属性
+        Nation.updateNation();
 
         //更新Ai位置
         getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
@@ -83,7 +77,7 @@ export class GameProcess extends Behaviour {
         console.log("game over");
 
         const tip = this.gameObject.engine.createPrefab(new TextPrefabBinding)
-        if (Nation.nationList[1].dora > 0) {
+        if (Nation.nations[1].dora > 0) {
             tip.getBehaviour(TextPrefabBinding).text = "游戏胜利";
             tip.getBehaviour(TextPrefabBinding).y = 40;
             getGameObjectById("gameOverImage").getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"

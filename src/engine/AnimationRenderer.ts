@@ -36,6 +36,7 @@ export class AnimationRenderer extends Behaviour implements Renderer {
 
     sourceRect = { x: 0, y: 157, width: 100, height: 157 }
 
+    hitAreaType: 'rectangle' | 'hexagon' = 'rectangle';
     getBounds(): Rectangle {
         const img = this.engine.resourceManager.getImage(this.source)
         return {

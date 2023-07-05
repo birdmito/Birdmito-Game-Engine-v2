@@ -74,13 +74,13 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: 50
+          y: 300
           scaleX: 1
           scaleY: 1
           rotation: 0
     children:
-      - id: UI_ColonyButton
+      - id: UI_UnitBehaviourButton
         behaviours:
           - type: Transform
             properties:
@@ -92,9 +92,9 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Interface_ButtonExplore.png
-          - type: UI_ColonyButton
+          - type: UI_UnitBehaviourButton
         children: 
-          - id: UI_ExploreButtonBackGround
+          - id: UnitBehaviourText
             behaviours:
               - type: Transform
                 properties:
@@ -106,7 +106,7 @@ children:
               - type: TextRenderer
                 properties:
                   fontSize: 30
-                  text: 开拓
+                  text: '这里应该显示单位的行为'
                   fontFamily: 'fangsong'
                   color: white
       - id: UnitNationText

@@ -16,7 +16,7 @@ export class UI_TechButton extends Behaviour {
             const newTechWindow = this.engine.createPrefab(new UI_techWindowPrefabBinding)
             const itemRoot = newTechWindow.getChildById("TechWindowItemListRoot");
 
-            for (const techRandom of Nation.nationList[1].randomTechList) {
+            for (const techRandom of Nation.nations[1].randomTechList) {
                 const techItemBinding = new UI_itemPrefabBinding();
                 console.log("添加科技" + techRandom.techName + "到科技窗口")
                 techItemBinding.item = techRandom.techName;
@@ -28,9 +28,9 @@ export class UI_TechButton extends Behaviour {
             techWindowRoot.addChild(newTechWindow);
         }
 
-        if (Nation.nationList[1].currentTechName !== '') {
+        if (Nation.nations[1].currentTechName !== '') {
             getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
-                "当前科技：" + Technology.getTechByName(1, Nation.nationList[1].currentTechName).getInfo();
+                "当前科技：" + Technology.getNationTechByName(1, Nation.nations[1].currentTechName).getInfo();
         }
     }
 }

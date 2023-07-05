@@ -2,7 +2,7 @@ import { UI_selectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInf
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
-import { UI_ColonyButton } from "./UI_ColonyButton";
+import { UI_UnitBehaviourButton } from "./UI_UnitBehaviourButton";
 import { ProvinceGenerator } from "./ProvinceGenerator";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Province } from "./Province";
@@ -60,8 +60,10 @@ export class UnitBehaviour extends Behaviour {
     // 判断两个坐标是否相邻
     areAdjacent(x1: Number, y1: Number, x2: Number, y2: Number): boolean {
         // 当前单元格朝上的相邻位置的偏移量
+        //console两个坐标
+        console.log("x1:" + x1 + " y1:" + y1 + " x2:" + x2 + " y2:" + y2);
         var offsets;
-        if (Number(y1) % 2 === 0 || x1 === 0) {
+        if (Number(y1) % 2 === 0 || y1 === 0) {
             console.log("y1是偶数");
             //y为偶数时[2,2]：
             //0 - - -

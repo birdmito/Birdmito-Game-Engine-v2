@@ -2,7 +2,7 @@ import { UI_selectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInf
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
-import { UI_ColonyButton } from "./UI_ColonyButton";
+import { UI_UnitBehaviourButton } from "./UI_UnitBehaviourButton";
 import { ProvinceGenerator } from "./ProvinceGenerator";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Province } from "./Province";
@@ -13,6 +13,7 @@ import { OverrideableNode } from "ts-morph";
 export class UnitParam implements infoShowable {
     static allUnitParamList: UnitParam[] = [
         new UnitParam("开拓者", 10, 10, 100000, 10, 1),
+        new UnitParam("筑城者", 10, 10, 100000, 10, 1),
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number, maintCost: number, nationId: number = 1) {
