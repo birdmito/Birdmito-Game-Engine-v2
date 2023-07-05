@@ -30,7 +30,7 @@ export class UI_TechButton extends Behaviour {
 
         if (Nation.nations[1].currentTechName !== '') {
             getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
-                "当前科技：" + Technology.getTechByName(1, Nation.nations[1].currentTechName).getInfo();
+                "当前科技：" + Technology.getNationTechByName(1, Nation.nations[1].currentTechName).getInfo();
         }
     }
 }

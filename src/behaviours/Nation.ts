@@ -1,5 +1,8 @@
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
+import { Calculator } from "./Calculator";
+import { Province } from "./Province";
+import { Resource } from "./Resource";
 import { Technology } from "./Technology";
 
 
@@ -14,9 +17,11 @@ export class Nation {
         this.level = level;
         this.techTree = Technology.copyAllTechList();
         this.techPerTurn = 0;
-        this.currentTechName = '探秘奥坎之径';
-        this.provinceOwnedCoordList = new Array<{ x: number, y: number }>();
+        this.currentTechName = '';
+        this.provinceOwnedList = new Array<Province>();
         this.capitalProvinceCoord = undefined;
+        this.cityMax = 5;
+        this.upgradeCost = 100;
     }
     nationId: number = 1;  //1-玩家 >2-AI
     nationName: string = "玩家";
@@ -24,14 +29,16 @@ export class Nation {
     dora: number = 0;
     techPerTurn: number = 0;
     level: number = 1;
+    upgradeCost: number = 0;
+    cityMax: number = 5;
 
     techTree: Technology[] = Technology.copyAllTechList();
     currentTechName: string = '探秘奥坎之径'
     randomTechList: Technology[] = [];
 
-    provinceOwnedCoordList: { x: number, y: number }[] = [];
+    provinceOwnedList: Province[] = [];
     capitalProvinceCoord: { x: number, y: number };
-    // Nation.nationList[1].provinceOwnedCoordList
+    cityList: Province[] = [];
 
     getRandomTechNameList(): Technology[] {
         //遍历玩家可研究且未完成的科技，并从中随机抽取三个
@@ -58,7 +65,7 @@ export class Nation {
                 isAvailable = false;
             }
             for (const preTechName of tech.preTechName) {
-                const preTech = Technology.getTechByName(this.nationId, preTechName);
+                const preTech = Technology.getNationTechByName(this.nationId, preTechName);
                 if (preTech.techProcess < preTech.techProcessMax) {
                     isAvailable = false;
                     break;
@@ -69,6 +76,42 @@ export class Nation {
             }
         }
         return techList;
+    }
+
+    static updateNation() {
+        for (let i = 1; i < Nation.nations.length - 1; i++) {
+            const nation = Nation.nations[i];
+            //更新当前研究进度
+            const currentTech = Technology.getNationTechByName(nation.nationId, nation.currentTechName);
+            if (nation.currentTechName) {
+                currentTech.techProcess += nation.techPerTurn;
+                if (currentTech.techProcess >= currentTech.techProcessMax) {
+                    currentTech.techProcess = currentTech.techProcessMax;
+                    console.log(nation.currentTechName + "研究完成");
+                    nation.currentTechName = "";
+
+                    //研究完成后，若有科技再生产科技，则增加现有地块的产出加成+1
+                    const bonusFromTech = Technology.getTechBonus(nation.nationId, "科技再生产");
+                    console.log(bonusFromTech);
+                    for (const province of nation.provinceOwnedList) {
+                        province.provinceProductionBonus.add(new Resource(bonusFromTech, bonusFromTech, bonusFromTech));
+                    }
+                    nation.randomTechList = nation.getRandomTechNameList();
+                }
+            }
+
+            //更新最大城市数
+            nation.cityMax = Calculator.calculateCityMax(nation);
+
+            //更新科技树科技研究所需点数
+            for (let j = 0; j < nation.techTree.length; j++) {
+                const tech = nation.techTree[j];
+                tech.techProcessMax = Calculator.calculateTechProcessMax(nation, tech);
+            }
+
+            //更新升级所需多拉
+            nation.upgradeCost = Calculator.calculateUpgradeCost(nation);
+        }
     }
 }
 

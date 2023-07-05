@@ -22,26 +22,6 @@ export class ProvinceGenerator extends Behaviour {
         const mapGenerator = new MapGenerator(this.gridSizeX, this.gridSizeY, this.landPercentage, this.landNum);
         const generatedTerrain: TerrainType[][] = mapGenerator.generateMap();
 
-        // // 为岛屿设置随机地形类型
-        // const numIslands = Math.floor((this.gridSizeX * this.gridSizeY * this.landPercentage) / 1000);
-
-        // for (let i = 0; i < numIslands; i++) {
-        //     const islandX = Math.floor(Math.random() * this.gridSizeX);
-        //     const islandY = Math.floor(Math.random() * this.gridSizeY);
-
-        //     // 随机分配地形类型给岛屿方块
-        //     const randomNum = Math.random();
-        //     if (randomNum < 0.25) {
-        //         generatedTerrain[islandY][islandX] = TerrainType.Plain;     // 平原
-        //     } else if (randomNum < 0.6) {                    // 更新此条件
-        //         generatedTerrain[islandY][islandX] = TerrainType.Mountain;  // 山脉
-        //     } else {
-        //         generatedTerrain[islandY][islandX] = TerrainType.Forest;    // 森林
-        //     }
-        // }
-
-        // console.log(generatedTerrain);
-
         // 创建六边形网格坐标数组
         const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
         // 创建省份
@@ -69,27 +49,6 @@ export class ProvinceGenerator extends Behaviour {
                 this.randomSubTerrain(provinceBehaviour, generatedTerrain[j][i]);
             }
         }
-
-
-
-
-
-
-        // // 创建六边形网格坐标数组
-        // const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
-        // // 创建省份
-        // for (let i = 0; i < this.gridSizeY; i++) {
-        //     for (let j = 0; j < this.gridSizeX; j++) {
-        //         const province = this.gameObject.engine.createPrefab(new ProvincePrefabBinding());
-        //         province.getBehaviour(Transform).x = hexGrid[i][j].x;
-        //         province.getBehaviour(Transform).y = hexGrid[i][j].y;
-        //         province.getBehaviour(Province).coord = { x: j, y: i };
-        //         this.gameObject.addChild(province);
-        //         if (!Province.provinces[j])
-        //         Province.provinces[j] = [];
-        //         Province.provinces[j][i] = province;
-        //     }
-        // }
     }
 
 
@@ -101,41 +60,57 @@ export class ProvinceGenerator extends Behaviour {
 
         // console.log("mainTerrain: " + mainTerrain + " Percent: " + mainRandomPercent);
 
+        var url;
         switch (mainTerrain) {
             case TerrainType.Ocean:
-                provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainOcean.png';
+                //生成一个1-9的随机数
+                url = this.randomSelectUrl('./assets/images/Map_TerrainOcean_', 9, 100);
+                provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
             case TerrainType.Plain:
                 provinceBehaviour.plainPercent = mainRandomPercent;
                 provinceBehaviour.forestPercent = subRandomPercent1;
                 provinceBehaviour.mountainPercent = subRandomPercent2;
                 provinceBehaviour.lakePercent = subRandomPercent3;
-                provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainPlain.png';
+                url = this.randomSelectUrl('./assets/images/Map_TerrainPlain_', 1);
+                provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
             case TerrainType.Forest:
                 provinceBehaviour.forestPercent = mainRandomPercent;
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.mountainPercent = subRandomPercent2;
                 provinceBehaviour.lakePercent = subRandomPercent3;
-                provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainForest.png';
+                url = this.randomSelectUrl('./assets/images/Map_TerrainForest_', 5);
+                provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
             case TerrainType.Mountain:
                 provinceBehaviour.mountainPercent = mainRandomPercent;
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.forestPercent = subRandomPercent2;
                 provinceBehaviour.lakePercent = subRandomPercent3;
-                provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainMountain.png';
+                url = this.randomSelectUrl('./assets/images/Map_TerrainMountain_', 3);
+                provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
             case TerrainType.Lake:
                 provinceBehaviour.lakePercent = mainRandomPercent;
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.forestPercent = subRandomPercent2;
                 provinceBehaviour.mountainPercent = subRandomPercent3;
-                provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = './assets/images/Map_TerrainLake.png';
+                url = this.randomSelectUrl('./assets/images/Map_TerrainLake_', 1);
+                provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
         }
 
 
+    }
+
+    randomSelectUrl(frontUrl: string, urlNum: number, mainRandom = 0): string {
+        var randomNum = Math.floor(Math.random() * (urlNum + mainRandom));
+        if (randomNum > urlNum - 1) {
+            randomNum = 0;
+        }
+        const url: string = frontUrl + randomNum.toString() + '.png';
+        return url;
     }
 
     // 创建六边形网格坐标数组

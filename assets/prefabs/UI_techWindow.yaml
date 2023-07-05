@@ -43,7 +43,7 @@ children:
       - type: Transform
         properties:
           x: 600
-          y: 0
+          y: 600
           scaleX: 1
           scaleY: 1
           rotation: 0

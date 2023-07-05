@@ -13,8 +13,10 @@ export class Resource {
     techPoint: number = 0;
 
     //加法运算
-    add(resource: Resource): Resource {
-        return new Resource(this.dora + resource.dora, this.production + resource.production, this.techPoint + resource.techPoint);
+    add(resource: Resource) {
+        this.dora += resource.dora;
+        this.production += resource.production;
+        this.techPoint += resource.techPoint;
     }
 
     //向下取整

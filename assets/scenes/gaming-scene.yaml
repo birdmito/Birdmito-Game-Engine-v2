@@ -44,7 +44,11 @@ children:
         behaviours: []
         children: []
         prefab:
-          type: UnitPrefabBinding  
-
+          type: UnitPrefabBinding
+      - id: AiPrefab
+        behaviours: []
+        children: []
+        prefab:
+          type: Ai_EnemiesPrefabBinding 
 
 

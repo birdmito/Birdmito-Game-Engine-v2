@@ -7,11 +7,12 @@ import { Transform } from "../engine/Transform";
 import { ProvinceGenerator } from "./ProvinceGenerator";
 import { Province } from "./Province";
 import { UnitBehaviour, } from "./UnitBehaviour";
-import { UI_ColonyButton } from "./UI_ColonyButton";
+import { UI_UnitBehaviourButton } from "./UI_UnitBehaviourButton";
 import { build } from "vite";
 import { UI_itemPrefabBinding } from "../bindings/UI_itemPrefabBinding";
 import { UI_BuildButton } from "./UI_BuildButton";
 import { Building } from "./Building";
+import { Nation } from "./Nation";
 
 export class SelectedObjectInfoMangaer extends Behaviour {
     onUpdate(): void {
@@ -56,11 +57,13 @@ export class SelectedObjectInfoMangaer extends Behaviour {
         if (selectedBehaviour instanceof Province) {
             const province = selectedBehaviour as Province;
             this.engine.createPrefab2Children(new UI_selectedProvinceInfoPrefabBinding, getGameObjectById("uiRoot"));
-            if (province.nationId !== 1) {
+            //若当前选中项不在玩家国家的city中，则删除建造按钮
+            if (!Nation.nations[1].cityList.some(city => city === province)) {
                 getGameObjectById("BuildButton").destroy();
             }
-            if (province.nationId !== 1 || !province.buildingList.find(building => building.name === "兵营")) {
-                getGameObjectById("RecuitButton").destroy();
+            //若当前选中项不在玩家国家的city中，或者当前选中项没有兵营，则删除征兵按钮
+            if (!Nation.nations[1].cityList.some(city => city === province) || !province.buildingList.some(building => building.name === "兵营")) {
+                getGameObjectById("RecruitButton").destroy();
             }
 
             this.updateSelectedProvinceBuildingListUI();
@@ -68,10 +71,10 @@ export class SelectedObjectInfoMangaer extends Behaviour {
         else if (selectedBehaviour instanceof UnitBehaviour) {
             this.engine.createPrefab2Children(new UI_selectedUnitInfoPrefabBinding, getGameObjectById("uiRoot"));
 
-            const ColonyButton = getGameObjectById("UI_ColonyButton");
-            ColonyButton.getBehaviour(UI_ColonyButton).provinceToColony =
+            const ColonyButton = getGameObjectById("UI_UnitBehaviourButton");
+            ColonyButton.getBehaviour(UI_UnitBehaviourButton).provinceToColony =
                 Province.provinces[selectedBehaviour.soidlerCoor.x][selectedBehaviour.soidlerCoor.y];
-            ColonyButton.getBehaviour(UI_ColonyButton).unitToDestroy = selectedBehaviour.gameObject;
+            ColonyButton.getBehaviour(UI_UnitBehaviourButton).unitToDestroy = selectedBehaviour.gameObject;
         }
     }
 

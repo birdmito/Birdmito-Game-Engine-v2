@@ -5,12 +5,13 @@ import { Nation } from "./Nation";
 
 export class UI_UpgradeButton extends Behaviour {
     onUpdate(): void {
+        this.gameObject.getBehaviour(TextRenderer).text = '升级政府：' + Nation.nations[1].upgradeCost.toString() + "多拉";
         this.gameObject.onMouseLeftDown = () => {
             const playerNation = Nation.nations[1];
             //判断金币数
-            if (playerNation.dora >= playerNation.level * 100) {
+            if (playerNation.dora >= playerNation.upgradeCost) {
                 playerNation.level++;
-                playerNation.dora -= playerNation.level * 100;
+                playerNation.dora -= playerNation.upgradeCost;
                 console.log("升级成功" + playerNation.level);
             }
             else {
