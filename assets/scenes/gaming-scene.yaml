@@ -49,7 +49,6 @@ children:
         behaviours: []
         children: []
         prefab:
-          type: Ai_EnemiesPrefabBinding        
-
+          type: Ai_EnemiesPrefabBinding 
 
 

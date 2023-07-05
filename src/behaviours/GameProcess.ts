@@ -9,6 +9,7 @@ import { UnitBehaviour } from "./UnitBehaviour";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Ai_Enemies } from "./Ai_Enemies";
 import { Technology } from "./Technology";
+import { ColonialProvinces } from "./ColonialProvinces";
 
 export class GameProcess extends Behaviour {
     onStart(): void {
@@ -74,6 +75,7 @@ export class GameProcess extends Behaviour {
 
         //更新Ai位置
         getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
+        //显示玩家省份信息
 
     }
 
