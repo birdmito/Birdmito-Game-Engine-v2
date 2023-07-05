@@ -9,7 +9,7 @@ behaviours:
       rotation: 0
       boundWidth: '100'
       boundHeight: '100'
-  - type: Ai_Enemies       
+  - type: Ai_Enemies   
   - type: TextRenderer
     properties:
       fontSize: 40
