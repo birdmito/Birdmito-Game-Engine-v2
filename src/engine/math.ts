@@ -32,6 +32,10 @@ export type Hexagon = {
     x: number, y: number, circumradius: number
 }
 
+export type Circle = {
+    x: number, y: number, radius: number
+}
+
 export function calculateHexagonPoints(hexagon: Hexagon): Point[] {
     const { x, y, circumradius } = hexagon;
     const points: Point[] = [];
@@ -76,8 +80,11 @@ export function checkPointInRectangle(point: Point, rectangle: Rectangle) {
     )
 }
 
-
-
+export function checkPointInCircle(point: Point, circle: Circle) {
+    const { x, y, radius } = circle;
+    const distance = Math.sqrt(Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2));
+    return distance <= radius;
+}
 
 /**
  * 

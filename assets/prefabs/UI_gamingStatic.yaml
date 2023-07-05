@@ -179,6 +179,7 @@ children:
             properties:
               source: ./assets/images/Interface_ButtonRound.png
               anchorType: center
+              hitAreaType: circle
       - id: NextTurnFrame #下一回合边框
         behaviours:
           - type: Transform

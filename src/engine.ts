@@ -3,7 +3,7 @@ import { Binding } from "./bindings/Binding";
 import { Behaviour } from "./engine/Behaviour";
 import { ResourceManager } from "./engine/ResourceManager";
 import { Transform } from "./engine/Transform";
-import { Hexagon, Rectangle } from "./engine/math";
+import { Circle, Hexagon, Rectangle } from "./engine/math";
 import { System } from "./engine/systems/System";
 import { CanvasContextRenderingSystem } from "./engine/systems/RenderingSystem";
 import { LayoutGroup } from "./engine/LayoutGroup";
@@ -226,7 +226,7 @@ export class GameEngine {
 export interface Renderer {
     hitAreaType;
     setAnchor(anchorType): void;
-    getBounds(): Rectangle | Hexagon;
+    getBounds(): Rectangle | Hexagon | Circle;
 }
 
 export interface GameEngineMouseEvent {

@@ -1,7 +1,7 @@
 import { s } from "vitest/dist/types-2b1c412e";
 import { Camera } from "../../behaviours/Camera";
 import { GameEngineMouseEvent, GameObject, getGameObjectById } from "../../engine";
-import { checkPointInHexagon, checkPointInRectangle, Hexagon, invertMatrix, Point, pointAppendMatrix } from "../math";
+import { checkPointInCircle, checkPointInHexagon, checkPointInRectangle, Hexagon, invertMatrix, Point, pointAppendMatrix } from "../math";
 import { Transform } from "../Transform";
 import { System } from "./System";
 
@@ -141,7 +141,7 @@ export class MouseControlSystem extends System {
             case 'hexagon':
                 return checkPointInHexagon(point, hitArea);
             case 'circle':
-                return false;
+                return checkPointInCircle(point, hitArea);
             case 'none':
                 return false;
             default:

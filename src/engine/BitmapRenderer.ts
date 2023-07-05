@@ -135,7 +135,13 @@ export class BitmapRenderer extends Behaviour implements Renderer {
                     circumradius: circumradius
                 }
             case 'circle':
-                throw new Error('暂未实现circle包围盒');
+                const radius = Math.min(width, height) / 2;
+                return{
+                    x: this.anchor.x + width / 2,   //因为圆形默认以真实锚点为中心生成，所以需要将中心点映射到图片中心
+                    y: this.anchor.y + height / 2,  //因为圆形默认以真实锚点为中心生成，所以需要将中心点映射到图片中心
+                    radius: radius
+                }
+                // throw new Error('暂未实现circle包围盒');
             case 'none':
                 return{
                     x: 0,
