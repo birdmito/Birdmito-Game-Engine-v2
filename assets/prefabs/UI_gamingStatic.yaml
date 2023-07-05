@@ -269,7 +269,6 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: UI_Government
     children:
       - id: GovernmentBgImage
         behaviours:
@@ -283,6 +282,7 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_FrameGovernment.png
+              hitAreaType: none
         children: []
       - id: GovernmentButton #政府按钮
         behaviours:
@@ -297,6 +297,7 @@ children:
             properties:
               source: ./assets/images/TESTInterface_ButtonCountry.png #这里的政府图标还要更改
               anchorType: left-top
+          - type: UI_Government
         children: []
       - id: PlayerGoldText
         behaviours:

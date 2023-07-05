@@ -21,15 +21,15 @@ children:
         properties:
           source: ./assets/images/Icon_TextFrame5050.png
           renderType: 'ui'
-          scaleXForUI: 16
-          scaleYForUI: 15
-          borderWidthForUI: 30
+          scaleXForUI: 15
+          scaleYForUI: 10
+          borderWidthForUI: 10
   - id: CurrentTech
     behaviours:
       - type: Transform
         properties:
           x: 0
-          y: 400
+          y: 250
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -91,8 +91,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 600
-          y: 550
+          x: 350
+          y: 250
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -112,7 +112,7 @@ children:
               renderType: 'ui'
               scaleXForUI: 1
               scaleYForUI: 1
-              borderWidthForUI: 30
+              borderWidthForUI: 10
       - id: CloseText
         behaviours:
           - type: Transform
