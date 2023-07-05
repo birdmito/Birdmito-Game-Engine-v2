@@ -282,11 +282,7 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: ui
-              scaleXForUI: 15
-              scaleYForUI: 1
-              borderWidthForUI: 30
+              source: ./assets/images/Icon_FrameGovernment.png
         children: []
       - id: GovernmentButton #政府按钮
         behaviours:
@@ -294,8 +290,8 @@ children:
             properties:
               x: 0
               y: 0
-              scaleX: .75
-              scaleY: .75
+              scaleX: 1
+              scaleY: 1
               rotation: 0
           - type: BitmapRenderer
             properties:

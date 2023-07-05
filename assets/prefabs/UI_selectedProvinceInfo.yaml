@@ -33,7 +33,7 @@ children:
               renderType: 'ui'
               scaleXForUI: 5
               scaleYForUI: 12
-              borderWidthForUI: 30
+              borderWidthForUI: 15
       - id: ProductQueueRoot
         behaviours:
           - type: Transform
@@ -103,8 +103,8 @@ children:
             properties:
               x: 15
               y: 15
-              scaleX: .75
-              scaleY: .75
+              scaleX: 1
+              scaleY: 1
               rotation: 0
           - type: BitmapRenderer
             properties:
@@ -264,7 +264,7 @@ children:
               renderType: 'ui'
               scaleXForUI: 1
               scaleYForUI: 1
-              borderWidthForUI: 30
+              borderWidthForUI: 15
       - id: BuildButtonText
         behaviours:
           - type: Transform
@@ -316,7 +316,7 @@ children:
               renderType: 'ui'
               scaleXForUI: 1
               scaleYForUI: 1
-              borderWidthForUI: 30
+              borderWidthForUI: 15
       - id: RecruitButtonText
         behaviours:
           - type: Transform
