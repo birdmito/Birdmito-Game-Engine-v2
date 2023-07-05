@@ -1,8 +1,8 @@
 behaviours:
   - type: Transform
     properties:
-      x: 500
-      y: 400
+      x: 960 #1920/2
+      y: 540 #1080/2
       scaleX: 1
       scaleY: 1
       rotation: 0
@@ -20,10 +20,24 @@ children:
         properties:
           source: ./assets/images/Icon_TextFrame5050.png
           renderType: 'ui'
-          scaleXForUI: 2
-          scaleYForUI: 3
+          scaleXForUI: 8
+          scaleYForUI: 8
           borderWidthForUI: 30
+          anchorType: center
     id: SettingImage
+  - behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: -100
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 40
+          text: '游戏菜单'
+    id: SettingText
   - behaviours:
       - type: Transform
         properties:
