@@ -155,18 +155,19 @@ export class Nation {
                     }
                 }
 
-                //更新最大城市数
-                nation.cityMax = Calculator.calculateCityMax(nation);
 
                 //更新科技树科技研究所需点数
                 for (let j = 0; j < nation.techTree.length; j++) {
                     const tech = nation.techTree[j];
                     tech.techProcessMax = Calculator.calculateTechProcessMax(nation, tech);
                 }
-
-                //更新升级所需多拉
-                nation.upgradeCost = Calculator.calculateUpgradeCost(nation);
             }
+            
+            //更新最大城市数
+            nation.cityMax = Calculator.calculateCityMax(nation);
+
+            //更新升级所需多拉
+            nation.upgradeCost = Calculator.calculateUpgradeCost(nation);
         }
     }
 }

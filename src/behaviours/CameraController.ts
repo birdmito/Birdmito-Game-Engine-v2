@@ -7,8 +7,8 @@ import { checkPointInRectangle } from "../engine/math";
 export class CameraController extends Behaviour {
     //TODO: 鼠标拖动移动相机
     // 鼠标移动之边缘检测盒(dev: 1600 945)   1500*1080  1720*980
-    screenPreset: Rectangle = { x: 0, y: 0, width: 1500, height: 780 };     //如果边缘检测盒和不起效，请修改这里调试
-    boardWidth: number = 100;   //边缘检测盒范围宽度
+    screenPreset: Rectangle = { x: 0, y: 0, width: 1344, height: 755 };     //如果边缘检测盒和不起效，请修改这里调试
+    boardWidth: number = 10;   //边缘检测盒范围宽度
 
     leftRectangle: Rectangle = { x: 0, y: 0, width: this.boardWidth, height: this.screenPreset.height };
     rightRectangle: Rectangle = { x: this.screenPreset.width, y: 0, width: this.boardWidth, height: this.screenPreset.height };
@@ -70,7 +70,6 @@ export class CameraController extends Behaviour {
             transform.y += 10;
             transform.y = Math.min(4500, transform.y);
         }
-
     }
 
     // TODO 回到主界面移除监听
