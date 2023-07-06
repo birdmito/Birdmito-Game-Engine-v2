@@ -299,48 +299,225 @@ children:
               anchorType: left-top
           - type: UI_Government
         children: []
-      - id: PlayerGoldText
+      - id: ResourceShow
         behaviours:
           - type: Transform
             properties:
-              x: 100
-              y: 35
+              x: 182
+              y: 14
               scaleX: 1
               scaleY: 1
               rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示多拉'
-              color: yellow
-        children: []
-      - id: PlayerLevelText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 300
-              y: 35
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示政府等级和城市数量'
-              color: green
-        children: []
-      - id: PlayerTechText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 500
-              y: 35
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示科技等级'
-              color: blue
-        children: []
+        children:
+          - id: PlayerLevel #玩家政府等级
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+            children:
+              - id: PlayerLevelImage
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 0
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: BitmapRenderer
+                    properties:
+                      source: ./assets/images/Icon_GovernmentLevel.png
+                      hitAreaType: none
+                children: []
+              - id: PlayerLevelFrame
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 50
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: BitmapRenderer
+                    properties:
+                      source: ./assets/images/Icon_Show.png
+                      hitAreaType: none
+                children: []
+              - id: PlayerLevelText
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 50
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: TextRenderer
+                    properties:
+                      fontSize: 20
+                      text: '这里应该显示等级'
+                      color: red
+                children: []
+          - id: PlayerGold #玩家奥坎盾
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 200
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+            children:
+              - id: PlayerGoldImage
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 0
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: BitmapRenderer
+                    properties:
+                      source: ./assets/images/Icon_Money.png
+                      hitAreaType: none
+                children: []
+              - id: PlayerGoldFrame
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 50
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: BitmapRenderer
+                    properties:
+                      source: ./assets/images/Icon_Show.png
+                      hitAreaType: none
+                children: []
+              - id: PlayerGoldText
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 50
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: TextRenderer
+                    properties:
+                      fontSize: 20
+                      text: '这里应该显示多拉'
+                      color: yellow
+                children: []
+          - id: PlayerTech #玩家科技点
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 400
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+            children:
+              - id: PlayerTechImage
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 0
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: BitmapRenderer
+                    properties:
+                      source: ./assets/images/Icon_TechPoint.png
+                      hitAreaType: none
+                children: []
+              - id: PlayerTechFrame
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 50
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: BitmapRenderer
+                    properties:
+                      source: ./assets/images/Icon_Show.png
+                      hitAreaType: none
+                children: []
+              - id: PlayerTechText
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 50
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: TextRenderer
+                    properties:
+                      fontSize: 20
+                      text: '这里应该显示科技等级'
+                      color: blue
+                children: []
+          - id: PlayerCapacity #玩家行政容量
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 600
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+            children:
+              - id: PlayerCapacityImage
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 0
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: BitmapRenderer
+                    properties:
+                      source: ./assets/images/Icon_Capacity.png
+                      hitAreaType: none
+                children: []
+              - id: PlayerCapacityFrame
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 50
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: BitmapRenderer
+                    properties:
+                      source: ./assets/images/Icon_Show.png
+                      hitAreaType: none
+                children: []
+              - id: PlayerCapacityText
+                behaviours:
+                  - type: Transform
+                    properties:
+                      x: 50
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                  - type: TextRenderer
+                    properties:
+                      fontSize: 20
+                      text: '这里应该显示容量'
+                      color: green
+                children: []
