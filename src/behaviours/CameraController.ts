@@ -23,21 +23,6 @@ export class CameraController extends Behaviour {
             const point = { x: event.clientX, y: event.clientY };
             this.mousePoint = point;
         });
-
-
-        window.addEventListener("keydown", (event) => {
-            const code = event.code;
-            const scale = event.shiftKey ? 10 : 1;
-            if (code === "KeyW") {
-                transform.y -= 10 * scale;
-            } else if (code === "KeyS") {
-                transform.y += 10 * scale;
-            } else if (code === "KeyA") {
-                transform.x -= 10 * scale;
-            } else if (code === "KeyD") {
-                transform.x += 10 * scale;
-            }
-        });
         
         // 监听鼠标滚轮事件
         window.addEventListener("wheel", function (event) {
@@ -63,19 +48,24 @@ export class CameraController extends Behaviour {
     }
 
     onUpdate(): void {
+        // 六边形地图 30*30个 每个六边形172*200
         const transform = getGameObjectById("CameraRoot").getBehaviour(Transform);
 
         if(checkPointInRectangle(this.mousePoint, this.leftRectangle)){
             transform.x -= 10;
+            transform.x = Math.max(-300, transform.x);
         }
         else if(checkPointInRectangle(this.mousePoint, this.rightRectangle)){
             transform.x += 10;
+            transform.x = Math.min(5460, transform.x);
         }
         else if(checkPointInRectangle(this.mousePoint, this.topRectangle)){
             transform.y -= 10;
+            transform.y = Math.max(-100, transform.y);
         }
         else if(checkPointInRectangle(this.mousePoint, this.bottomRectangle)){
             transform.y += 10;
+            transform.y = Math.min(4500, transform.y);
         }
 
     }
