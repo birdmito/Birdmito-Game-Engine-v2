@@ -109,13 +109,37 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/TESTInterface_Country.png #此处需要添加国家图标
+      - id: ProvinceTerrainImage #省份地形图标
+        behaviours:
+          - type: Transform
+            properties:
+              x: 42
+              y: 305
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_ProvinceTerrain.png
+      - id: ProvinceProductionImage #省份生产图标
+        behaviours:
+          - type: Transform
+            properties:
+              x: 153
+              y: 305
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_ProvinceProduction.png
         children: []     
   - id: ProvinceInfo
     behaviours:
       - type: Transform
         properties:
-          x: 50
-          y: 300
+          x: 0
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -229,58 +253,31 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 210
+              x: 42
+              y: 433
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: LayoutGroup
             properties:
-              layoutType: vertical
-              spacing: 100
+              layoutType: horizontal
+              spacing: 76
+              numPerLine: 5
         children: []
   - id: BuildButton
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: 377
+          y: 305
           scaleX: 1
           scaleY: 1
           rotation: 0
-    children:
-      - id: BuildButtonImage
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 1
-              scaleYForUI: 1
-              borderWidthForUI: 15
-      - id: BuildButtonText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 20
-              y: 20
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: "建造"
-              color: white
-          - type: UI_BuildButton
-        children: []
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_BuildingBuild.png
+      - type: UI_BuildButton
+    children: []
   - id: ProductWindowRoot
     behaviours:
       - type: Transform
@@ -295,44 +292,16 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 100
-          y: 0
+          x: 317
+          y: 305
           scaleX: 1
           scaleY: 1
           rotation: 0
-    children:
-      - id: RecuitButtonImage
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 1
-              scaleYForUI: 1
-              borderWidthForUI: 15
-      - id: RecruitButtonText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 20
-              y: 20
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: "招募"
-              color: white
-          - type: UI_RecruitButton
-        children: []
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_ProduceUnit.png
+      - type: UI_RecruitButton
+    children: []
   - id: Close
     behaviours:
       - type: Transform
