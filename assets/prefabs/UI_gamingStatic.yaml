@@ -269,7 +269,6 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: UI_Government
     children:
       - id: GovernmentBgImage
         behaviours:
@@ -282,11 +281,8 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: ui
-              scaleXForUI: 15
-              scaleYForUI: 1
-              borderWidthForUI: 30
+              source: ./assets/images/Icon_FrameGovernment.png
+              hitAreaType: none
         children: []
       - id: GovernmentButton #政府按钮
         behaviours:
@@ -301,6 +297,7 @@ children:
             properties:
               source: ./assets/images/TESTInterface_ButtonCountry.png #这里的政府图标还要更改
               anchorType: left-top
+          - type: UI_Government
         children: []
       - id: PlayerGoldText
         behaviours:
@@ -329,7 +326,7 @@ children:
           - type: TextRenderer
             properties:
               fontSize: 20
-              text: '这里应该显示政府等级'
+              text: '这里应该显示政府等级和城市数量'
               color: green
         children: []
       - id: PlayerTechText

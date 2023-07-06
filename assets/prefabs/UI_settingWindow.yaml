@@ -20,9 +20,9 @@ children:
         properties:
           source: ./assets/images/Icon_TextFrame5050.png
           renderType: 'ui'
-          scaleXForUI: 8
-          scaleYForUI: 8
-          borderWidthForUI: 30
+          scaleXForUI: 12
+          scaleYForUI: 12
+          borderWidthForUI: 15
           anchorType: center
     id: SettingImage
   - behaviours:
