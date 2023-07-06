@@ -75,15 +75,16 @@ export class GameProcess extends Behaviour {
         console.log("game over");
 
         const tip = this.gameObject.engine.createPrefab(new TextPrefabBinding)
-        if (Nation.nations[1].dora > 0) {
+
+        tip.getBehaviour(TextPrefabBinding).x = 880;
+        tip.getBehaviour(TextPrefabBinding).y = 200;
+        
+        if (Nation.nations[1].provinceOwnedList.length > 0) {
             tip.getBehaviour(TextPrefabBinding).text = "游戏胜利";
-            tip.getBehaviour(TextPrefabBinding).y = 40;
             getGameObjectById("gameOverImage").getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"
         }
         else {
             tip.getBehaviour(TextPrefabBinding).text = "游戏失败";
-            tip.getBehaviour(TextPrefabBinding).x = 880;
-            tip.getBehaviour(TextPrefabBinding).y = 200;
             console.log(this.gameObject)
             getGameObjectById("gameOverImage").getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Defeat.png"
         }
