@@ -24,9 +24,6 @@ import { Point, Hexagon, checkPointInHexagon } from "../math";
 
 export class GamePlaySystem extends System {
     onStart(): void {
-        // const point: Point = { x: 5 , y: 0.2 };
-        // const hexagon: Hexagon = { x: 0, y: 0, circumradius: 2 };
-        // console.warn(checkPointInHexagon(point, hexagon));
 
         if(getGameObjectById("Camera")){
             console.log("no need for camera");
@@ -68,6 +65,11 @@ export class GamePlaySystem extends System {
 
         switch(sceneState){
             case 0:
+                const cameraRootTransform = getGameObjectById("CameraRoot").getBehaviour(Transform);
+                cameraRootTransform.scaleX = 1;
+                cameraRootTransform.scaleY = 1;
+                cameraRootTransform.x = 960;
+                cameraRootTransform.y = 540;
                 this.removeCameraController(camera);
                 break;
             case 1:
