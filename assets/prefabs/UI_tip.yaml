@@ -22,9 +22,9 @@ children:
         properties:
           source: ./assets/images/Icon_TextFrame5050.png
           renderType: 'ui'
-          scaleXForUI: 10
-          scaleYForUI: 1
-          borderWidthForUI: 30
+          scaleXForUI: 15
+          scaleYForUI: 2
+          borderWidthForUI: 10
     children: []
   - id: tipText
     behaviours:
