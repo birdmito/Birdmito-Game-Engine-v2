@@ -19,11 +19,7 @@ children:
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: ./assets/images/Icon_TextFrame5050.png
-          renderType: 'ui'
-          scaleXForUI: 15
-          scaleYForUI: 10
-          borderWidthForUI: 10
+          source: ./assets/images/Icon_PanelGovernment.png
   - id: CurrentTech
     behaviours:
       - type: Transform
@@ -67,8 +63,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 700
-          y: 0
+          x: 450
+          y: 75
           scaleX: 1
           scaleY: 1
           rotation: 0

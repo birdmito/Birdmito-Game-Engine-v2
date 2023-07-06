@@ -21,7 +21,7 @@ children:
         properties:
           source: ./assets/images/Icon_TextFrame5050.png
           renderType: 'ui'
-          scaleXForUI: 14
+          scaleXForUI: 25
           scaleYForUI: 10
           borderWidthForUI: 15
     children: []
@@ -42,8 +42,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 600
-          y: 600
+          x: 250
+          y: 250
           scaleX: 1
           scaleY: 1
           rotation: 0
