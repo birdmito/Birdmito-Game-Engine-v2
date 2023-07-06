@@ -63,20 +63,20 @@ export class CameraController extends Behaviour {
     }
 
     onUpdate(): void {
-        const transform = getGameObjectById("CameraRoot").getBehaviour(Transform);
+        // const transform = getGameObjectById("CameraRoot").getBehaviour(Transform);
 
-        if(checkPointInRectangle(this.mousePoint, this.leftRectangle)){
-            transform.x -= 10;
-        }
-        else if(checkPointInRectangle(this.mousePoint, this.rightRectangle)){
-            transform.x += 10;
-        }
-        else if(checkPointInRectangle(this.mousePoint, this.topRectangle)){
-            transform.y -= 10;
-        }
-        else if(checkPointInRectangle(this.mousePoint, this.bottomRectangle)){
-            transform.y += 10;
-        }
+        // if(checkPointInRectangle(this.mousePoint, this.leftRectangle)){
+        //     transform.x -= 10;
+        // }
+        // else if(checkPointInRectangle(this.mousePoint, this.rightRectangle)){
+        //     transform.x += 10;
+        // }
+        // else if(checkPointInRectangle(this.mousePoint, this.topRectangle)){
+        //     transform.y -= 10;
+        // }
+        // else if(checkPointInRectangle(this.mousePoint, this.bottomRectangle)){
+        //     transform.y += 10;
+        // }
 
     }
 

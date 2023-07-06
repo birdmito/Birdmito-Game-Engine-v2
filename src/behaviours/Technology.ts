@@ -5,22 +5,23 @@ import { infoShowable } from "./infoShowable";
 
 
 export class Technology implements infoShowable {
+    //OPTIMIZE 
     static allTechList: Technology[] = [
         new Technology("探秘奥坎之径", [], 100, "殖民所需的金钱-10%", [-0.1]),
-        new Technology("我来我见我征服", ["探秘奥坎之径"], 200, "城市控制控制上限基础值+3", [3]),
+        new Technology("我来我见我征服", ["探秘奥坎之径"], 200, "城市控制上限基础值+3", [3]),
         new Technology("科技第一生产力", ["探秘奥坎之径"], 200, "解锁科技所需的科技点-10%", [-0.1]),
         new Technology("劳动资源统合", ["我来我见我征服"], 300, "城市控制上限翻倍"),
         new Technology("政府规模升级", ["我来我见我征服"], 300, "升级政府等级所需的金钱-10%", [-0.1]),
-        new Technology("劳动力再升级", ["我来我见我征服"], 300),
-        new Technology("科技再生产", ["科技第一生产力"], 200, "此后，每研究一项科技，当前拥有的地块基础产出+1", [1]),
-        new Technology("战火狂潮之道", [], 100),
-        new Technology("下岗士兵再就业", ["战火狂潮之道"], 200),
+        new Technology("劳动力再升级", ["我来我见我征服"], 300, "开拓者的生产所需的生产力-20%", [-0.2]),
+        new Technology("科技再生产", ["科技第一生产力"], 200, "此后，每研究一项科技，当前拥有的地块基础产出+1", [0]),
+        new Technology("战火狂潮之道", [], 100, "单位招募金钱花费-10%", [-0.1]),
+        new Technology("下岗士兵再就业", ["战火狂潮之道"], 200, "招募单位所需的生产力-10%", [-0.1]),
         new Technology("配置士兵开拓车", ["战火狂潮之道"], 200),
         new Technology("先进自走火炮", ["下岗士兵再就业"], 300),
         new Technology("优势火力学说", ["下岗士兵再就业"], 300),
         new Technology("配置飞行装置", ["配置士兵开拓车"], 300),
         new Technology("配置秘源护盾", ["配置士兵开拓车"], 300),
-        new Technology("奇迹工坊之路", [], 100, "所有花费-5%", [-0.05]),
+        new Technology("奇迹工坊之路", [], 100, "建筑花费-10%", [-0.1]),
         // new Technology("秘源驱动机械", ["奇迹工坊之路"], 200),
         // new Technology("发掘秘源之金", ["奇迹工坊之路"], 200),
         // new Technology("机械飞升", ["秘源驱动机械"], 300),
@@ -55,9 +56,12 @@ export class Technology implements infoShowable {
     }
 
     static getTechBonus(nationId: number, techName: string, valueIndex = 0): number {
+        if (nationId == 0) {
+            return 0;
+        }
         let tech = Technology.getNationTechByName(nationId, techName);
         if (tech == null || tech.techProcess < tech.techProcessMax) {
-            return null;
+            return 0;
         }
         return tech.techEffectValueList[valueIndex];
     }

@@ -26,8 +26,6 @@ export class GameProcess extends Behaviour {
     turnrNow = 0;
     turnTotal = 100;
 
-    //所有建筑
-
     initialNation() {
         for (let i = 0; i < Nation.nationQuantity; i++) {
             const nation = new Nation(i + 1, "玩家", 10000, 1);
@@ -67,8 +65,8 @@ export class GameProcess extends Behaviour {
         //更新国家属性
         Nation.updateNation();
 
-        //更新Ai位置
-        getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
+        // //更新Ai位置
+        // getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
         //显示玩家省份信息
 
     }

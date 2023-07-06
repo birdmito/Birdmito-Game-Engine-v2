@@ -19,6 +19,13 @@ export class Resource {
         this.techPoint += resource.techPoint;
     }
 
+    //乘法运算
+    multiply(resource: Resource) {
+        this.dora *= resource.dora;
+        this.production *= resource.production;
+        this.techPoint *= resource.techPoint;
+    }
+
     //向下取整
     floor() {
         this.dora = Math.floor(this.dora);
