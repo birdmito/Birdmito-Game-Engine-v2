@@ -19,6 +19,7 @@ children:
       - type: BitmapRenderer
         properties:
           source: "./assets/images/ScreenArt_Start.png"
+      - type: Click
     id: 背景
   - behaviours:
       - type: Transform
