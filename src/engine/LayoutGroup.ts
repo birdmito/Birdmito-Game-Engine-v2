@@ -9,6 +9,8 @@ export class LayoutGroup extends Behaviour {
     layoutType: 'horizontal' | 'vertical' = 'vertical';
     @number()
     spacing = 100;
+    @string()
+    numPerLine = undefined;
 
     onUpdate(): void {
         this.updateChildrenPosition();
@@ -17,18 +19,24 @@ export class LayoutGroup extends Behaviour {
     updateChildrenPosition() {
         if (this.layoutType === 'vertical') {
             this.gameObject.children.forEach((child, index) => {
-                child.getBehaviour(Transform).y = index * this.spacing;
+                if(this.numPerLine !== undefined){
+                    child.getBehaviour(Transform).y = index%Number(this.numPerLine) * this.spacing;
+                    child.getBehaviour(Transform).x = Math.floor(index / Number(this.numPerLine)) * this.spacing;
+                }
+                else{
+                    child.getBehaviour(Transform).y = index * this.spacing;
+                }
             });
         } else {
             this.gameObject.children.forEach((child, index) => {
-                child.getBehaviour(Transform).x = index * this.spacing;
+                if(this.numPerLine !== undefined){
+                    child.getBehaviour(Transform).x = index%Number(this.numPerLine) * this.spacing;
+                    child.getBehaviour(Transform).y = Math.floor(index / Number(this.numPerLine)) * this.spacing;
+                }
+                else{
+                    child.getBehaviour(Transform).x = index * this.spacing;
+                }
             });
         }
-    }
-
-    clipChildren() {
-        this.gameObject.children.forEach(child => {
-            
-        });
     }
 }
