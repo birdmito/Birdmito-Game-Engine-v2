@@ -24,25 +24,35 @@ children:
         children: []
         prefab:
           type: LoginScenePrefabBinding
-  - id: Camera
+  - id: CameraRoot
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: 960
+          y: 540
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: Camera
-      - type: CameraController
     children:
-      - id: uiRoot
+      - id: Camera
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 0
-              scaleX: 0.7
-              scaleY: 0.7
+              x: -960
+              y: -540
+              scaleX: 1
+              scaleY: 1
               rotation: 0
-        children: []
+          - type: Camera
+          - type: CameraController
+        children:
+          - id: uiRoot
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 0.7
+                  scaleY: 0.7
+                  rotation: 0
+            children: []

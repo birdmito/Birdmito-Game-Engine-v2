@@ -108,7 +108,6 @@ export class BitmapRenderer extends Behaviour implements Renderer {
 
     // 点击区域包围盒
     // ---------------------------
-    //TODO 更多包围盒
     @string()
     hitAreaType: 'rectangle' | 'hexagon' | 'circle' | 'none' = 'rectangle';
     getBounds() {
