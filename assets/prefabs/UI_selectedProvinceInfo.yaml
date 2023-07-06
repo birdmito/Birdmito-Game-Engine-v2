@@ -103,8 +103,8 @@ children:
             properties:
               x: 15
               y: 15
-              scaleX: 1
-              scaleY: 1
+              scaleX: .75
+              scaleY: .75
               rotation: 0
           - type: BitmapRenderer
             properties:

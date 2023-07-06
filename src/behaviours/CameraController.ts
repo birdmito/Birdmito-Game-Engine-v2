@@ -2,16 +2,18 @@ import { Point, Rectangle } from "electron";
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
-import { Camera } from "./Camera";
 import { checkPointInRectangle } from "../engine/math";
 
 export class CameraController extends Behaviour {
     //TODO: 鼠标拖动移动相机
-    // 鼠标移动之边缘检测盒(dev: 1600 945)
-    leftRectangle: Rectangle = { x: 0, y: 0, width: 100, height: 1080 };
-    rightRectangle: Rectangle = { x: 1620, y: 0, width: 100, height: 1080 };
-    topRectangle: Rectangle = { x: 0, y: 0, width: 1920, height: 100 };
-    bottomRectangle: Rectangle = { x: 0, y: 880, width: 1920, height: 100 };
+    // 鼠标移动之边缘检测盒(dev: 1600 945)   1500*1080  1720*980
+    screenPreset: Rectangle = { x: 0, y: 0, width: 1500, height: 780 };     //如果边缘检测盒和不起效，请修改这里调试
+    boardWidth: number = 100;   //边缘检测盒范围宽度
+
+    leftRectangle: Rectangle = { x: 0, y: 0, width: this.boardWidth, height: this.screenPreset.height };
+    rightRectangle: Rectangle = { x: this.screenPreset.width, y: 0, width: this.boardWidth, height: this.screenPreset.height };
+    topRectangle: Rectangle = { x: 0, y: 0, width: this.screenPreset.width, height: this.boardWidth };
+    bottomRectangle: Rectangle = { x: 0, y: this.screenPreset.height, width: this.screenPreset.width, height: this.boardWidth };
     mousePoint: Point = { x: 500, y: 500 };
 
     onStart(): void {
@@ -22,6 +24,7 @@ export class CameraController extends Behaviour {
         window.addEventListener('mousemove', (event) => {
             const point = { x: event.clientX, y: event.clientY };
             this.mousePoint = point;
+            // console.log(point);
         });
         
         // 监听鼠标滚轮事件
