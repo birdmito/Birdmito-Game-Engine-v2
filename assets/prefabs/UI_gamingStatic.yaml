@@ -351,16 +351,17 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 50
-                      y: 0
+                      x: 55
+                      y: 39
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
                   - type: TextRenderer
                     properties:
-                      fontSize: 20
+                      fontSize: 40
                       text: '这里应该显示等级'
                       color: red
+                      anchorType: left-bottom
                 children: []
           - id: PlayerGold #玩家奥坎盾
             behaviours:
@@ -404,8 +405,8 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 50
-                      y: 0
+                      x: 55
+                      y: 39
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
@@ -414,6 +415,7 @@ children:
                       fontSize: 20
                       text: '这里应该显示多拉'
                       color: yellow
+                      anchorType: left-center
                 children: []
           - id: PlayerTech #玩家科技点
             behaviours:
@@ -457,8 +459,8 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 50
-                      y: 0
+                      x: 55
+                      y: 39
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
@@ -467,6 +469,7 @@ children:
                       fontSize: 20
                       text: '这里应该显示科技等级'
                       color: blue
+                      anchorType: left-center
                 children: []
           - id: PlayerCapacity #玩家行政容量
             behaviours:
@@ -510,8 +513,8 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 50
-                      y: 0
+                      x: 55
+                      y: 39
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
@@ -520,4 +523,5 @@ children:
                       fontSize: 20
                       text: '这里应该显示容量'
                       color: green
+                      anchorType: left-center
                 children: []

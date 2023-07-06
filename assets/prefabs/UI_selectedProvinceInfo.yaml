@@ -32,21 +32,21 @@ children:
               source: ./assets/images/Icon_TextFrame5050.png
               renderType: 'ui'
               scaleXForUI: 5
-              scaleYForUI: 12
+              scaleYForUI: 19
               borderWidthForUI: 15
       - id: ProductQueueRoot
         behaviours:
           - type: Transform
             properties:
               x: 50
-              y: 0 
+              y: 5 
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: LayoutGroup
             properties:
               layoutType: vertical
-              spacing: 100
+              spacing: 80
         children: []
   - id: ProvinceInfoBgBox #省份信息背景框
     behaviours:

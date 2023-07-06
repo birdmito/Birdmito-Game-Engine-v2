@@ -27,26 +27,27 @@ export class TextRenderer extends Behaviour implements Renderer {
     anchorType: 'left-top' | 'center-top' | 'right-top' | 'left-center' | 'center' | 'right-center' | 'left-bottom' | 'center-bottom' | 'right-bottom' = 'left-top';
     
     setAnchor(anchorType) {
+        const height = this.fontSize + 2;
         switch (anchorType) {
             case 'left-top':
-                this.anchor = { x: 0, y: this.fontSize };
+                this.anchor = { x: 0, y: height };
                 break;
             case 'center-top':
-                this.anchor = { x: -this.measuredTextWidth / 2, y: this.fontSize };
+                this.anchor = { x: -this.measuredTextWidth / 2, y: height };
                 break;
             case 'right-top':
-                this.anchor = { x: -this.measuredTextWidth, y: this.fontSize };
+                this.anchor = { x: -this.measuredTextWidth, y: height };
                 break;
             case 'left-center':
-                this.anchor = { x: 0, y: this.fontSize / 2 };
+                this.anchor = { x: 0, y: height / 2 };
                 break;
             case 'center':
                 //OPTIMIZE
-                this.anchor = { x: -this.measuredTextWidth / 2, y: this.fontSize / 3 };
+                this.anchor = { x: -this.measuredTextWidth / 2, y: height / 2 };
                 break;
             case 'right-center':
-                this.anchor = { x: -this.measuredTextWidth, y: this.fontSize / 3 };
-                this.anchor = { x: -this.measuredTextWidth, y: this.fontSize / 3 };
+                this.anchor = { x: -this.measuredTextWidth, y: height / 2 };
+                this.anchor = { x: -this.measuredTextWidth, y: height / 2 };
                 break;
             case 'left-bottom':
                 this.anchor = { x: 0, y: 0 };
@@ -58,7 +59,7 @@ export class TextRenderer extends Behaviour implements Renderer {
                 this.anchor = { x: -this.measuredTextWidth, y: 0 };
                 break;
             default:
-                this.anchor = { x: 0, y: this.fontSize };
+                this.anchor = { x: 0, y: height };
                 // alert('anchorType is invalid or not set in your scenes!');
                 break;
         }
