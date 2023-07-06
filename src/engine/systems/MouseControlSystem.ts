@@ -43,64 +43,63 @@ export class MouseControlSystem extends System {
                         }
                         this.callback(event);
                     }
+                    // console.log("hit", result.id);
                     result = result.parent;
                 }
             }
             else {
-                //TODO 遗留未修改
-                if (this.rootGameObject.onClick) {
+                if (code === 0) {    // 左键
+                    // 如果有onClick事件，callback = onClick，否则callback = onMouseLeftDown
+                    this.callback = this.rootGameObject.onMouseLeftDown ? this.rootGameObject.onMouseLeftDown : this.rootGameObject.onClick;
+                }
+                else if (code === 1) {   // 中键
+                    this.callback = this.rootGameObject.onMouseMiddleDown;
+                }
+                else if (code === 2) {   // 右键
+                    this.callback = this.rootGameObject.onMouseRightDown;
+                }
+                
+                if (this.callback) {
                     const event: GameEngineMouseEvent = {
                         globalX: globalPoint.x,
                         globalY: globalPoint.y,
                         localX: globalPoint.x,
                         localY: globalPoint.y
                     }
-                    this.rootGameObject.onClick(event);
+                    this.callback(event);
                 }
             }
         });
 
-        // window.addEventListener('mousemove', (event) => {
-        //     //TODO  理清楚这里的逻辑，是否为对比冒泡捕获存储的GameObject结构树
-        //     // 检测鼠标进入
-        //     const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
-        //     const camera = cameraGameObject.getBehaviour(Camera)
-        //     const viewportMatrix = camera.calculateViewportMatrix()
-        //     const originPoint = { x: event.clientX, y: event.clientY };
-        //     const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
+        window.addEventListener('mousemove', (event) => {
+            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
+            const camera = cameraGameObject.getBehaviour(Camera)
+            const viewportMatrix = camera.calculateViewportMatrix()
+            const originPoint = { x: event.clientX, y: event.clientY };
+            const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
+            let result = this.hitTest(this.rootGameObject, globalPoint);
 
-        //     let result = this.hitTest(this.rootGameObject, globalPoint);
-        //     if (result) {
-        //         while (result) {
-        //             if(this.currentHoverGameObject !== result){
-        //                 if (result.onMouseEnter) {
-        //                     this.currentHoverGameObject = result;
-        //                     const invertGlobalMatrix = invertMatrix(result.getBehaviour(Transform).globalMatrix)
-        //                     const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
-        //                     const event: GameEngineMouseEvent = {
-        //                         globalX: globalPoint.x,
-        //                         globalY: globalPoint.y,
-        //                         localX: localPoint.x,
-        //                         localY: localPoint.y
-        //                     }
-        //                     result.onMouseEnter(event);
-        //                 }
-        //             }
-        //             result = result.parent;
-        //         }
-        //     }
-        //     else {
-        //         if (this.rootGameObject.onMouseEnter) {
-        //             const event: GameEngineMouseEvent = {
-        //                 globalX: globalPoint.x,
-        //                 globalY: globalPoint.y,
-        //                 localX: globalPoint.x,
-        //                 localY: globalPoint.y
-        //             }
-        //             this.rootGameObject.onMouseEnter(event);
-        //         }
-        //     }
-        // });
+            if(result){
+                const invertGlobalMatrix = invertMatrix(result.getBehaviour(Transform).globalMatrix)
+                const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
+                const event: GameEngineMouseEvent = {
+                    globalX: globalPoint.x,
+                    globalY: globalPoint.y,
+                    localX: localPoint.x,
+                    localY: localPoint.y
+                }
+
+                if(result !== this.currentHoverGameObject){
+                    if(this.currentHoverGameObject && this.currentHoverGameObject.onMouseLeave){
+                        this.currentHoverGameObject.onMouseLeave(event);
+                        // console.log("leave", this.currentHoverGameObject.id);
+                    }
+                    this.currentHoverGameObject = result;
+                    this.currentHoverGameObject.onMouseEnter(event);
+                    // console.log("enter", this.currentHoverGameObject.id);
+                }
+            }
+        });
     }
 
     hitTest(gameObject: GameObject, point: Point): GameObject {

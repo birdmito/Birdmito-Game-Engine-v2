@@ -15,10 +15,10 @@ export class Click extends Behaviour {
             console.log('middle down');
         }
         this.gameObject.onMouseEnter  = () =>{
-            console.log('enter');
+            console.log(`${this.gameObject.id} enter`);
         }
         this.gameObject.onMouseLeave  = () =>{
-            console.log('leave');
+            console.log(`${this.gameObject.id} leave`);
         }
     }
 }

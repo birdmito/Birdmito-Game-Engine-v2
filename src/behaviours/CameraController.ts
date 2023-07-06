@@ -48,6 +48,7 @@ export class CameraController extends Behaviour {
     }
 
     onUpdate(): void {
+        //TODO 解决边缘易懂与边缘UI的冲突
         // 六边形地图 30*30个 每个六边形172*200
         const transform = getGameObjectById("CameraRoot").getBehaviour(Transform);
 
@@ -70,7 +71,6 @@ export class CameraController extends Behaviour {
 
     }
 
-    // TODO 回到主界面移除监听
     onEnd(): void {
         window.removeEventListener("keydown", () => { });
         window.removeEventListener("wheel", () => { });
