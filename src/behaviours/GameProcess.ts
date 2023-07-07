@@ -171,22 +171,24 @@ export class GameProcess extends Behaviour {
 
     static gameOver() {
         console.log("game over");
+        const gameover = this.engine.createPrefab(new UI_GameOverBinding)
+        const uiRoot = getGameObjectById("uiRoot")
+        uiRoot.addChild(gameover)
 
-        const tip = getGameObjectById("gameOverText")
-        const image = getGameObjectById("gameOverImage")
-        const button = getGameObjectById("gobackToMenuButton")
+        const tip = getGameObjectById("GameOverText")
+        const image = getGameObjectById("GameOverImage")
+        const button = getGameObjectById("GobackToMenuButton")
         button.getBehaviour(TextRenderer).text="返回主菜单"
+
 
         if (Nation.nations[1].provinceOwnedList.length > 0) {
             tip.getBehaviour(TextRenderer).text = "游戏胜利";
 
             image.getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"
-            image.getBehaviour(BitmapRenderer).hitAreaType = 'rectangle'
         }
         else {
             tip.getBehaviour(TextRenderer).text = "游戏失败";
             image.getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Defeat.png"
-            image.getBehaviour(BitmapRenderer).hitAreaType = 'rectangle'
         }
     }
 }
