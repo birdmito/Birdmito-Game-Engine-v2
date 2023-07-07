@@ -17,7 +17,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-  - id: gameOverImage
+  - id: gameOver
     behaviours:
       - type: Transform
         properties:
@@ -26,10 +26,48 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/TESTTransparent.png
-    children: []
+    children: 
+      - id: gameOverImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/TESTTransparent.png
+      - id: gameOverText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 880
+              y: 200
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 48
+              text: ''
+              color: white
+      - id: gobackToMenuButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 880
+              y: 800
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 48
+              text: '返回主菜单'
+              color: white
+          - type: UI_ReturnButton
   - id: gameProcess
     behaviours:
       - type: Transform
