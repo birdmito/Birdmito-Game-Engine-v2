@@ -19,7 +19,7 @@ children:
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: ./assets/images/Icon_TextFrame5050.png
+          source: ./assets/images/TESTBuild.png
           renderType: 'ui'
           scaleXForUI: 1
           scaleYForUI: 1

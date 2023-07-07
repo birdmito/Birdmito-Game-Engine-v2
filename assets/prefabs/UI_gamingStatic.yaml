@@ -17,19 +17,6 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-  - id: gameOverImage
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/TESTTransparent.png
-    children: []
   - id: gameProcess
     behaviours:
       - type: Transform
@@ -156,7 +143,7 @@ children:
               source: ./assets/images/Icon_FrameMap_3.png
               anchorType: left-top
         children: []
-  - id: NextTurnUI
+  - id: NextTurnUI #下一回合
     behaviours:
       - type: Transform
         properties:
@@ -195,7 +182,7 @@ children:
               source: ./assets/images/Icon_FrameRound.png
               anchorType: right-bottom
               hitAreaType: none
-      - id: NextTurnText
+      - id: NextTurnText #下一回合文字
         behaviours:
           - type: Transform
             properties:
@@ -351,16 +338,17 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 50
-                      y: 0
+                      x: 55
+                      y: 25
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
                   - type: TextRenderer
                     properties:
-                      fontSize: 20
+                      fontSize: 40
                       text: '这里应该显示等级'
                       color: red
+                      anchorType: center
                 children: []
           - id: PlayerGold #玩家奥坎盾
             behaviours:
@@ -404,8 +392,8 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 50
-                      y: 0
+                      x: 55
+                      y: 39
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
@@ -414,6 +402,7 @@ children:
                       fontSize: 20
                       text: '这里应该显示多拉'
                       color: yellow
+                      anchorType: left-center
                 children: []
           - id: PlayerTech #玩家科技点
             behaviours:
@@ -457,8 +446,8 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 50
-                      y: 0
+                      x: 55
+                      y: 39
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
@@ -467,6 +456,7 @@ children:
                       fontSize: 20
                       text: '这里应该显示科技等级'
                       color: blue
+                      anchorType: left-center
                 children: []
           - id: PlayerCapacity #玩家行政容量
             behaviours:
@@ -510,8 +500,8 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 50
-                      y: 0
+                      x: 55
+                      y: 39
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
@@ -520,4 +510,57 @@ children:
                       fontSize: 20
                       text: '这里应该显示容量'
                       color: green
+                      anchorType: left-center
                 children: []
+  - id: gameOver ######
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children: 
+      - id: gameOverImage #游戏结束图片,替换
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/TESTTransparent.png
+              hitAreaType: none
+      - id: gameOverText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 880
+              y: 200
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 48
+              text: ''
+              color: white
+      - id: gobackToMenuButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 880
+              y: 800
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 48
+              text: ''
+              color: white
+          - type: UI_ReturnButton

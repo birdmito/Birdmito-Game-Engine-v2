@@ -60,7 +60,7 @@ export class Province extends Behaviour {
     productionLeft: number = 0;
 
     onStart(): void {
-        console.log("province start");
+        // console.log("province start");
         this.changeNationId(0);
         // this.randomLandscape();
         this.updateApCost();

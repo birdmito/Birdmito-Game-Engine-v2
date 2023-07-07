@@ -27,6 +27,8 @@ export class CameraController extends Behaviour {
             // console.log(point);
         });
         
+        const maxScale = 1.5;
+        const minScale = 0.7;
         // 监听鼠标滚轮事件
         window.addEventListener("wheel", function (event) {
             // 检查滚动方向
@@ -35,22 +37,23 @@ export class CameraController extends Behaviour {
                 console.log("Mouse wheel up");
                 transform.scaleX -= 0.02;
                 transform.scaleY -= 0.02;
-                transform.scaleX = Math.max(0.7, transform.scaleX);
-                transform.scaleY = Math.max(0.7, transform.scaleY);
+                transform.scaleX = Math.max(minScale, transform.scaleX);
+                transform.scaleY = Math.max(minScale, transform.scaleY);
 
             } else if (event.deltaY > 0) {
                 // 用户向下滚动
                 console.log("Mouse wheel down");
                 transform.scaleX += 0.02;
                 transform.scaleY += 0.02;
-                transform.scaleX = Math.min(1.5, transform.scaleX);
-                transform.scaleY = Math.min(1.5, transform.scaleY);
+                transform.scaleX = Math.min(maxScale, transform.scaleX);
+                transform.scaleY = Math.min(maxScale, transform.scaleY);
             }
         });
 
     }
 
     onUpdate(): void {
+        //TODO 解决边缘易懂与边缘UI的冲突
         // 六边形地图 30*30个 每个六边形172*200
         const transform = getGameObjectById("CameraRoot").getBehaviour(Transform);
 
@@ -72,7 +75,6 @@ export class CameraController extends Behaviour {
         }
     }
 
-    // TODO 回到主界面移除监听
     onEnd(): void {
         window.removeEventListener("keydown", () => { });
         window.removeEventListener("wheel", () => { });
