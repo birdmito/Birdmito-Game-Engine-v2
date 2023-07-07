@@ -12,9 +12,10 @@ import { Technology } from "./Technology";
 import { Calculator } from "./Calculator";
 import { UnitParam } from "./UnitParam";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
+import { UI_GameOverBinding } from "../bindings/UI_GameOverBinding";
 
 export class GameProcess extends Behaviour {
-    static gamingState: 'playerTurn'|'enemyTurn'|'settlement' = 'playerTurn';
+    static gamingState: 'playerTurn' | 'enemyTurn' | 'settlement' = 'playerTurn';
 
     static nextState() {
         switch (GameProcess.gamingState) {
@@ -129,7 +130,7 @@ export class GameProcess extends Behaviour {
         getGameObjectById("TurnText").getBehaviour(TextRenderer).text =
             this.turnrNow.toString() + "/" + this.turnTotal.toString();
         if (this.turnrNow === this.turnTotal) {
-            this.gameOver();
+            this.gameOver(getGameObjectById("TurnText").getBehaviour(TextRenderer));
         }
 
         // //更新所有单位的ap
@@ -169,16 +170,16 @@ export class GameProcess extends Behaviour {
         }
     }
 
-    static gameOver() {
+    static gameOver(behaviour: Behaviour): void {
         console.log("game over");
-        const gameover = this.engine.createPrefab(new UI_GameOverBinding)
+        const gameover = behaviour.engine.createPrefab(new UI_GameOverBinding)
         const uiRoot = getGameObjectById("uiRoot")
         uiRoot.addChild(gameover)
 
         const tip = getGameObjectById("GameOverText")
         const image = getGameObjectById("GameOverImage")
         const button = getGameObjectById("GobackToMenuButton")
-        button.getBehaviour(TextRenderer).text="返回主菜单"
+        button.getBehaviour(TextRenderer).text = "返回主菜单"
 
 
         if (Nation.nations[1].provinceOwnedList.length > 0) {

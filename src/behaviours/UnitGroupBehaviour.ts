@@ -10,5 +10,6 @@ export class UnitGroupBehaviour extends Behaviour {
 
     onUpdate(): void {
         //更新战力
+        Calculator.calculateUnitGroupPower(this);
     }
 }
