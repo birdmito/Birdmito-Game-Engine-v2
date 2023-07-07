@@ -352,7 +352,7 @@ children:
                   - type: Transform
                     properties:
                       x: 55
-                      y: 39
+                      y: 25
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
@@ -361,7 +361,7 @@ children:
                       fontSize: 40
                       text: '这里应该显示等级'
                       color: red
-                      anchorType: left-bottom
+                      anchorType: center
                 children: []
           - id: PlayerGold #玩家奥坎盾
             behaviours:
