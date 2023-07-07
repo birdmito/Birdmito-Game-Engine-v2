@@ -41,8 +41,12 @@ export class SelectedObjectInfoMangaer extends Behaviour {
         }
         else if (this.selectedBehaviour instanceof UnitBehaviour) {
             const soilder = this.selectedBehaviour as UnitBehaviour;
-            getGameObjectById("UnitNationText").getBehaviour(TextRenderer).text = '所属国家：' + soilder.unitParam.nationId.toString();
+            getGameObjectById("UnitNationText").getBehaviour(TextRenderer).text = '所属国家：' + soilder.nationId.toString();
             getGameObjectById("UnitApText").getBehaviour(TextRenderer).text = '行动点：' + soilder.unitParam.ap.toString() + '/' + soilder.unitParam.apMax.toString();
+            //若不是玩家的单位，则销毁UI_UnitBehaviourButton
+            if (soilder.nationId !== 1) {
+                getGameObjectById("UI_UnitBehaviourButton").destroy();
+            }
         }
     }
 
@@ -78,7 +82,7 @@ export class SelectedObjectInfoMangaer extends Behaviour {
 
             const ColonyButton = getGameObjectById("UI_UnitBehaviourButton");
             ColonyButton.getBehaviour(UI_UnitBehaviourButton).provinceToColony =
-                Province.provinces[selectedBehaviour.soidlerCoor.x][selectedBehaviour.soidlerCoor.y];
+                Province.provincesObj[selectedBehaviour.unitCoor.x][selectedBehaviour.unitCoor.y];
             ColonyButton.getBehaviour(UI_UnitBehaviourButton).unitToDestroy = selectedBehaviour.gameObject;
         }
     }

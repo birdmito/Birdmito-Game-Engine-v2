@@ -33,9 +33,9 @@ export class ProvinceGenerator extends Behaviour {
                 const provinceBehaviour = province.getBehaviour(Province);
                 provinceBehaviour.coord = { x: j, y: i };
                 this.gameObject.addChild(province);
-                if (!Province.provinces[j])
-                    Province.provinces[j] = [];
-                Province.provinces[j][i] = province;
+                if (!Province.provincesObj[j])
+                    Province.provincesObj[j] = [];
+                Province.provincesObj[j][i] = province;
 
                 // console.log(generatedTerrain[j][i]);
                 switch (generatedTerrain[j][i]) {
@@ -127,6 +127,102 @@ export class ProvinceGenerator extends Behaviour {
             hexGrid.push(hexRow);
         }
         return hexGrid;
+    }
+
+    static areAdjacent(x1: Number, y1: Number, x2: Number, y2: Number): boolean {
+        // 当前单元格朝上的相邻位置的偏移量
+        //console两个坐标
+        console.log("x1:" + x1 + " y1:" + y1 + " x2:" + x2 + " y2:" + y2);
+        var offsets;
+        if (Number(y1) % 2 === 0 || y1 === 0) {
+            console.log("y1是偶数");
+            //y为偶数时[2,2]：
+            //0 - - -
+            //1 + + -
+            //2 + - +
+            //3 + + -
+            offsets = [
+                [-1, 0], // 左
+                [1, 0], // 右
+                [-1, -1], // 左上
+                [0, -1], // 右上
+                [-1, 1], // 左下
+                [0, 1] // 右下
+            ];
+        } else {
+            console.log("y1是奇数");
+            //+表示相邻格
+            //y为奇数时[2,1]：
+            //0 - + +
+            //1 + - +
+            //2 - + +
+            offsets = [
+                [-1, 0], // 左
+                [1, 0], // 右
+                [0, -1], // 左上
+                [1, -1], // 右上
+                [0, 1], // 左下
+                [1, 1] // 右下
+            ];
+        }
+
+        // 判断两个坐标是否相邻
+        for (var i = 0; i < offsets.length; i++) {
+            var offset = offsets[i];
+            if (x1 + offset[0] === x2 && y1 + offset[1] === y2) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    //输入坐标，返回相邻的坐标
+    static getAdjacentCoords(x1: Number, y1: Number): { x: number, y: number }[] {
+        // 当前单元格朝上的相邻位置的偏移量
+        //console两个坐标
+        console.log("x1:" + x1 + " y1:" + y1);
+        var offsets;
+        if (Number(y1) % 2 === 0 || y1 === 0) {
+            console.log("y1是偶数");
+            //y为偶数时[2,2]：
+            //0 - - -
+            //1 + + -
+            //2 + - +
+            //3 + + -
+            offsets = [
+                [-1, 0], // 左
+                [1, 0], // 右
+                [-1, -1], // 左上
+                [0, -1], // 右上
+                [-1, 1], // 左下
+                [0, 1] // 右下
+            ];
+        } else {
+            console.log("y1是奇数");
+            //+表示相邻格
+            //y为奇数时[2,1]：
+            //0 - + +
+            //1 + - +
+            //2 - + +
+            offsets = [
+                [-1, 0], // 左
+                [1, 0], // 右
+                [0, -1], // 左上
+                [1, -1], // 右上
+                [0, 1], // 左下
+                [1, 1] // 右下
+            ];
+        }
+
+        // 判断两个坐标是否相邻
+        var adjacent: { x: number, y: number }[] = [];
+        for (var i = 0; i < offsets.length; i++) {
+            var offset = offsets[i];
+            adjacent.push({ x: x1 + offset[0], y: y1 + offset[1] });
+        }
+
+        return adjacent;
     }
 
     // static updateProvince() {

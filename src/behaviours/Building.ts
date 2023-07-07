@@ -4,20 +4,26 @@ import { Resource } from "./Resource";
 import { infoShowable } from "./infoShowable";
 
 export class Building implements infoShowable {
-    private constructor(name, cost = 10, productProcessMax: number = 3, production: Resource = new Resource, maintCost: Resource = new Resource, isUniqueInProvince = false) {
+    private constructor(name, cost = 10, productProcessMax: number = 3, production: Resource = new Resource,
+        maintCost: Resource = new Resource, isUniqueInProvince = false, techRequired = '') {
         this.name = name;
         this.cost = cost;
         this.productProcessMax = productProcessMax;
         this.maintCost = maintCost;
         this.buildingProduction = production;
         this.isUniqueInProvince = isUniqueInProvince;
-        console.log("Building " + name + " is created");
-        console.log(this)
+        this.techRequired = techRequired;
+        // console.log("Building " + name + " is created");
+        // console.log(this)
     }
     static originBuildingList: Building[] = [
         new Building('金矿', 100, 30, new Resource(5, 0, 0), new Resource(2, 0, 0), false),
         new Building('兵营', 200, 50, new Resource(0, 0, 0), new Resource(5, 0, 0), true),
-        new Building('大学', 200, 50, new Resource(0, 0, 5), new Resource(10, 0, 0), false)
+        new Building('大学', 200, 50, new Resource(0, 0, 5), new Resource(10, 0, 0), false),
+        new Building('秘源金矿', 200, 50, new Resource(0, 0, 0), new Resource(50, 0, 0), true, "发掘秘源之金"),
+        new Building('机械工业厂', 200, 50, new Resource(0, 15, 0), new Resource(30, 0, 0), true, "新型机械工业"),
+        new Building('贸易站', 200, 50, new Resource(0, 0, 0), new Resource(0, 0, 0), true, "秘源金销全国"),
+        new Building('秘源精炼厂', 200, 50, new Resource(2, 2, 0), new Resource(0, 0, 0), false, "秘源金再升级")
     ];
 
     //建筑名称
@@ -38,6 +44,17 @@ export class Building implements infoShowable {
     //维护费
     maintCost: Resource;
 
+    //需要科技解锁
+    techRequired: string;
+
+
+    addBuildingParam(building: Building): void {
+        this.cost += building.cost;
+        this.productProcessMax += building.productProcessMax;
+        this.buildingProduction.add(building.buildingProduction);
+        this.maintCost.add(building.maintCost);
+    }
+
     multiplyBuildingParam(building: Building): void {
         this.cost *= building.cost;
         this.productProcessMax *= building.productProcessMax;
@@ -45,9 +62,15 @@ export class Building implements infoShowable {
         this.maintCost.multiply(building.maintCost);
     }
 
-    //获取一个所有参数都为1的建筑，用于在Calculator中计算
+    /**获取一个所有参数都为1的建筑，用于在Calculator中计算*/
     static getBuildingWhichAllParamIsOne(): Building {
         return new Building('这是一段不应该被看到的文本', 1, 1, new Resource(1, 1, 1), new Resource(1, 1, 1), false);
+    }
+
+
+    /**获取一个所有参数都为0的建筑，用于在Calculator中计算*/
+    static getBuildingWhichAllParamIsZero(): Building {
+        return new Building('这是一段不应该被看到的文本', 0, 0, new Resource(0, 0, 0), new Resource(0, 0, 0), false);
     }
 
     static getProvinceBuildingByName(province: Province, name: string): Building {
@@ -69,13 +92,13 @@ export class Building implements infoShowable {
     static copyOriginBuildingList(): Building[] {
         const copyBuildingList: Building[] = [];
         for (const building of Building.originBuildingList) {
-            copyBuildingList.push(new Building(building.name, building.cost, building.productProcessMax, building.buildingProduction, building.maintCost, building.isUniqueInProvince));
+            copyBuildingList.push(new Building(building.name, building.cost, building.productProcessMax, building.buildingProduction, building.maintCost, building.isUniqueInProvince, building.techRequired));
         }
         return copyBuildingList;
     }
 
     static copyBuilding(building: Building): Building {
-        return new Building(building.name, building.cost, building.productProcessMax, building.buildingProduction, building.maintCost, building.isUniqueInProvince);
+        return new Building(building.name, building.cost, building.productProcessMax, building.buildingProduction, building.maintCost, building.isUniqueInProvince, building.techRequired);
     }
 
     getInfo(): string {

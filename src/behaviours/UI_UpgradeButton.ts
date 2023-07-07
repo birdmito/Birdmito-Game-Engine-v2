@@ -14,7 +14,7 @@ export class UI_UpgradeButton extends Behaviour {
                 playerNation.level++;
                 playerNation.dora -= playerNation.upgradeCost;
                 console.log("升级成功" + playerNation.level);
-                Nation.updateNation();
+                playerNation.updateNationProperties();
             }
             else {
                 console.log("金币不足");

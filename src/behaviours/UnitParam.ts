@@ -68,11 +68,23 @@ export class UnitParam implements infoShowable {
         return new UnitParam('这是一段不应该被看到的文本', 1, 1, 1, 1, 1);
     }
 
+    static getUnitParamWhichAllParamIsZero(): UnitParam {
+        return new UnitParam('这是一段不应该被看到的文本', 0, 0, 0, 0, 0);
+    }
+
     multiplyUnitParam(multiplier: UnitParam): UnitParam {
         this.cost *= multiplier.cost;
         this.recruitProcessMax *= multiplier.recruitProcessMax;
         this.apMax *= multiplier.apMax;
         this.maintCost *= multiplier.maintCost;
+        return this;
+    }
+
+    addUnitParam(unit: UnitParam): UnitParam {
+        this.cost += unit.cost;
+        this.recruitProcessMax += unit.recruitProcessMax;
+        this.apMax += unit.apMax;
+        this.maintCost += unit.maintCost;
         return this;
     }
 

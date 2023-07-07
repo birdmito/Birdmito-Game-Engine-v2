@@ -39,10 +39,4 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-    children:
-      - id: UnitPrefab
-        behaviours: []
-        children: []
-        prefab:
-          type: UnitPrefabBinding
 
