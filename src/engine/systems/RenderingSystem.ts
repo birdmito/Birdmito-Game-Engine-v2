@@ -37,8 +37,8 @@ export class CanvasContextRenderingSystem extends System {
 
     onAddComponent(gameObject: GameObject, component: Behaviour): void {
         // 加载BitmapRenderer的图片
-        if(component instanceof BitmapRenderer){
-            if(!component.source){
+        if (component instanceof BitmapRenderer) {
+            if (!component.source) {
                 throw new Error(`${gameObject.id}'s BitmapRenderer source is null`)
             }
             component.image = this.gameEngine.resourceManager.getImage(component.source)
@@ -46,8 +46,8 @@ export class CanvasContextRenderingSystem extends System {
             component.scaleX = component.scaleXForUI;
             component.scaleY = component.scaleYForUI;
             component.borderWidth = component.borderWidthForUI;
-    
-            component.setAnchor(component.anchorType);           
+
+            component.setAnchor(component.anchorType);
         }
         // 加载TextRenderer
         if(component instanceof TextRenderer){
@@ -91,7 +91,7 @@ export class CanvasContextRenderingSystem extends System {
 
         const cameraGameObject =
             this.gameEngine.mode === "play" ? getGameObjectById("Camera") : this.gameEngine.editorGameObject;
-        
+
         const camera = cameraGameObject.getBehaviour(Camera);
         const viewportMatrix = camera.calculateViewportMatrix();
 
@@ -177,7 +177,7 @@ export class CanvasContextRenderingSystem extends System {
                 visitChildren(child);
             }
         }
-        visitChildren(this.rootGameObject);        
+        visitChildren(this.rootGameObject);
     }
 }
 function drawText(context: CanvasRenderingContext2D, renderer: TextRenderer){

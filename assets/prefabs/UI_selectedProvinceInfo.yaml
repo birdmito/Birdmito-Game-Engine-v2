@@ -7,6 +7,7 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
+  - type: UI_UpdateSelectedObjInfo
 children:
   - id: ProductQueue #生产队列
     behaviours:
@@ -32,21 +33,21 @@ children:
               source: ./assets/images/Icon_TextFrame5050.png
               renderType: 'ui'
               scaleXForUI: 5
-              scaleYForUI: 12
+              scaleYForUI: 19
               borderWidthForUI: 15
       - id: ProductQueueRoot
         behaviours:
           - type: Transform
             properties:
               x: 50
-              y: 0 
+              y: 5 
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: LayoutGroup
             properties:
               layoutType: vertical
-              spacing: 100
+              spacing: 80
         children: []
   - id: ProvinceInfoBgBox #省份信息背景框
     behaviours:
@@ -82,7 +83,7 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/ScreenArt_ProvinceLake.png
+              source: ./assets/images/ScreenArt_ProvinceLake_0.png
         children: []   
       - id: ProvinceInfoLayer3
         behaviours:
@@ -109,13 +110,37 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/TESTInterface_Country.png #此处需要添加国家图标
+      - id: ProvinceTerrainImage #省份地形图标
+        behaviours:
+          - type: Transform
+            properties:
+              x: 42
+              y: 305
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_ProvinceTerrain.png
+      - id: ProvinceProductionImage #省份生产图标
+        behaviours:
+          - type: Transform
+            properties:
+              x: 153
+              y: 305
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_ProvinceProduction.png
         children: []     
   - id: ProvinceInfo
     behaviours:
       - type: Transform
         properties:
-          x: 50
-          y: 300
+          x: 0
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -165,122 +190,105 @@ children:
               text: '这里应该显示邻格单位到达该省份所需行动点'
               color: white
         children: []
-      - id: ProvincePlainPercentText
+      - id: ProvinceTerrainText #省份地形文本
         behaviours:
           - type: Transform
             properties:
-              x: 300
-              y: -40
+              x: 67
+              y: 305
               scaleX: 1
               scaleY: 1
               rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示平原百分比'
-              color: white
-        children: []
-      - id: ProvinceForestPercentText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 300
-              y: -10
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示森林百分比'
-              color: white
-        children: []
-      - id: ProvinceMountainPercentText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 300
-              y: 20
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示山地百分比'
-              color: white
-        children: []
-      - id: ProvinceLakePercentText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 300
-              y: 50
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示湖泊百分比'
-              color: white
-        children: []
+        children:
+          - id: ProvinceLakePercentText
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 5
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 15
+                  text: '这里应该显示湖泊百分比'
+                  color: white
+            children: []
+          - id: ProvincePlainPercentText
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 5
+                  y: 28
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 15
+                  text: '这里应该显示平原百分比'
+                  color: white
+            children: []
+          - id: ProvinceForestPercentText
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 5
+                  y: 56
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 15
+                  text: '这里应该显示森林百分比'
+                  color: white
+            children: []
+          - id: ProvinceMountainPercentText
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 5
+                  y: 84
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 15
+                  text: '这里应该显示山地百分比'
+                  color: white
+            children: []
       - id: ProvinceBuildingListRoot
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 210
+              x: 42
+              y: 433
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: LayoutGroup
             properties:
-              layoutType: vertical
-              spacing: 100
+              layoutType: horizontal
+              spacing: 76
+              numPerLine: 5
         children: []
   - id: BuildButton
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: 377
+          y: 305
           scaleX: 1
           scaleY: 1
           rotation: 0
-    children:
-      - id: BuildButtonImage
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 1
-              scaleYForUI: 1
-              borderWidthForUI: 15
-      - id: BuildButtonText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 20
-              y: 20
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: "建造"
-              color: white
-          - type: UI_BuildButton
-        children: []
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_BuildingBuild.png
+      - type: UI_BuildButton
+    children: []
   - id: ProductWindowRoot
     behaviours:
       - type: Transform
@@ -295,44 +303,16 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 100
-          y: 0
+          x: 317
+          y: 305
           scaleX: 1
           scaleY: 1
           rotation: 0
-    children:
-      - id: RecuitButtonImage
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 1
-              scaleYForUI: 1
-              borderWidthForUI: 15
-      - id: RecruitButtonText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 20
-              y: 20
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: "招募"
-              color: white
-          - type: UI_RecruitButton
-        children: []
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_ProduceUnit.png
+      - type: UI_RecruitButton
+    children: []
   - id: Close
     behaviours:
       - type: Transform

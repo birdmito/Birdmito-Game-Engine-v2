@@ -7,6 +7,7 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
+      anchorType: left-top
 children:
   - id: Map
     behaviours:
@@ -17,8 +18,9 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+          anchorType: left-top
       - type: ProvinceGenerator
-    children: []
+    children: []        
   - id: SelectedObjectInfoMangaer
     behaviours:
       - type: Transform
@@ -28,6 +30,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+          anchorType: left-top
       - type: SelectedObjectInfoMangaer
     children: []
   - id: UnitRoot
@@ -39,10 +42,4 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-    children:
-      - id: UnitPrefab
-        behaviours: []
-        children: []
-        prefab:
-          type: UnitPrefabBinding
-
+          anchorType: left-top

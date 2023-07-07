@@ -8,7 +8,8 @@ behaviours:
       rotation: 0
 id: SettingWindow
 children:
-  - behaviours:
+  - id: SettingImage
+    behaviours:
       - type: Transform
         properties:
           x: 0
@@ -17,29 +18,30 @@ children:
           scaleY: 1
           rotation: 0
       - type: BitmapRenderer
-        properties:
-          source: ./assets/images/Icon_TextFrame5050.png
-          renderType: 'ui'
-          scaleXForUI: 12
-          scaleYForUI: 12
-          borderWidthForUI: 15
+        properties:          
+          source: "./assets/images/Icon_PanelMenu.png"
+          renderType: "ui"
+          scaleXForUI: 2
+          scaleYForUI: 3
+          borderWidthForUI: 100
           anchorType: center
-    id: SettingImage
-  - behaviours:
+  - id: SettingText
+    behaviours:
       - type: Transform
         properties:
           x: 0
-          y: -100
+          y: -80
           scaleX: 1
           scaleY: 1
           rotation: 0
       - type: TextRenderer
         properties:
           fontSize: 40
+          fontFamily: "fangsong" 
           text: '游戏菜单'
           anchorType: center
-    id: SettingText
-  - behaviours:
+  - id: ReturnButton # 返回主菜单按钮
+    behaviours:
       - type: Transform
         properties:
           x: 0
@@ -47,28 +49,43 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 40
-          text: '游戏暂停'
-          anchorType: center
-    id: GameOverText
-  - behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 40
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 40
-          text: '返回主菜单'
-          anchorType: center
       - type: UI_ReturnButton
-    id: ReturnButton
-  - behaviours:
+    children:
+      - id: ReturnButtonBackGround
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: "./assets/images/Icon_TextFrame5050.png"
+              renderType: "ui"
+              scaleXForUI: 9
+              scaleYForUI: 2
+              borderWidthForUI: 15
+              anchorType: "center"
+      - id: ReturnButtonText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: -10
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 40
+              fontFamily: "fangsong" 
+              text: 返回主菜单
+              anchorType: center
+        children: []
+  - id: ContinueButton # 继续游戏按钮
+    behaviours:
       - type: Transform
         properties:
           x: 0
@@ -76,10 +93,39 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 40
-          text: '继续游戏'
-          anchorType: center
       - type: UI_ContinueButton
-    id: ContinueButton
+    children:
+      - id: ContinueButtonBackGround
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: "./assets/images/Icon_TextFrame5050.png"
+              renderType: "ui"
+              scaleXForUI: 9
+              scaleYForUI: 2
+              borderWidthForUI: 15
+              anchorType: "center"
+        children: []
+      - id: ContinueButtonText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: -10
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 40
+              fontFamily: "fangsong" 
+              text: 继续游戏
+              anchorType: center
+        children: []

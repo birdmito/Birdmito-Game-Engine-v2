@@ -9,7 +9,7 @@ import { TextRenderer } from "../engine/TextRenderer";
 import { generateTip } from "./Tip";
 
 export class UI_UnitBehaviourButton extends Behaviour {
-    provinceToColony: GameObject;
+    targetProvinceObj: GameObject;
     unitToDestroy: GameObject;
     nation: Nation;
     colonyCost;
@@ -19,7 +19,7 @@ export class UI_UnitBehaviourButton extends Behaviour {
 
     onUpdate(): void {
         this.nation = Nation.nations[this.unitToDestroy.getBehaviour(UnitBehaviour).unitParam.nationId];
-        const provinceBehaviour = this.provinceToColony.getBehaviour(Province);
+        const provinceBehaviour = this.targetProvinceObj.getBehaviour(Province);
         this.colonyCost = Calculator.calculateColonyCost(this.nation.nationId, provinceBehaviour.coord);
 
         //更新按钮文本
@@ -47,9 +47,13 @@ export class UI_UnitBehaviourButton extends Behaviour {
                         generateTip(this, "殖民成功");
                         //处理逻辑
                         provinceBehaviour.changeNationId(this.nation.nationId);  //改变省份归属
+                        console.log('玩家领地列表');
+                        console.log(this.nation.provinceOwnedList);
                         //如果玩家没有城市，则将该省份加入城市列表
                         if (this.nation.cityList.length === 0) {
                             provinceBehaviour.becomeCity();
+                            console.log('玩家城市列表');
+                            console.log(this.nation.cityList);
                         }
                         this.nation.dora -= Calculator.calculateColonyCost(this.nation.nationId, provinceBehaviour.coord);  //扣钱
                         this.unitToDestroy.destroy();

@@ -24,8 +24,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 250
+          x: 50
+          y: 270
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -48,8 +48,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 200
+          x: 50
+          y: 220
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -68,32 +68,18 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-  - id: UpgradeButton
+  - id: GovernmentUpgrade
     behaviours:
       - type: Transform
         properties:
-          x: 200
-          y: 200
+          x: 377
+          y: 87
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 20
-          text: "这里应该显示国家升级及其所需多拉"
-          color: white
-      - type: UI_UpgradeButton 
-  - id: Close
-    behaviours:
-      - type: Transform
-        properties:
-          x: 350
-          y: 250
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
+      - type: UI_UpgradeButton
     children:
-      - id: CloseImage
+      - id: UpgradeButton #这里的两个标注是相反的
         behaviours:
           - type: Transform
             properties:
@@ -104,26 +90,19 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 1
-              scaleYForUI: 1
-              borderWidthForUI: 10
-      - id: CloseText
+              source: ./assets/images/Interface_ButtonGovernmentLevel.png
+      - id: _GovernmentUpgradeText
         behaviours:
           - type: Transform
             properties:
-              x: 20
-              y: 20
+              x: -190
+              y: 10
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: TextRenderer
             properties:
               fontSize: 20
-              text: 关闭
+              text: "这里应该显示国家升级及其所需多拉"
               color: white
-          - type: DestroyOnClick
-            properties:
-              targetID: UI_governmentWindow
-        children: []
+              hitAreaType: none

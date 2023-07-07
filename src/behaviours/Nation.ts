@@ -1,3 +1,4 @@
+import { GameObject } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
 import { Building } from "./Building";
@@ -7,6 +8,7 @@ import { Province } from "./Province";
 import { Resource } from "./Resource";
 import { Technology } from "./Technology";
 import { generateTip } from "./Tip";
+import { UnitBehaviour } from "./UnitBehaviour";
 import { UnitParam } from "./UnitParam";
 
 
@@ -27,6 +29,8 @@ export class Nation {
         this.cityMax = 5;
         this.upgradeCost = 100;
     }
+
+
     nationId: number = 1;  //1-玩家 >2-AI
     nationName: string = "玩家";
 
@@ -43,6 +47,33 @@ export class Nation {
     provinceOwnedList: Province[] = [];
     capitalProvinceCoord: { x: number, y: number };
     cityList: Province[] = [];
+
+    unitList: UnitBehaviour[] = [];  //国家拥有的所有单位
+
+    doraChangeNextTurn: number = 0;  //预计的dora变动
+
+    //TODO 收支明细——没想好怎么做（明细更新的时机）
+    // //记录收支细节，用于在ui中展示
+    // //预计的dora变动
+    // _doraChangeNextTurn: number = 0;
+    // get doraChangeNextTurn(): number {
+    //     return this._doraChangeNextTurn;
+    // }
+    // set doraChangeNextTurn(value: number) {
+    //     const old = this._doraChangeNextTurn;
+    //     this._doraChangeNextTurn = value;
+    //     console.log(`${this.nationName}预计下回合dora变动：${old} -> ${value}`);
+    // }
+
+    // doraDetail: ValueDetail = new ValueDetail();
+    // addDoraDetail(value: number, reason: string) {
+    //     if (value > 0) {
+    //         this.doraDetail.addIncome(value, reason);
+    //     }
+    //     else {
+    //         this.doraDetail.addOutcome(value, reason);
+    //     }
+    // }
 
     getRandomTechNameList(): Technology[] {
         //遍历玩家可研究且未完成的科技，并从中随机抽取至多三个
@@ -98,7 +129,8 @@ export class Nation {
             return;
         }
         //省份最多有10个建筑
-        if (province.buildingList.length >= 10) {
+        const buildingNumIncludingQueue = province.buildingList.length + province.productQueue.filter(item => item.productType === 'building').length;
+        if (buildingNumIncludingQueue >= 10) {
             console.log("省份最多只能建造10个建筑");
             if (this.nationId === 1)
                 generateTip(province, "省份最多只能建造10个建筑");
@@ -111,6 +143,29 @@ export class Nation {
                 generateTip(province, "金币不足");
             return;
         }
+        //判断秘源金矿
+        if (newBuilding.name === '秘源金矿') {
+            if (province.mountainPercent < 0.5) {
+                console.log("秘源金矿只能建在山地上");
+                if (this.nationId === 1)
+                    generateTip(province, "秘源金矿只能建在山地上");
+                return;
+            }
+            if (!Technology.isTechCompleted(this.nationId, "发掘秘源之金")) {
+                console.log("只应被AI触发的console：需要发掘秘源之金");
+                return;
+            }
+        }
+        //判断秘源精炼厂
+        if (newBuilding.name === '秘源精炼厂') {
+            if (!province.buildingList.some(building => building.name === '秘源金矿')) {
+                console.log("秘源精炼厂需要建造在秘源金矿上");
+                if (this.nationId === 1)
+                    generateTip(province, "秘源精炼厂需要建造在秘源金矿上");
+                return;
+            }
+        }
+
 
         //向生产队列中push item
         province.productQueue.push(new ProductingItem(newBuilding.name, newBuilding.productProcessMax, 'building'));
@@ -133,43 +188,21 @@ export class Nation {
         this.dora -= newUnit.cost;
     }
 
+    updateNationProperties() {
+        //更新最大城市数
+        this.cityMax = Calculator.calculateCityMax(this);
 
-    static updateNation() {
-        for (let i = 1; i < Nation.nations.length - 1; i++) {
-            const nation = Nation.nations[i];
-            //更新当前研究进度
-            const currentTech = Technology.getNationTechByName(nation.nationId, nation.currentTechName);
-            if (nation.currentTechName) {
-                currentTech.techProcess += nation.techPerTurn;
-                if (currentTech.techProcess >= currentTech.techProcessMax) {
-                    currentTech.techProcess = currentTech.techProcessMax;
-                    console.log(nation.currentTechName + "研究完成");
-                    nation.currentTechName = "";
-                    nation.randomTechList = nation.getRandomTechNameList();
+        //更新升级所需多拉
+        this.upgradeCost = Calculator.calculateUpgradeCost(this);
 
-                    //研究完成后，若有科技再生产科技，则增加现有地块的产出加成+1
-                    if (Technology.isTechCompleted(nation.nationId, "科技再生产")) {
-                        Technology.getNationTechByName(nation.nationId, "科技再生产").techEffectValueList[0] += 1;
-                        const bonusFromTech = Technology.getTechBonus(nation.nationId, "科技再生产");
-                        console.log(bonusFromTech);
-                    }
-                }
-
-
-                //更新科技树科技研究所需点数
-                for (let j = 0; j < nation.techTree.length; j++) {
-                    const tech = nation.techTree[j];
-                    tech.techProcessMax = Calculator.calculateTechProcessMax(nation, tech);
-                }
-            }
-            
-            //更新最大城市数
-            nation.cityMax = Calculator.calculateCityMax(nation);
-
-            //更新升级所需多拉
-            nation.upgradeCost = Calculator.calculateUpgradeCost(nation);
+        //更新所有单位属性
+        for (let j = 0; j < this.unitList.length; j++) {
+            const unit = this.unitList[j];
+            // unit.updateUnitParam()
         }
     }
+
+
 }
 // export class NationManager{
 //     //国家
