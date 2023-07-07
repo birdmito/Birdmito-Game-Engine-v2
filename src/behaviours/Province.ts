@@ -58,7 +58,7 @@ export class Province extends Behaviour {
     productionLeft: number = 0;
 
     onStart(): void {
-        console.log("province start");
+        // console.log("province start");
         this.changeNationId(0);
         // this.randomLandscape();
         this.updateApCost();
@@ -174,6 +174,7 @@ export class Province extends Behaviour {
         this.isCity = true;
         Nation.nations[this.nationId].cityList.push(this);
     }
+
 }
 // 1. Province：地块属性——Behavior
 //   1. nationId 阵营归属：number

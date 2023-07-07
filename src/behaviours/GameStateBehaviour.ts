@@ -4,6 +4,8 @@ import { GamingScenePrefabBinding } from "../bindings/GamingScenePrefabBinding";
 import { Behaviour } from "../engine/Behaviour";
 import { getGameObjectById } from "../engine";
 import { UI_gamingStaticPrefabBinding } from "../bindings/UI_gamingStaticPrefabBinding";
+import { MiniMapBoxPrefabBinding } from "../bindings/MiniMapBoxPrefabBinding";
+import { Camera } from "./Camera";
 
 export class GameStateBehaviour extends Behaviour {
     gameState: number = 0;
@@ -38,9 +40,26 @@ export class GameStateBehaviour extends Behaviour {
             }
         }
 
+        //获取摄像机
+        const camera = getGameObjectById("Camera");
+        
+        //删除旧场景小地图
+        if(camera.getChildById("MiniMapRoot")){
+            camera.removeChild(camera.getChildById("MiniMapRoot"));
+        }
+
+        //创建新的小地图
+        switch (gameState) {
+            case 1:
+                this.gameObject.engine.createPrefab2Children(new MiniMapBoxPrefabBinding(),camera);
+                break;
+            default:
+                break;    
+        }
+
         //创建新场景
         const newScene = this.gameObject.engine.createPrefab(this.scenePrefabBindings[gameState]);
-        this.gameObject.addChild(newScene);
+        this.gameObject.addChild(newScene);        
 
         //生成新场景的静态UI
         switch (gameState) {

@@ -9,7 +9,6 @@ import { UnitBehaviour } from "./UnitBehaviour";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Ai_Enemies } from "./Ai_Enemies";
 import { Technology } from "./Technology";
-import { ColonialProvinces } from "./ColonialProvinces";
 
 export class GameProcess extends Behaviour {
     onStart(): void {

@@ -1,0 +1,38 @@
+id: MiniMapRoot
+behaviours:
+  - type: Transform
+    properties:
+      x: 0
+      y: 0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+      anchorType: left-top  
+children: 
+  - id: MiniMap
+    behaviours:
+      - type: Transform
+        properties:
+          x: 1070
+          y: 60
+          scaleX: 0.05
+          scaleY: 0.05
+          rotation: 0
+          anchorType: left-top
+    children: []
+  - id: ViewBox
+    behaviours:
+      - type: Transform
+        properties:
+          x: 1070
+          y: 60
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+          anchorType: left-top
+      - type: ViewBoxBehaviour    
+      - type: TextRenderer   
+        properties:
+          fontSize: 40
+          text: 框     
+    children: []  

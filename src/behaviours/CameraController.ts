@@ -39,6 +39,8 @@ export class CameraController extends Behaviour {
             }
         });
         
+        const maxScale = 1.5;
+        const minScale = 0.7;
         // 监听鼠标滚轮事件
         window.addEventListener("wheel", function (event) {
             // 检查滚动方向
@@ -47,16 +49,16 @@ export class CameraController extends Behaviour {
                 console.log("Mouse wheel up");
                 transform.scaleX -= 0.02;
                 transform.scaleY -= 0.02;
-                transform.scaleX = Math.max(0.7, transform.scaleX);
-                transform.scaleY = Math.max(0.7, transform.scaleY);
+                transform.scaleX = Math.max(minScale, transform.scaleX);
+                transform.scaleY = Math.max(minScale, transform.scaleY);
 
             } else if (event.deltaY > 0) {
                 // 用户向下滚动
                 console.log("Mouse wheel down");
                 transform.scaleX += 0.02;
                 transform.scaleY += 0.02;
-                transform.scaleX = Math.min(1.5, transform.scaleX);
-                transform.scaleY = Math.min(1.5, transform.scaleY);
+                transform.scaleX = Math.min(maxScale, transform.scaleX);
+                transform.scaleY = Math.min(maxScale, transform.scaleY);
             }
         });
 
