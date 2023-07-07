@@ -14,9 +14,29 @@ import { UnitParam } from "./UnitParam";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 
 export class GameProcess extends Behaviour {
+    static gamingState: 'playerTurn'|'enemyTurn'|'settlement' = 'playerTurn';
+
+    static nextState() {
+        switch (GameProcess.gamingState) {
+            case 'playerTurn':
+                //玩家操作的状态
+                GameProcess.nextTurn();
+                GameProcess.gamingState = 'enemyTurn';
+                break;
+            case 'enemyTurn':
+                //敌人操作的状态
+                GameProcess.gamingState = 'settlement';
+                break;
+            case 'settlement':
+                //结算战斗的状态
+                GameProcess.gamingState = 'playerTurn';
+                break;
+        }
+    }
+
     onStart(): void {
         this.initialNation();
-        this.nextTurn();
+        GameProcess.nextTurn();
     }
 
     onUpdate(): void {
@@ -25,8 +45,8 @@ export class GameProcess extends Behaviour {
     }
 
     //回合
-    turnrNow = 0;
-    turnTotal = 10;
+    static turnrNow = 0;
+    static turnTotal = 10;
 
     initialNation() {
         for (let i = 0; i < Nation.nationQuantity; i++) {
@@ -55,12 +75,11 @@ export class GameProcess extends Behaviour {
     }
 
 
-    nextTurn() {
+    static nextTurn() {
         //清对国家做遍历，实现每回合执行一次的更新
         for (let i = 1; i < Nation.nations.length; i++) {
             const nation = Nation.nations[i];
             nation.techPerTurn = 100;
-
 
             //更新当前研究进度
             const currentTech = Technology.getNationTechByName(nation.nationId, nation.currentTechName);
@@ -72,7 +91,7 @@ export class GameProcess extends Behaviour {
                     nation.currentTechName = "";
                     nation.randomTechList = nation.getRandomTechNameList();
 
-                    this.executeTechEffect(currentTech.techName, nation);
+                    GameProcess.executeTechEffect(currentTech.techName, nation);
                 }
 
                 //更新科技树科技研究所需点数
@@ -92,7 +111,6 @@ export class GameProcess extends Behaviour {
                 // //扣除单位维护费用
                 // nation.dora -= nation.unitList[j].unitParam.maintCost;
             }
-
 
             //先更新国家属性，因为涉及科技等增益
             nation.updateNationProperties();
@@ -128,7 +146,7 @@ export class GameProcess extends Behaviour {
     }
 
     //执行即时的科技效果
-    executeTechEffect(techName: string, nation: Nation) {
+    static executeTechEffect(techName: string, nation: Nation) {
         //研究完成后，若有科技再生产科技，则增加现有地块的产出加成+1
         if (Technology.isTechCompleted(nation.nationId, "科技再生产")) {
             Technology.getNationTechByName(nation.nationId, "科技再生产").techEffectValueList[0] += 1;
@@ -139,7 +157,7 @@ export class GameProcess extends Behaviour {
 
 
 
-    updateProvincePerTurn() {
+    static updateProvincePerTurn() {
         //每回合开始时，所有领地给予所属国家产出
         for (let i = 0; i < Province.provincesObj.length; i++) {
             for (let j = 0; j < Province.provincesObj[i].length; j++) {
@@ -151,7 +169,7 @@ export class GameProcess extends Behaviour {
         }
     }
 
-    gameOver() {
+    static gameOver() {
         console.log("game over");
 
         const tip = getGameObjectById("gameOverText")

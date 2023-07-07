@@ -63,7 +63,6 @@ export class Province extends Behaviour {
         // console.log("province start");
         this.changeNationId(0);
         // this.randomLandscape();
-        this.updateApCost();
         this.updateProvinceProperties();
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTTransparent.png';
     }

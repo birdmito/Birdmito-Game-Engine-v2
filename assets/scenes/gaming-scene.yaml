@@ -43,15 +43,3 @@ children:
           scaleY: 1
           rotation: 0
           anchorType: left-top
-    children:
-      - id: UnitPrefab
-        behaviours: []
-        children: []
-        prefab:
-          type: UnitPrefabBinding
-      - id: AiPrefab
-        behaviours: []
-        children: []
-        prefab:
-          type: Ai_EnemiesPrefabBinding
-

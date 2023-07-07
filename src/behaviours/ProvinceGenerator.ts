@@ -33,14 +33,14 @@ export class ProvinceGenerator extends Behaviour {
                 province.getBehaviour(Transform).y = hexGrid[i][j].y;
                 miniProvince.getBehaviour(Transform).x = hexGrid[i][j].x; //小地图省份x坐标
                 miniProvince.getBehaviour(Transform).y = hexGrid[i][j].y;   //小地图省份y坐标
-                const provinceBehaviour = province.getBehaviour(Province); 
+                const provinceBehaviour = province.getBehaviour(Province);
                 const miniProvinceBehaviour = miniProvince.getBehaviour(Province);//小地图中的省份
                 provinceBehaviour.coord = { x: j, y: i };
                 this.gameObject.addChild(province);
                 getGameObjectById("MiniMap").addChild(miniProvince);
                 if (!Province.provincesObj[j])
                     Province.provincesObj[j] = [];
-                    Province.provincesObj[j][i] = province;
+                Province.provincesObj[j][i] = province;
 
                 // console.log(generatedTerrain[j][i]);
                 switch (generatedTerrain[j][i]) {
@@ -51,13 +51,14 @@ export class ProvinceGenerator extends Behaviour {
                         provinceBehaviour.isOwnable = true;
                         break;
                 }
-                this.randomSubTerrain(provinceBehaviour, miniProvinceBehaviour,generatedTerrain[j][i]);
+                this.randomSubTerrain(provinceBehaviour, miniProvinceBehaviour, generatedTerrain[j][i]);
+                provinceBehaviour.updateApCost();
             }
         }
     }
 
 
-    randomSubTerrain(provinceBehaviour: Province,miniProvinceBehaviour:Province,mainTerrain: TerrainType) {
+    randomSubTerrain(provinceBehaviour: Province, miniProvinceBehaviour: Province, mainTerrain: TerrainType) {
         const mainRandomPercent = (Math.random() + 1) / 2;
         const subRandomPercent1 = Math.random() * (1 - mainRandomPercent)
         const subRandomPercent2 = Math.random() * (1 - mainRandomPercent - subRandomPercent1)
@@ -69,7 +70,7 @@ export class ProvinceGenerator extends Behaviour {
         switch (mainTerrain) {
             case TerrainType.Ocean:
                 //生成一个1-9的随机数
-                url = this.randomSelectUrl('./assets/images/Map_TerrainOcean_', 9, 100);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainOcean_', 9, 100);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
@@ -78,7 +79,7 @@ export class ProvinceGenerator extends Behaviour {
                 provinceBehaviour.forestPercent = subRandomPercent1;
                 provinceBehaviour.mountainPercent = subRandomPercent2;
                 provinceBehaviour.lakePercent = subRandomPercent3;
-                url = this.randomSelectUrl('./assets/images/Map_TerrainPlain_', 1);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainPlain_', 1);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
@@ -87,7 +88,7 @@ export class ProvinceGenerator extends Behaviour {
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.mountainPercent = subRandomPercent2;
                 provinceBehaviour.lakePercent = subRandomPercent3;
-                url = this.randomSelectUrl('./assets/images/Map_TerrainForest_', 5);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainForest_', 5);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
@@ -96,7 +97,7 @@ export class ProvinceGenerator extends Behaviour {
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.forestPercent = subRandomPercent2;
                 provinceBehaviour.lakePercent = subRandomPercent3;
-                url = this.randomSelectUrl('./assets/images/Map_TerrainMountain_', 3);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainMountain_', 3);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
@@ -105,7 +106,7 @@ export class ProvinceGenerator extends Behaviour {
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.forestPercent = subRandomPercent2;
                 provinceBehaviour.mountainPercent = subRandomPercent3;
-                url = this.randomSelectUrl('./assets/images/Map_TerrainLake_', 1);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainLake_', 1);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
@@ -114,7 +115,7 @@ export class ProvinceGenerator extends Behaviour {
 
     }
 
-    randomSelectUrl(frontUrl: string, urlNum: number, mainRandom = 0): string {
+    static randomSelectUrl(frontUrl: string, urlNum: number, mainRandom = 0): string {
         var randomNum = Math.floor(Math.random() * (urlNum + mainRandom));
         if (randomNum > urlNum - 1) {
             randomNum = 0;

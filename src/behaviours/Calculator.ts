@@ -5,6 +5,7 @@ import { Province } from "./Province";
 import { Resource } from "./Resource";
 import { Technology } from "./Technology";
 import { UnitBehaviour } from "./UnitBehaviour";
+import { UnitGroupBehaviour } from "./UnitGroupBehaviour";
 import { UnitParam } from "./UnitParam";
 
 export class Calculator {
@@ -176,5 +177,9 @@ export class Calculator {
         for (let i = 0; i < buildingList.length; i++) {
             buildingList[i] = Building.copyBuilding(Building.getProvinceBuildingByName(province, buildingList[i].name));
         }
+    }
+
+    static calculateUnitGroupPower(unitGroup: UnitGroupBehaviour) {
+        //计算单位组的战斗力
     }
 }

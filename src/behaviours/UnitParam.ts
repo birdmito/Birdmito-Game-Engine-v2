@@ -12,29 +12,36 @@ import { OverrideableNode } from "ts-morph";
 
 export class UnitParam implements infoShowable {
     static originUnitParamList: UnitParam[] = [
-        new UnitParam("开拓者", 10, 10, 100000, 10, 1),
-        new UnitParam("筑城者", 10, 10, 100000, 10, 1),
+        new UnitParam("开拓者", 10, 10, 20, 10, 1),
+        new UnitParam("筑城者", 10, 10, 20, 10, 1),
+        new UnitParam("士兵", 10, 10, 20, 10, 1, true, 10, 10)
     ];
 
-    private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number, maintCost: number, nationId: number = 1) {
+    private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,
+        maintCost: number, nationId: number = 1, isCombatUnit: boolean = false, quantity: number = 1, power: number = 0) {
         this.name = name;
         this.cost = cost;
         this.recruitProcessMax = recruitProcessMax;
         this.apMax = apMax;
         this.maintCost = maintCost;
         this.nationId = nationId;
+        this.isCombatUnit = isCombatUnit;
+        this.quantity = quantity;
+        this.power = power;
     }
 
     static copyOriginUnitParamList(nationId: number = 1): UnitParam[] {
         const result: UnitParam[] = [];
         UnitParam.originUnitParamList.forEach((unitParam) => {
-            result.push(new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax, unitParam.maintCost, nationId));
+            result.push(new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax,
+                unitParam.maintCost, nationId, unitParam.isCombatUnit, unitParam.quantity, unitParam.power));
         });
         return result;
     }
 
     static copyUnitParam(unitParam: UnitParam): UnitParam {
-        return new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax, unitParam.maintCost, unitParam.nationId);
+        return new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax,
+            unitParam.maintCost, unitParam.nationId, unitParam.isCombatUnit, unitParam.quantity, unitParam.power);
     }
 
     static getProvinceUnitParamByName(province: Province, name: string): UnitParam {
@@ -63,6 +70,14 @@ export class UnitParam implements infoShowable {
     ap: number = 100000;
     apMax: number = 10;
     maintCost: number = 1;
+
+    //战斗属性
+    //是否是战斗单位
+    isCombatUnit: boolean = false;
+    //单位数量
+    quantity: number = 1;
+    //战力
+    power: number = 1;
 
     static getUnitParamWhichAllParamIsOne(): UnitParam {
         return new UnitParam('这是一段不应该被看到的文本', 1, 1, 1, 1, 1);

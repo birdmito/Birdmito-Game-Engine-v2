@@ -7,6 +7,7 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
+  - type: UI_UpdateSelectedObjInfo
 children:
   - id: ProductQueue #生产队列
     behaviours:
@@ -82,7 +83,7 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/ScreenArt_ProvinceLake.png
+              source: ./assets/images/ScreenArt_ProvinceLake_0.png
         children: []   
       - id: ProvinceInfoLayer3
         behaviours:

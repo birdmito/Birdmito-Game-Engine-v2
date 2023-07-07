@@ -95,7 +95,7 @@ export class MouseControlSystem extends System {
                         // console.log("leave", this.currentHoverGameObject.id);
                     }
                     this.currentHoverGameObject = result;
-                    this.currentHoverGameObject.onMouseEnter(event);
+                    // this.currentHoverGameObject.onMouseEnter(event);
                     // console.log("enter", this.currentHoverGameObject.id);
                 }
             }

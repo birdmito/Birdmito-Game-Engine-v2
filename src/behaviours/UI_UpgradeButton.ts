@@ -6,7 +6,7 @@ import { generateTip } from "./Tip";
 
 export class UI_UpgradeButton extends Behaviour {
     onUpdate(): void {
-        this.gameObject.getBehaviour(TextRenderer).text = '升级政府：' + Nation.nations[1].upgradeCost.toString() + "多拉";
+        getGameObjectById("_GovernmentUpgradeText").getBehaviour(TextRenderer).text = '升级政府：' + Nation.nations[1].upgradeCost.toString() + "多拉";
         this.gameObject.onMouseLeftDown = () => {
             const playerNation = Nation.nations[1];
             //判断金币数
