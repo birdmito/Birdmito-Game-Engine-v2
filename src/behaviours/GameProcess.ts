@@ -9,13 +9,11 @@ import { UnitBehaviour } from "./UnitBehaviour";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Ai_Enemies } from "./Ai_Enemies";
 import { Technology } from "./Technology";
-import { ColonialProvinces } from "./ColonialProvinces";
 
 export class GameProcess extends Behaviour {
     onStart(): void {
         this.initialNation();
         this.nextTurn();
-        getGameObjectById("gobackToMenuButton").active = false; //隐藏返回主菜单按钮
     }
 
     onUpdate(): void {
@@ -77,11 +75,12 @@ export class GameProcess extends Behaviour {
 
         const tip = getGameObjectById("gameOverText")
         const image = getGameObjectById("gameOverImage")
-        
-        getGameObjectById("gobackToMenuButton").active = true;//显示返回主菜单按钮
-        
+        const button = getGameObjectById("gobackToMenuButton")
+        button.getBehaviour(TextRenderer).text="返回主菜单"
+
         if (Nation.nations[1].provinceOwnedList.length > 0) {
             tip.getBehaviour(TextRenderer).text = "游戏胜利";
+
             image.getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"
             image.getBehaviour(BitmapRenderer).hitAreaType = 'rectangle'
         }

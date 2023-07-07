@@ -561,6 +561,6 @@ children:
           - type: TextRenderer
             properties:
               fontSize: 48
-              text: '返回主菜单'
+              text: ''
               color: white
           - type: UI_ReturnButton
