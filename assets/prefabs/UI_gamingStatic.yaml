@@ -161,7 +161,7 @@ children:
               y: -100
               scaleX: 1
               scaleY: 1
-              rotation: 0
+              rotation: 15
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Interface_ButtonRound.png
