@@ -20,39 +20,21 @@ export class UI_ItemButton extends Behaviour {
             const selectedObjectInfoManager = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer);
             const eventText = this.gameObject.getBehaviour(TextRenderer).text;
             const targetProvince = selectedObjectInfoManager.selectedBehaviour as Province;
-            const originBuilding = Building.getBuildingByName(this.itemName);
-            const originUnitParam = UnitParam.getUnitParamByName(this.itemName);
+            var originBuilding: Building;
+            var originUnitParam: UnitParam;
+            if (targetProvince) {
+                originBuilding = Building.getProvinceBuildingByName(targetProvince, this.itemName);
+                originUnitParam = UnitParam.getProvinceUnitParamByName(targetProvince, this.itemName);
+            }
 
             switch (eventText) {
                 case "建造":
                     const newBuilding = Building.copyBuilding(originBuilding);
-
-                    if (originBuilding.isUniqueInProvince &&
-                        (targetProvince.buildingList.some(building => building.name === newBuilding.name) || targetProvince.productQueue.some(item => item.productName === newBuilding.name))) {
-                        console.log("建筑" + newBuilding.name + "在同一省份中只能建造一次");
-                        return;
-                    }
-                    //省份最多有10个建筑
-                    if (targetProvince.buildingList.length >= 10) {
-                        console.log("省份最多只能建造10个建筑");
-                        generateTip(this, "省份最多只能建造10个建筑");
-                        return;
-                    }
-
-                    if (Nation.nations[1].dora >= newBuilding.cost) {
-                        console.log("建造成功");
-                        //向生产队列中push item
-                        targetProvince.productQueue.push(new ProductingItem(newBuilding.name, newBuilding.productProcessMax, 'building'));
-                        Nation.nations[1].dora -= newBuilding.cost;
-                    }
-                    else {
-                        console.log("金币不足");
-                        generateTip(this, "金币不足");
-                    }
+                    Nation.nations[1].buildBuilding(targetProvince, newBuilding.name);
                     break;
                 case "拆除":
                     targetProvince.buildingList.splice(this.idInList, 1);  //从建筑列表中删除
-                    targetProvince.updateProduction();  //拆除建筑时，资源产出减少
+                    targetProvince.updateProvinceProperties();  //拆除建筑时，资源产出减少
                     console.log("拆除成功");
                     console.log("获得金币：" + originBuilding.cost);
                     Nation.nations[1].dora += originBuilding.cost;
@@ -73,8 +55,7 @@ export class UI_ItemButton extends Behaviour {
                 case "招募":
                     console.log("招募 is clicked");
                     //向生产队列中push item
-                    targetProvince.productQueue.push(new ProductingItem(this.itemName, UnitParam.getUnitParamByName(this.itemName).recruitProcessMax, 'unit'));
-                    Nation.nations[1].dora -= originUnitParam.cost;
+                    Nation.nations[1].recruitUnit(targetProvince, this.itemName);
                     break;
                 case "研究":
                     console.log("研究 is clicked");

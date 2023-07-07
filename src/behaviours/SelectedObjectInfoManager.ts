@@ -16,6 +16,11 @@ import { Nation } from "./Nation";
 
 export class SelectedObjectInfoMangaer extends Behaviour {
     onUpdate(): void {
+        //若没有Info界面，则设置selectedBehaviour为null
+        if (!getGameObjectById("UI_selectedProvinceInfo") || !getGameObjectById("UI_selectedUnitInfo")) {
+            this.selectedBehaviour = null;
+        }
+
         if (this.selectedBehaviour === null) {
             return;
         }

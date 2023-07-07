@@ -14,6 +14,7 @@ export class GameProcess extends Behaviour {
     onStart(): void {
         this.initialNation();
         this.nextTurn();
+        getGameObjectById("gobackToMenuButton").active = false; //隐藏返回主菜单按钮
     }
 
     onUpdate(): void {
@@ -23,9 +24,7 @@ export class GameProcess extends Behaviour {
 
     //回合
     turnrNow = 0;
-    turnTotal = 100;
-
-    //所有建筑
+    turnTotal = 10;
 
     initialNation() {
         for (let i = 0; i < Nation.nationQuantity; i++) {
@@ -66,8 +65,8 @@ export class GameProcess extends Behaviour {
         //更新国家属性
         Nation.updateNation();
 
-        //更新Ai位置
-        getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
+        // //更新Ai位置
+        // getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
         //显示玩家省份信息
 
     }
@@ -75,20 +74,21 @@ export class GameProcess extends Behaviour {
     gameOver() {
         console.log("game over");
 
-        const tip = this.gameObject.engine.createPrefab(new TextPrefabBinding)
-        if (Nation.nations[1].dora > 0) {
-            tip.getBehaviour(TextPrefabBinding).text = "游戏胜利";
-            tip.getBehaviour(TextPrefabBinding).y = 40;
-            getGameObjectById("gameOverImage").getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"
+        const tip = getGameObjectById("gameOverText")
+        const image = getGameObjectById("gameOverImage")
+        
+        getGameObjectById("gobackToMenuButton").active = true;//显示返回主菜单按钮
+        
+        if (Nation.nations[1].provinceOwnedList.length > 0) {
+            tip.getBehaviour(TextRenderer).text = "游戏胜利";
+            image.getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"
+            image.getBehaviour(BitmapRenderer).hitAreaType = 'rectangle'
         }
         else {
-            tip.getBehaviour(TextPrefabBinding).text = "游戏失败";
-            tip.getBehaviour(TextPrefabBinding).x = 880;
-            tip.getBehaviour(TextPrefabBinding).y = 200;
-            console.log(this.gameObject)
-            getGameObjectById("gameOverImage").getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Defeat.png"
+            tip.getBehaviour(TextRenderer).text = "游戏失败";
+            image.getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Defeat.png"
+            image.getBehaviour(BitmapRenderer).hitAreaType = 'rectangle'
         }
-        getGameObjectById("uiRoot").addChild(tip);
     }
 }
 

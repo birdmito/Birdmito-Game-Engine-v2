@@ -11,7 +11,7 @@ import { infoShowable } from "./infoShowable";
 import { OverrideableNode } from "ts-morph";
 
 export class UnitParam implements infoShowable {
-    static allUnitParamList: UnitParam[] = [
+    static originUnitParamList: UnitParam[] = [
         new UnitParam("开拓者", 10, 10, 100000, 10, 1),
         new UnitParam("筑城者", 10, 10, 100000, 10, 1),
     ];
@@ -25,13 +25,36 @@ export class UnitParam implements infoShowable {
         this.nationId = nationId;
     }
 
-    static copyUnitParam(unitParam: UnitParam, nationId: number = 1): UnitParam {
-        return new UnitParam(unitParam.name, unitParam.recruitProcessMax, unitParam.apMax, unitParam.maintCost, nationId);
+    static copyOriginUnitParamList(nationId: number = 1): UnitParam[] {
+        const result: UnitParam[] = [];
+        UnitParam.originUnitParamList.forEach((unitParam) => {
+            result.push(new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax, unitParam.maintCost, nationId));
+        });
+        return result;
     }
 
-    static getUnitParamByName(name: string): UnitParam {
-        return UnitParam.allUnitParamList.find((unitParam) => unitParam.name === name);
+    static copyUnitParam(unitParam: UnitParam): UnitParam {
+        return new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax, unitParam.maintCost, unitParam.nationId);
     }
+
+    static getProvinceUnitParamByName(province: Province, name: string): UnitParam {
+        for (let i = 0; i < province.recruitableUnitList.length; i++) {
+            if (province.recruitableUnitList[i].name === name) {
+                return province.recruitableUnitList[i];
+            }
+        }
+        return null;
+    }
+
+    static getOriginUnitParamByName(name: string): UnitParam {
+        for (let i = 0; i < UnitParam.originUnitParamList.length; i++) {
+            if (UnitParam.originUnitParamList[i].name === name) {
+                return UnitParam.originUnitParamList[i];
+            }
+        }
+        return null;
+    }
+
     name: string = "soilder";
     cost: number = 10;
     recruitProcess: number = 10;
@@ -41,7 +64,19 @@ export class UnitParam implements infoShowable {
     apMax: number = 10;
     maintCost: number = 1;
 
+    static getUnitParamWhichAllParamIsOne(): UnitParam {
+        return new UnitParam('这是一段不应该被看到的文本', 1, 1, 1, 1, 1);
+    }
+
+    multiplyUnitParam(multiplier: UnitParam): UnitParam {
+        this.cost *= multiplier.cost;
+        this.recruitProcessMax *= multiplier.recruitProcessMax;
+        this.apMax *= multiplier.apMax;
+        this.maintCost *= multiplier.maintCost;
+        return this;
+    }
+
     getInfo(): string {
-        return `${this.name} 所属国家: ${this.nationId} 行动点: ${this.ap} 最大行动点: ${this.apMax} 维护费: ${this.maintCost}`;
+        return `${this.name} 所属国家: ${this.nationId} 招募费用: ${this.cost} 生产力花费: ${this.recruitProcessMax} 行动力: ${this.ap}/${this.apMax} 维护费用: ${this.maintCost}`;
     }
 }

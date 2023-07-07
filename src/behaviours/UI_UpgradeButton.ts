@@ -2,6 +2,7 @@ import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Nation } from "./Nation";
+import { generateTip } from "./Tip";
 
 export class UI_UpgradeButton extends Behaviour {
     onUpdate(): void {
@@ -13,9 +14,11 @@ export class UI_UpgradeButton extends Behaviour {
                 playerNation.level++;
                 playerNation.dora -= playerNation.upgradeCost;
                 console.log("升级成功" + playerNation.level);
+                Nation.updateNation();
             }
             else {
                 console.log("金币不足");
+                generateTip(this, "金币不足");
             }
         }
     }

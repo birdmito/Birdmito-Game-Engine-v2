@@ -19,49 +19,69 @@ children:
       - type: BitmapRenderer
         properties:
           source: "./assets/images/ScreenArt_Start.png"
+      - type: Click
     id: 背景
   - behaviours:
       - type: Transform
         properties:
-          x: 50
-          y: 600
+          x: 250
+          y: 800
           scaleX: 1
           scaleY: 1
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: "./assets/images/Icon_PanelTransparent.png"
+          source: "./assets/images/Icon_PanelMenu.png"
           renderType: "ui"
-          scaleXForUI: 0.8
-          scaleYForUI: 1
-          borderWidthForUI: 30
+          scaleXForUI: 2
+          scaleYForUI: 4
+          borderWidthForUI: 100
+          anchorType: "center"
       - type: Click
     id: MainMenuBackGround
-  - behaviours:
+  - id: StartButton
+    behaviours:
       - type: Transform
         properties:
-          x: 200
-          y: 750
+          x: 250
+          y: 800
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: "./assets/images/Icon_TextFrame15050.png"
-    id: GameStartButtonBackGround
-  - behaviours:
-      - type: Transform
-        properties:
-          x: 215
-          y: 755
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 30
-          fontFamily: "fangsong" 
-          text: 开始游戏
       - type: LoginBehaviour
-    id: GameStartButton
+    children:
+      - id: GameStartButtonBackGround
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: "./assets/images/Icon_TextFrame5050.png"
+              renderType: "ui"
+              scaleXForUI: 5
+              scaleYForUI: 1
+              borderWidthForUI: 15
+              anchorType: "center"
+      - id: GameStartButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 40
+              fontFamily: "fangsong" 
+              text: 开始游戏
+              anchorType: "center"
+              hitAreaType: none
+        
 

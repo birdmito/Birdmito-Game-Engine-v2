@@ -20,7 +20,7 @@ export class Province extends Behaviour {
         for (let i = 0; i < Province.provinces.length; i++) {
             for (let j = 0; j < Province.provinces[i].length; j++) {
                 const province = Province.provinces[i][j].getBehaviour(Province);
-                province.updateProduction();  //更新领地产出
+                province.updateProvinceProperties();  //更新领地产出
                 province.giveOwnerProduction();  //给予所属国家产出
                 province.updateProductProcess();  //更新生产队列
             }
@@ -33,7 +33,6 @@ export class Province extends Behaviour {
     isOwnable = true;
     apCost = 1;
     provinceProduction: Resource = new Resource(0, 0, 0);
-    provinceProductionBonus: Resource = new Resource(0, 0, 0);
 
     plainPercent = 0;
     lakePercent = 0;
@@ -46,10 +45,10 @@ export class Province extends Behaviour {
 
 
     //可建造的建筑列表
-    buildableBuildingList: Building[] = Building.allBuildingList;
+    buildableBuildingList: Building[] = Building.copyOriginBuildingList();
 
     //可招募的单位
-    recruitableList: UnitParam[] = UnitParam.allUnitParamList;
+    recruitableUnitList: UnitParam[] = UnitParam.copyOriginUnitParamList();
 
     //生产队列
     productQueue: ProductingItem[] = [];
@@ -62,7 +61,7 @@ export class Province extends Behaviour {
         this.changeNationId(0);
         // this.randomLandscape();
         this.updateApCost();
-        this.updateProduction();
+        this.updateProvinceProperties();
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTTransparent.png';
     }
 
@@ -123,9 +122,16 @@ export class Province extends Behaviour {
         this.apCost = Math.floor(this.apCost);
     }
 
-    updateProduction() {
-        //更新省份产出
+    updateProvinceProperties() {
+        //更新领地属性
+        //产出
         Calculator.calculateProvinceProduction(this);
+        //被招募单位的属性
+        Calculator.calculateProvinceUnitParam(this);
+        //若省份已被筑城，则更新被建造建筑的属性
+        if (this.isCity) {
+            Calculator.calculateProvinceBuildingParam(this);
+        }
     }
 
     giveOwnerProduction() {
@@ -151,12 +157,12 @@ export class Province extends Behaviour {
             this.productionLeft = currentItem.productProcess - currentItem.productProcessMax;  //残留生产力
             this.productQueue.shift();
             if (currentItem.productType == 'building') {
-                const newBuilding = Building.copyBuilding(Building.getBuildingByName(currentItem.productName));
+                const newBuilding = Building.copyBuilding(Building.getProvinceBuildingByName(this, currentItem.productName));
                 this.buildingList.push(newBuilding);
-                this.updateProduction();
+                this.updateProvinceProperties();
             }
             else if (currentItem.productType == 'unit') {
-                const newUnitParam = UnitParam.copyUnitParam(UnitParam.getUnitParamByName(currentItem.productName), 1);
+                const newUnitParam = UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(this, currentItem.productName));
                 const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
                 const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
                 prefabBehavior.unitParam = newUnitParam;

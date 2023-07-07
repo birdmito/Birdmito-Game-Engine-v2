@@ -12,7 +12,7 @@ import { UnitParam as UnitParam } from "./UnitParam";
 export class UnitBehaviour extends Behaviour {
     static soilderList: UnitBehaviour[] = [];
     soidlerCoor: { x: number, y: number } = { x: 1, y: 0 };
-    unitParam: UnitParam = UnitParam.allUnitParamList[0];
+    unitParam: UnitParam = UnitParam.originUnitParamList[0];
     onStart(): void {
         UnitBehaviour.soilderList.push(this);
         this.updateTransform();
