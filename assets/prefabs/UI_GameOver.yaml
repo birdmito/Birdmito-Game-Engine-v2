@@ -1,0 +1,80 @@
+id: GameOverMenu
+behaviours:
+  - type: Transform
+    properties:
+      x: 0
+      y: 0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+children:
+  - id: GameOverImage
+    behaviours: 
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/ScreenArt_Win.png
+  - id: GameOverText
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 48
+          text: ''
+          color: white
+  - id: GobackToMenuButton
+    behaviours:
+      - type: Transform
+        properties:
+          x: 880
+          y: 800
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: UI_ReturnButton
+    children:
+      - id: GobackToMenuButtonImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: "./assets/images/Icon_TextFrame5050.png"
+              renderType: "ui"
+              scaleXForUI: 9
+              scaleYForUI: 2
+              borderWidthForUI: 15
+              anchorType: "center"
+      - id: GobackToMenuButtonText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: -10
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 40
+              fontFamily: "fangsong" 
+              text: 返回主菜单
+              anchorType: center
+        children: []
