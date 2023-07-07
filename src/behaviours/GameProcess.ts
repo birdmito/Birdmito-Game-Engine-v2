@@ -83,10 +83,12 @@ export class GameProcess extends Behaviour {
         if (Nation.nations[1].provinceOwnedList.length > 0) {
             tip.getBehaviour(TextRenderer).text = "游戏胜利";
             image.getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"
+            image.getBehaviour(BitmapRenderer).hitAreaType = 'rectangle'
         }
         else {
             tip.getBehaviour(TextRenderer).text = "游戏失败";
             image.getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Defeat.png"
+            image.getBehaviour(BitmapRenderer).hitAreaType = 'rectangle'
         }
     }
 }
