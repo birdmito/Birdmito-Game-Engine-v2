@@ -1,3 +1,4 @@
+id: Button
 behaviours:
   - type: Transform
     properties:
@@ -6,30 +7,36 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-  - type: Button
+  - type: Click
 children:
-  - behaviours:
-    - type: Transform
-      properties:
-        x: 0
-        y: 0
-        scaleX: 1
-        scaleY: 1
-        rotation: 0
-    - type: BitmapRenderer
-      properties:
-        source: ./assets/images/icon.jpg
-  - behaviours:
-    - type: Transform
-      properties:
-        x: 0
-        y: 0
-        scaleX: 1
-        scaleY: 1
-        rotation: 0
-    - type: TextRenderer
-      properties:
-        text: Button
-        fontSize: 40
-        fontFamily: Arial
-        color: 'black'
+  - id: ButtonBackGround
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_TextFrame15050.png
+  - id: ButtonText
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+          anchorType: left-top
+      - type: TextRenderer
+        properties:
+          text: TTT|TTT
+          fontSize: 40
+          fontFamily: Arial
+          color: 'black'
+          lineHeight: 1.2
+          hitAreaType: none
+          anchorType: left-top

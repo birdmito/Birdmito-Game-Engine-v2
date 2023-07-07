@@ -5,10 +5,9 @@ import { Transform } from "../engine/Transform";
 import { checkPointInRectangle } from "../engine/math";
 
 export class CameraController extends Behaviour {
-    //TODO: 鼠标拖动移动相机
-    // 鼠标移动之边缘检测盒(dev: 1600 945)   1500*1080  1720*980
-    screenPreset: Rectangle = { x: 0, y: 0, width: 1344, height: 755 };     //如果边缘检测盒和不起效，请修改这里调试
-    boardWidth: number = 10;   //边缘检测盒范围宽度
+    // 鼠标移动之边缘检测盒(dev: 1600 945)   1500*1080  1720*980  DYS: 1620*980
+    screenPreset: Rectangle = { x: 0, y: 0, width: 1620, height: 980 };     //如果边缘检测盒和不起效，请修改这里调试
+    boardWidth: number = 50;   //边缘检测盒范围宽度
 
     leftRectangle: Rectangle = { x: 0, y: 0, width: this.boardWidth, height: this.screenPreset.height };
     rightRectangle: Rectangle = { x: this.screenPreset.width, y: 0, width: this.boardWidth, height: this.screenPreset.height };

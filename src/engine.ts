@@ -433,7 +433,7 @@ export function extractGameObject(gameObject: GameObject): GameObjectData {
     return gameObjectData;
 }
 
-export function createGameObject(data: GameObjectData, gameEngine: GameEngine): GameObject {
+function createGameObject(data: GameObjectData, gameEngine: GameEngine): GameObject {
     let gameObject: GameObject;
     if (data.prefab) {
         const url = getPrefabBehaviourInfo(data.prefab.type);

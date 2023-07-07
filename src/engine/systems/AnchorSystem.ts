@@ -5,17 +5,22 @@ import { Transform } from "../Transform";
 import { System } from "./System";
 
 export class AnchorSystem extends System{
+    isCalculated = false
     onStart(): void {
-        this.calculateContainerBound(this.rootGameObject)
-        this.calculateContainerBound(this.gameEngine.editorGameObject)
+        // this.calculateContainerBound(this.rootGameObject)
+        // this.calculateContainerBound(this.gameEngine.editorGameObject)
     }
     onUpdate(): void {
         // 切换场景不会重新调用onStart
         // 切换场景时不会计算容器边界的本质原因是：场景切换不是真的切换场景，而是更换sceneRoot的子节点，而System的onStart只会在引擎开始时调用一次
         // 包围盒计算也不应该在onUpdate中进行，因为onUpdate是每帧都会调用的，这样会导致每帧都会计算一次包围盒，从而导致性能问题以及由包围盒变化引起的bug
         // 另外，场景中新生成的GameObject也不会调用onStart，所以也不会计算包围盒
-        // this.calculateContainerBound(this.rootGameObject)
-        // this.calculateContainerBound(this.gameEngine.editorGameObject)
+        if(this.isCalculated){
+            return
+        }
+        this.calculateContainerBound(this.rootGameObject)
+        this.calculateContainerBound(this.gameEngine.editorGameObject)
+        this.isCalculated = true
     }
 
     calculateContainerBound(gameObject: GameObject) :{minX: number, minY: number, maxX: number, maxY: number}{
@@ -176,7 +181,7 @@ export class AnchorSystem extends System{
         const renderer = gameObject.getBehaviour(TextRenderer)
     
         width = renderer.measuredTextWidth * transform.scaleX
-        height = renderer.fontSize * transform.scaleY
+        height = renderer.textHeight * transform.scaleY
         
         // 判断TextRenderer锚点类型
         switch (renderer.anchorType) {

@@ -1,6 +1,6 @@
 import { Camera } from "../../behaviours/Camera";
 import { ShapeRectRenderer } from "../../behaviours/unneed/ShapeRectRenderer";
-import { GameObject, getGameObjectById } from "../../engine";
+import { GameObject, getGameObjectById, Renderer } from "../../engine";
 import { AnimationRenderer } from "../AnimationRenderer";
 import { Behaviour } from "../Behaviour";
 import { BitmapRenderer } from "../BitmapRenderer";
@@ -49,6 +49,18 @@ export class CanvasContextRenderingSystem extends System {
     
             component.setAnchor(component.anchorType);           
         }
+        // 加载TextRenderer
+        if(component instanceof TextRenderer){
+
+            component.measuredTextWidth = this.context.measureText(component.text).width;
+            if(component.lineWidth === undefined){
+                component.lineWidth = String(component.measuredTextWidth);
+            }
+            if(component.lineHeight === undefined){
+                component.lineHeight = '1';
+            }
+            // component.setAnchor(component.anchorType);
+        }
         if (
             component instanceof ShapeRectRenderer ||
             component instanceof TextRenderer ||
@@ -93,17 +105,9 @@ export class CanvasContextRenderingSystem extends System {
                     context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
                     if (child.renderer instanceof TextRenderer) {
                         const renderer = child.renderer as TextRenderer;
-                        context.font = renderer.fontSize + "px" + " " + renderer.fontFamily;
-                        //设置字体颜色
-                        if (renderer.color) {
-                            context.fillStyle = renderer.color;
-                        }
-                        else {
-                            context.fillStyle = 'white';
-                        }
-                        context.fillText(renderer.text, renderer.anchor.x, renderer.anchor.y);
-                        renderer.measuredTextWidth = context.measureText(renderer.text).width;
-                    } else if (child.renderer instanceof ShapeRectRenderer) {
+                        drawText(context, renderer);
+                    } 
+                    else if (child.renderer instanceof ShapeRectRenderer) {
                         const renderer = child.renderer as ShapeRectRenderer;
                         context.save();
                         context.fillStyle = renderer.color;
@@ -175,4 +179,54 @@ export class CanvasContextRenderingSystem extends System {
         }
         visitChildren(this.rootGameObject);        
     }
+}
+function drawText(context: CanvasRenderingContext2D, renderer: TextRenderer){
+    context.font = renderer.fontSize + "px" + " " + renderer.fontFamily;
+    //设置字体颜色
+    if (renderer.color) {
+        context.fillStyle = renderer.color;
+    }
+    else {
+        context.fillStyle = 'white';
+    }
+    // 换行
+    const lineHeight = renderer.fontSize * Number(renderer.lineHeight);
+    const lineWidth = renderer.fontSize * Number(renderer.lineWidth);   //'Button' = 120
+    let maxWidth = 0;
+    let words = renderer.text.split('');
+    let lines = [];
+    let currentLine = words[0];
+    for (let i = 1; i < words.length; i++) {
+        if(words[i] === '|'){
+            lines.push(currentLine);
+            currentLine = '';
+            continue;
+        }
+        let word = words[i];
+        let width = context.measureText(currentLine + word).width;
+        if (width < lineWidth) {
+            currentLine += word;
+        } else {
+            lines.push(currentLine);
+            currentLine = word;
+        }
+        maxWidth = Math.max(maxWidth,context.measureText(currentLine).width)
+    }
+    lines.push(currentLine);
+    renderer.measuredTextWidth = maxWidth;
+    renderer.textHeight = lineHeight * lines.length;
+    renderer.setAnchor(renderer.anchorType);
+    let drawPoint = { x: 0, y: 0 };
+    // console.log(drawPoint)
+    // drawPoint.x -= renderer.measuredTextWidth / 2;
+    // drawPoint.y += renderer.fontSize;
+    // drawPoint.y -= renderer.textHeight / 2;
+    drawPoint = renderer.anchor;
+    drawPoint.y += renderer.fontSize;
+    // draw
+    for (let i = 0; i < lines.length; i++) {
+        // context.fillText(lines[i], renderer.anchor.x, -renderer.anchor.y + lineHeight * i);
+        context.fillText(lines[i], drawPoint.x, drawPoint.y + lineHeight * i);
+    }
+    // console.log(renderer.measuredTextWidth)
 }

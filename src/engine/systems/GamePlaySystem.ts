@@ -24,7 +24,6 @@ import { Point, Hexagon, checkPointInHexagon } from "../math";
 
 export class GamePlaySystem extends System {
     onStart(): void {
-
         if(getGameObjectById("Camera")){
             console.log("no need for camera");
             return;    
