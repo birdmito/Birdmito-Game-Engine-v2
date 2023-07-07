@@ -68,21 +68,43 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-  - id: UpgradeButton
+  - id: GovernmentUpgrade
     behaviours:
       - type: Transform
         properties:
-          x: 200
-          y: 200
+          x: 377
+          y: 87
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 20
-          text: "这里应该显示国家升级及其所需多拉"
-          color: white
-      - type: UI_UpgradeButton 
+    children:
+      - id: GovernmentUpgradeText #这里的两个标注是相反的
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Interface_ButtonGovernmentLevel.png
+      - id: UpgradeButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: "这里应该显示国家升级及其所需多拉"
+              color: white
+          - type: UI_UpgradeButton
   - id: Close
     behaviours:
       - type: Transform
