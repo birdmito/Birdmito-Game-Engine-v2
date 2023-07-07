@@ -19,11 +19,12 @@ children:
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: ./assets/images/Icon_TextFrame5050.png
+          source: ./assets/images/Icon_PanelMenu.png
           renderType: 'ui'
-          scaleXForUI: 14
-          scaleYForUI: 10
-          borderWidthForUI: 15
+          scaleXForUI: 5
+          scaleYForUI: 5
+          borderWidthForUI: 100
+          anchorType: center
     children: []
   - id: ProductWindowItemListRoot
     behaviours:
@@ -38,6 +39,7 @@ children:
         properties:
           layoutType: vertical
           spacing: 100
+          anchorType: center
   - id: Close
     behaviours:
       - type: Transform
