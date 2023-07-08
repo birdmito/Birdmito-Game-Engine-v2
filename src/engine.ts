@@ -249,6 +249,7 @@ export class GameObject {
 
     // input event
     // ------------------------------
+    stopPropagation: boolean = false; // 是否停止事件冒泡
     /**
      * @deprecated onClick函数为过时函数，不建议继续使用。
      * 请使用onMouseLeftDown、onMouseRightDown、onMouseMiddleDown替代。

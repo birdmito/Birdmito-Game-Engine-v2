@@ -44,6 +44,9 @@ export class MouseControlSystem extends System {
                         this.callback(event);
                     }
                     // console.log("hit", result.id);
+                    if(result.stopPropagation){
+                        break;
+                    }
                     result = result.parent;
                 }
             }
@@ -70,8 +73,6 @@ export class MouseControlSystem extends System {
                 }
             }
         });
-        //FIX 离开物体进入空白区域时，不会触发onMouseLeave
-        // no Result不会进入判断了
         window.addEventListener('mousemove', (event) => {
             const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
             const camera = cameraGameObject.getBehaviour(Camera)
@@ -80,22 +81,30 @@ export class MouseControlSystem extends System {
             const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if(result){
-                const event = this.calculateGameEngineMouseEvent(result, globalPoint);
-                //TODO 冒泡
                 if(result !== this.currentHoverGameObject){
-                    if(this.currentHoverGameObject && this.currentHoverGameObject.onMouseLeave){
-                        this.currentHoverGameObject.onMouseLeave(event);
+                    if(this.currentHoverGameObject){
+                        let hover = this.currentHoverGameObject;
+                        while(hover){
+                            if(hover.onMouseLeave){
+                                const event = this.calculateGameEngineMouseEvent(hover, globalPoint);
+                                hover.onMouseLeave(event);
+                            }
+                            hover = hover.parent;
+                        }
                         // console.log("leave", this.currentHoverGameObject.id);
                     }
                     this.currentHoverGameObject = result;
-                    if(this.currentHoverGameObject.onMouseEnter){
-                        this.currentHoverGameObject.onMouseEnter(event);
+                    while(result){
+                        if(result.onMouseEnter){
+                            const event = this.calculateGameEngineMouseEvent(result, globalPoint);
+                            result.onMouseEnter(event);
+                        }
+                        result = result.parent;
                     }
                     // console.log("enter", this.currentHoverGameObject.id);
                 }
             }
             else{
-                //FIX 因为只触发当前物体的onMouseLeave，而不会冒泡到父级物体上，但是ClickBehaviour又是挂载在父级物体上的，所以会出现这种情况
                 if(this.currentHoverGameObject){
                     let hover = this.currentHoverGameObject;
                     if(hover){
@@ -106,8 +115,6 @@ export class MouseControlSystem extends System {
                             }
                             hover = hover.parent;
                     }
-                    // const event = this.calculateGameEngineMouseEvent(this.currentHoverGameObject, globalPoint);
-                    // this.currentHoverGameObject.onMouseLeave(event);
                     this.currentHoverGameObject = null;
                     }
                 }

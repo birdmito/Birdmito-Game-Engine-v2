@@ -52,7 +52,6 @@ export class TextRenderer extends Behaviour implements Renderer {
                 break;
             case 'right-center':
                 this.anchor = { x: -this.measuredTextWidth, y: -this.textHeight / 2 };
-                this.anchor = { x: -this.measuredTextWidth, y: -this.textHeight / 2 };
                 break;
             case 'left-bottom':
                 this.anchor = { x: 0, y: -this.textHeight };

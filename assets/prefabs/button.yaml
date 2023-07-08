@@ -8,6 +8,9 @@ behaviours:
       scaleY: 1
       rotation: 0
   - type: Click
+  - type: AudioClip
+    properties:
+      source: ./assets/audios/old gramophone.mp3  # old gramophone | blip03
 children:
   - id: ButtonBackGround
     behaviours:
@@ -33,7 +36,7 @@ children:
           anchorType: left-top
       - type: TextRenderer
         properties:
-          text: TTT|TTT
+          text: Button
           fontSize: 40
           fontFamily: Arial
           color: 'black'
