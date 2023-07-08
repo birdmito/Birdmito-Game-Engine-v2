@@ -1,4 +1,3 @@
-import { s } from "vitest/dist/types-2b1c412e";
 import { Renderer } from "../engine";
 import { Behaviour } from "./Behaviour";
 import { Rectangle } from "./math";
@@ -100,6 +99,7 @@ export class BitmapRenderer extends Behaviour implements Renderer {
                 this.anchor = { x: -width, y: -height };
                 break;
             default:
+                this.anchorType = 'left-top';
                 this.anchor = { x: 0, y: 0 };
                 // alert('anchorType error');
                 break;

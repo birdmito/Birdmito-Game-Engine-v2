@@ -27,13 +27,13 @@ async function startup() {
     else{
         engine.addSystem(new GameLifeCycleSystem());
     }
-    engine.addSystem(new AnchorSystem())
     engine.addSystem(new TransformSystem());
     if (engine.mode === "play") {
         engine.addSystem(new GamePlaySystem());
     }
     engine.addSystem(new AnimationSystem());
     engine.addSystem(new CanvasContextRenderingSystem());
+    engine.addSystem(new AnchorSystem())
     engine.addSystem(new PhysicsSystem());
     engine.addSystem(new MouseControlSystem());
 

@@ -44,6 +44,9 @@ export class MouseControlSystem extends System {
                         this.callback(event);
                     }
                     // console.log("hit", result.id);
+                    if(result.stopPropagation){
+                        break;
+                    }
                     result = result.parent;
                 }
             }
@@ -70,7 +73,6 @@ export class MouseControlSystem extends System {
                 }
             }
         });
-
         window.addEventListener('mousemove', (event) => {
             const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
             const camera = cameraGameObject.getBehaviour(Camera)
@@ -78,25 +80,43 @@ export class MouseControlSystem extends System {
             const originPoint = { x: event.clientX, y: event.clientY };
             const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
             let result = this.hitTest(this.rootGameObject, globalPoint);
-
             if(result){
-                const invertGlobalMatrix = invertMatrix(result.getBehaviour(Transform).globalMatrix)
-                const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
-                const event: GameEngineMouseEvent = {
-                    globalX: globalPoint.x,
-                    globalY: globalPoint.y,
-                    localX: localPoint.x,
-                    localY: localPoint.y
-                }
-
                 if(result !== this.currentHoverGameObject){
-                    if(this.currentHoverGameObject && this.currentHoverGameObject.onMouseLeave){
-                        this.currentHoverGameObject.onMouseLeave(event);
+                    if(this.currentHoverGameObject){
+                        let hover = this.currentHoverGameObject;
+                        while(hover){
+                            if(hover.onMouseLeave){
+                                const event = this.calculateGameEngineMouseEvent(hover, globalPoint);
+                                hover.onMouseLeave(event);
+                            }
+                            hover = hover.parent;
+                        }
                         // console.log("leave", this.currentHoverGameObject.id);
                     }
                     this.currentHoverGameObject = result;
-                    // this.currentHoverGameObject.onMouseEnter(event);
+                    while(result){
+                        if(result.onMouseEnter){
+                            const event = this.calculateGameEngineMouseEvent(result, globalPoint);
+                            result.onMouseEnter(event);
+                        }
+                        result = result.parent;
+                    }
                     // console.log("enter", this.currentHoverGameObject.id);
+                }
+            }
+            else{
+                if(this.currentHoverGameObject){
+                    let hover = this.currentHoverGameObject;
+                    if(hover){
+                        while(hover){
+                            if(hover.onMouseLeave){
+                                const event = this.calculateGameEngineMouseEvent(hover, globalPoint);
+                                hover.onMouseLeave(event);
+                            }
+                            hover = hover.parent;
+                    }
+                    this.currentHoverGameObject = null;
+                    }
                 }
             }
         });
@@ -132,7 +152,7 @@ export class MouseControlSystem extends System {
             return null;
         }
     }
-
+    //OPTIMIZE 0000的矩形框可能会导致一些冒泡问题
     checkPointInHitArea(point: Point, hitAreaType, hitArea){
         switch (hitAreaType) {
             case 'rectangle':
@@ -145,6 +165,17 @@ export class MouseControlSystem extends System {
                 return false;
             default:
                 throw new Error('未知的hitAreaType,策划请检查.yaml文件并核对hitAreaType，开发请检查Renderer代码');
+        }
+    }
+
+    calculateGameEngineMouseEvent(gameObject: GameObject, globalPoint: Point): GameEngineMouseEvent {
+        const invertGlobalMatrix = invertMatrix(gameObject.getBehaviour(Transform).globalMatrix)
+        const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
+        return {
+            globalX: globalPoint.x,
+            globalY: globalPoint.y,
+            localX: localPoint.x,
+            localY: localPoint.y
         }
     }
 }
