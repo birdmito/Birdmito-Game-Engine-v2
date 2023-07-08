@@ -12,27 +12,31 @@ import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { Binding } from "../bindings/Binding";
 import { UnitParam } from "./UnitParam";
 import { Calculator } from "./Calculator";
+import { ProvinceGenerator } from "./ProvinceGenerator";
+import { Battle } from "./BattleManager";
 
 export class Province extends Behaviour {
-    static provinces: GameObject[][] = [];
-    static updateProvince() {
-        //每回合开始时，所有领地给予所属国家产出
-        for (let i = 0; i < Province.provinces.length; i++) {
-            for (let j = 0; j < Province.provinces[i].length; j++) {
-                const province = Province.provinces[i][j].getBehaviour(Province);
-                province.updateProvinceProperties();  //更新领地产出
-                province.giveOwnerProduction();  //给予所属国家产出
-                province.updateProductProcess();  //更新生产队列
-            }
-        }
-    }
+    static provincesObj: GameObject[][] = [];
 
     coord: { x: number, y: number } = { x: 0, y: 0 };
 
     nationId = 0;
+
     isOwnable = true;
     apCost = 1;
-    provinceProduction: Resource = new Resource(0, 0, 0);
+
+    private _provinceProduction: Resource = undefined;
+    get provinceProduction(): Resource {
+        return this._provinceProduction;
+    }
+    /**在更新该属性时一定要直接赋值，不要修改其内部属性，否则会导致预计的dora变动出错*/
+    set provinceProduction(value: Resource) {
+        const oldValue = this._provinceProduction;
+        this._provinceProduction = value;
+        if (this.nationId !== 0) {
+            Nation.nations[this.nationId].doraChangeNextTurn += value.dora - oldValue.dora  //更新预计的dora变动
+        }
+    }
 
     plainPercent = 0;
     lakePercent = 0;
@@ -40,6 +44,8 @@ export class Province extends Behaviour {
     mountainPercent = 0;
 
     buildingList: Building[] = [];
+    unitList: UnitBehaviour[] = [];
+    battle: Battle = undefined;
 
     isCity: boolean = false;
 
@@ -48,7 +54,7 @@ export class Province extends Behaviour {
     buildableBuildingList: Building[] = Building.copyOriginBuildingList();
 
     //可招募的单位
-    recruitableUnitList: UnitParam[] = UnitParam.copyOriginUnitParamList();
+    recruitableUnitList: UnitParam[] = UnitParam.copyOriginUnitParamList(this.nationId);
 
     //生产队列
     productQueue: ProductingItem[] = [];
@@ -60,7 +66,6 @@ export class Province extends Behaviour {
         // console.log("province start");
         this.changeNationId(0);
         // this.randomLandscape();
-        this.updateApCost();
         this.updateProvinceProperties();
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTTransparent.png';
     }
@@ -69,8 +74,11 @@ export class Province extends Behaviour {
         this.gameObject.onClick = () => {
             console.log("province is clicked")
             if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof UnitBehaviour) {
-                const soilder = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as UnitBehaviour;
-                soilder.moveToProvince(this);
+                //若当前选中的是单位，则移动到该领地
+                const unit = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as UnitBehaviour;
+                if (unit.nationId === 1) {
+                    unit.moveToProvince(this);
+                }
             }
             getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
         }
@@ -105,6 +113,9 @@ export class Province extends Behaviour {
 
     changeNationId(nationId: number) {
         //改变领地所属国家
+        if (nationId !== 0) {
+            Nation.nations[nationId].doraChangeNextTurn += this.provinceProduction.dora;  //更新预计的dora变动
+        }
         this.nationId = nationId;
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
         if (nationId > 0) {
@@ -124,21 +135,20 @@ export class Province extends Behaviour {
 
     updateProvinceProperties() {
         //更新领地属性
-        //产出
-        Calculator.calculateProvinceProduction(this);
         //被招募单位的属性
         Calculator.calculateProvinceUnitParam(this);
         //若省份已被筑城，则更新被建造建筑的属性
         if (this.isCity) {
             Calculator.calculateProvinceBuildingParam(this);
         }
+        //产出
+        Calculator.calculateProvinceProduction(this);
     }
 
-    giveOwnerProduction() {
+    giveOwnerTechPoint() {
         // console.log("giveOwnerProduction")
         //给予所属国家产出
         if (this.nationId > 0) {
-            Nation.nations[this.nationId].dora += this.provinceProduction.dora;
             Nation.nations[this.nationId].techPerTurn += this.provinceProduction.techPoint;
         }
     }
@@ -162,11 +172,16 @@ export class Province extends Behaviour {
                 this.updateProvinceProperties();
             }
             else if (currentItem.productType == 'unit') {
+                //获取单位参数
                 const newUnitParam = UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(this, currentItem.productName));
+                //生成单位
                 const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
+                //配置单位属性
                 const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
+                prefabBehavior.nationId = this.nationId;
                 prefabBehavior.unitParam = newUnitParam;
-                prefabBehavior.soidlerCoor = this.coord;
+                prefabBehavior.unitCoor = this.coord;
+                //添加到场景中
                 getGameObjectById("UnitRoot").addChild(newUnitPrefab);
             }
             else {
@@ -181,6 +196,21 @@ export class Province extends Behaviour {
         Nation.nations[this.nationId].cityList.push(this);
     }
 
+    //获取相邻领地
+    getAdjacentProvinces(): Province[] {
+        const adjacentProvinces: Province[] = [];
+        const adjacentCoords = ProvinceGenerator.getAdjacentCoords(this.coord.x, this.coord.y);
+        for (const coord of adjacentCoords) {
+            if (coord.x >= 0 && coord.x < Province.provincesObj.length && coord.y >= 0 && coord.y < Province.provincesObj[0].length) {
+                const adjacentProvince = Province.provincesObj[coord.x][coord.y];
+                if (adjacentProvince !== undefined) {
+                    adjacentProvinces.push(adjacentProvince.getBehaviour(Province));
+                }
+            }
+        }
+        return adjacentProvinces;
+
+    }
 }
 // 1. Province：地块属性——Behavior
 //   1. nationId 阵营归属：number

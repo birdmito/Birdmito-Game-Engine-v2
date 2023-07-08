@@ -7,6 +7,7 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
+  - type: UI_UpdateSelectedObjInfo
 children:
   - id: ProductQueue #生产队列
     behaviours:
@@ -82,7 +83,7 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/ScreenArt_ProvinceLake.png
+              source: ./assets/images/ScreenArt_ProvinceLake_0.png
         children: []   
       - id: ProvinceInfoLayer3
         behaviours:
@@ -189,66 +190,76 @@ children:
               text: '这里应该显示邻格单位到达该省份所需行动点'
               color: white
         children: []
-      - id: ProvincePlainPercentText
+      - id: ProvinceTerrainText #省份地形文本
         behaviours:
           - type: Transform
             properties:
-              x: 300
-              y: -40
+              x: 67
+              y: 305
               scaleX: 1
               scaleY: 1
               rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示平原百分比'
-              color: white
-        children: []
-      - id: ProvinceForestPercentText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 300
-              y: -10
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示森林百分比'
-              color: white
-        children: []
-      - id: ProvinceMountainPercentText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 300
-              y: 20
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示山地百分比'
-              color: white
-        children: []
-      - id: ProvinceLakePercentText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 300
-              y: 50
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示湖泊百分比'
-              color: white
-        children: []
+        children:
+          - id: ProvinceLakePercentText
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 5
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 15
+                  text: '这里应该显示湖泊百分比'
+                  color: white
+            children: []
+          - id: ProvincePlainPercentText
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 5
+                  y: 28
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 15
+                  text: '这里应该显示平原百分比'
+                  color: white
+            children: []
+          - id: ProvinceForestPercentText
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 5
+                  y: 56
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 15
+                  text: '这里应该显示森林百分比'
+                  color: white
+            children: []
+          - id: ProvinceMountainPercentText
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 5
+                  y: 84
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 15
+                  text: '这里应该显示山地百分比'
+                  color: white
+            children: []
       - id: ProvinceBuildingListRoot
         behaviours:
           - type: Transform

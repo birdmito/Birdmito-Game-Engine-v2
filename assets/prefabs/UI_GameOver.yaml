@@ -1,4 +1,4 @@
-id: UI_productWindow
+id: GameOverMenu
 behaviours:
   - type: Transform
     properties:
@@ -8,8 +8,8 @@ behaviours:
       scaleY: 1
       rotation: 0
 children:
-  - id: ProductWindowBgImage
-    behaviours:
+  - id: GameOverImage
+    behaviours: 
       - type: Transform
         properties:
           x: 0
@@ -19,14 +19,8 @@ children:
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: ./assets/images/Icon_PanelMenu.png
-          renderType: 'ui'
-          scaleXForUI: 5
-          scaleYForUI: 5
-          borderWidthForUI: 100
-          anchorType: center
-    children: []
-  - id: ProductWindowItemListRoot
+          source: ./assets/images/ScreenArt_Win.png
+  - id: GameOverText
     behaviours:
       - type: Transform
         properties:
@@ -35,22 +29,23 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: LayoutGroup
+      - type: TextRenderer
         properties:
-          layoutType: vertical
-          spacing: 100
-          anchorType: center
-  - id: Close
+          fontSize: 48
+          text: ''
+          color: white
+  - id: GobackToMenuButton
     behaviours:
       - type: Transform
         properties:
-          x: 600
-          y: 0
+          x: 880
+          y: 800
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: UI_ReturnButton
     children:
-      - id: CloseImage
+      - id: GobackToMenuButtonImage
         behaviours:
           - type: Transform
             properties:
@@ -61,26 +56,25 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 1
-              scaleYForUI: 1
+              source: "./assets/images/Icon_TextFrame5050.png"
+              renderType: "ui"
+              scaleXForUI: 9
+              scaleYForUI: 2
               borderWidthForUI: 15
-      - id: CloseText
+              anchorType: "center"
+      - id: GobackToMenuButtonText
         behaviours:
           - type: Transform
             properties:
-              x: 20
-              y: 20
+              x: 0
+              y: -10
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: TextRenderer
             properties:
-              fontSize: 20
-              text: 关闭
-              color: white
-          - type: DestroyOnClick
-            properties:
-              targetID: UI_productWindow
+              fontSize: 40
+              fontFamily: "fangsong" 
+              text: 返回主菜单
+              anchorType: center
         children: []

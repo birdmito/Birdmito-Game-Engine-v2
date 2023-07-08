@@ -9,7 +9,7 @@ import { TextRenderer } from "../engine/TextRenderer";
 import { generateTip } from "./Tip";
 
 export class UI_UnitBehaviourButton extends Behaviour {
-    provinceToColony: GameObject;
+    targetProvinceObj: GameObject;
     unitToDestroy: GameObject;
     nation: Nation;
     colonyCost;
@@ -19,7 +19,7 @@ export class UI_UnitBehaviourButton extends Behaviour {
 
     onUpdate(): void {
         this.nation = Nation.nations[this.unitToDestroy.getBehaviour(UnitBehaviour).unitParam.nationId];
-        const provinceBehaviour = this.provinceToColony.getBehaviour(Province);
+        const provinceBehaviour = this.targetProvinceObj.getBehaviour(Province);
         this.colonyCost = Calculator.calculateColonyCost(this.nation.nationId, provinceBehaviour.coord);
 
         //更新按钮文本

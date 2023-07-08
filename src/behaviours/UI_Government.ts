@@ -25,11 +25,12 @@ export class UI_Government extends Behaviour {
             const governmentWindow = this.gameObject.engine.createPrefab(new UI_governmentWindowPrefabBinding);
             if (getGameObjectById("GovernmentWindowRoot").children.length > 0) {
                 getGameObjectById("GovernmentWindowRoot").children[0].destroy();
-            }
-            getGameObjectById("GovernmentWindowRoot").addChild(governmentWindow);//更新玩家帝国当前科技显示 
-            if (Nation.nations[1].currentTechName !== '') {
-                getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
-                    "当前科技：" + Technology.getNationTechByName(1, Nation.nations[1].currentTechName).getInfo();
+            } else {
+                getGameObjectById("GovernmentWindowRoot").addChild(governmentWindow);//更新玩家帝国当前科技显示 
+                if (Nation.nations[1].currentTechName !== '') {
+                    getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
+                        "当前科技：" + Technology.getNationTechByName(1, Nation.nations[1].currentTechName).getInfo();
+                }
             }
         }
     }

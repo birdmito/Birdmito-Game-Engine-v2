@@ -10,13 +10,13 @@ import { UnitBehaviour } from "./UnitBehaviour";
 export class Ai_Enemies extends Behaviour {
 
     aiCoor: { x: number, y: number } = { x: 0, y: 0 };
-    static i :number = 0;
+    static i: number = 0;
 
     onStart(): void {
         this.updateTransform();
     }
 
-    onUpdate(): void { 
+    onUpdate(): void {
         this.updateTransform();
     }
 
@@ -25,14 +25,17 @@ export class Ai_Enemies extends Behaviour {
         const x = this.aiCoor.x * gridSpace + (this.aiCoor.y % 2) * gridSpace / 2 + gridSpace / 2;
         const y = this.aiCoor.y * gridSpace * (Math.sqrt(3) / 2) + gridSpace * (Math.sqrt(3) / 2) / 2;
         this.gameObject.getBehaviour(Transform).x = x;
-        this.gameObject.getBehaviour(Transform).y = y;        
+        this.gameObject.getBehaviour(Transform).y = y;
     }
 
     moveToOtherProvinces(): void {
-        const playerSoilderCoor = getGameObjectById("Unit").getBehaviour(UnitBehaviour).soidlerCoor;
+        const playerSoilderCoor = getGameObjectById("Unit").getBehaviour(UnitBehaviour).unitCoor;
         const ownedProvinces = Nation.nations[1].provinceOwnedList
-        if(ownedProvinces.length!=0){
-            if(ownedProvinces[Ai_Enemies.i]!=null){
+        // this.aiCoor = ownedProvinces[0].getBehaviour(Province).coord;
+        // console.log(ownedProvinces[Ai_Enemies.i].getBehaviour(Province).buildingList[0])
+        // ownedProvinces[0].getBehaviour(Province).buildingList.splice(0,1);
+        if (ownedProvinces.length != 0) {
+            if (ownedProvinces[Ai_Enemies.i] != null) {
                 this.aiCoor = ownedProvinces[Ai_Enemies.i].coord;
                 console.log('AI进入玩家省份');
                 if(ownedProvinces.length > 1){
@@ -43,22 +46,24 @@ export class Ai_Enemies extends Behaviour {
                     Ai_Enemies.i++;
                 }
                 else{
+                    // Ai_Enemies.i++;
                     console.log(Ai_Enemies.i);
                 }
             }
-            else{
+            else {
                 console.log('玩家没有AI可攻击省份');
-            }         
+            }
         }
-        else{
+        else {
             this.aiCoor = playerSoilderCoor;
             console.log('玩家还未拥有省份');
         }
     }
+    
 
     attack(): void {
-        const playerSoilderCoor = getGameObjectById("Unit").getBehaviour(UnitBehaviour).soidlerCoor;
-        const ownedProvinces = Nation.nations[1].provinceOwnedList;
+        const playerSoilderCoor = getGameObjectById("Unit").getBehaviour(UnitBehaviour).unitCoor;
+        const ownedProvinces = Nation.nations[1].provinceOwnedList
 
             if(ownedProvinces[Ai_Enemies.i].nationId === 1){
                 ownedProvinces[Ai_Enemies.i].changeNationId(2);

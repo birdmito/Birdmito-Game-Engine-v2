@@ -22,21 +22,23 @@ children:
         properties:
           source: ./assets/images/Icon_TextFrame5050.png
           renderType: 'ui'
-          scaleXForUI: 15
+          scaleXForUI: 12
           scaleYForUI: 2
           borderWidthForUI: 10
+          anchorType: center
     children: []
   - id: tipText
     behaviours:
       - type: Transform
         properties:
-          x: 20
-          y: 20
+          x: 0
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
       - type: TextRenderer
         properties:
-          fontSize: 35
+          fontSize: 20
           text: '这里应该显示提示信息'
           color: white
+          anchorType: center

@@ -161,7 +161,7 @@ children:
               y: -100
               scaleX: 1
               scaleY: 1
-              rotation: 0
+              rotation: 15
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Interface_ButtonRound.png
@@ -392,8 +392,8 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 55
-                      y: 39
+                      x: 120
+                      y: 20
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
@@ -402,7 +402,7 @@ children:
                       fontSize: 20
                       text: '这里应该显示多拉'
                       color: yellow
-                      anchorType: left-center
+                      anchorType: center
                 children: []
           - id: PlayerTech #玩家科技点
             behaviours:
@@ -512,55 +512,3 @@ children:
                       color: green
                       anchorType: left-center
                 children: []
-  - id: gameOver ######
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-    children: 
-      - id: gameOverImage #游戏结束图片,替换
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/TESTTransparent.png
-              hitAreaType: none
-      - id: gameOverText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 880
-              y: 200
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 48
-              text: ''
-              color: white
-      - id: gobackToMenuButton
-        behaviours:
-          - type: Transform
-            properties:
-              x: 880
-              y: 800
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 48
-              text: '返回主菜单'
-              color: white
-          - type: UI_ReturnButton
