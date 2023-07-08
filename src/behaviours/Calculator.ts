@@ -5,7 +5,6 @@ import { Province } from "./Province";
 import { Resource } from "./Resource";
 import { Technology } from "./Technology";
 import { UnitBehaviour } from "./UnitBehaviour";
-import { UnitGroupBehaviour } from "./UnitGroupBehaviour";
 import { UnitParam } from "./UnitParam";
 
 export class Calculator {
@@ -179,18 +178,15 @@ export class Calculator {
         }
     }
 
-    static calculateUnitGroupPower(unitGroup: UnitGroupBehaviour) {
-        //计算单位组的战斗力
+    static calculateUnitGroupPower(unit: UnitBehaviour) {
+        //计算单位的战斗力
         var result = 0;
         var pluser = 0;
         var multiplier = 1;
 
         //计算基础战斗力
-        for (let i = 0; i < unitGroup.unitList.length; i++) {
-            const unit = unitGroup.unitList[i];
-            result += unit.power;
-        }
+        result += unit.unitParam.power * unit.unitQuantity;
 
-        unitGroup.groupPower = result;
+        unit.power = result;
     }
 }

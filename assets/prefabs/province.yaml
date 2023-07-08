@@ -22,6 +22,7 @@ children:
     - type: BitmapRenderer
       properties:
         source: ./assets/images/Map_TerrainPlain_0.png
+        hitAreaType: hexagon
     id: Terrain
   - behaviours:
     - type: Transform
@@ -34,6 +35,21 @@ children:
     - type: BitmapRenderer
       properties:
         source: ./assets/images/TESTColor.png
-        hitAreaType: hexagon
+        hitAreaType: none
     id: NationColor
+  - id: _UnitRoot
+    behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: LayoutGroup
+      properties:
+        layoutType: horizontal
+        spacing: 100
+        numPerLine: 3
+    children: []
 

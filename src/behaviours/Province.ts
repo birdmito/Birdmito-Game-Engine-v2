@@ -13,6 +13,7 @@ import { Binding } from "../bindings/Binding";
 import { UnitParam } from "./UnitParam";
 import { Calculator } from "./Calculator";
 import { ProvinceGenerator } from "./ProvinceGenerator";
+import { Battle } from "./BattleManager";
 
 export class Province extends Behaviour {
     static provincesObj: GameObject[][] = [];
@@ -43,6 +44,8 @@ export class Province extends Behaviour {
     mountainPercent = 0;
 
     buildingList: Building[] = [];
+    unitList: UnitBehaviour[] = [];
+    battle: Battle = undefined;
 
     isCity: boolean = false;
 
@@ -71,6 +74,7 @@ export class Province extends Behaviour {
         this.gameObject.onClick = () => {
             console.log("province is clicked")
             if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof UnitBehaviour) {
+                //若当前选中的是单位，则移动到该领地
                 const unit = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as UnitBehaviour;
                 if (unit.nationId === 1) {
                     unit.moveToProvince(this);

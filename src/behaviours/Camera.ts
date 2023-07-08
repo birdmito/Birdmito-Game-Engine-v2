@@ -8,9 +8,9 @@ export class Camera extends Behaviour {
     viewportWidth: number = 1920;
     viewportHeight: number = 1080;
 
-    viewScale: number = 1;
-    tx: number = 0;
-    ty: number = 0;
+    private viewScale: number = 1;
+    private tx: number = 0;
+    private ty: number = 0;
 
     constructor() {
         super();
