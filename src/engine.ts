@@ -307,6 +307,15 @@ export class GameObject {
         child.active = false;
     }
 
+    changeParent(newParent: GameObject) {
+        const index = this.parent.children.indexOf(this);
+        if (index >= 0) {
+            this.parent.children.splice(index, 1);
+        }
+        this.parent = newParent;
+        newParent.children.push(this);
+    }
+
     getChildById(id: string): GameObject {
         for (const child of this.children) {
             if (child.id === id) {
