@@ -1,6 +1,7 @@
 export class ResourceManager {
     textCache: { [url: string]: string } = {};
     imageCache: { [url: string]: HTMLImageElement } = {};
+    audioCache: { [url: string]: HTMLAudioElement } = {};
 
     loadImage(url: string) {
         return new Promise<void>((resolve, reject) => {
@@ -25,6 +26,16 @@ export class ResourceManager {
         });
     }
 
+    loadAudio(url: string) {
+        return new Promise<void>((resolve, reject) => {
+            const audio = new Audio(url);
+            audio.onloadedmetadata = () => {
+                this.audioCache[url] = audio;
+                resolve();
+            };
+        });
+    }
+
     getText(url: string) {
         const text = this.textCache[url];
         if (!text) {
@@ -40,5 +51,13 @@ export class ResourceManager {
             alert("图片加载失败" + url);
         }
         return image;
+    }
+
+    getAudio(url: string) {
+        const audio = this.audioCache[url];
+        if (!audio) {
+            alert("音频加载失败" + url);
+        }
+        return audio;
     }
 }

@@ -7,10 +7,10 @@ behaviours:
       scaleX: 1
       scaleY: 1
       rotation: 0
-  - type: Click
   - type: AudioClip
     properties:
       source: ./assets/audios/old gramophone.mp3  # old gramophone | blip03
+  - type: Click
 children:
   - id: ButtonBackGround
     behaviours:

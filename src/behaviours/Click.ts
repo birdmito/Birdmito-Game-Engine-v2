@@ -4,10 +4,10 @@ import { Behaviour } from "../engine/Behaviour";
 export class Click extends Behaviour {
     onStart(): void {
         const audioClip = this.gameObject.getBehaviour(AudioClip)
-        let isPause = true;
+        let isPause = false;
 
-        audioClip.play();
-        
+        audioClip?.play();
+
         this.gameObject.onClick  = () =>{
             console.log('left click');
         }

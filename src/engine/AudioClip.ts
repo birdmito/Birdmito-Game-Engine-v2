@@ -28,7 +28,7 @@ export class AudioClip extends Behaviour {
             this._endTime = this._duration;
         }
     }
-
+    
     onUpdate(): void {
         if(this.audio){
             if(this.audio.currentTime > this._endTime){
@@ -41,17 +41,20 @@ export class AudioClip extends Behaviour {
     // ---------------------------
     play() {
         if (this.audio) {
+            console.log('play');
             this.audio.play();
             this.audio.currentTime = this._startTime;
         }
     }
     //OPTIMIZE 暂停和继续的实现方式
     pause() {
+        console.log('pause');
         this.audio?.pause();
         this.pausePosition = this.audio?.currentTime || 0;
     }
 
     continue() {
+        console.log('continue');
         this.audio?.play();
         this.audio.currentTime = this.pausePosition;
     }
