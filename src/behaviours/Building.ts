@@ -11,8 +11,8 @@ export class Building implements infoShowable {
         this.maintCost = maintCost;
         this.buildingProduction = production;
         this.isUniqueInProvince = isUniqueInProvince;
-        console.log("Building " + name + " is created");
-        console.log(this)
+        // console.log("Building " + name + " is created");
+        // console.log(this)
     }
     static originBuildingList: Building[] = [
         new Building('金矿', 100, 30, new Resource(5, 0, 0), new Resource(2, 0, 0), false),
