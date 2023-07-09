@@ -41,15 +41,16 @@ children:
     behaviours:
     - type: Transform
       properties:
-        x: 0
-        y: 0
+        x: 100
+        y: 90
         scaleX: 1
         scaleY: 1
         rotation: 0
+    - type: StopPropagation
     - type: LayoutGroup
       properties:
         layoutType: horizontal
-        spacing: 100
-        numPerLine: 3
+        spacing: 30
+        alignment: center
     children: []
 

@@ -17,6 +17,7 @@ import { Battle, BattleManager } from "./BattleManager";
 export class UnitBehaviour extends Behaviour implements Moveable {
     nationId: number;
     unitCoor: { x: number, y: number } = { x: 1, y: 0 };
+    currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
     unitParamWhenRecruited: UnitParam;
 
     unitQuantity: number = 1;
@@ -38,22 +39,25 @@ export class UnitBehaviour extends Behaviour implements Moveable {
 
     onStart(): void {
         Nation.nations[this.nationId].unitList.push(this);
-        const currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
-        currentProvince.gameObject.getChildById("_UnitRoot").addChild(this.gameObject);
-        currentProvince.unitList.push(this);
+        this.currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
+        this.currentProvince.gameObject.getChildById("_UnitRoot").addChild(this.gameObject);
+        console.log("unitRoot的子物体数量为" + getGameObjectById("UnitRoot").children.length);
+        console.log("unit NationId" + this.nationId)
+        this.currentProvince.unitList.push(this);
 
         this.unitParamWhenRecruited = UnitParam.copyUnitParam(this.unitParam);  //记录单位的初始属性
-        this.updateTransform();
+        // this.updateTransform();
         Nation.nations[this.nationId].doraChangeNextTurn -= this.unitParam.maintCost;  //扣除维护费用
     }
 
     onUpdate(): void {
+        // console.log("unit" + this.nationId + "is updated")
         this.indexInProcince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province).unitList.indexOf(this);
-        this.updateTransform();
+        // this.updateTransform();
         //更新战力
         Calculator.calculateUnitGroupPower(this);
         this.gameObject.onMouseLeftDown = () => {
-            console.log('unit is cliceked')
+            console.log('unit' + this.nationId + 'is clicked');
             getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
         }
     }
@@ -61,17 +65,18 @@ export class UnitBehaviour extends Behaviour implements Moveable {
     onEnd(): void {
         Nation.nations[this.nationId].unitList.splice(Nation.nations[this.nationId].unitList.indexOf(this), 1);  //从unitList中删除
         Nation.nations[this.nationId].doraChangeNextTurn += this.unitParam.maintCost;  //退还维护费用
+        this.currentProvince.unitList.splice(this.currentProvince.unitList.indexOf(this), 1);  //从当前省份的unitList中删除
     }
 
     updateTransform(): void {
         const gridSpace = getGameObjectById("Map").getBehaviour(ProvinceGenerator).gridSpace;
         var x = this.unitCoor.x * gridSpace + (this.unitCoor.y % 2) * gridSpace / 2 + gridSpace / 2;
         var y = this.unitCoor.y * gridSpace * (Math.sqrt(3) / 2) + gridSpace * (Math.sqrt(3) / 2) / 2;
-        // 临时代码
-        if (Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province).unitList.length > 1) {
-            //当地块上有两个单位时
-            y += this.indexInProcince * 100;
-        }
+        // // 临时代码
+        // if (Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province).unitList.length > 1) {
+        //     //当地块上有两个单位时
+        //     y += this.indexInProcince * 100;
+        // }
         this.gameObject.getBehaviour(Transform).x = x;
         this.gameObject.getBehaviour(Transform).y = y;
 
@@ -106,17 +111,18 @@ export class UnitBehaviour extends Behaviour implements Moveable {
 
         //移动
         //离开当前省份
-        const currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
-        currentProvince.unitList.splice(currentProvince.unitList.indexOf(this), 1);
-        // this.gameObject.parent.removeChild(this.gameObject);
+        this.currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
+        this.currentProvince.unitList.splice(this.currentProvince.unitList.indexOf(this), 1);
+        this.gameObject.parent.removeChild(this.gameObject);
         this.unitParam.ap -= province.apCost;
-        this.unitCoor = provinceCoor;
+
         //进入新的省份
+        this.unitCoor = provinceCoor;
         province.unitList.push(this);
-        // province.gameObject.getChildById("_UnitRoot").addChild(this.gameObject);
+        province.gameObject.getChildById("_UnitRoot").addChild(this.gameObject);
 
         //若移动后遇到异国单位，则给BattleManager添加一场战斗
-        if (province.unitList.length > 1 && province.unitList[0].nationId != this.nationId) {
+        if (this.unitParam.isBattleUnit && province.unitList.length > 1 && province.unitList[0].nationId != this.nationId) {
             //若领地上已经有战斗
             if (province.battle !== undefined) {
                 //根据自己的nationId加入相应的一方

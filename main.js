@@ -1,5 +1,5 @@
-// const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
-const defaultSceneOrPrefab = "./assets/prefabs/button.yaml";
+const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/button.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/UI_gamingStatic.yaml";
 
 

@@ -344,14 +344,14 @@ export class GameObject {
     }
 
     destroy() {
-        for (const behaviour of this.behaviours) {
-            behaviour.destroy();
-        }
-        for (const child of this.children) {
-            child.destroy();
-        }
+        // for (const behaviour of this.behaviours) {
+        //     behaviour.destroy();
+        // }
+        // for (const child of this.children) {
+        //     child.destroy();
+        // }
         this.parent.removeChild(this);
-        delete GameObject.map[this.uuid];
+        // delete GameObject.map[this.uuid];
     }
 }
 

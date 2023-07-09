@@ -74,11 +74,12 @@ export class Province extends Behaviour {
         this.gameObject.onClick = () => {
             console.log("province is clicked")
             if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof UnitBehaviour) {
+                console.log("selected is unit, move to province")
                 //若当前选中的是单位，则移动到该领地
                 const unit = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as UnitBehaviour;
-                if (unit.nationId === 1) {
+                // if (unit.nationId === 1) {
                     unit.moveToProvince(this);
-                }
+                // }
             }
             getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
         }

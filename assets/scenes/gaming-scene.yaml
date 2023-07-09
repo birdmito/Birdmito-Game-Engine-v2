@@ -20,7 +20,7 @@ children:
           rotation: 0
           anchorType: left-top
       - type: ProvinceGenerator
-    children: []        
+    children: []
   - id: SelectedObjectInfoMangaer
     behaviours:
       - type: Transform

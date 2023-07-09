@@ -57,6 +57,7 @@ export class UI_UnitBehaviourButton extends Behaviour {
                         }
                         this.nation.dora -= Calculator.calculateColonyCost(this.nation.nationId, provinceBehaviour.coord);  //扣钱
                         this.unitToDestroy.destroy();
+                        // this.unitToDestroy.parent.removeChild(this.unitToDestroy);
                         getGameObjectById("UI_selectedUnitInfo").destroy();
                     }
                     else {

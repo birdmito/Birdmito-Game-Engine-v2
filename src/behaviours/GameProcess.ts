@@ -50,7 +50,7 @@ export class GameProcess extends Behaviour {
     static turnTotal = 10;
 
     initialNation() {
-        for (let i = 0; i < Nation.nationQuantity; i++) {
+        for (let i = Nation.nationQuantity - 1; i >= 0; i--) {
             const nation = new Nation(i + 1, "玩家", 10000, 1);
             Nation.nations[nation.nationId] = nation;
             //nation.randomTechNameList无法在构造器中初始化，因为Technology.getTechByName()需要Nation.techTree
