@@ -19,20 +19,21 @@ children:
           scaleY: 0.05
           rotation: 0
           anchorType: left-top
+      - type: MiniMapBehaviour    
     children: []
   - id: ViewBox
     behaviours:
       - type: Transform
         properties:
-          x: 1070
-          y: 60
-          scaleX: 1
-          scaleY: 1
+          x: 1118
+          y: 87
+          scaleX: 0.05
+          scaleY: 0.05
           rotation: 0
           anchorType: left-top
       - type: ViewBoxBehaviour    
-      - type: TextRenderer   
+      - type: BitmapRenderer   
         properties:
-          fontSize: 40
-          text: 框     
+          source: ./assets/images/viewBox.png
+          anchorType: center
     children: []  
