@@ -23,8 +23,8 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
             //更新Info界面
             const province = this.selectedBehaviour as Province;
             getGameObjectById("ProvinceNationNameText").getBehaviour(TextRenderer).text = '所属国家：' + province.nationId.toString();
-            getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = '多拉：' + province.provinceProduction.dora.toString() +
-                '生产力：' + province.provinceProduction.production.toString() + '科技：' + province.provinceProduction.techPoint.toString();
+            getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = '奥坎盾：' + province.provinceProduction.dora.toString() +
+                '||生产力：' + province.provinceProduction.production.toString() + '||科技点：' + province.provinceProduction.techPoint.toString();
             getGameObjectById("ProvinceApCostText").getBehaviour(TextRenderer).text = '行动点消耗：' + province.apCost.toString();
             getGameObjectById("ProvincePlainPercentText").getBehaviour(TextRenderer).text = '平原：' + Math.floor(province.plainPercent * 100).toString() + '%';
             getGameObjectById("ProvinceLakePercentText").getBehaviour(TextRenderer).text = '湖泊：' + Math.floor(province.lakePercent * 100).toString() + '%';

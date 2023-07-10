@@ -12,10 +12,10 @@ export class UI_Government extends Behaviour {
 
     onUpdate(): void {
         //更新玩家帝国金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nations[1].dora.toString();
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '奥坎盾：' + Nation.nations[1].dora.toString();
         //更新玩家帝国等级显示
-        getGameObjectById("PlayerLevelText").getBehaviour(TextRenderer).text = '等级：' + Nation.nations[1].level.toString()
-        getGameObjectById("PlayerCapacityText").getBehaviour(TextRenderer).text = "城市：" + Nation.nations[1].cityList.length.toString() + '/' + Nation.nations[1].cityMax.toString();
+        getGameObjectById("PlayerLevelText").getBehaviour(TextRenderer).text = '政府等级：' + Nation.nations[1].level.toString()
+        getGameObjectById("PlayerCapacityText").getBehaviour(TextRenderer).text = "城市上限：" + Nation.nations[1].cityList.length.toString() + '/' + Nation.nations[1].cityMax.toString();
         //更新玩家帝国科技点增长显示
         getGameObjectById("PlayerTechText").getBehaviour(TextRenderer).text = '科技点：+' + Nation.nations[1].techPerTurn.toString();
 

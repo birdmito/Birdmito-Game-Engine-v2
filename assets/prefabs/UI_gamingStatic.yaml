@@ -338,17 +338,18 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 55
-                      y: 25
+                      x: 59
+                      y: 21
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
                   - type: TextRenderer
                     properties:
-                      fontSize: 40
+                      fontSize: 22
                       text: '这里应该显示等级'
-                      color: red
-                      anchorType: center
+                      color: "#DEEEFE"
+                      anchorType: left-center
+                      fontFamily: FangSong_GB2312
                 children: []
           - id: PlayerGold #玩家奥坎盾
             behaviours:
@@ -392,17 +393,18 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 120
-                      y: 20
+                      x: 58
+                      y: 21
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
                   - type: TextRenderer
                     properties:
-                      fontSize: 20
-                      text: '这里应该显示多拉'
-                      color: yellow
-                      anchorType: center
+                      fontSize: 22
+                      text: '这里应该显示奥坎盾'
+                      color: "#DEEEFE"
+                      anchorType: left-center
+                      fontFamily: FangSong_GB2312
                 children: []
           - id: PlayerTech #玩家科技点
             behaviours:
@@ -446,17 +448,18 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 55
-                      y: 39
+                      x: 52
+                      y: 21
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
                   - type: TextRenderer
                     properties:
-                      fontSize: 20
+                      fontSize: 22
                       text: '这里应该显示科技等级'
-                      color: blue
+                      color: "#DEEEFE"
                       anchorType: left-center
+                      fontFamily: FangSong_GB2312
                 children: []
           - id: PlayerCapacity #玩家行政容量
             behaviours:
@@ -500,15 +503,16 @@ children:
                 behaviours:
                   - type: Transform
                     properties:
-                      x: 55
-                      y: 39
+                      x: 52
+                      y: 21
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
                   - type: TextRenderer
                     properties:
-                      fontSize: 20
+                      fontSize: 22
                       text: '这里应该显示容量'
-                      color: green
+                      color: "#DEEEFE"
                       anchorType: left-center
+                      fontFamily: FangSong_GB2312
                 children: []
