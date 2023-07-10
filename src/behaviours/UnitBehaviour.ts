@@ -67,10 +67,10 @@ export class UnitBehaviour extends Behaviour implements Moveable {
 
         //更新显示
         this.gameObject.getChildById("UnitPowerText").getBehaviour(TextRenderer).text = this.power.toString();
-        if(SelectedObjectInfoMangaer.selectedBehaviour == this){
+        if (SelectedObjectInfoMangaer.selectedBehaviour == this) {
             this.gameObject.getChildById("_UnitApText").getBehaviour(TextRenderer).text = `AP:${this.unitParam.ap}/${this.unitParam.apMax}(-${this.apCostToMove})`;
         }
-        else{
+        else {
             this.gameObject.getChildById("_UnitApText").getBehaviour(TextRenderer).text = `AP:${this.unitParam.ap}/${this.unitParam.apMax}`;
         }
     }
@@ -104,6 +104,11 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             if (this.nationId === 1) {
                 generateTip(this, "单位正在战斗中");
             }
+            return false;
+        }
+
+        if (!province) {
+            console.log("province is undefined")
             return false;
         }
 
@@ -173,9 +178,11 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         this.gameObject.changeParent(parent);
 
         //移除目标领地上的异国非战斗单位
-        for (let i = 0; i < province.unitList.length; i++) {
-            if (!province.unitList[i].unitParam.isBattleUnit && province.unitList[i].nationId != this.nationId) {
-                province.unitList[i].gameObject.destroy();
+        if (this.unitParam.isBattleUnit) {
+            for (let i = 0; i < province.unitList.length; i++) {
+                if (!province.unitList[i].unitParam.isBattleUnit && province.unitList[i].nationId != this.nationId) {
+                    province.unitList[i].gameObject.destroy();
+                }
             }
         }
 
@@ -187,7 +194,9 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             province.unitList[0].isInCombat = true;
             var newBattle = new Battle();
             const attackerNationId = this.nationId;  //进入领地者为攻击方
+            newBattle.attackerNation = Nation.nations[this.nationId];
             const defenderNationId = province.unitList[0].nationId;  //领地内单位为防守方
+            newBattle.defenderNation = Nation.nations[province.unitList[0].nationId];
             for (const unit of province.unitList) {
                 //先填入防守方单位
                 if (unit.nationId == defenderNationId) {
@@ -215,45 +224,51 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                 //若领地已被占领，则不可开拓
                 if (this.currentProvince.nationId !== 0) {
                     //生成提示
-                    generateTip(this, "该领地已被其他勢力占领");
+                    if (this.nationId === 1)
+                        generateTip(this, "该领地已被其他勢力占领");
                     return;
                 }
                 //若金币足够，则殖民
                 if (nation.dora >= colonyCost) {
                     //生成提示
-                    generateTip(this, "殖民成功");
+                    if (this.nationId === 1)
+                        generateTip(this, "开拓完成");
                     //处理逻辑
                     this.currentProvince.changeNationId(nation.nationId);  //改变省份归属
-                    console.log('玩家领地列表');
+                    console.log(`国家${nation.nationId}的领地列表`);
                     console.log(nation.provinceOwnedList);
                     //如果玩家没有城市，则将该省份加入城市列表
                     if (nation.cityList.length === 0) {
                         this.currentProvince.becomeCity();
-                        console.log('玩家城市列表');
+                        console.log(`国家${nation.nationId}的城市列表`);
                         console.log(nation.cityList);
                     }
                     nation.dora -= Calculator.calculateColonyCost(nation.nationId, this.currentProvince.coord);  //扣钱
-                    this.gameObject.destroy();
-                    // this.unitToDestroy.parent.removeChild(this.unitToDestroy);
-                    getGameObjectById("UI_selectedUnitInfo").destroy();
+                    this.gameObject.destroy();  //销毁单位
+                    if (getGameObjectById("UI_selectedUnitInfo")) {
+                        getGameObjectById("UI_selectedUnitInfo").destroy();
+                    }
                 }
                 else {
                     console.log("金币不足");
                     //生成提示
-                    generateTip(this, "金币不足");
+                    if (this.nationId === 1)
+                        generateTip(this, "金币不足");
                 }
                 break;
             case "筑城者":
                 //若领地已被占领，则不可筑城
                 if (this.currentProvince.nationId !== nation.nationId) {
                     //生成提示
-                    generateTip(this, "该领地尚未拥有");
+                    if (this.nationId === 1)
+                        generateTip(this, "该领地尚未拥有");
                     return;
                 }
                 //若国家领地数量已达上限，则不可筑城
                 if (nation.cityList.length >= nation.cityMax) {
                     //生成提示
-                    generateTip(this, "城市数量已达上限");
+                    if (this.nationId === 1)
+                        generateTip(this, "城市数量已达上限");
                     return;
                 }
                 //若领地已被己方开拓
@@ -261,15 +276,17 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                     //若领地已被筑城，则不可筑城
                     if (this.currentProvince.isCity) {
                         //生成提示
-                        generateTip(this, "该领地已被筑城");
+                        if (this.nationId === 1)
+                            generateTip(this, "该领地已被筑城");
                         return;
                     }
                     //生成提示
-                    generateTip(this, "筑城成功");
+                    if (this.nationId === 1)
+                        generateTip(this, "筑城成功");
                     //处理逻辑
                     this.currentProvince.becomeCity();
                     nation.dora -= Calculator.calculateColonyCost(nation.nationId, this.currentProvince.coord);  //扣钱
-                    this.destroy();
+                    this.gameObject.destroy();
                     getGameObjectById("UI_selectedUnitInfo").destroy();
                 }
                 break;

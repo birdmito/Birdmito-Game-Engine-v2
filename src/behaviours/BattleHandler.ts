@@ -1,4 +1,6 @@
+import { Nation } from "./Nation";
 import { Province } from "./Province";
+import { Technology } from "./Technology";
 import { UnitBehaviour } from "./UnitBehaviour";
 
 export class BattleHandler {
@@ -26,14 +28,20 @@ export class BattleHandler {
         }
         while (attackerPower > 0 && defenderPower > 0) {
             //战斗双方投骰子
-            const dice1 = Math.random() * 6;
-            const dice2 = Math.random() * 6;
+            var attackerDice = Math.random() * 6 + Technology.getTechBonus(battle.attackerNation.nationId, "先进机械装配", 1);
+            if (battle.attackerUnitList.some(unit => unit.unitParam.name === "自走火炮")) {
+                attackerDice += 1
+            }
+            var defencerDice = Math.random() * 6 + Technology.getTechBonus(battle.defenderNation.nationId, "先进机械装配", 1);
+            if (battle.defenderUnitList.some(unit => unit.unitParam.name === "自走火炮")) {
+                defencerDice += 1
+            }
             //按照战力的百分之十计算伤害
-            if (dice1 > dice2) {
-                defenderPower -= attackerPower / 10;
+            if (attackerDice > defencerDice) {
+                defenderPower -= attackerPower / 10 * (1 - Technology.getTechBonus(battle.defenderNation.nationId, "配置秘源护盾"))
             }
             else {
-                attackerPower -= defenderPower / 10;
+                attackerPower -= defenderPower / 10 * (1 - Technology.getTechBonus(battle.attackerNation.nationId, "配置秘源护盾"))
             }
         }
 
@@ -119,4 +127,7 @@ export class Battle {
     //战斗双方的单位
     attackerUnitList: UnitBehaviour[]
     defenderUnitList: UnitBehaviour[]
+    //战斗双方的国家
+    attackerNation: Nation;
+    defenderNation: Nation;
 }

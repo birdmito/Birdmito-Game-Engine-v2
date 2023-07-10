@@ -145,12 +145,27 @@ children:
           scaleY: 1
           rotation: 0
     children:
-      - id: ProvinceNationNameText
+      - id: ProvinceTypeText
         behaviours:
           - type: Transform
             properties:
               x: 0
               y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示省份类型'
+              color: white
+        children: []
+      - id: ProvinceNationNameText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 40
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -165,7 +180,7 @@ children:
           - type: Transform
             properties:
               x: 0
-              y: 30
+              y: 80
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -180,7 +195,7 @@ children:
           - type: Transform
             properties:
               x: 0
-              y: 60
+              y: 120
               scaleX: 1
               scaleY: 1
               rotation: 0
