@@ -13,6 +13,7 @@ import { Calculator } from "./Calculator";
 import { UnitParam } from "./UnitParam";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { UI_GameOverBinding } from "../bindings/UI_GameOverBinding";
+import { Battle, BattleHandler } from "./BattleHandler";
 
 export class GameProcess extends Behaviour {
     static gamingState: 'playerTurn' | 'enemyTurn' | 'settlement' = 'playerTurn';
@@ -133,16 +134,12 @@ export class GameProcess extends Behaviour {
             this.gameOver(getGameObjectById("TurnText").getBehaviour(TextRenderer));
         }
 
-        // //更新所有单位的ap
-        // if (getGameObjectById("Soilder")) {
-        //     const soilder = getGameObjectById("Soilder").getBehaviour(UnitBehaviour);
-        //     // soilder.ap = soilder.apMax;
-        //     soilder.unitParam.ap = soilder.unitParam.apMax;
-        // }
-
         // //更新Ai位置
         // getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
         //显示玩家省份信息
+
+        //处理战斗
+        BattleHandler.handleAllBattle();
 
     }
 

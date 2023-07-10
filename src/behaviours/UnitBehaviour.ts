@@ -2,7 +2,7 @@ import { UI_selectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInf
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
-import { UI_UnitBehaviourButton } from "./UI_UnitBehaviourButton";
+import { UI_UnitActButton } from "./UI_UnitActButton";
 import { ProvinceGenerator } from "./ProvinceGenerator";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Province } from "./Province";
@@ -12,7 +12,8 @@ import { Nation } from "./Nation";
 import { generateTip } from "./Tip";
 import { Moveable } from "./Moveable";
 import { Calculator } from "./Calculator";
-import { Battle, BattleManager } from "./BattleManager";
+import { Battle, BattleHandler } from "./BattleHandler";
+import { TextRenderer } from "../engine/TextRenderer";
 
 export class UnitBehaviour extends Behaviour implements Moveable {
     nationId: number;
@@ -20,11 +21,13 @@ export class UnitBehaviour extends Behaviour implements Moveable {
     currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
     unitParamWhenRecruited: UnitParam;
 
-    unitQuantity: number = 1;
     power;
     isInCombat: boolean = false;
 
     indexInProcince: number = 0;
+
+    //存储移动时省份路径的栈
+    apCostToMove: number = 0;
 
     private _unitParam: UnitParam = UnitParam.originUnitParamList[0];
     get unitParam(): UnitParam {
@@ -34,14 +37,15 @@ export class UnitBehaviour extends Behaviour implements Moveable {
     set unitParam(value: UnitParam) {
         const oldUnitParam = this._unitParam;
         this._unitParam = value;
-        Nation.nations[this.nationId].doraChangeNextTurn += (oldUnitParam.maintCost - value.maintCost) * this.unitQuantity;  //更新预计的dora变动
+        Nation.nations[this.nationId].doraChangeNextTurn += (oldUnitParam.maintCost - value.maintCost) * this.unitParam.quantity;  //更新预计的dora变动
     }
 
     onStart(): void {
+        console.log(`单位生成 所属国家${this.nationId} 所属领地坐标 ${this.unitCoor.x} ${this.unitCoor.y}`)
         Nation.nations[this.nationId].unitList.push(this);
         this.currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
         this.currentProvince.gameObject.getChildById("_UnitRoot").addChild(this.gameObject);
-        console.log("unitRoot的子物体数量为" + getGameObjectById("UnitRoot").children.length);
+        // console.log("unitRoot的子物体数量为" + getGameObjectById("UnitRoot").children.length);
         console.log("unit NationId" + this.nationId)
         this.currentProvince.unitList.push(this);
 
@@ -58,14 +62,26 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         Calculator.calculateUnitGroupPower(this);
         this.gameObject.onMouseLeftDown = () => {
             console.log('unit' + this.nationId + 'is clicked');
-            getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
+            SelectedObjectInfoMangaer.showSelectedObjectInfo(this);
+        }
+
+        //更新显示
+        this.gameObject.getChildById("UnitPowerText").getBehaviour(TextRenderer).text = this.power.toString();
+        if(SelectedObjectInfoMangaer.selectedBehaviour == this){
+            this.gameObject.getChildById("_UnitApText").getBehaviour(TextRenderer).text = `AP:${this.unitParam.ap}/${this.unitParam.apMax}(-${this.apCostToMove})`;
+        }
+        else{
+            this.gameObject.getChildById("_UnitApText").getBehaviour(TextRenderer).text = `AP:${this.unitParam.ap}/${this.unitParam.apMax}`;
         }
     }
 
     onEnd(): void {
+        console.log(`unit${this.nationId} is destroyed`)
         Nation.nations[this.nationId].unitList.splice(Nation.nations[this.nationId].unitList.indexOf(this), 1);  //从unitList中删除
         Nation.nations[this.nationId].doraChangeNextTurn += this.unitParam.maintCost;  //退还维护费用
         this.currentProvince.unitList.splice(this.currentProvince.unitList.indexOf(this), 1);  //从当前省份的unitList中删除
+        console.log(`死亡单位属于领地${this.currentProvince.coord.x} ${this.currentProvince.coord.y}
+        ，死亡后该领地单位数量为${this.currentProvince.unitList.length}`)
     }
 
     updateTransform(): void {
@@ -94,6 +110,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         const provinceCoor = province.coord;
         if (this.unitParam.ap < province.apCost) {
             console.log("AP is not enough");
+
             generateTip(this, "行动点不足");
             return;
         }
@@ -109,38 +126,63 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             return;
         }
 
+        //若目标省份处于战争状态且自己不是战斗单位，则无法移动
+        if (province.battle !== undefined && !this.unitParam.isBattleUnit) {
+            console.log("province is in war");
+            if (this.nationId === 1) {
+                generateTip(this, "目标省份处于战争状态");
+            }
+            return;
+        }
+
+        var parent = province.gameObject.getChildById("_UnitRoot");
+        //若领地上已经有战斗
+        if (province.battle !== undefined) {
+            //根据自己的nationId加入相应的一方
+            if (this.nationId == province.battle.attackerUnitList[0].nationId) {
+                console.log(`unit${this.nationId} 加入进攻方`);
+                this.isInCombat = true;
+                province.battle.attackerUnitList.push(this);
+                parent = province.gameObject.getChildById("_AttackerUnitRoot")
+            }
+            else if (this.nationId == province.battle.defenderUnitList[0].nationId) {
+                console.log(`unit${this.nationId} 加入防守方`);
+                this.isInCombat = true;
+                province.battle.defenderUnitList.push(this);
+            }
+            else {
+                //都不是，说明是第三方单位，无法进入领地
+                console.log("unit is not belong to either side");
+                if (this.nationId === 1) {
+                    generateTip(this, "目标省份处于战争状态");
+                }
+                return;
+            }
+        }
+
         //移动
         //离开当前省份
         this.currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
         this.currentProvince.unitList.splice(this.currentProvince.unitList.indexOf(this), 1);
-        this.gameObject.parent.removeChild(this.gameObject);
         this.unitParam.ap -= province.apCost;
 
         //进入新的省份
         this.unitCoor = provinceCoor;
         province.unitList.push(this);
-        province.gameObject.getChildById("_UnitRoot").addChild(this.gameObject);
+        this.currentProvince = province;
+        this.gameObject.changeParent(parent);
 
-        //若移动后遇到异国单位，则给BattleManager添加一场战斗
-        if (this.unitParam.isBattleUnit && province.unitList.length > 1 && province.unitList[0].nationId != this.nationId) {
-            //若领地上已经有战斗
-            if (province.battle !== undefined) {
-                //根据自己的nationId加入相应的一方
-                if (this.nationId == province.battle.attackerUnitList[0].nationId) {
-                    this.isInCombat = true;
-                    province.battle.attackerUnitList.push(this);
-                }
-                else if (this.nationId == province.battle.defenderUnitList[0].nationId) {
-                    this.isInCombat = true;
-                    province.battle.defenderUnitList.push(this);
-                }
-                else {
-                    //都不是，说明是第三方单位，不参与战斗
-                    return;
-                }
+        //移除目标领地上的异国非战斗单位
+        for (let i = 0; i < province.unitList.length; i++) {
+            if (!province.unitList[i].unitParam.isBattleUnit && province.unitList[i].nationId != this.nationId) {
+                province.unitList[i].gameObject.destroy();
             }
+        }
 
-
+        //若移动后遇到异国战斗单位，则给BattleManager添加一场战斗
+        if (this.unitParam.isBattleUnit && province.unitList.length > 1 && province.unitList[0].nationId != this.nationId) {
+            console.log(`领地的单位列表长度为${province.unitList.length}`)
+            console.log(`${this.nationId} 与 ${province.unitList[0].nationId} 发生战斗`);
             this.isInCombat = true;
             province.unitList[0].isInCombat = true;
             var newBattle = new Battle();
@@ -154,11 +196,81 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                 //再填入攻击方单位
                 else if (unit.nationId == attackerNationId) {
                     newBattle.attackerUnitList.push(unit);
+                    this.gameObject.changeParent(province.gameObject.getChildById("_AttackerUnitRoot"));
                 }
             }
             province.battle = newBattle;
             newBattle.province = province;
-            BattleManager.battleQueue.push(newBattle);  //将战斗加入战斗队列
+            BattleHandler.battleQueue.push(newBattle);  //将战斗加入战斗队列
+        }
+    }
+
+    act() {
+        const nation = Nation.nations[this.nationId];
+        const colonyCost = Calculator.calculateColonyCost(nation.nationId, this.currentProvince.coord);
+        switch (this.unitParam.name) {
+            case "开拓者":
+                //若领地已被占领，则不可开拓
+                if (this.currentProvince.nationId !== 0) {
+                    //生成提示
+                    generateTip(this, "该领地已被其他勢力占领");
+                    return;
+                }
+                //若金币足够，则殖民
+                if (nation.dora >= colonyCost) {
+                    //生成提示
+                    generateTip(this, "殖民成功");
+                    //处理逻辑
+                    this.currentProvince.changeNationId(nation.nationId);  //改变省份归属
+                    console.log('玩家领地列表');
+                    console.log(nation.provinceOwnedList);
+                    //如果玩家没有城市，则将该省份加入城市列表
+                    if (nation.cityList.length === 0) {
+                        this.currentProvince.becomeCity();
+                        console.log('玩家城市列表');
+                        console.log(nation.cityList);
+                    }
+                    nation.dora -= Calculator.calculateColonyCost(nation.nationId, this.currentProvince.coord);  //扣钱
+                    this.gameObject.destroy();
+                    // this.unitToDestroy.parent.removeChild(this.unitToDestroy);
+                    getGameObjectById("UI_selectedUnitInfo").destroy();
+                }
+                else {
+                    console.log("金币不足");
+                    //生成提示
+                    generateTip(this, "金币不足");
+                }
+                break;
+            case "筑城者":
+                //若领地已被占领，则不可筑城
+                if (this.currentProvince.nationId !== nation.nationId) {
+                    //生成提示
+                    generateTip(this, "该领地尚未拥有");
+                    return;
+                }
+                //若国家领地数量已达上限，则不可筑城
+                if (nation.cityList.length >= nation.cityMax) {
+                    //生成提示
+                    generateTip(this, "城市数量已达上限");
+                    return;
+                }
+                //若领地已被己方开拓
+                if (this.currentProvince.nationId === nation.nationId) {
+                    //若领地已被筑城，则不可筑城
+                    if (this.currentProvince.isCity) {
+                        //生成提示
+                        generateTip(this, "该领地已被筑城");
+                        return;
+                    }
+                    //生成提示
+                    generateTip(this, "筑城成功");
+                    //处理逻辑
+                    this.currentProvince.becomeCity();
+                    nation.dora -= Calculator.calculateColonyCost(nation.nationId, this.currentProvince.coord);  //扣钱
+                    this.destroy();
+                    getGameObjectById("UI_selectedUnitInfo").destroy();
+                }
+                break;
         }
     }
 }

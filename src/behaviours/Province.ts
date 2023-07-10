@@ -13,7 +13,8 @@ import { Binding } from "../bindings/Binding";
 import { UnitParam } from "./UnitParam";
 import { Calculator } from "./Calculator";
 import { ProvinceGenerator } from "./ProvinceGenerator";
-import { Battle } from "./BattleManager";
+import { Battle } from "./BattleHandler";
+import { TextRenderer } from "../engine/TextRenderer";
 
 export class Province extends Behaviour {
     static provincesObj: GameObject[][] = [];
@@ -71,17 +72,30 @@ export class Province extends Behaviour {
     }
 
     onUpdate(): void {
-        this.gameObject.onClick = () => {
-            console.log("province is clicked")
-            if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof UnitBehaviour) {
-                console.log("selected is unit, move to province")
-                //若当前选中的是单位，则移动到该领地
-                const unit = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as UnitBehaviour;
+        this.gameObject.onMouseEnter = () => {
+            if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
+                console.log("当前选中物体为单位，预告ap消耗")
+                //若当前选中的是单位，则更改单位信息，预告将要消耗的行动点数
+                const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
                 // if (unit.nationId === 1) {
-                    unit.moveToProvince(this);
+                    unit.apCostToMove = this.apCost;
                 // }
             }
-            getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
+        }
+        this.gameObject.onClick = () => {
+            console.log("province is clicked")
+            if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
+                console.log("selected is unit, move to province")
+                //若当前选中的是单位，则移动
+                const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
+                // if (unit.nationId === 1) {
+                unit.moveToProvince(this);
+                // }
+            }
+            else {
+                SelectedObjectInfoMangaer.showSelectedObjectInfo(this);
+
+            }
         }
     }
 

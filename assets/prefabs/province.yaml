@@ -41,8 +41,8 @@ children:
     behaviours:
     - type: Transform
       properties:
-        x: 100
-        y: 90
+        x: 120
+        y: 70
         scaleX: 1
         scaleY: 1
         rotation: 0
@@ -50,7 +50,38 @@ children:
     - type: LayoutGroup
       properties:
         layoutType: horizontal
-        spacing: 30
+        spacing: 60
         alignment: center
     children: []
+  - id: _AttackerUnitRoot
+    behaviours:
+    - type: Transform
+      properties:
+        x: 120
+        y: 170
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: StopPropagation
+    - type: LayoutGroup
+      properties:
+        layoutType: horizontal
+        spacing: 60
+        alignment: center
+    children: []
+  - id: _PathNoText
+    behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: TextRenderer
+      properties:
+        fontSize: 20
+        text: ' '
+        color: white
+        hitAreaType: none
 
