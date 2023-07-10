@@ -6,6 +6,7 @@ import { Transform } from "../engine/Transform";
 import { Building } from "./Building";
 import { Province } from "./Province";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
+import { Technology } from "./Technology";
 
 export class UI_RecruitButton extends Behaviour {
     onStart(): void {
@@ -15,6 +16,11 @@ export class UI_RecruitButton extends Behaviour {
             const recruitWindow = this.gameObject.engine.createPrefab(new UI_productWindowPrefabBinding);
             const provinceToRecruit = SelectedObjectInfoMangaer.selectedBehaviour as Province;
             for (const unit of provinceToRecruit.recruitableUnitList) {
+                if (unit.techRequired !== '') {
+                    if (!Technology.isTechCompleted(provinceToRecruit.nationId, unit.techRequired)) {
+                        continue;
+                    }
+                }
                 const unitUiBinding = new UI_itemPrefabBinding;
                 unitUiBinding.itemInfo = unit.getInfo();
                 unitUiBinding.itemClickEventText = "招募";

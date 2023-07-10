@@ -12,22 +12,25 @@ import { OverrideableNode } from "ts-morph";
 
 export class UnitParam implements infoShowable {
     static originUnitParamList: UnitParam[] = [
-        new UnitParam("开拓者", 10, 10, 20, 10, 1),
-        new UnitParam("筑城者", 10, 10, 20, 10, 1),
-        new UnitParam("士兵", 10, 10, 20, 10, 1, true, 10, 10)
+        new UnitParam("开拓者", 10, 10, 20, 150, 1),
+        new UnitParam("筑城者", 10, 10, 20, 150, 1),
+        new UnitParam("士兵", 10, 10, 20, 200, 1, true, 10, 10),
+        new UnitParam("自走火炮", 10, 10, 20, 200, 1, true, 10, 10, '先进自走火炮'),
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,
-        maintCost: number, nationId: number = 1, isBattleUnit: boolean = false, quantity: number = 1, power: number = 0) {
+        maintCost: number, nationId: number = 1, isBattleUnit: boolean = false, quantity: number = 1, power: number = 0, techRequired='') {
         this.name = name;
         this.cost = cost;
         this.recruitProcessMax = recruitProcessMax;
         this.apMax = apMax;
+        this.ap = apMax;
         this.maintCost = maintCost;
         this.nationId = nationId;
         this.isBattleUnit = isBattleUnit;
         this.quantity = quantity;
         this.power = power;
+        this.techRequired = techRequired;
     }
 
     static copyOriginUnitParamList(nationId: number = 1): UnitParam[] {
@@ -70,6 +73,8 @@ export class UnitParam implements infoShowable {
     ap: number = 100000;
     apMax: number = 10;
     maintCost: number = 1;
+    //需要科技解锁
+    techRequired: string;
 
     //战斗属性
     //是否是战斗单位

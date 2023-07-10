@@ -38,6 +38,7 @@ export class Province extends Behaviour {
             Nation.nations[this.nationId].doraChangeNextTurn += value.dora - oldValue.dora  //更新预计的dora变动
         }
     }
+    provinceName: string = "未命名";
 
     plainPercent = 0;
     lakePercent = 0;
@@ -77,9 +78,9 @@ export class Province extends Behaviour {
                 console.log("当前选中物体为单位，预告ap消耗")
                 //若当前选中的是单位，则更改单位信息，预告将要消耗的行动点数
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
-                // if (unit.nationId === 1) {
+                if (unit.nationId === 1 || GameProcess.isCheat) {
                     unit.apCostToMove = this.apCost;
-                // }
+                }
             }
         }
         this.gameObject.onMouseLeftDown = () => {
@@ -88,9 +89,9 @@ export class Province extends Behaviour {
                 console.log("selected is unit, move to province")
                 //若当前选中的是单位，则移动
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
-                // if (unit.nationId === 1) {
-                unit.moveToProvince(this);
-                // }
+                if (unit.nationId === 1 || GameProcess.isCheat) {
+                    unit.moveToProvince(this);
+                }
             }
             else {
                 SelectedObjectInfoMangaer.showSelectedObjectInfo(this);
@@ -98,6 +99,7 @@ export class Province extends Behaviour {
             }
         }
     }
+
 
     //随机生成地貌
     randomLandscape() {

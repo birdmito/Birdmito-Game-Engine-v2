@@ -138,6 +138,20 @@ children:
                   text: '这里应该显示单位的行为'
                   fontFamily: 'fangsong'
                   color: white
+      - id: UnitNameText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示单位名称'
+              color: white
       - id: UnitNationText
         behaviours:
           - type: Transform

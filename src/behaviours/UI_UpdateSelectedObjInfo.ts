@@ -14,6 +14,7 @@ import { UI_BuildButton } from "./UI_BuildButton";
 import { Building } from "./Building";
 import { Nation } from "./Nation";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
+import { GameProcess } from "./GameProcess";
 
 export class UI_UpdateSelectedObjInfo extends Behaviour {
     onUpdate(): void {
@@ -23,9 +24,15 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
         else if (this.selectedBehaviour instanceof Province) {
             //更新Info界面
             const province = this.selectedBehaviour as Province;
+            if (province.isCity) {
+                getGameObjectById("ProvinceTypeText").getBehaviour(TextRenderer).text = `城市`;
+            }
+            else {
+                getGameObjectById("ProvinceTypeText").getBehaviour(TextRenderer).text = `村庄`;
+            }
             getGameObjectById("ProvinceNationNameText").getBehaviour(TextRenderer).text = `所属国家：${province.nationId}`;
-            getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = `多拉：${province.provinceProduction.dora.toString()} 
-            生产力：${province.provinceProduction.production.toString()} 科技：${province.provinceProduction.techPoint.toString()}`;
+            getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = `奥坎盾：${province.provinceProduction.dora.toString()} 
+            ||生产力：${province.provinceProduction.production.toString()} ||科技点：${province.provinceProduction.techPoint.toString()}`;
             getGameObjectById("ProvinceApCostText").getBehaviour(TextRenderer).text = `行动力消耗：${province.apCost}`;
             getGameObjectById("ProvincePlainPercentText").getBehaviour(TextRenderer).text = `平原：${Math.floor(province.plainPercent * 100)}%`;
             getGameObjectById("ProvinceLakePercentText").getBehaviour(TextRenderer).text = `湖泊：${Math.floor(province.lakePercent * 100)}%`;
@@ -37,6 +44,7 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
         }
         else if (this.selectedBehaviour instanceof UnitBehaviour) {
             const unit = this.selectedBehaviour as UnitBehaviour;
+            getGameObjectById("UnitNameText").getBehaviour(TextRenderer).text = `单位名称：${unit.unitParam.name}`;
             getGameObjectById("UnitNationText").getBehaviour(TextRenderer).text = `所属国家：${unit.nationId}`;
             getGameObjectById("UnitApText").getBehaviour(TextRenderer).text = `行动点：${unit.unitParam.ap}/${unit.unitParam.apMax}`;
             getGameObjectById("UnitQuantityText").getBehaviour(TextRenderer).text = `数量：${unit.unitParam.quantity}`;
@@ -74,11 +82,11 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 const UI_buildingBinding = new UI_itemPrefabBinding;
                 UI_buildingBinding.item = building.name;
                 UI_buildingBinding.itemInfo = building.getInfo();
-                if (province.nationId === 1) {
+                if (province.nationId === 1 || GameProcess.isCheat) {
                     UI_buildingBinding.itemClickEventText = "拆除";
                 }
                 else {
-                    UI_buildingBinding.itemClickEventText = "";
+                    UI_buildingBinding.itemClickEventText = " ";
                 }
                 const UI_building = this.engine.createPrefab(UI_buildingBinding);
                 UI_building.getBehaviour(Transform).y = 30 + i * 100
@@ -111,7 +119,12 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 UI_buildingBinding.item = productedItem.productName;
                 UI_buildingBinding.itemInfo = productedItem.getInfo();
                 UI_buildingBinding.idInList = i;
-                UI_buildingBinding.itemClickEventText = "取消";
+                if (province.nationId === 1 || GameProcess.isCheat) {
+                    UI_buildingBinding.itemClickEventText = "取消";
+                }
+                else {
+                    UI_buildingBinding.itemClickEventText = " ";
+                }
                 productQueueRoot.addChild(this.engine.createPrefab(UI_buildingBinding));
             }
         }
