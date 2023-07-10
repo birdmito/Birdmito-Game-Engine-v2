@@ -7,7 +7,7 @@ import { Transform } from "../engine/Transform";
 import { ProvinceGenerator } from "./ProvinceGenerator";
 import { Province } from "./Province";
 import { UnitBehaviour, } from "./UnitBehaviour";
-import { UI_UnitBehaviourButton } from "./UI_UnitBehaviourButton";
+import { UI_UnitActButton } from "./UI_UnitActButton";
 import { build } from "vite";
 import { UI_itemPrefabBinding } from "../bindings/UI_itemPrefabBinding";
 import { UI_BuildButton } from "./UI_BuildButton";
@@ -52,8 +52,8 @@ export class SelectedObjectInfoMangaer extends Behaviour {
     // }
     // }
 
-    selectedBehaviour: Behaviour;
-    showSelectedObjectInfo(selectedBehaviour: Behaviour): void {
+    static selectedBehaviour: Behaviour;
+    static showSelectedObjectInfo(selectedBehaviour: Behaviour): void {
         //删除旧Info界面
         if (getGameObjectById("UI_selectedProvinceInfo")) {
             getGameObjectById("UI_selectedProvinceInfo").destroy();
@@ -63,11 +63,11 @@ export class SelectedObjectInfoMangaer extends Behaviour {
         }
 
         //设置当前选中项
-        this.selectedBehaviour = selectedBehaviour;
+        SelectedObjectInfoMangaer.selectedBehaviour = selectedBehaviour;
         //新建新Info界面
         if (selectedBehaviour instanceof Province) {
             const province = selectedBehaviour as Province;
-            const infoPrefab = this.engine.createPrefab(new UI_selectedProvinceInfoPrefabBinding);
+            const infoPrefab = selectedBehaviour.engine.createPrefab(new UI_selectedProvinceInfoPrefabBinding);
             infoPrefab.getBehaviour(UI_UpdateSelectedObjInfo).selectedBehaviour = province;
             //根据地形百分比设置省份图片
             if (province.plainPercent > 0.5) {
@@ -101,14 +101,14 @@ export class SelectedObjectInfoMangaer extends Behaviour {
         }
         else if (selectedBehaviour instanceof UnitBehaviour) {
             const unit = selectedBehaviour as UnitBehaviour;
-            const infoPrefab = this.engine.createPrefab(new UI_selectedUnitInfoPrefabBinding);
+            const infoPrefab = selectedBehaviour.engine.createPrefab(new UI_selectedUnitInfoPrefabBinding);
             infoPrefab.getBehaviour(UI_UpdateSelectedObjInfo).selectedBehaviour = unit;
             getGameObjectById("uiRoot").addChild(infoPrefab);
 
             const unitBehaviourButton = getGameObjectById("UI_UnitBehaviourButton");
-            unitBehaviourButton.getBehaviour(UI_UnitBehaviourButton).targetProvinceObj =
+            unitBehaviourButton.getBehaviour(UI_UnitActButton).targetProvinceObj =
                 Province.provincesObj[selectedBehaviour.unitCoor.x][selectedBehaviour.unitCoor.y];
-            unitBehaviourButton.getBehaviour(UI_UnitBehaviourButton).unitToDestroy = selectedBehaviour.gameObject;
+            unitBehaviourButton.getBehaviour(UI_UnitActButton).unitToDestroy = selectedBehaviour.gameObject;
 
         }
     }

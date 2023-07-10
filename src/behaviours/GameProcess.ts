@@ -13,6 +13,7 @@ import { Calculator } from "./Calculator";
 import { UnitParam } from "./UnitParam";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { UI_GameOverBinding } from "../bindings/UI_GameOverBinding";
+import { Battle, BattleHandler } from "./BattleHandler";
 
 export class GameProcess extends Behaviour {
     static gamingState: 'playerTurn' | 'enemyTurn' | 'settlement' = 'playerTurn';
@@ -50,7 +51,7 @@ export class GameProcess extends Behaviour {
     static turnTotal = 10;
 
     initialNation() {
-        for (let i = 0; i < Nation.nationQuantity; i++) {
+        for (let i = Nation.nationQuantity - 1; i >= 0; i--) {
             const nation = new Nation(i + 1, "玩家", 10000, 1);
             Nation.nations[nation.nationId] = nation;
             //nation.randomTechNameList无法在构造器中初始化，因为Technology.getTechByName()需要Nation.techTree
@@ -133,16 +134,12 @@ export class GameProcess extends Behaviour {
             this.gameOver(getGameObjectById("TurnText").getBehaviour(TextRenderer));
         }
 
-        // //更新所有单位的ap
-        // if (getGameObjectById("Soilder")) {
-        //     const soilder = getGameObjectById("Soilder").getBehaviour(UnitBehaviour);
-        //     // soilder.ap = soilder.apMax;
-        //     soilder.unitParam.ap = soilder.unitParam.apMax;
-        // }
-
         // //更新Ai位置
         // getGameObjectById('AiPrefab').getBehaviour(Ai_Enemies).moveToOtherProvinces();
         //显示玩家省份信息
+
+        //处理战斗
+        BattleHandler.handleAllBattle();
 
     }
 
@@ -176,11 +173,12 @@ export class GameProcess extends Behaviour {
         const uiRoot = getGameObjectById("uiRoot")
         uiRoot.addChild(gameover)
 
-        const tip = getGameObjectById("GameOverText")
-        const image = getGameObjectById("GameOverImage")
-        const button = getGameObjectById("GobackToMenuButton")
-        button.getBehaviour(TextRenderer).text = "返回主菜单"
-
+        const tip = gameover.children[1]
+        const image = gameover.children[0]
+        const button = gameover.children[2]
+        const buttonText = button.children[1]
+        buttonText.getBehaviour(TextRenderer).text = "返回主菜单"
+        console.log("image:"+image)
 
         if (Nation.nations[1].provinceOwnedList.length > 0) {
             tip.getBehaviour(TextRenderer).text = "游戏胜利";

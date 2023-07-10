@@ -13,7 +13,7 @@ export class UI_RecruitButton extends Behaviour {
         this.gameObject.onMouseLeftDown = () => {
             console.log("create recruit window")
             const recruitWindow = this.gameObject.engine.createPrefab(new UI_productWindowPrefabBinding);
-            const provinceToRecruit = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as Province;
+            const provinceToRecruit = SelectedObjectInfoMangaer.selectedBehaviour as Province;
             for (const unit of provinceToRecruit.recruitableUnitList) {
                 const unitUiBinding = new UI_itemPrefabBinding;
                 unitUiBinding.itemInfo = unit.getInfo();

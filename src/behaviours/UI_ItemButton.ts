@@ -17,9 +17,8 @@ export class UI_ItemButton extends Behaviour {
     idInList: number = 0;
     onUpdate(): void {
         this.gameObject.onMouseLeftDown = () => {
-            const selectedObjectInfoManager = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer);
             const eventText = this.gameObject.getBehaviour(TextRenderer).text;
-            const targetProvince = selectedObjectInfoManager.selectedBehaviour as Province;
+            const targetProvince = SelectedObjectInfoMangaer.selectedBehaviour as Province;
             var originBuilding: Building;
             var originUnitParam: UnitParam;
             if (targetProvince) {

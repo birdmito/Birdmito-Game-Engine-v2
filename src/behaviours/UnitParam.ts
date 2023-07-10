@@ -2,7 +2,7 @@ import { UI_selectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInf
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
-import { UI_UnitBehaviourButton } from "./UI_UnitBehaviourButton";
+import { UI_UnitActButton } from "./UI_UnitActButton";
 import { ProvinceGenerator } from "./ProvinceGenerator";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Province } from "./Province";
@@ -18,14 +18,14 @@ export class UnitParam implements infoShowable {
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,
-        maintCost: number, nationId: number = 1, isCombatUnit: boolean = false, quantity: number = 1, power: number = 0) {
+        maintCost: number, nationId: number = 1, isBattleUnit: boolean = false, quantity: number = 1, power: number = 0) {
         this.name = name;
         this.cost = cost;
         this.recruitProcessMax = recruitProcessMax;
         this.apMax = apMax;
         this.maintCost = maintCost;
         this.nationId = nationId;
-        this.isCombatUnit = isCombatUnit;
+        this.isBattleUnit = isBattleUnit;
         this.quantity = quantity;
         this.power = power;
     }
@@ -34,14 +34,14 @@ export class UnitParam implements infoShowable {
         const result: UnitParam[] = [];
         UnitParam.originUnitParamList.forEach((unitParam) => {
             result.push(new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax,
-                unitParam.maintCost, nationId, unitParam.isCombatUnit, unitParam.quantity, unitParam.power));
+                unitParam.maintCost, nationId, unitParam.isBattleUnit, unitParam.quantity, unitParam.power));
         });
         return result;
     }
 
     static copyUnitParam(unitParam: UnitParam): UnitParam {
         return new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax,
-            unitParam.maintCost, unitParam.nationId, unitParam.isCombatUnit, unitParam.quantity, unitParam.power);
+            unitParam.maintCost, unitParam.nationId, unitParam.isBattleUnit, unitParam.quantity, unitParam.power);
     }
 
     static getProvinceUnitParamByName(province: Province, name: string): UnitParam {
@@ -73,7 +73,7 @@ export class UnitParam implements infoShowable {
 
     //战斗属性
     //是否是战斗单位
-    isCombatUnit: boolean = false;
+    isBattleUnit: boolean = false;
     //单位数量
     quantity: number = 1;
     //战力

@@ -6,7 +6,7 @@ import { Transform } from "./engine/Transform";
 import { Circle, Hexagon, Rectangle } from "./engine/math";
 import { System } from "./engine/systems/System";
 import { CanvasContextRenderingSystem } from "./engine/systems/RenderingSystem";
-import { LayoutGroup } from "./engine/LayoutGroup";
+import { LayoutGroup } from "./behaviours/LayoutGroup";
 import { AnchorSystem } from "./engine/systems/AnchorSystem";
 
 export const gameObjects: { [id: string]: GameObject } = {};
@@ -211,13 +211,13 @@ export class GameEngine {
 
         //OPTIMIZE 绘制1920*1080的红色矩形边框
         context.strokeStyle = "red";
-        context.strokeRect(0, 0, 1920*0.7, 1080*0.7);
+        context.strokeRect(0, 0, 1920 * 0.7, 1080 * 0.7);
 
         for (const system of this.systems) {
             system.onUpdate();
         }
         for (const system of this.systems) {
-            system.onLaterUpdate();22
+            system.onLaterUpdate(); 22
         }
         this.lastTime = advancedTime;
     }
@@ -249,6 +249,7 @@ export class GameObject {
 
     // input event
     // ------------------------------
+    stopPropagation: boolean = false; // 是否停止事件冒泡
     /**
      * @deprecated onClick函数为过时函数，不建议继续使用。
      * 请使用onMouseLeftDown、onMouseRightDown、onMouseMiddleDown替代。
@@ -306,6 +307,15 @@ export class GameObject {
         child.active = false;
     }
 
+    changeParent(newParent: GameObject) {
+        const index = this.parent.children.indexOf(this);
+        if (index >= 0) {
+            this.parent.children.splice(index, 1);
+        }
+        this.parent = newParent;
+        newParent.children.push(this);
+    }
+
     getChildById(id: string): GameObject {
         for (const child of this.children) {
             if (child.id === id) {
@@ -343,14 +353,14 @@ export class GameObject {
     }
 
     destroy() {
-        for (const behaviour of this.behaviours) {
-            behaviour.destroy();
-        }
-        for (const child of this.children) {
-            child.destroy();
-        }
+        // for (const behaviour of this.behaviours) {
+        //     behaviour.onEnd();
+        // }
+        // for (const child of this.children) {
+        //     child.destroy();
+        // }
         this.parent.removeChild(this);
-        delete GameObject.map[this.uuid];
+        // delete GameObject.map[this.uuid];
     }
 }
 
@@ -433,7 +443,7 @@ export function extractGameObject(gameObject: GameObject): GameObjectData {
     return gameObjectData;
 }
 
-export function createGameObject(data: GameObjectData, gameEngine: GameEngine): GameObject {
+function createGameObject(data: GameObjectData, gameEngine: GameEngine): GameObject {
     let gameObject: GameObject;
     if (data.prefab) {
         const url = getPrefabBehaviourInfo(data.prefab.type);

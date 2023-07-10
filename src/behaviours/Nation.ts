@@ -13,7 +13,7 @@ import { UnitParam } from "./UnitParam";
 
 
 export class Nation {
-    static nationQuantity = 2;
+    static nationQuantity = 3;
     static nations: Nation[] = [];
 
     constructor(nationId: number = 1, nationName: string = "玩家", product: number = 0, level: number = 1) {

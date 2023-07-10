@@ -20,18 +20,6 @@ children:
           rotation: 0
           anchorType: left-top
       - type: ProvinceGenerator
-    children: []        
-  - id: SelectedObjectInfoMangaer
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-          anchorType: left-top
-      - type: SelectedObjectInfoMangaer
     children: []
   - id: UnitRoot
     behaviours:
