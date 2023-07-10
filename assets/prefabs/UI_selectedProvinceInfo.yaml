@@ -179,8 +179,8 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 80
+              x: 200
+              y: 305
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -189,6 +189,7 @@ children:
               fontSize: 20
               text: '这里应该显示领地产出'
               color: white
+              lineWidth: 20
         children: []
       - id: ProvinceApCostText
         behaviours:

@@ -31,8 +31,8 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 getGameObjectById("ProvinceTypeText").getBehaviour(TextRenderer).text = `村庄`;
             }
             getGameObjectById("ProvinceNationNameText").getBehaviour(TextRenderer).text = `所属国家：${province.nationId}`;
-            getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = `多拉：${province.provinceProduction.dora.toString()} 
-            生产力：${province.provinceProduction.production.toString()} 科技：${province.provinceProduction.techPoint.toString()}`;
+            getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = `奥坎盾：${province.provinceProduction.dora.toString()} 
+            ||生产力：${province.provinceProduction.production.toString()} ||科技点：${province.provinceProduction.techPoint.toString()}`;
             getGameObjectById("ProvinceApCostText").getBehaviour(TextRenderer).text = `行动力消耗：${province.apCost}`;
             getGameObjectById("ProvincePlainPercentText").getBehaviour(TextRenderer).text = `平原：${Math.floor(province.plainPercent * 100)}%`;
             getGameObjectById("ProvinceLakePercentText").getBehaviour(TextRenderer).text = `湖泊：${Math.floor(province.lakePercent * 100)}%`;
