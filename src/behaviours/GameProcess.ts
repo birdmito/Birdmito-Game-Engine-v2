@@ -173,11 +173,12 @@ export class GameProcess extends Behaviour {
         const uiRoot = getGameObjectById("uiRoot")
         uiRoot.addChild(gameover)
 
-        const tip = getGameObjectById("GameOverText")
-        const image = getGameObjectById("GameOverImage")
-        const button = getGameObjectById("GobackToMenuButton")
-        button.getBehaviour(TextRenderer).text = "返回主菜单"
-
+        const tip = gameover.children[1]
+        const image = gameover.children[0]
+        const button = gameover.children[2]
+        const buttonText = button.children[1]
+        buttonText.getBehaviour(TextRenderer).text = "返回主菜单"
+        console.log("image:"+image)
 
         if (Nation.nations[1].provinceOwnedList.length > 0) {
             tip.getBehaviour(TextRenderer).text = "游戏胜利";
