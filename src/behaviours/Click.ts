@@ -6,7 +6,7 @@ export class Click extends Behaviour {
         const audioClip = this.gameObject.getBehaviour(AudioClip)
         let isPause = true;
 
-        audioClip.play();
+        // audioClip.play();
         
         this.gameObject.onClick  = () =>{
             console.log('left click');

@@ -27,10 +27,10 @@ export class ViewBoxBehaviour extends Behaviour {
     }
 
     onUpdate(): void {
-        if(this.cameraTransorm.x > 0 ){
+        
             this.gameObject.getBehaviour(Transform).x = ViewBoxBehaviour.viewBoxOriXPos + this.cameraTransorm.x * ViewBoxBehaviour.worldGameMiniMapXRatio  ;
             this.gameObject.getBehaviour(Transform).y = ViewBoxBehaviour.viewBoxOriYPos + this.cameraTransorm.y * ViewBoxBehaviour.worldGameMiniMapYRatio ;
-        }
+
         this.gameObject.getBehaviour(Transform).scaleX = this.cameraTransorm.scaleX * ViewBoxBehaviour.worldGameMiniMapXRatio;
         this.gameObject.getBehaviour(Transform).scaleY = this.cameraTransorm.scaleY * ViewBoxBehaviour.worldGameMiniMapYRatio;
         this.gameObject.onMouseLeftDown = () =>{       
