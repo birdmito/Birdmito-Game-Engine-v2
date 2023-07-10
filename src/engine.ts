@@ -307,6 +307,15 @@ export class GameObject {
         child.active = false;
     }
 
+    changeParent(newParent: GameObject) {
+        const index = this.parent.children.indexOf(this);
+        if (index >= 0) {
+            this.parent.children.splice(index, 1);
+        }
+        this.parent = newParent;
+        newParent.children.push(this);
+    }
+
     getChildById(id: string): GameObject {
         for (const child of this.children) {
             if (child.id === id) {
@@ -344,14 +353,14 @@ export class GameObject {
     }
 
     destroy() {
-        for (const behaviour of this.behaviours) {
-            behaviour.destroy();
-        }
-        for (const child of this.children) {
-            child.destroy();
-        }
+        // for (const behaviour of this.behaviours) {
+        //     behaviour.onEnd();
+        // }
+        // for (const child of this.children) {
+        //     child.destroy();
+        // }
         this.parent.removeChild(this);
-        delete GameObject.map[this.uuid];
+        // delete GameObject.map[this.uuid];
     }
 }
 
