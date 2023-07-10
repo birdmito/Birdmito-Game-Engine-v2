@@ -49,6 +49,9 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: DestroyOnClick
+        properties:
+          targetID: UI_productWindow
     children:
       - id: CloseImage
         behaviours:
@@ -61,26 +64,6 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_TextFrame5050.png
-              renderType: 'ui'
-              scaleXForUI: 1
-              scaleYForUI: 1
-              borderWidthForUI: 15
-      - id: CloseText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 20
-              y: 20
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: 关闭
-              color: white
-          - type: DestroyOnClick
-            properties:
-              targetID: UI_productWindow
+              source: ./assets/images/Icon_Close.png
+          - type: UI_ButtonState
         children: []

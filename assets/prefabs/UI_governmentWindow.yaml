@@ -91,6 +91,7 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Interface_ButtonGovernmentLevel.png
+          - type: UI_ButtonState
       - id: _GovernmentUpgradeText
         behaviours:
           - type: Transform

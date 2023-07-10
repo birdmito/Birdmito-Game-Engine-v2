@@ -258,6 +258,9 @@ export class GameObject {
     onMouseLeftDown?: (event: GameEngineMouseEvent) => void;
     onMouseMiddleDown?: (event: GameEngineMouseEvent) => void;
     onMouseRightDown?: (event: GameEngineMouseEvent) => void;
+    onMouseLeftUp?: (event: GameEngineMouseEvent) => void;
+    onMouseMiddleUp?: (event: GameEngineMouseEvent) => void;
+    onMouseRightUp?: (event: GameEngineMouseEvent) => void;
     onMouseEnter?: (event: GameEngineMouseEvent) => void;
     onMouseLeave?: (event: GameEngineMouseEvent) => void;
 

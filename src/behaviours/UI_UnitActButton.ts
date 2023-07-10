@@ -32,7 +32,7 @@ export class UI_UnitActButton extends Behaviour {
                 break;
         }
 
-        this.gameObject.onClick = () => {
+        this.gameObject.onMouseLeftDown = () => {
             this.unitToDestroy.getBehaviour(UnitBehaviour).act();
             // switch (this.unitToDestroy.getBehaviour(UnitBehaviour).unitParam.name) {
             //     case "开拓者":

@@ -232,6 +232,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: UI_SettingButton
     children:
       - id: SettingImage #设置按钮
         behaviours:
@@ -245,7 +246,7 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Interface_ButtonControl.png
-          - type: UI_SettingButton
+          - type: UI_ButtonState
         children: []
   - id: Government
     behaviours:

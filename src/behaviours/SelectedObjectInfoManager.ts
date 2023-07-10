@@ -86,6 +86,11 @@ export class SelectedObjectInfoMangaer extends Behaviour {
                 getGameObjectById("ProvinceInfoLayer2").getBehaviour(BitmapRenderer).source =
                     "./assets/images/ScreenArt_ProvinceLake_0.png";
             }
+            else{
+                //海洋
+                getGameObjectById("ProvinceInfoLayer2").getBehaviour(BitmapRenderer).source =
+                    "./assets/images/ScreenArt_ProvinceOcean_0.png";
+            }
 
             //若当前选中项不在玩家国家的city中，则删除建造按钮
             if (!Nation.nations[1].cityList.some(city => city === province)) {

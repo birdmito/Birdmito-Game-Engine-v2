@@ -30,7 +30,7 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_Panel_1.png
+              source: ./assets/images/Icon_PanelUnit.png
         children: []      
       - id: UnitInfoLayer2  #此处需要添加单位图片
         behaviours:
@@ -75,24 +75,52 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 50
-          y: 300
+          x: 0
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
     children:
-      - id: UI_UnitBehaviourButton
+      - id: UI_UnitSeparateButton
         behaviours:
           - type: Transform
             properties:
-              x: 425
-              y: 130
+              x: 103
+              y: 478
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Interface_ButtonExplore.png
+              source: ./assets/images/Icon_SeparateUnit.png
+          # - type: 
+        children: []
+      - id: UnitDeleteButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 42
+              y: 478
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_DeleteUnit.png
+          # - type: 
+        children: []
+      - id: UI_UnitBehaviourButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 378
+              y: 478
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_Explore.png
           - type: UI_UnitActButton
         children: 
           - id: UnitBehaviourText
@@ -175,6 +203,9 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: DestroyOnClick
+        properties:
+          targetID: UI_selectedUnitInfo
     children:
       - id: CloseImage
         behaviours:
@@ -188,7 +219,5 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_Cross.png
-          - type: DestroyOnClick
-            properties:
-              targetID: UI_selectedUnitInfo
+          - type: UI_ButtonState
         children: []

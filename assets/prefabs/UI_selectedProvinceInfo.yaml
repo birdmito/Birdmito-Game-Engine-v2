@@ -285,11 +285,21 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/Icon_BuildingBuild.png
       - type: UI_BuildButton
-    children: []
+    children:
+      - id: BuildButtonImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_BuildingBuild.png
+          - type: UI_ButtonState
   - id: ProductWindowRoot
     behaviours:
       - type: Transform
@@ -309,11 +319,21 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/Icon_ProduceUnit.png
       - type: UI_RecruitButton
-    children: []
+    children:
+      - id: RecruitButtonImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_ProduceUnit.png
+          - type: UI_ButtonState
   - id: Close
     behaviours:
       - type: Transform
@@ -323,6 +343,9 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: DestroyOnClick
+        properties:
+          targetID: UI_selectedProvinceInfo
     children:
       - id: CloseImage
         behaviours:
@@ -336,7 +359,5 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_Cross.png
-          - type: DestroyOnClick
-            properties:
-              targetID: UI_selectedProvinceInfo
+          - type: UI_ButtonState
         children: []
