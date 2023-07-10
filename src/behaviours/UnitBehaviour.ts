@@ -98,13 +98,13 @@ export class UnitBehaviour extends Behaviour implements Moveable {
 
     }
 
-    moveToProvince(province: Province): void {
+    moveToProvince(province: Province): boolean {
         if (this.isInCombat) {
             console.log("unit is in combat");
             if (this.nationId === 1) {
                 generateTip(this, "单位正在战斗中");
             }
-            return;
+            return false;
         }
 
         const provinceCoor = province.coord;
@@ -112,18 +112,18 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             console.log("AP is not enough");
 
             generateTip(this, "行动点不足");
-            return;
+            return false;
         }
 
         if (!province.isOwnable) {
             generateTip(this, "海面不可通行");
-            return;
+            return false;
         }
 
         if (!ProvinceGenerator.areAdjacent(this.unitCoor.x, this.unitCoor.y, provinceCoor.x, provinceCoor.y)) {
             console.log("province is not adjacent");
             generateTip(this, "不相邻");
-            return;
+            return false;
         }
 
         //若目标省份处于战争状态且自己不是战斗单位，则无法移动
@@ -132,7 +132,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             if (this.nationId === 1) {
                 generateTip(this, "目标省份处于战争状态");
             }
-            return;
+            return false;
         }
 
         var parent = province.gameObject.getChildById("_UnitRoot");
@@ -156,7 +156,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                 if (this.nationId === 1) {
                     generateTip(this, "目标省份处于战争状态");
                 }
-                return;
+                return false;
             }
         }
 
@@ -203,6 +203,8 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             newBattle.province = province;
             BattleHandler.battleQueue.push(newBattle);  //将战斗加入战斗队列
         }
+
+        return true;
     }
 
     act() {

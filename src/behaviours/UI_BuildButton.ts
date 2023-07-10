@@ -16,7 +16,7 @@ export class UI_BuildButton extends Behaviour {
                 getGameObjectById("UI_productWindow").destroy();  // 如果已经存在，就销毁
             }
             const buildWindow = this.gameObject.engine.createPrefab(new UI_productWindowPrefabBinding);
-            const provinceToBuild = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as Province;
+            const provinceToBuild = SelectedObjectInfoMangaer.selectedBehaviour as Province;
             for (const building of provinceToBuild.buildableBuildingList) {
                 // console.log("建筑" + building.name + "的科技要求：" + building.techRequired)
                 if (building.techRequired !== '') {
