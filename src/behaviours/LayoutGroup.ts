@@ -49,9 +49,9 @@ export class LayoutGroup extends Behaviour {
                 }
                 //根据子物体数量调整所有子物体的位置，使其总体居中
                 if (this.alignment === 'center') {
-                    console.log("x" + this.gameObject.parent.getBehaviour(Province).coord.x + ' y ' + this.gameObject.parent.getBehaviour(Province).coord.y + ' ' +
-                        this.gameObject.parent.getBehaviour(Province).unitList.length + ' '
-                        + this.gameObject.children.length)
+                    // console.log("x" + this.gameObject.parent.getBehaviour(Province).coord.x + ' y ' + this.gameObject.parent.getBehaviour(Province).coord.y + ' ' +
+                    //     this.gameObject.parent.getBehaviour(Province).unitList.length + ' '
+                    //     + this.gameObject.children.length)
                     const totalWidth = this.gameObject.children.length * this.spacing;
                     const halfWidth = totalWidth / 2;
                     child.getBehaviour(Transform).x -= halfWidth;

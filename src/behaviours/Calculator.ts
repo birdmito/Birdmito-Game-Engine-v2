@@ -1,4 +1,5 @@
 import { Behaviour } from "../engine/Behaviour";
+import { TextRenderer } from "../engine/TextRenderer";
 import { Building } from "./Building";
 import { Nation } from "./Nation";
 import { Province } from "./Province";
@@ -185,8 +186,9 @@ export class Calculator {
         var multiplier = 1;
 
         //计算基础战斗力
-        result += unit.unitParam.power * unit.unitQuantity;
+        result += unit.unitParam.power * unit.unitParam.quantity;
 
         unit.power = result;
+
     }
 }

@@ -354,7 +354,7 @@ export class GameObject {
 
     destroy() {
         // for (const behaviour of this.behaviours) {
-        //     behaviour.destroy();
+        //     behaviour.onEnd();
         // }
         // for (const child of this.children) {
         //     child.destroy();

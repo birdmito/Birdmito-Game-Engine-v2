@@ -93,7 +93,7 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Interface_ButtonExplore.png
-          - type: UI_UnitBehaviourButton
+          - type: UI_UnitActButton
         children: 
           - id: UnitBehaviourText
             behaviours:
@@ -137,6 +137,34 @@ children:
             properties:
               fontSize: 20
               text: '这里应该显示行动力'
+              color: white
+      - id: UnitQuantityText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 120
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示数量'
+              color: white
+      - id: UnitPowerText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 160
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示战斗力'
               color: white
   - id: Close
     behaviours:

@@ -236,14 +236,4 @@ export class ProvinceGenerator extends Behaviour {
         return adjacent;
     }
 
-    // static updateProvince() {
-    //     //每回合开始时，所有领地给予所属国家产出
-    //     for (let i = 0; i < Province.provinces.length; i++) {
-    //         for (let j = 0; j < Province.provinces[i].length; j++) {
-    //             const province = Province.provinces[i][j].getBehaviour(Province);
-    //             province.giveOwnerProduction();
-    //             province.updateBuildingInfo();
-    //         }
-    //     }
-    // }
 }
