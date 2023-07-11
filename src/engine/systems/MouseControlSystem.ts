@@ -9,6 +9,7 @@ import { System } from "./System";
 export class MouseControlSystem extends System {
     private callback(event: GameEngineMouseEvent) { }
     private currentHoverGameObject: GameObject | null = null;
+    private mousePoint: Point = {x:0, y:0};
     onStart() {
         window.addEventListener('mousedown', (event) => {
             const code = event.button;
@@ -74,6 +75,7 @@ export class MouseControlSystem extends System {
             }
         });
         window.addEventListener('mousemove', (event) => {
+            this.mousePoint = {x:event.clientX, y:event.clientY};
             const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
             const camera = cameraGameObject.getBehaviour(Camera)
             const viewportMatrix = camera.calculateViewportMatrix()
@@ -120,6 +122,12 @@ export class MouseControlSystem extends System {
                 }
             }
         });
+    }
+    onUpdate() {
+        let result = this.hitTest(this.rootGameObject, this.mousePoint);
+        if (result) {
+            console.log(result.id);
+        }
     }
 
     hitTest(gameObject: GameObject, point: Point): GameObject {

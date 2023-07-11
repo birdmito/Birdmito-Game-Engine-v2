@@ -1,6 +1,13 @@
 import { Behaviour } from "../engine/Behaviour";
 import { string } from "./validators/string";
 
+/**
+ * 音频组件
+ * @category Component
+ * @description   音频组件(ECS)，用于播放音频:  
+ * * 设置：提供了播放play、暂停pause、继续continue、停止stop、设置开始/结束时间startTime/endTime、设置音量volume、设置播放速度playBackRate、切换静音mute、设置循环播放loop等功能  
+ * * 获取：提供了获取开始/结束时间startTime/endTime、当前播放时间currentTime、获取总播放时间duration、获取是否播放中isPlaying、获取是否播放完毕isEnded等功能
+ */
 export class AudioClip extends Behaviour {
     // pause(): 暂停音频的播放。
     // currentTime: 获取或设置音频的当前播放时间（以秒为单位）。
@@ -13,127 +20,35 @@ export class AudioClip extends Behaviour {
     @string()
     source = '';
 
-    private _startTime = 0;
-    private _endTime = 0;
-    private _duration = 0;
-    private pausePosition = 0;
-    private audio: HTMLAudioElement | null = null;
+    startTime = 0;
+    endTime = 0;
+    duration = 0;
+    volume = 1;
+    playBackRate = 1;
+    currentTime = 0;
+    loop = false;
 
-    onStart(): void {
-        this.audio = new Audio(this.source);
-        //OPTIMIZE 要不要整合到resourceManager里面
-        this.audio.onloadedmetadata = () => {
-            this._duration = this.audio?.duration || 0;
-            this._startTime = 0;
-            this._endTime = this._duration;
-        }
-    }
-    
-    onUpdate(): void {
-        if(this.audio){
-            if(this.audio.currentTime > this._endTime){
-                this.stop();
-            }
-        }
+    _state: 'play' | 'playing' | 'pause' | 'stop' = 'stop';
+
+    audioElement: HTMLAudioElement | undefined;
+    sourceNode: MediaElementAudioSourceNode | undefined;
+
+    play(): void {
+        this._state = 'play';
     }
 
-    // base
-    // ---------------------------
-    play() {
-        if (this.audio) {
-            console.log('play');
-            this.audio.play();
-            this.audio.currentTime = this._startTime;
-        }
-    }
-    //OPTIMIZE 暂停和继续的实现方式
-    pause() {
-        console.log('pause');
-        this.audio?.pause();
-        this.pausePosition = this.audio?.currentTime || 0;
+    pause(): void {
+        this._state = 'pause';
     }
 
-    continue() {
-        console.log('continue');
-        this.audio?.play();
-        this.audio.currentTime = this.pausePosition;
+    continue(): void {
+        this._state = 'play';
     }
 
-    stop() {
-        if (this.audio) {
-            this.audio.pause();
-            this.audio.currentTime = this._startTime;
-        }
+    stop(): void {
+        this._state = 'stop';
     }
-
-    // getter
-    // ---------------------------
-    get startTime() {
-        return this._startTime;
+    isPlaying(): boolean {
+        return this._state === 'playing';
     }
-
-    get endTime() {
-        return this._endTime;
-    }
-
-    get duration() {
-        return this._duration;
-    }
-
-    isPlaying() {
-        if (this.audio) {
-            return !this.audio.paused;
-        }
-        return false;
-    }
-    
-    isEnded() {
-        if (this.audio) {
-            return this.audio.ended;
-        }
-        return false;
-    }
-
-    currentTime() {
-        if (this.audio) {
-            return this.audio.currentTime;
-        }
-        return 0;
-    }
-
-    // setter
-    // ---------------------------
-    set startTime(time: number) {
-        this._startTime = time;
-    }
-
-    set endTime(time: number) {
-        this._endTime = time;
-    }
-
-    loop(isLoop: boolean) {
-        if (this.audio) {
-            this.audio.loop = isLoop;
-        }
-    }
-
-    setVolume(volume: number) {
-        if (this.audio) {
-            this.audio.volume = volume;
-        }
-    }
-
-    toggleMute(isMute: boolean) {
-        if (this.audio) {
-            this.audio.muted = isMute;
-        }
-    }
-
-    setPlaybackRate(playbackRate: number) {
-        if (this.audio) {
-            this.audio.playbackRate = playbackRate;
-        }
-    }
-
-    
 }
