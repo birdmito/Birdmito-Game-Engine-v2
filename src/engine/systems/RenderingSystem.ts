@@ -100,6 +100,9 @@ export class CanvasContextRenderingSystem extends System {
         function visitChildren(gameObject: GameObject) {
             for (const child of gameObject.children) {
                 if (child.renderer) {
+                    if(child.active == false){
+                        continue;
+                    }
                     const transform = child.getBehaviour(Transform);
                     const matrix = matrixAppendMatrix(transform.globalMatrix, viewportMatrix);
                     context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);

@@ -287,6 +287,7 @@ export class GameObject {
     }
 
     set active(value: boolean) {
+        console.log('active' + this.id + ' ' + value);
         this._active = value;
         for (const behaviour of this.behaviours) {
             behaviour.active = value;
@@ -305,9 +306,9 @@ export class GameObject {
         this.children.push(child);
         child.engine = this.engine;
         child.parent = this;
-        if (this.active) {
-            child.active = true;
-        }
+        // if (this.active) {
+        //     child.active = true;
+        // }
     }
 
     removeChild(child: GameObject) {
@@ -389,6 +390,7 @@ export function getBehaviourClassByName(name: string) {
 
 type GameObjectData = {
     id?: string;
+    active?: boolean;
     behaviours: BehaviourData[];
     children?: GameObjectData[];
     prefab?: BehaviourData;
@@ -431,12 +433,16 @@ function extractBehaviour(behaviour: Behaviour): BehaviourData {
 export function extractGameObject(gameObject: GameObject): GameObjectData {
     const gameObjectData: GameObjectData = {
         id: "",
+        active: gameObject.active,  //OPTIMIZE
         behaviours: [],
         children: []
     };
     if (gameObject.id) {
         gameObjectData.id = gameObject.id;
     }
+
+    gameObjectData.active = gameObject.active
+
     if (gameObject.prefabData) {
         gameObjectData.prefab = extractBehaviour(gameObject.prefabData);
         return gameObjectData;
@@ -475,6 +481,7 @@ function createGameObject(data: GameObjectData, gameEngine: GameEngine): GameObj
         gameObject.id = data.id;
         // console.log("生成了id:", gameObject.id);
     }
+
     if (data.prefab) {
         return gameObject;
     }
@@ -489,6 +496,13 @@ function createGameObject(data: GameObjectData, gameEngine: GameEngine): GameObj
             gameObject.addChild(child);
         }
     }
+
+    if(data.active === undefined){
+        data.active = true;
+    }
+    gameObject.active = data.active;  //OPTIMIZE
+    console.log(gameObject.id + ' ' + gameObject.active);
+    
 
     return gameObject;
 }

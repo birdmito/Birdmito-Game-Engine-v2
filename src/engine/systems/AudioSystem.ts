@@ -50,7 +50,7 @@ export class AudioSystem extends System{
                         audioClip.audioElement.currentTime = audioClip.currentTime;
                         audioClip.audioElement.play();
                         audioClip._state = 'playing';
-                        console.log('System play');
+                        // console.log('System play');
                     }
                     break;
                 case 'playing':
@@ -60,21 +60,21 @@ export class AudioSystem extends System{
                             if(audioClip.loop){break;}
                             audioClip._state = 'stop';
                         }
-                        console.log('System playing');
+                        // console.log('System playing');
                     }
                     break;
                 case 'pause':
                     if(audioClip.audioElement){
                         audioClip.audioElement.pause();
                         audioClip.currentTime = audioClip.audioElement.currentTime;
-                        console.log('System pause');
+                        // console.log('System pause');
                     }
                     break;
                 case 'stop':
                     if(audioClip.audioElement){
                         audioClip.audioElement.pause();
                         audioClip.currentTime = audioClip.startTime;
-                        console.log('System stop');
+                        // console.log('System stop');
                     }
                     break;
             }
