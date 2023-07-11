@@ -6,7 +6,9 @@ import { BitmapRenderer } from "../engine/BitmapRenderer";
 export class Click extends Behaviour {
     onStart(): void {
         const audioClip = this.gameObject.getBehaviour(AudioClip)
-        audioClip.loop = true;
+        if(audioClip){
+            audioClip.loop = true;
+        }
         this.gameObject.onClick  = () =>{
             console.log('left click');
         }
