@@ -48,6 +48,10 @@ export class Nation {
     currentTechName: string = '探秘奥坎之径'
     randomTechList: Technology[] = [];
 
+    favorability: number = 0;  //电脑对玩家的好感度
+    enemyNation: Nation[] = [];  //正在与该国家交战的国家
+
+
     provinceOwnedList: Province[] = [];
     _capitalProvince: Province;
     set capitalProvince(value: Province) {

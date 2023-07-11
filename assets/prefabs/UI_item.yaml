@@ -30,7 +30,7 @@ children:
       - type: Transform
         properties:
           x: 80
-          y: -110
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -50,8 +50,8 @@ children:
           properties:
             source: ./assets/images/Icon_TextFrame5050.png
             renderType: 'ui'
-            scaleXForUI: 8
-            scaleYForUI: 8
+            scaleXForUI: 22
+            scaleYForUI: 2
             borderWidthForUI: 15
     - id: _ItemInfoText
       behaviours:
@@ -73,7 +73,7 @@ children:
       - type: Transform
         properties:
           x: 0
-          y: 50
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -83,3 +83,18 @@ children:
           text: '这里应该显示建造、升级、拆除或取消'
           color: white
       - type: UI_ItemButton
+  - id: _ProductProcessText
+    behaviours:
+      - type: Transform
+        properties:
+          x: 5
+          y: 50
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 18
+          text: ' '
+          color: white
+          hitArea: none

@@ -19,7 +19,7 @@ export class UnitParam implements infoShowable {
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,
-        maintCost: number, nationId: number = 1, isBattleUnit: boolean = false, quantity: number = 1, power: number = 0, techRequired='') {
+        maintCost: number, nationId: number = 1, isBattleUnit: boolean = false, quantity: number = 1, power: number = 0, techRequired = '') {
         this.name = name;
         this.cost = cost;
         this.recruitProcessMax = recruitProcessMax;

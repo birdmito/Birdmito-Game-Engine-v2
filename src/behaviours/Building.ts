@@ -103,20 +103,24 @@ export class Building implements infoShowable {
     }
 
     getInfo(): string {
-        var info = this.name + '|' + '建造费用：' + this.cost + '|' + '生产力花费：' + this.productProcessMax;
+        var info = this.name + '    ' + '建造费用：' + this.cost + '奥坎盾   ' + '生产力花费：' + this.productProcessMax + '|产出：';
         const production = this.buildingProduction;
-        if (production.dora > 0) {
-            info += '|+' + production.dora + ' 多拉';
-        }
-        if (production.production > 0) {
-            info += '|+' + production.production + ' 生产力';
-        }
-        if (production.techPoint > 0) {
-            info += '|+' + production.techPoint + ' 科技点';
+        if (production.dora === 0 && production.production === 0 && production.techPoint === 0) {
+            info += '无';
+        } else {
+            if (production.dora > 0) {
+                info += production.dora + '奥坎盾';
+            }
+            if (production.production > 0) {
+                info += production.production + '生产力';
+            }
+            if (production.techPoint > 0) {
+                info += production.techPoint + '科技点';
+            }
         }
         const maintCost = this.maintCost;
         if (maintCost.dora > 0) {
-            info += '|-' + maintCost.dora + ' 多拉';
+            info += '    维护费：' + maintCost.dora + '奥坎盾';
         }
         return info;
     }
