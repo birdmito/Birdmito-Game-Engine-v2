@@ -1,9 +1,11 @@
 import { Camera } from "../../behaviours/Camera";
+import { HexagonLine } from "../../behaviours/HexagonLine";
 import { ShapeRectRenderer } from "../../behaviours/unneed/ShapeRectRenderer";
 import { GameObject, getGameObjectById, Renderer } from "../../engine";
 import { AnimationRenderer } from "../AnimationRenderer";
 import { Behaviour } from "../Behaviour";
 import { BitmapRenderer } from "../BitmapRenderer";
+import { HexagonBorderRenderer } from "../HexagonBorderRenderer";
 import { matrixAppendMatrix } from "../math";
 import { TextRenderer } from "../TextRenderer";
 import { Transform } from "../Transform";
@@ -65,7 +67,8 @@ export class CanvasContextRenderingSystem extends System {
             component instanceof ShapeRectRenderer ||
             component instanceof TextRenderer ||
             component instanceof BitmapRenderer ||
-            component instanceof AnimationRenderer
+            component instanceof AnimationRenderer ||
+            component instanceof HexagonBorderRenderer
         ) {
             gameObject.renderer = component;
         }
@@ -172,6 +175,12 @@ export class CanvasContextRenderingSystem extends System {
                             destinationRect.height
                         );
                         context.restore();
+                    } else if (child.renderer instanceof HexagonBorderRenderer){
+                        const renderer = child.renderer as HexagonBorderRenderer;
+                        context.save()
+                        drawHexagon(context, renderer);
+                        context.restore();
+
                     }
                 }
                 visitChildren(child);
@@ -230,3 +239,87 @@ function drawText(context: CanvasRenderingContext2D, renderer: TextRenderer){
     }
     // console.log(renderer.measuredTextWidth)
 }
+
+function drawHexagon(context: CanvasRenderingContext2D, renderer: HexagonBorderRenderer) {
+    // 开始绘制
+    context.beginPath();
+    context.moveTo(HexagonLine.vertices[0].x, HexagonLine.vertices[0].y);
+
+    for (let i = 1; i < 6; i++) {
+    const vertex = HexagonLine.vertices[i];
+    context.lineTo(vertex.x, vertex.y);
+    }
+
+    // 设置描边颜色和线宽
+    context.strokeStyle = renderer.color;
+    context.lineWidth = 3;
+
+    // 绘制描边
+    context.stroke();
+
+
+}
+
+//     // 创建一个空的 Map 对象来保存边信息和重叠次数
+//         const edgeMap = new Map();
+
+//         // 计算六边形的顶点坐标
+//         const vertices = [];
+//         for (let i = 0; i < 6; i++) {
+//         const angle = (Math.PI / 3) * i + Math.PI / 6;
+//         const x = renderer.x + renderer.radius * Math.cos(angle);
+//         const y = renderer.y + renderer.radius * Math.sin(angle);
+//         vertices.push({ x, y });
+
+//         // 存储边的信息到 Map 中，并初始化重叠次数为 0
+//         const startVertexIndex = i;
+//         let endVertexIndex = i + 1;
+//         if (endVertexIndex === 6) {
+//             endVertexIndex = 0; // 最后一条边连接回第一个顶点
+//         }
+//         const edgeKey = `Edge(${startVertexIndex}, ${endVertexIndex})`;
+//         const edgeValue = { start: vertices[startVertexIndex], end: vertices[endVertexIndex], overlapCount: 0 };
+//         edgeMap.set(edgeKey, edgeValue);
+//         }
+
+//         // 进行边的比较，记录重叠次数
+//         edgeMap.forEach((edge1, key1) => {
+//         edgeMap.forEach((edge2, key2) => {
+//             if (key1 !== key2 && checkOverlap(edge1, edge2)) {
+//             edge1.overlapCount++;
+//             }
+//         });
+//         });
+
+//         // 开始绘制六边形
+//         context.beginPath();
+//         for (let i = 0; i < 6; i++) {
+//         const startVertex = vertices[i];
+//         const endVertex = vertices[(i + 1) % 6];
+//         const edgeKey = `Edge(${i}, ${(i + 1) % 6})`;
+//         const edge = edgeMap.get(edgeKey);
+
+//         if (edge.overlapCount === 1) {
+//             context.moveTo(startVertex.x, startVertex.y);
+//             context.lineTo(endVertex.x, endVertex.y);
+//         }
+//         }
+//         context.closePath();
+
+//         // 设置描边颜色和线宽
+//         context.strokeStyle = renderer.color;
+//         context.lineWidth = 3;
+
+//         // 绘制描边
+//         context.stroke();
+// }
+
+// function checkOverlap(edge1, edge2): boolean {
+//     if(edge1 === edge2) {
+//         return false;
+//     }
+//     return true;
+//   }
+  
+ 
+  
