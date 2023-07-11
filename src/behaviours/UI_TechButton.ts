@@ -5,6 +5,7 @@ import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Nation } from "./Nation";
 import { Technology } from "./Technology";
+import { UI_UpdateItemInfo } from "./UI_UpdateItemInfo";
 
 export class UI_TechButton extends Behaviour {
     onUpdate(): void {
@@ -20,9 +21,9 @@ export class UI_TechButton extends Behaviour {
                 const techItemBinding = new UI_itemPrefabBinding();
                 console.log("添加科技" + techRandom.techName + "到科技窗口")
                 techItemBinding.item = techRandom.techName;
-                techItemBinding.itemInfo = techRandom.getInfo();
                 techItemBinding.itemClickEventText = "研究";
                 const techItem = this.engine.createPrefab(techItemBinding);
+                techItem.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).province = Nation.nations[1].capitalProvince;
                 itemRoot.addChild(techItem);
             }
             techWindowRoot.addChild(newTechWindow);

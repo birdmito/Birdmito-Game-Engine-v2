@@ -10,6 +10,7 @@ export class MouseControlSystem extends System {
     private callback(event: GameEngineMouseEvent) { }
     private currentHoverGameObject: GameObject | null = null;
     private currentDownGameObjects: GameObject[] = [];
+    private mousePoint: Point = {x:0, y:0};
     onStart() {
         window.addEventListener('mousedown', (event) => {
             const code = event.button;
@@ -113,6 +114,7 @@ export class MouseControlSystem extends System {
             const viewportMatrix = camera.calculateViewportMatrix()
             const originPoint = { x: event.clientX, y: event.clientY };
             const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
+            this.mousePoint = globalPoint;
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if(result){
                 if(result !== this.currentHoverGameObject){
@@ -154,6 +156,15 @@ export class MouseControlSystem extends System {
                 }
             }
         });
+    }
+    onUpdate() {
+        let result = this.hitTest(this.rootGameObject, this.mousePoint);
+        if (result) {
+            const event = this.calculateGameEngineMouseEvent(result, this.mousePoint)
+            if(result.onMouseHover){
+                result.onMouseHover(event)
+            }
+        }
     }
 
     hitTest(gameObject: GameObject, point: Point): GameObject {

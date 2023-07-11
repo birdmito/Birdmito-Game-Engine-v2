@@ -9,7 +9,7 @@ behaviours:
       rotation: 0
   - type: AudioClip
     properties:
-      source: ./assets/audios/old gramophone.mp3  # old gramophone | blip03
+      source: ./assets/audios/blip03.mp3  # old gramophone | blip03
   - type: Click
 children:
   - id: ButtonBackGround
@@ -24,6 +24,9 @@ children:
       - type: BitmapRenderer
         properties:
           source: ./assets/images/Icon_TextFrame15050.png
+      - type: AudioClip
+        properties:
+          source: ./assets/audios/old gramophone.mp3  # old gramophone | blip03
   - id: ButtonText
     behaviours:
       - type: Transform

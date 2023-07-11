@@ -7,6 +7,7 @@ import { Building } from "./Building";
 import { Province } from "./Province";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Technology } from "./Technology";
+import { UI_UpdateItemInfo } from "./UI_UpdateItemInfo";
 
 export class UI_RecruitButton extends Behaviour {
     onStart(): void {
@@ -22,10 +23,10 @@ export class UI_RecruitButton extends Behaviour {
                     }
                 }
                 const unitUiBinding = new UI_itemPrefabBinding;
-                unitUiBinding.itemInfo = unit.getInfo();
                 unitUiBinding.itemClickEventText = "招募";
                 unitUiBinding.item = unit.name;
                 const buildingPrefab = this.gameObject.engine.createPrefab(unitUiBinding);
+                buildingPrefab.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).province = provinceToRecruit;
                 recruitWindow.children[1].addChild(buildingPrefab);
             }
             getGameObjectById("ProductWindowRoot").addChild(recruitWindow);

@@ -137,9 +137,9 @@ export class Province extends Behaviour {
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
         if (nationId > 0) {
             Nation.nations[nationId].provinceOwnedList.push(this);
-            if (Nation.nations[nationId].capitalProvinceCoord === undefined) {
-                Nation.nations[nationId].capitalProvinceCoord = this.coord;  //将首个被占领的领地设为首都
-                console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvinceCoord);
+            if (Nation.nations[nationId].capitalProvince === undefined) {
+                Nation.nations[nationId].capitalProvince = this;  //将首个被占领的领地设为首都
+                console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvince);
             }
         }
     }

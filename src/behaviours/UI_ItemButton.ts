@@ -10,12 +10,25 @@ import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { UnitParam } from "./UnitParam";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { generateTip } from "./Tip";
+import { ObjectDisableSimulator } from "./ObjectDisableSimulator";
 
 //在ui界面中，根据EventText的不同，实现点击后建造或者拆除等生产队列操作
 export class UI_ItemButton extends Behaviour {
     itemName: string;
     idInList: number = 0;
     onUpdate(): void {
+        this.gameObject.onMouseEnter = () => {
+            console.log(`鼠标进入${this.itemName}按钮`);
+            console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
+            this.gameObject.parent.getChildById("_ItemInfo").active = true;
+            console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
+        }
+        this.gameObject.onMouseLeave = () => {
+            console.log(`鼠标离开${this.itemName}按钮`);
+            console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
+            this.gameObject.parent.getChildById("_ItemInfo").active = false;
+            console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
+        }
         this.gameObject.onMouseLeftDown = () => {
             const eventText = this.gameObject.getBehaviour(TextRenderer).text;
             const targetProvince = SelectedObjectInfoMangaer.selectedBehaviour as Province;

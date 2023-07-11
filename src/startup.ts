@@ -2,6 +2,7 @@ import { PhysicsSystem } from "./PhysicsSystem";
 import { GameEngine } from "./engine";
 import { AnchorSystem } from "./engine/systems/AnchorSystem";
 import { AnimationSystem } from "./engine/systems/AnimationSystem";
+import { AudioSystem } from "./engine/systems/AudioSystem";
 import { EditorSystem } from "./engine/systems/EditorSystem";
 import { GameLifeCycleSystem } from "./engine/systems/GameLifeCycleSystem";
 import { GamePlaySystem } from "./engine/systems/GamePlaySystem";
@@ -23,9 +24,11 @@ async function startup() {
     else if(mode === "preview"){
         engine.addSystem(new GameLifeCycleSystem());
         engine.addSystem(new EditorSystem());
+        engine.addSystem(new AudioSystem());
     }
     else{
         engine.addSystem(new GameLifeCycleSystem());
+        engine.addSystem(new AudioSystem());
     }
     engine.addSystem(new TransformSystem());
     if (engine.mode === "play") {

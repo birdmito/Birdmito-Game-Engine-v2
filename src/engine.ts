@@ -72,10 +72,17 @@ export class GameEngine {
         const assetsYaml = "./assets/assets.yaml";
         await this.resourceManager.loadText(assetsYaml);
         const assetsData = this.unserilizeAssetsYaml(assetsYaml);
+        // image
         const imageList = assetsData.images;
         for (const asset of imageList) {
             await this.resourceManager.loadImage(asset);
         }
+        // audio
+        const audioList = assetsData.audios;
+        for (const asset of audioList) {
+            await this.resourceManager.loadAudio(asset);
+        }
+        // text
         const textList = assetsData.texts;
         for (const prefab of textList) {
             await this.resourceManager.loadText(prefab);
@@ -263,6 +270,7 @@ export class GameObject {
     onMouseRightUp?: (event: GameEngineMouseEvent) => void;
     onMouseEnter?: (event: GameEngineMouseEvent) => void;
     onMouseLeave?: (event: GameEngineMouseEvent) => void;
+    onMouseHover?: (event: GameEngineMouseEvent) => void;
 
     behaviours: Behaviour[] = [];
 
@@ -357,7 +365,7 @@ export class GameObject {
 
     destroy() {
         // for (const behaviour of this.behaviours) {
-        //     behaviour.onEnd();
+        //     behaviour.destroy();
         // }
         // for (const child of this.children) {
         //     child.destroy();

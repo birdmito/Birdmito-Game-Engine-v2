@@ -99,6 +99,10 @@ function generateAssetsYaml() {
     const imageFiles = imageIncludes.flatMap((item) => fs.readdirSync(item).map((file) => item + "/" + file));
     const imageAssets = imageFiles.filter((item) => item.includes(".jpg") || item.includes(".png"));
 
+    const audioIncludes = ["./assets/audios"];
+    const audioFiles = audioIncludes.flatMap((item) => fs.readdirSync(item).map((file) => item + "/" + file));
+    const audioAssets = audioFiles.filter((item) => item.includes(".mp3"));
+
     const textIncludes = ["./assets/prefabs", "./assets/animations", "./assets/scenes"];
     const textFiles = textIncludes.flatMap((item) => fs.readdirSync(item).map((file) => item + "/" + file));
     const prefabAssets = textFiles.filter((item) => item.includes(".yaml"));
@@ -106,6 +110,9 @@ function generateAssetsYaml() {
     const content =
         "images:\n" +
         imageAssets.map((item) => "  - " + item).join("\n") +
+        "\n" +
+        "audios:\n" +
+        audioAssets.map((item) => "  - " + item).join("\n") +
         "\n" +
         "texts:\n" +
         prefabAssets.map((item) => "  - " + item).join("\n");

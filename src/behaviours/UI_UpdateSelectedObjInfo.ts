@@ -15,6 +15,7 @@ import { Building } from "./Building";
 import { Nation } from "./Nation";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { GameProcess } from "./GameProcess";
+import { UI_UpdateItemInfo } from "./UI_UpdateItemInfo";
 
 export class UI_UpdateSelectedObjInfo extends Behaviour {
     onUpdate(): void {
@@ -81,7 +82,6 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 const building = province.buildingList[i];
                 const UI_buildingBinding = new UI_itemPrefabBinding;
                 UI_buildingBinding.item = building.name;
-                UI_buildingBinding.itemInfo = building.getInfo();
                 if (province.nationId === 1 || GameProcess.isCheat) {
                     UI_buildingBinding.itemClickEventText = "拆除";
                 }
@@ -89,7 +89,7 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                     UI_buildingBinding.itemClickEventText = " ";
                 }
                 const UI_building = this.engine.createPrefab(UI_buildingBinding);
-                UI_building.getBehaviour(Transform).y = 30 + i * 100
+                UI_building.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).province = province;
                 provinceBuildingList.addChild(UI_building);
             }
         }
@@ -115,17 +115,18 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
         if (province.productQueue.length > 0) {
             for (let i = 0; i < province.productQueue.length; i++) {
                 const productedItem = province.productQueue[i];
-                const UI_buildingBinding = new UI_itemPrefabBinding;
-                UI_buildingBinding.item = productedItem.productName;
-                UI_buildingBinding.itemInfo = productedItem.getInfo();
-                UI_buildingBinding.idInList = i;
+                const UI_itemBinding = new UI_itemPrefabBinding;
+                UI_itemBinding.item = productedItem.productName;
+                // UI_itemBinding.idInList = i;
                 if (province.nationId === 1 || GameProcess.isCheat) {
-                    UI_buildingBinding.itemClickEventText = "取消";
+                    UI_itemBinding.itemClickEventText = "取消";
                 }
                 else {
-                    UI_buildingBinding.itemClickEventText = " ";
+                    UI_itemBinding.itemClickEventText = " ";
                 }
-                productQueueRoot.addChild(this.engine.createPrefab(UI_buildingBinding));
+                const itemPrefab = this.engine.createPrefab(UI_itemBinding)
+                itemPrefab.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).province = province;
+                productQueueRoot.addChild(itemPrefab);
             }
         }
     }

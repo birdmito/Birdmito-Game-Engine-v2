@@ -7,6 +7,7 @@ import { Building } from "./Building";
 import { Province } from "./Province";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Technology } from "./Technology";
+import { UI_UpdateItemInfo } from "./UI_UpdateItemInfo";
 
 export class UI_BuildButton extends Behaviour {
     onStart(): void {
@@ -27,10 +28,10 @@ export class UI_BuildButton extends Behaviour {
                 }
 
                 const buildingUiBinding = new UI_itemPrefabBinding;
-                buildingUiBinding.itemInfo = building.getInfo();
                 buildingUiBinding.itemClickEventText = "建造";
                 buildingUiBinding.item = building.name;
                 const buildingPrefab = this.gameObject.engine.createPrefab(buildingUiBinding);
+                buildingPrefab.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).province = provinceToBuild;
                 buildWindow.children[1].addChild(buildingPrefab);
             }
             getGameObjectById("ProductWindowRoot").addChild(buildWindow);
