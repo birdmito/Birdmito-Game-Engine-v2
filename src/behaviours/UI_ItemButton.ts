@@ -17,13 +17,13 @@ export class UI_ItemButton extends Behaviour {
     itemName: string;
     idInList: number = 0;
     onUpdate(): void {
-        this.gameObject.onMouseIn = () => {
+        this.gameObject.onMouseEnter = () => {
             console.log(`鼠标进入${this.itemName}按钮`);
             console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
             this.gameObject.parent.getChildById("_ItemInfo").active = true;
             console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
         }
-        this.gameObject.onMouseOut = () => {
+        this.gameObject.onMouseLeave = () => {
             console.log(`鼠标离开${this.itemName}按钮`);
             console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
             this.gameObject.parent.getChildById("_ItemInfo").active = false;

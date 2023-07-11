@@ -2,6 +2,7 @@ import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Building } from "./Building";
 import { Province } from "./Province";
+import { Technology } from "./Technology";
 import { UnitParam } from "./UnitParam";
 
 export class UI_UpdateItemInfo extends Behaviour {
@@ -9,7 +10,11 @@ export class UI_UpdateItemInfo extends Behaviour {
     itemName: string;
 
     onStart(): void {
-        if (Building.getProvinceBuildingByName(this.province, this.itemName)) {
+        if (Technology.getNationTechByName(1, this.itemName)) {
+            const tech = Technology.getNationTechByName(1, this.itemName);
+            this.gameObject.getChildById("_ItemInfoText").getBehaviour(TextRenderer).text = tech.getInfo();
+        }
+        else if (Building.getProvinceBuildingByName(this.province, this.itemName)) {
             const building = Building.getProvinceBuildingByName(this.province, this.itemName);
             this.gameObject.getChildById("_ItemInfoText").getBehaviour(TextRenderer).text = building.getInfo();
         }
