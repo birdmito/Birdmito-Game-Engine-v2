@@ -40,7 +40,7 @@ export class Technology implements infoShowable {
                 return Nation.nations[nationId].techTree[i];
             }
         }
-        console.warn("未找到科技：" + techName);
+        // console.warn("未找到科技：" + techName);
         return null;
     }
 
@@ -50,7 +50,7 @@ export class Technology implements infoShowable {
                 return Technology.allTechList[i];
             }
         }
-        console.warn("未找到科技：" + techName);
+        // console.warn("未找到科技：" + techName);
         return null;
     }
 

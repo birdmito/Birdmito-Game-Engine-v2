@@ -119,7 +119,7 @@ children:
                   rotation: 0
               - type: BitmapRenderer
                 properties:
-                  source: ./assets/images/Icon_Flag_1b.png
+                  source: ./assets/images/Icon_Flag_1.png
             children: []
           - id: GovernmentFrame #政府边框
             behaviours:
@@ -134,6 +134,7 @@ children:
                 properties:
                   source: ./assets/images/Interface_ButtonCountryPanel.png
               - type: UI_ButtonState
+              - type: UI_NationButton
             children: []
       - id: ProvinceTerrainImage #省份地形图标
         behaviours:

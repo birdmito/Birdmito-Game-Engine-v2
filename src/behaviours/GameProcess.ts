@@ -17,12 +17,14 @@ import { Battle, BattleHandler } from "./BattleHandler";
 import { Statement } from "ts-morph";
 import { Transform } from "../engine/Transform";
 import { UI_NextTurnButtonRotate } from "./UI_NextButtonRotate";
+import { generateTip } from "./Tip";
 
 export class GameProcess extends Behaviour {
     static isCheat = false;  //是否开启作弊模式
     static gamingState: 'playerTurn' | 'botTurn' | 'settlement' = 'settlement';
+    static playerNationId = 1;  //玩家的nationId
 
-   
+
     static nextState() {
         const NextTurnButtonImage = getGameObjectById("NextTurnImage");
 
@@ -55,9 +57,18 @@ export class GameProcess extends Behaviour {
     }
 
     onUpdate(): void {
+        //按数字键将玩家切换到对应国家
+        document.addEventListener('keydown', function (event) {
+            const code = event.code;
+            if (code >= 'Digit1' && code <= 'Digit3') {
+                GameProcess.playerNationId = parseInt(code[5]);
+                console.log(`玩家切换到了${GameProcess.playerNationId}号国家`);
+            }
+        });
+
         console.log(`当前游戏状态：${GameProcess.gamingState}`);
         //更新玩家金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nations[1].dora.toString();
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nations[GameProcess.playerNationId].dora.toString();
         switch (GameProcess.gamingState) {
             case 'playerTurn':
                 this.playerTurn();
@@ -73,7 +84,7 @@ export class GameProcess extends Behaviour {
 
     //回合
     static turnrNow = 0;
-    static turnTotal = 10;
+    static turnTotal = 50;
 
     initialNation() {
         for (let i = Nation.nationQuantity - 1; i >= 0; i--) {
@@ -106,37 +117,38 @@ export class GameProcess extends Behaviour {
     }
 
     botTurn() {
-        //电脑帝国行动
-        if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
-            console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
-            Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
-        }
-        else {
-            //下一个电脑帝国
-            GameProcess.actingBotNationIndex++;
-            //跳过玩家
-            if (GameProcess.actingBotNationIndex === 1) {
-                GameProcess.actingBotNationIndex++;
-            }
+        // //电脑帝国行动
+        // if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
+        //     console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
+        //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
+        // }
+        // else {
+        //     //下一个电脑帝国
+        //     GameProcess.actingBotNationIndex++;
+        //     //跳过玩家
+        //     if (GameProcess.actingBotNationIndex === GameProcess.playerNationId) {
+        //         GameProcess.actingBotNationIndex++;
+        //     }
 
-            //判断是否所有电脑帝国都已经行动完毕
-            if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
-                console.log("所有电脑帝国行动完毕");
-                //重置电脑帝国的行动状态
-                for (let i = 2; i < Nation.nations.length; i++) {
-                    Nation.nations[i].botActMode.isBotOperateFinish = false;
-                }
-                GameProcess.actingBotNationIndex = 0;
-                GameProcess.nextState();  //进入结算阶段
-                return;
-            }
+        //     //判断是否所有电脑帝国都已经行动完毕
+        //     if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
+        //         console.log("所有电脑帝国行动完毕");
+        //         //重置电脑帝国的行动状态
+        //         for (let i = 2; i < Nation.nations.length; i++) {
+        //             Nation.nations[i].botActMode.isBotOperateFinish = false;
+        //         }
+        //         GameProcess.actingBotNationIndex = 0;
+        //         GameProcess.nextState();  //进入结算阶段
+        //         return;
+        //     }
 
-            console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
-            console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
-            Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
-            console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
-                ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
-        }
+        //     console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
+        //     console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
+        //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
+        //     console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
+        //         ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
+        // }
+        GameProcess.nextState();  //进入结算阶段
     }
 
     //结算阶段
@@ -181,6 +193,20 @@ export class GameProcess extends Behaviour {
             nation.updateNationProperties();
 
             nation.dora += nation.doraChangeNextTurn; ///更新国家金钱
+
+            //更新国家好感度
+            for (let i = 1; i <= Nation.nationQuantity; i++) {
+                switch (nation.foreignPolicy.get(i)) {
+                    case 'negative':
+                        nation.favorability.set(i, nation.favorability.get(i) - 1);  //好感度-1
+                        break;
+                    case 'positive':
+                        nation.favorability.set(i, nation.favorability.get(i) + 1);  //好感度+1
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
 
@@ -251,7 +277,7 @@ export class GameProcess extends Behaviour {
         buttonText.getBehaviour(TextRenderer).text = "返回主菜单"
         console.log("image:" + image)
 
-        if (Nation.nations[1].provinceOwnedList.length > 0) {
+        if (Nation.nations[GameProcess.playerNationId].provinceOwnedList.length > 0) {
             tip.getBehaviour(TextRenderer).text = "游戏胜利";
 
             image.getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"

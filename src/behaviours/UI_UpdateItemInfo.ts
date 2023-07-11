@@ -8,8 +8,9 @@ import { UnitParam } from "./UnitParam";
 export class UI_UpdateItemInfo extends Behaviour {
     province: Province;
     itemName: string;
+    indexInQueue: number = -1;
 
-    onStart(): void {
+    onUpdate(): void {
         if (Technology.getNationTechByName(1, this.itemName)) {
             const tech = Technology.getNationTechByName(1, this.itemName);
             this.gameObject.getChildById("_ItemInfoText").getBehaviour(TextRenderer).text = tech.getInfo();
@@ -24,6 +25,11 @@ export class UI_UpdateItemInfo extends Behaviour {
         }
         else {
             console.warn("UI_UpdateItemInfo: 未找到建筑或单位")
+        }
+
+        if (this.indexInQueue !== -1) {
+            this.gameObject.parent.getChildById("_ProductProcessText").getBehaviour(TextRenderer).text =
+                `${this.province.productQueue[this.indexInQueue].productProcess} / ${this.province.productQueue[this.indexInQueue].productProcessMax}`;
         }
     }
 }

@@ -11,26 +11,46 @@ import { UnitParam } from "./UnitParam";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { generateTip } from "./Tip";
 import { ObjectDisableSimulator } from "./ObjectDisableSimulator";
+import { BitmapRenderer } from "../engine/BitmapRenderer";
+import { GameProcess } from "./GameProcess";
 
 //在ui界面中，根据EventText的不同，实现点击后建造或者拆除等生产队列操作
 export class UI_ItemButton extends Behaviour {
+    eventText: string;
     itemName: string;
     idInList: number = 0;
+
+    onStart(): void {
+        console.log("start")
+        this.gameObject.parent.getChildById("_ItemInfo").active = false;
+    }
     onUpdate(): void {
-        this.gameObject.onMouseEnter = () => {
-            console.log(`鼠标进入${this.itemName}按钮`);
-            console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
+        this.gameObject.onMouseHover = () => {
+            console.log(`鼠标悬浮于${this.itemName}按钮`);
             this.gameObject.parent.getChildById("_ItemInfo").active = true;
-            console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
+            switch (this.eventText) {
+                case "建造":
+                    this.gameObject.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Build.png';
+                    break;
+                case "拆除":
+                    this.gameObject.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Destroy.png';
+                    break;
+                case "取消":
+                    this.gameObject.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Destroy.png';
+                    break;
+                case "招募":
+                    this.gameObject.getBehaviour(BitmapRenderer).source = './assets/images/Icon_ProduceUnit.png';
+                    break;
+                case "研究":
+                    this.gameObject.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Build.png';
+                    break;
+            }
         }
         this.gameObject.onMouseLeave = () => {
-            console.log(`鼠标离开${this.itemName}按钮`);
-            console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
             this.gameObject.parent.getChildById("_ItemInfo").active = false;
-            console.log(this.gameObject.parent.getChildById("_ItemInfo")._active);
+            this.gameObject.getBehaviour(BitmapRenderer).source = './assets/images/TESTTransparent.png';
         }
         this.gameObject.onMouseLeftDown = () => {
-            const eventText = this.gameObject.getBehaviour(TextRenderer).text;
             const targetProvince = SelectedObjectInfoMangaer.selectedBehaviour as Province;
             var originBuilding: Building;
             var originUnitParam: UnitParam;
@@ -39,17 +59,17 @@ export class UI_ItemButton extends Behaviour {
                 originUnitParam = UnitParam.getProvinceUnitParamByName(targetProvince, this.itemName);
             }
 
-            switch (eventText) {
+            switch (this.eventText) {
                 case "建造":
                     const newBuilding = Building.copyBuilding(originBuilding);
-                    Nation.nations[1].buildBuilding(targetProvince, newBuilding.name);
+                    Nation.nations[GameProcess.playerNationId].buildBuilding(targetProvince, newBuilding.name);
                     break;
                 case "拆除":
                     targetProvince.buildingList.splice(this.idInList, 1);  //从建筑列表中删除
                     targetProvince.updateProvinceProperties();  //拆除建筑时，资源产出减少
                     console.log("拆除成功");
                     console.log("获得金币：" + originBuilding.cost);
-                    Nation.nations[1].dora += originBuilding.cost;
+                    Nation.nations[GameProcess.playerNationId].dora += originBuilding.cost;
                     break;
                 case "取消":
                     console.log("取消 is clicked");
@@ -57,22 +77,22 @@ export class UI_ItemButton extends Behaviour {
                     console.log("取消成功");
                     if (originBuilding) {
                         console.log("获得金币：" + originBuilding.cost);
-                        Nation.nations[1].dora += originBuilding.cost;
+                        Nation.nations[GameProcess.playerNationId].dora += originBuilding.cost;
                     }
                     if (originUnitParam) {
                         console.log("获得金币：" + originUnitParam.cost);
-                        Nation.nations[1].dora += originUnitParam.cost;
+                        Nation.nations[GameProcess.playerNationId].dora += originUnitParam.cost;
                     }
                     break;
                 case "招募":
                     console.log("招募 is clicked");
                     //向生产队列中push item
-                    Nation.nations[1].recruitUnit(targetProvince, this.itemName);
+                    Nation.nations[GameProcess.playerNationId].recruitUnit(targetProvince, this.itemName);
                     break;
                 case "研究":
                     console.log("研究 is clicked");
                     //更改当前科技
-                    Nation.nations[1].currentTechName = this.itemName;
+                    Nation.nations[GameProcess.playerNationId].currentTechName = this.itemName;
                     break;
                 default:
                     console.log("Item" + this.gameObject.id + ": " + this.itemName + "没有设置点击事件)");

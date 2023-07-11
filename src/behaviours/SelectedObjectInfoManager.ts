@@ -15,6 +15,7 @@ import { Building } from "./Building";
 import { Nation } from "./Nation";
 import { UI_UpdateSelectedObjInfo } from "./UI_UpdateSelectedObjInfo";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
+import { GameProcess } from "./GameProcess";
 
 export class SelectedObjectInfoMangaer extends Behaviour {
     // onUpdate(): void {
@@ -86,19 +87,19 @@ export class SelectedObjectInfoMangaer extends Behaviour {
                 getGameObjectById("ProvinceInfoLayer2").getBehaviour(BitmapRenderer).source =
                     "./assets/images/ScreenArt_ProvinceLake_0.png";
             }
-            else{
+            else {
                 //海洋
                 getGameObjectById("ProvinceInfoLayer2").getBehaviour(BitmapRenderer).source =
                     "./assets/images/ScreenArt_ProvinceOcean_0.png";
             }
 
             //若当前选中项不在玩家国家的city中，则删除建造按钮
-            if (!Nation.nations[1].cityList.some(city => city === province)) {
+            if (!Nation.nations[GameProcess.playerNationId].cityList.some(city => city === province)) {
                 getGameObjectById("BuildButton").destroy();
             }
 
             //若当前选中项不在玩家国家的city中，或者当前选中项没有兵营，则删除征兵按钮
-            if (!Nation.nations[1].cityList.some(city => city === province) || !province.buildingList.some(building => building.name === "兵营")) {
+            if (!Nation.nations[GameProcess.playerNationId].cityList.some(city => city === province) || !province.buildingList.some(building => building.name === "兵营")) {
                 getGameObjectById("RecruitButton").destroy();
             }
             getGameObjectById("uiRoot").addChild(infoPrefab);
