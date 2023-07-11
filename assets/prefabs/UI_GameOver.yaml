@@ -64,6 +64,7 @@ children:
               scaleYForUI: 2
               borderWidthForUI: 15
               anchorType: "center"
+          - type: UI_ButtonState
       - id: GobackToMenuButtonText
         behaviours:
           - type: Transform

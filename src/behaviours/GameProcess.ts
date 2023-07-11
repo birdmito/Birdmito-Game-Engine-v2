@@ -15,24 +15,35 @@ import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { UI_GameOverBinding } from "../bindings/UI_GameOverBinding";
 import { Battle, BattleHandler } from "./BattleHandler";
 import { Statement } from "ts-morph";
+import { Transform } from "../engine/Transform";
+import { UI_NextTurnButtonRotate } from "./UI_NextButtonRotate";
 
 export class GameProcess extends Behaviour {
     static isCheat = false;  //是否开启作弊模式
     static gamingState: 'playerTurn' | 'botTurn' | 'settlement' = 'settlement';
 
+   
     static nextState() {
+        const NextTurnButtonImage = getGameObjectById("NextTurnImage");
+
         switch (GameProcess.gamingState) {
             case 'playerTurn':
                 //玩家操作的状态
                 GameProcess.gamingState = 'botTurn';
+                //NextTurnButtonImage.getBehaviour(Transform).rotation = 135;
+                UI_NextTurnButtonRotate.rotate(NextTurnButtonImage, 120, 20);
                 break;
             case 'botTurn':
                 //敌人操作的状态
                 GameProcess.gamingState = 'settlement';
+                //NextTurnButtonImage.getBehaviour(Transform).rotation = 255;
+                UI_NextTurnButtonRotate.rotate(NextTurnButtonImage, 120, 20);
                 break;
             case 'settlement':
                 //结算战斗的状态
                 GameProcess.gamingState = 'playerTurn';
+                //NextTurnButtonImage.getBehaviour(Transform).rotation = 15;
+                UI_NextTurnButtonRotate.rotate(NextTurnButtonImage, 120, 20);
                 break;
         }
     }

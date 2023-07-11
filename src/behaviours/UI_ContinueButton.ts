@@ -6,7 +6,7 @@ export class UI_ContinueButton extends Behaviour {
     }
 
     onUpdate(): void {
-        this.gameObject.onClick = () => {
+        this.gameObject.onMouseLeftDown = () => {
             console.log("继续游戏");
             this.gameObject.parent.destroy();
         }

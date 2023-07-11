@@ -83,7 +83,7 @@ export class Province extends Behaviour {
                 }
             }
         }
-        this.gameObject.onClick = () => {
+        this.gameObject.onMouseLeftDown = () => {
             console.log("province is clicked")
             if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
                 console.log("selected is unit, move to province")

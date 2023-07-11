@@ -8,7 +8,7 @@ export class Click extends Behaviour {
 
         // audioClip.play();
         
-        this.gameObject.onClick  = () =>{
+        this.gameObject.onMouseLeftDown  = () =>{
             console.log('left click');
         }
         this.gameObject.onMouseLeftDown  = () =>{
