@@ -226,7 +226,11 @@ export class Province extends Behaviour {
             }
         }
         return adjacentProvinces;
+    }
 
+    //获得两块领地之间的距离
+    getDistanceToProvince(province: Province): number {
+        return Math.abs(this.coord.x - province.coord.x) + Math.abs(this.coord.y - province.coord.y);
     }
 }
 // 1. Province：地块属性——Behavior

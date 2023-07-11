@@ -8,7 +8,7 @@ import { Binding, binding, makeBinding, prefab } from "./Binding";
 export class UI_itemPrefabBinding extends Binding {
     @string()
     @binding((prefabRoot, value) => {
-        prefabRoot.children[2].getBehaviour(TextRenderer).text = value;
+        prefabRoot.getChildById("_ItemButton").getBehaviour(UI_ItemButton).eventText = value;
     })
     itemClickEventText: string;
 
@@ -21,10 +21,9 @@ export class UI_itemPrefabBinding extends Binding {
 
     @string()
     @binding((prefabRoot, value) => {
-        prefabRoot.children[2].getBehaviour(UI_ItemButton).idInList = value;
+        prefabRoot.getChildById("_ItemButton").getBehaviour(UI_ItemButton).idInList = value;
     })
     idInList: number;
-
 
 
     constructor() {

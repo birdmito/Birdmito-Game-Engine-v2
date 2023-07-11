@@ -3,6 +3,7 @@ import { UI_techWindowPrefabBinding } from "../bindings/UI_techWindowPrefabBindi
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";
+import { GameProcess } from "./GameProcess";
 import { Nation } from "./Nation";
 import { Technology } from "./Technology";
 import { UI_UpdateItemInfo } from "./UI_UpdateItemInfo";
@@ -17,21 +18,21 @@ export class UI_TechButton extends Behaviour {
             const newTechWindow = this.engine.createPrefab(new UI_techWindowPrefabBinding)
             const itemRoot = newTechWindow.getChildById("TechWindowItemListRoot");
 
-            for (const techRandom of Nation.nations[1].randomTechList) {
+            for (const techRandom of Nation.nations[GameProcess.playerNationId].randomTechList) {
                 const techItemBinding = new UI_itemPrefabBinding();
                 console.log("添加科技" + techRandom.techName + "到科技窗口")
                 techItemBinding.item = techRandom.techName;
                 techItemBinding.itemClickEventText = "研究";
                 const techItem = this.engine.createPrefab(techItemBinding);
-                techItem.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).province = Nation.nations[1].capitalProvince;
+                techItem.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).province = Nation.nations[GameProcess.playerNationId].capitalProvince;
                 itemRoot.addChild(techItem);
             }
             techWindowRoot.addChild(newTechWindow);
         }
 
-        if (Nation.nations[1].currentTechName !== '') {
+        if (Nation.nations[GameProcess.playerNationId].currentTechName !== '') {
             getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
-                "当前科技：" + Technology.getNationTechByName(1, Nation.nations[1].currentTechName).getInfo();
+                "当前科技：" + Technology.getNationTechByName(1, Nation.nations[GameProcess.playerNationId].currentTechName).getInfo();
         }
     }
 }
