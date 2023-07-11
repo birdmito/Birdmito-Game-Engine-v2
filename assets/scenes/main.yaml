@@ -56,8 +56,8 @@ children:
                 properties:
                   x: 0
                   y: 0
-                  scaleX: 0.7
-                  scaleY: 0.7
+                  scaleX: .7
+                  scaleY: .7
                   rotation: 0
                   anchorType: left-top
             children: []
