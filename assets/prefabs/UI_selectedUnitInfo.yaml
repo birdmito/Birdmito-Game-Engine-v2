@@ -79,7 +79,7 @@ children:
                   rotation: 0
               - type: BitmapRenderer
                 properties:
-                  source: ./assets/images/Icon_Flag_1b.png
+                  source: ./assets/images/Icon_Flag_1.png
             children: []
           - id: GovernmentFrame #政府边框
             behaviours:
@@ -117,6 +117,7 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_SeparateUnit.png
+          - type: UI_ButtonState
           # - type: 
         children: []
       - id: UnitDeleteButton
@@ -131,6 +132,7 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_DeleteUnit.png
+          - type: UI_ButtonState
           # - type: 
         children: []
       - id: UI_UnitBehaviourButton
@@ -145,6 +147,7 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_Explore.png
+          - type: UI_ButtonState
           - type: UI_UnitActButton
         children: 
           - id: UnitBehaviourText
@@ -166,16 +169,17 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 0
+              x: 234.5
+              y: 318 #322.5
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: TextRenderer
             properties:
-              fontSize: 20
+              fontSize: 30
               text: '这里应该显示单位名称'
               color: white
+              anchorType: 'center'
       - id: UnitNationText
         behaviours:
           - type: Transform

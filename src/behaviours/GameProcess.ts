@@ -84,7 +84,7 @@ export class GameProcess extends Behaviour {
 
     //回合
     static turnrNow = 0;
-    static turnTotal = 10;
+    static turnTotal = 50;
 
     initialNation() {
         for (let i = Nation.nationQuantity - 1; i >= 0; i--) {
