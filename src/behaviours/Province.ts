@@ -1,7 +1,7 @@
 import { Behaviour } from "../engine/Behaviour";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { GameProcess } from "../behaviours/GameProcess";
-import { GameObject, getGameObjectById } from "../engine";
+import { GameObject, getBehaviourClassByName, getGameObjectById } from "../engine";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { Nation } from "./Nation";
@@ -15,6 +15,10 @@ import { Calculator } from "./Calculator";
 import { ProvinceGenerator } from "./ProvinceGenerator";
 import { Battle } from "./BattleHandler";
 import { TextRenderer } from "../engine/TextRenderer";
+import { HexagonBorderRenderer } from "../engine/HexagonBorderRenderer";
+import { Transform } from "../engine/Transform";
+import { Click } from "./Click";
+import { HexagonLine } from "./HexagonLine";
 
 export class Province extends Behaviour {
     static provincesObj: GameObject[][] = [];
@@ -132,13 +136,19 @@ export class Province extends Behaviour {
             Nation.nations[nationId].doraChangeNextTurn += this.provinceProduction.dora;  //更新预计的dora变动
         }
         this.nationId = nationId;
-        this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
+        // this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
         if (nationId > 0) {
             Nation.nations[nationId].provinceOwnedList.push(this);
             if (Nation.nations[nationId].capitalProvinceCoord === undefined) {
                 Nation.nations[nationId].capitalProvinceCoord = this.coord;  //将首个被占领的领地设为首都
                 console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvinceCoord);
             }
+        const provinceTransform = this.gameObject.getBehaviour(Transform);    
+        this.gameObject.children[2].addBehaviour(new HexagonBorderRenderer());
+        this.gameObject.children[2].getBehaviour(HexagonLine).caculateVertices(provinceTransform.x + 86, provinceTransform.y +100 ,98);
+        // this.gameObject.children[2].getBehaviour(HexagonLine).showVertices();
+        // this.gameObject.children[2].getBehaviour(HexagonLine).deleteSameVertex();
+        // this.gameObject.children[2].getBehaviour(HexagonLine).showVertices();
         }
     }
 
