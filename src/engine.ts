@@ -260,6 +260,8 @@ export class GameObject {
     onMouseRightDown?: (event: GameEngineMouseEvent) => void;
     onMouseEnter?: (event: GameEngineMouseEvent) => void;
     onMouseLeave?: (event: GameEngineMouseEvent) => void;
+    onMouseIn?: (event: GameEngineMouseEvent) => void;
+    onMouseOut?: (event: GameEngineMouseEvent) => void;
 
     behaviours: Behaviour[] = [];
 

@@ -110,6 +110,7 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/TESTInterface_Country.png #此处需要添加国家图标
+          - type: UI_NationButton
       - id: ProvinceTerrainImage #省份地形图标
         behaviours:
           - type: Transform

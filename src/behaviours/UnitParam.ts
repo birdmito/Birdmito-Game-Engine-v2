@@ -47,6 +47,7 @@ export class UnitParam implements infoShowable {
             unitParam.maintCost, unitParam.nationId, unitParam.isBattleUnit, unitParam.quantity, unitParam.power);
     }
 
+    /**获得目标省份可招募单位列表中的目标单位（属性已经过修正） */
     static getProvinceUnitParamByName(province: Province, name: string): UnitParam {
         for (let i = 0; i < province.recruitableUnitList.length; i++) {
             if (province.recruitableUnitList[i].name === name) {
@@ -65,7 +66,7 @@ export class UnitParam implements infoShowable {
         return null;
     }
 
-    name: string = "soilder";
+    name: string = "未命名单位";
     cost: number = 10;
     recruitProcess: number = 10;
     recruitProcessMax: number = 10;

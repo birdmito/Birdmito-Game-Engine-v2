@@ -1,3 +1,4 @@
+import { TextRange } from "ts-morph";
 import { GameObject } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
@@ -11,6 +12,7 @@ import { Technology } from "./Technology";
 import { generateTip } from "./Tip";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { UnitParam } from "./UnitParam";
+import { TextRenderer } from "../engine/TextRenderer";
 
 
 export class Nation {
@@ -26,7 +28,7 @@ export class Nation {
         this.techPerTurn = 0;
         this.currentTechName = '';
         this.provinceOwnedList = new Array<Province>();
-        this.capitalProvinceCoord = undefined;
+        this.capitalProvince = undefined;
         this.cityMax = 5;
         this.upgradeCost = 100;
         this.botActMode = new BotNationActMode(this);
@@ -47,7 +49,17 @@ export class Nation {
     randomTechList: Technology[] = [];
 
     provinceOwnedList: Province[] = [];
-    capitalProvinceCoord: { x: number, y: number };
+    _capitalProvince: Province;
+    set capitalProvince(value: Province) {
+        if (this._capitalProvince)
+            this._capitalProvince.gameObject.getChildById('_CapitalText').getBehaviour(TextRenderer).text = ' ';
+        this._capitalProvince = value;
+        if (this._capitalProvince)
+            this._capitalProvince.gameObject.getChildById('_CapitalText').getBehaviour(TextRenderer).text = '★';
+    }
+    get capitalProvince(): Province {
+        return this._capitalProvince;
+    }
     cityList: Province[] = [];
 
     unitList: UnitBehaviour[] = [];  //国家拥有的所有单位
