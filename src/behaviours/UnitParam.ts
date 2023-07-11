@@ -2,7 +2,7 @@ import { UI_selectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInf
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
-import { UI_UnitBehaviourButton } from "./UI_UnitBehaviourButton";
+import { UI_UnitActButton } from "./UI_UnitActButton";
 import { ProvinceGenerator } from "./ProvinceGenerator";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Province } from "./Province";
@@ -12,22 +12,25 @@ import { OverrideableNode } from "ts-morph";
 
 export class UnitParam implements infoShowable {
     static originUnitParamList: UnitParam[] = [
-        new UnitParam("开拓者", 10, 10, 20, 10, 1),
-        new UnitParam("筑城者", 10, 10, 20, 10, 1),
-        new UnitParam("士兵", 10, 10, 20, 10, 1, true, 10, 10)
+        new UnitParam("开拓者", 10, 10, 20, 150, 1),
+        new UnitParam("筑城者", 10, 10, 20, 150, 1),
+        new UnitParam("士兵", 10, 10, 20, 200, 1, true, 10, 10),
+        new UnitParam("自走火炮", 10, 10, 20, 200, 1, true, 10, 10, '先进自走火炮'),
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,
-        maintCost: number, nationId: number = 1, isBattleUnit: boolean = false, quantity: number = 1, power: number = 0) {
+        maintCost: number, nationId: number = 1, isBattleUnit: boolean = false, quantity: number = 1, power: number = 0, techRequired='') {
         this.name = name;
         this.cost = cost;
         this.recruitProcessMax = recruitProcessMax;
         this.apMax = apMax;
+        this.ap = apMax;
         this.maintCost = maintCost;
         this.nationId = nationId;
         this.isBattleUnit = isBattleUnit;
         this.quantity = quantity;
         this.power = power;
+        this.techRequired = techRequired;
     }
 
     static copyOriginUnitParamList(nationId: number = 1): UnitParam[] {
@@ -44,6 +47,7 @@ export class UnitParam implements infoShowable {
             unitParam.maintCost, unitParam.nationId, unitParam.isBattleUnit, unitParam.quantity, unitParam.power);
     }
 
+    /**获得目标省份可招募单位列表中的目标单位（属性已经过修正） */
     static getProvinceUnitParamByName(province: Province, name: string): UnitParam {
         for (let i = 0; i < province.recruitableUnitList.length; i++) {
             if (province.recruitableUnitList[i].name === name) {
@@ -62,7 +66,7 @@ export class UnitParam implements infoShowable {
         return null;
     }
 
-    name: string = "soilder";
+    name: string = "未命名单位";
     cost: number = 10;
     recruitProcess: number = 10;
     recruitProcessMax: number = 10;
@@ -70,6 +74,8 @@ export class UnitParam implements infoShowable {
     ap: number = 100000;
     apMax: number = 10;
     maintCost: number = 1;
+    //需要科技解锁
+    techRequired: string;
 
     //战斗属性
     //是否是战斗单位

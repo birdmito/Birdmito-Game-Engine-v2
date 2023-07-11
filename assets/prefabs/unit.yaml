@@ -12,3 +12,36 @@ behaviours:
     properties:
       source: ./assets/images/Interface_MilitaryUnit.png
 id: Unit
+children:
+  - id: UnitPowerText
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+          anchorType: 'center'
+      - type: TextRenderer
+        properties:
+          text: '这里应该显示战斗力'
+          color: white
+          fontSize: 15
+          hitAreaType: none
+  - id: _UnitApText
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 15
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+          anchorType: 'center'
+      - type: TextRenderer
+        properties:
+          text: '这里应该显示行动力'
+          color: white
+          fontSize: 15
+          hitAreaType: none

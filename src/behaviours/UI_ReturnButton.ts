@@ -5,7 +5,7 @@ import { GameStateBehaviour } from "./GameStateBehaviour";
 
 export class UI_ReturnButton extends Behaviour {
     onUpdate(): void {
-        this.gameObject.onClick = () => {
+        this.gameObject.onMouseLeftDown = () => {
             console.log("返回主菜单");
             getGameObjectById("sceneRoot").getBehaviour(GameStateBehaviour).changeGameState(0);
         }

@@ -24,8 +24,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: 880
+          y: 200
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -34,6 +34,8 @@ children:
           fontSize: 48
           text: ''
           color: white
+          lineWidth: 120
+          anchorType: "center"
   - id: GobackToMenuButton
     behaviours:
       - type: Transform
@@ -62,6 +64,7 @@ children:
               scaleYForUI: 2
               borderWidthForUI: 15
               anchorType: "center"
+          - type: UI_ButtonState
       - id: GobackToMenuButtonText
         behaviours:
           - type: Transform

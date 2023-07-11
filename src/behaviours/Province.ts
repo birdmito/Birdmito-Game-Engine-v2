@@ -13,7 +13,8 @@ import { Binding } from "../bindings/Binding";
 import { UnitParam } from "./UnitParam";
 import { Calculator } from "./Calculator";
 import { ProvinceGenerator } from "./ProvinceGenerator";
-import { Battle } from "./BattleManager";
+import { Battle } from "./BattleHandler";
+import { TextRenderer } from "../engine/TextRenderer";
 
 export class Province extends Behaviour {
     static provincesObj: GameObject[][] = [];
@@ -37,6 +38,7 @@ export class Province extends Behaviour {
             Nation.nations[this.nationId].doraChangeNextTurn += value.dora - oldValue.dora  //更新预计的dora变动
         }
     }
+    provinceName: string = "未命名";
 
     plainPercent = 0;
     lakePercent = 0;
@@ -71,18 +73,33 @@ export class Province extends Behaviour {
     }
 
     onUpdate(): void {
-        this.gameObject.onClick = () => {
+        this.gameObject.onMouseEnter = () => {
+            if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
+                console.log("当前选中物体为单位，预告ap消耗")
+                //若当前选中的是单位，则更改单位信息，预告将要消耗的行动点数
+                const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
+                if (unit.nationId === 1 || GameProcess.isCheat) {
+                    unit.apCostToMove = this.apCost;
+                }
+            }
+        }
+        this.gameObject.onMouseLeftDown = () => {
             console.log("province is clicked")
-            if (getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour instanceof UnitBehaviour) {
-                //若当前选中的是单位，则移动到该领地
-                const unit = getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).selectedBehaviour as UnitBehaviour;
-                if (unit.nationId === 1) {
+            if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
+                console.log("selected is unit, move to province")
+                //若当前选中的是单位，则移动
+                const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
+                if (unit.nationId === 1 || GameProcess.isCheat) {
                     unit.moveToProvince(this);
                 }
             }
-            getGameObjectById("SelectedObjectInfoMangaer").getBehaviour(SelectedObjectInfoMangaer).showSelectedObjectInfo(this);
+            else {
+                SelectedObjectInfoMangaer.showSelectedObjectInfo(this);
+
+            }
         }
     }
+
 
     //随机生成地貌
     randomLandscape() {
@@ -120,9 +137,9 @@ export class Province extends Behaviour {
         this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
         if (nationId > 0) {
             Nation.nations[nationId].provinceOwnedList.push(this);
-            if (Nation.nations[nationId].capitalProvinceCoord === undefined) {
-                Nation.nations[nationId].capitalProvinceCoord = this.coord;  //将首个被占领的领地设为首都
-                console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvinceCoord);
+            if (Nation.nations[nationId].capitalProvince === undefined) {
+                Nation.nations[nationId].capitalProvince = this;  //将首个被占领的领地设为首都
+                console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvince);
             }
         }
     }

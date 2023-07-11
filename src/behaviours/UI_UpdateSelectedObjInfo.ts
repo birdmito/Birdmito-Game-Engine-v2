@@ -7,12 +7,15 @@ import { Transform } from "../engine/Transform";
 import { ProvinceGenerator } from "./ProvinceGenerator";
 import { Province } from "./Province";
 import { UnitBehaviour, } from "./UnitBehaviour";
-import { UI_UnitBehaviourButton } from "./UI_UnitBehaviourButton";
+import { UI_UnitActButton } from "./UI_UnitActButton";
 import { build } from "vite";
 import { UI_itemPrefabBinding } from "../bindings/UI_itemPrefabBinding";
 import { UI_BuildButton } from "./UI_BuildButton";
 import { Building } from "./Building";
 import { Nation } from "./Nation";
+import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
+import { GameProcess } from "./GameProcess";
+import { UI_UpdateItemInfo } from "./UI_UpdateItemInfo";
 
 export class UI_UpdateSelectedObjInfo extends Behaviour {
     onUpdate(): void {
@@ -22,27 +25,40 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
         else if (this.selectedBehaviour instanceof Province) {
             //更新Info界面
             const province = this.selectedBehaviour as Province;
-            getGameObjectById("ProvinceNationNameText").getBehaviour(TextRenderer).text = '所属国家：' + province.nationId.toString();
-            getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = '多拉：' + province.provinceProduction.dora.toString() +
-                '生产力：' + province.provinceProduction.production.toString() + '科技：' + province.provinceProduction.techPoint.toString();
-            getGameObjectById("ProvinceApCostText").getBehaviour(TextRenderer).text = '行动点消耗：' + province.apCost.toString();
-            getGameObjectById("ProvincePlainPercentText").getBehaviour(TextRenderer).text = '平原：' + Math.floor(province.plainPercent * 100).toString() + '%';
-            getGameObjectById("ProvinceLakePercentText").getBehaviour(TextRenderer).text = '湖泊：' + Math.floor(province.lakePercent * 100).toString() + '%';
-            getGameObjectById("ProvinceForestPercentText").getBehaviour(TextRenderer).text = '森林：' + Math.floor(province.forestPercent * 100).toString() + '%';
-            getGameObjectById("ProvinceMountainPercentText").getBehaviour(TextRenderer).text = '山地：' + Math.floor(province.mountainPercent * 100).toString() + '%';
+            if (province.isCity) {
+                getGameObjectById("ProvinceTypeText").getBehaviour(TextRenderer).text = `城市`;
+            }
+            else {
+                getGameObjectById("ProvinceTypeText").getBehaviour(TextRenderer).text = `村庄`;
+            }
+            getGameObjectById("ProvinceNationNameText").getBehaviour(TextRenderer).text = `所属国家：${province.nationId}`;
+            getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = `奥坎盾：${province.provinceProduction.dora.toString()} 
+            ||生产力：${province.provinceProduction.production.toString()} ||科技点：${province.provinceProduction.techPoint.toString()}`;
+            getGameObjectById("ProvinceApCostText").getBehaviour(TextRenderer).text = `行动力消耗：${province.apCost}`;
+            getGameObjectById("ProvincePlainPercentText").getBehaviour(TextRenderer).text = `平原：${Math.floor(province.plainPercent * 100)}%`;
+            getGameObjectById("ProvinceLakePercentText").getBehaviour(TextRenderer).text = `湖泊：${Math.floor(province.lakePercent * 100)}%`;
+            getGameObjectById("ProvinceForestPercentText").getBehaviour(TextRenderer).text = `森林：${Math.floor(province.forestPercent * 100)}%`;
+            getGameObjectById("ProvinceMountainPercentText").getBehaviour(TextRenderer).text = `山地：${Math.floor(province.mountainPercent * 100)}%`;
             this.updateSelectedProvinceBuildingListUI();
             this.updateSelectedProvinceProductQueueUI();
 
         }
         else if (this.selectedBehaviour instanceof UnitBehaviour) {
-            const soilder = this.selectedBehaviour as UnitBehaviour;
-            getGameObjectById("UnitNationText").getBehaviour(TextRenderer).text = '所属国家：' + soilder.nationId.toString();
-            getGameObjectById("UnitApText").getBehaviour(TextRenderer).text = '行动点：' + soilder.unitParam.ap.toString() + '/' + soilder.unitParam.apMax.toString();
+            const unit = this.selectedBehaviour as UnitBehaviour;
+            getGameObjectById("UnitNameText").getBehaviour(TextRenderer).text = `单位名称：${unit.unitParam.name}`;
+            getGameObjectById("UnitNationText").getBehaviour(TextRenderer).text = `所属国家：${unit.nationId}`;
+            getGameObjectById("UnitApText").getBehaviour(TextRenderer).text = `行动点：${unit.unitParam.ap}/${unit.unitParam.apMax}`;
+            getGameObjectById("UnitQuantityText").getBehaviour(TextRenderer).text = `数量：${unit.unitParam.quantity}`;
+            getGameObjectById("UnitPowerText").getBehaviour(TextRenderer).text = `战力：${unit.power}`;
             //若不是玩家的单位，则销毁UI_UnitBehaviourButton
-            if (soilder.nationId !== 1) {
+            if (unit.nationId !== 1) {
                 getGameObjectById("UI_UnitBehaviourButton").destroy();
             }
         }
+    }
+
+    onEnd(): void {
+        SelectedObjectInfoMangaer.selectedBehaviour = null;  //清空选中项
     }
 
     selectedBehaviour: Behaviour;
@@ -66,15 +82,14 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 const building = province.buildingList[i];
                 const UI_buildingBinding = new UI_itemPrefabBinding;
                 UI_buildingBinding.item = building.name;
-                UI_buildingBinding.itemInfo = building.getInfo();
-                if (province.nationId === 1) {
+                if (province.nationId === 1 || GameProcess.isCheat) {
                     UI_buildingBinding.itemClickEventText = "拆除";
                 }
                 else {
-                    UI_buildingBinding.itemClickEventText = "";
+                    UI_buildingBinding.itemClickEventText = " ";
                 }
                 const UI_building = this.engine.createPrefab(UI_buildingBinding);
-                UI_building.getBehaviour(Transform).y = 30 + i * 100
+                UI_building.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).province = province;
                 provinceBuildingList.addChild(UI_building);
             }
         }
@@ -100,14 +115,19 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
         if (province.productQueue.length > 0) {
             for (let i = 0; i < province.productQueue.length; i++) {
                 const productedItem = province.productQueue[i];
-                const UI_buildingBinding = new UI_itemPrefabBinding;
-                UI_buildingBinding.item = productedItem.productName;
-                UI_buildingBinding.itemInfo = productedItem.getInfo();
-                UI_buildingBinding.idInList = i;
-                UI_buildingBinding.itemClickEventText = "取消";
-                productQueueRoot.addChild(this.engine.createPrefab(UI_buildingBinding));
+                const UI_itemBinding = new UI_itemPrefabBinding;
+                UI_itemBinding.item = productedItem.productName;
+                // UI_itemBinding.idInList = i;
+                if (province.nationId === 1 || GameProcess.isCheat) {
+                    UI_itemBinding.itemClickEventText = "取消";
+                }
+                else {
+                    UI_itemBinding.itemClickEventText = " ";
+                }
+                const itemPrefab = this.engine.createPrefab(UI_itemBinding)
+                itemPrefab.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).province = province;
+                productQueueRoot.addChild(itemPrefab);
             }
         }
-
     }
 }

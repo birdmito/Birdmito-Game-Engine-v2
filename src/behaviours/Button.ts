@@ -6,7 +6,7 @@ export class Button extends Behaviour {
     state: 'idle' | 'hover' | 'pressed' | 'disabled';    // 按钮状态
     
     onClick() {
-        this.gameObject.onClick  = () =>{
+        this.gameObject.onMouseLeftDown  = () =>{
             this.gameObject.children[1].getBehaviour(TextRenderer).text = 'clicked';
         }
     }

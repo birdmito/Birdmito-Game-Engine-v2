@@ -41,15 +41,62 @@ children:
     behaviours:
     - type: Transform
       properties:
+        x: 120
+        y: 70
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: StopPropagation
+    - type: LayoutGroup
+      properties:
+        layoutType: horizontal
+        spacing: 60
+        alignment: center
+    children: []
+  - id: _AttackerUnitRoot
+    behaviours:
+    - type: Transform
+      properties:
+        x: 120
+        y: 170
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: StopPropagation
+    - type: LayoutGroup
+      properties:
+        layoutType: horizontal
+        spacing: 60
+        alignment: center
+    children: []
+  - id: _PathNoText
+    behaviours:
+    - type: Transform
+      properties:
         x: 0
         y: 0
         scaleX: 1
         scaleY: 1
         rotation: 0
-    - type: LayoutGroup
+    - type: TextRenderer
       properties:
-        layoutType: horizontal
-        spacing: 100
-        numPerLine: 3
-    children: []
+        fontSize: 20
+        text: ' '
+        color: white
+        hitAreaType: none
+  - id: _CapitalText
+    behaviours:
+    - type: Transform
+      properties:
+        x: 86
+        y: 50
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: TextRenderer
+      properties:
+        fontSize: 50
+        text: ' '
+        color: white
+        hitAreaType: none
 

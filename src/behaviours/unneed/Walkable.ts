@@ -7,7 +7,7 @@ export class Walkable extends Behaviour {
     speed = 1;
 
     onStart() {
-        this.gameObject.onClick = () => {
+        this.gameObject.onMouseLeftDown = () => {
             const rigid = this.gameObject.getBehaviour(RigidBody);
             // rigid.b2RigidBody.SetLinearVelocity({ x: this.speed, y: 0 })
             rigid.b2RigidBody.SetLinearVelocity({ x: this.speed, y: 0 })

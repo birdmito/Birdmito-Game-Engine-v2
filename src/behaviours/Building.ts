@@ -73,6 +73,7 @@ export class Building implements infoShowable {
         return new Building('这是一段不应该被看到的文本', 0, 0, new Resource(0, 0, 0), new Resource(0, 0, 0), false);
     }
 
+    /**获取目标省份可建造建筑列表中的目标建筑（属性已经过修正）*/
     static getProvinceBuildingByName(province: Province, name: string): Building {
         if (province.buildableBuildingList.find(building => building.name === name)) {
             return province.buildableBuildingList.find(building => building.name === name);
@@ -102,22 +103,21 @@ export class Building implements infoShowable {
     }
 
     getInfo(): string {
-        var info = this.name + '\n' + '建造费用：' + this.cost + '\n' + '生产力花费：' + this.productProcessMax;
+        var info = this.name + '|' + '建造费用：' + this.cost + '|' + '生产力花费：' + this.productProcessMax;
         const production = this.buildingProduction;
         if (production.dora > 0) {
-            info += '\n' + production.dora + '多拉';
+            info += '|+' + production.dora + ' 多拉';
         }
         if (production.production > 0) {
-            info += '\n' + production.production + '生产力';
+            info += '|+' + production.production + ' 生产力';
         }
         if (production.techPoint > 0) {
-            info += '\n' + production.techPoint + '科技点';
+            info += '|+' + production.techPoint + ' 科技点';
         }
         const maintCost = this.maintCost;
         if (maintCost.dora > 0) {
-            info += '\n' + '维护费' + maintCost.dora + '多拉';
+            info += '|-' + maintCost.dora + ' 多拉';
         }
-
         return info;
     }
 }
