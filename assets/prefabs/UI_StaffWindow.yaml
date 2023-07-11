@@ -1,0 +1,27 @@
+id: StaffWindow
+behaviours:
+  - type: Transform
+    properties:
+      x: 960
+      y: 540
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+children:
+  - id: StaffWindowBgImage
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_PanelMenu.png
+          renderType: 'ui'
+          scaleXForUI: 5
+          scaleYForUI: 5
+          borderWidthForUI: 100
+          anchorType: center
