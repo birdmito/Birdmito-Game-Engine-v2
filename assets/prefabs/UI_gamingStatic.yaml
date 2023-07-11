@@ -294,7 +294,7 @@ children:
                   rotation: 0
               - type: BitmapRenderer
                 properties:
-                  source: ./assets/images/Icon_Flag_1a.png
+                  source: ./assets/images/Icon_Flag_1.png
             children: []
           - id: GovernmentFrame #政府边框
             behaviours:
