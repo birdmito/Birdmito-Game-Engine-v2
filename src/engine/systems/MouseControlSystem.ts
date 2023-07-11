@@ -9,6 +9,8 @@ import { System } from "./System";
 export class MouseControlSystem extends System {
     private callback(event: GameEngineMouseEvent) { }
     private currentHoverGameObject: GameObject | null = null;
+    private currentDownGameObjects: GameObject[] = [];
+    private mousePoint: Point = {x:0, y:0};
     onStart() {
         window.addEventListener('mousedown', (event) => {
             const code = event.button;
@@ -44,6 +46,7 @@ export class MouseControlSystem extends System {
                         this.callback(event);
                     }
                     // console.log("hit", result.id);
+                    this.currentDownGameObjects.push(result);
                     if(result.stopPropagation){
                         break;
                     }
@@ -73,12 +76,45 @@ export class MouseControlSystem extends System {
                 }
             }
         });
+        window.addEventListener('mouseup', (event) => {
+            const code = event.button;
+            const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
+            const camera = cameraGameObject.getBehaviour(Camera)
+            const viewportMatrix = camera.calculateViewportMatrix()
+            const originPoint = { x: event.clientX, y: event.clientY };
+            const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
+            for(const gameObject of this.currentDownGameObjects){
+                if (code === 0) {    // 左键
+                    // 如果有onClick事件，callback = onClick，否则callback = onMouseLeftDown
+                    this.callback = gameObject.onMouseLeftUp ? gameObject.onMouseLeftUp : gameObject.onClick;
+                }
+                else if (code === 1) {   // 中键
+                    this.callback = gameObject.onMouseMiddleUp;
+                }
+                else if (code === 2) {   // 右键
+                    this.callback = gameObject.onMouseRightUp;
+                }
+                if (this.callback) {
+                    const invertGlobalMatrix = invertMatrix(gameObject.getBehaviour(Transform).globalMatrix)
+                    const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
+                    const event: GameEngineMouseEvent = {
+                        globalX: globalPoint.x,
+                        globalY: globalPoint.y,
+                        localX: localPoint.x,
+                        localY: localPoint.y
+                    }
+                    this.callback(event);
+                }
+            }
+            this.currentDownGameObjects = [];
+        });
         window.addEventListener('mousemove', (event) => {
             const cameraGameObject = this.gameEngine.mode === 'play' ? getGameObjectById('Camera') : this.gameEngine.editorGameObject;
             const camera = cameraGameObject.getBehaviour(Camera)
             const viewportMatrix = camera.calculateViewportMatrix()
             const originPoint = { x: event.clientX, y: event.clientY };
             const globalPoint = pointAppendMatrix(originPoint, invertMatrix(viewportMatrix));
+            this.mousePoint = globalPoint;
             let result = this.hitTest(this.rootGameObject, globalPoint);
             if(result){
                 if(result !== this.currentHoverGameObject){
@@ -120,6 +156,15 @@ export class MouseControlSystem extends System {
                 }
             }
         });
+    }
+    onUpdate() {
+        let result = this.hitTest(this.rootGameObject, this.mousePoint);
+        if (result) {
+            const event = this.calculateGameEngineMouseEvent(result, this.mousePoint)
+            if(result.onMouseHover){
+                result.onMouseHover(event)
+            }
+        }
     }
 
     hitTest(gameObject: GameObject, point: Point): GameObject {

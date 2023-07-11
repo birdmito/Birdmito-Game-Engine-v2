@@ -10,12 +10,25 @@ import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { UnitParam } from "./UnitParam";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { generateTip } from "./Tip";
+import { ObjectDisableSimulator } from "./ObjectDisableSimulator";
 
 //在ui界面中，根据EventText的不同，实现点击后建造或者拆除等生产队列操作
 export class UI_ItemButton extends Behaviour {
     itemName: string;
     idInList: number = 0;
+
+    onStart(): void {
+        console.log("start")
+        this.gameObject.parent.getChildById("_ItemInfo").active = false;
+    }
     onUpdate(): void {
+        this.gameObject.onMouseHover = () => {
+            console.log(`鼠标悬浮于${this.itemName}按钮`);
+            this.gameObject.parent.getChildById("_ItemInfo").active = true;
+        }
+        this.gameObject.onMouseLeave = () => {
+            this.gameObject.parent.getChildById("_ItemInfo").active = false;
+        }
         this.gameObject.onMouseLeftDown = () => {
             const eventText = this.gameObject.getBehaviour(TextRenderer).text;
             const targetProvince = SelectedObjectInfoMangaer.selectedBehaviour as Province;

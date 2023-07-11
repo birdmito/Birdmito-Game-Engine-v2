@@ -98,7 +98,7 @@ children:
             properties:
               source: ./assets/images/Icon_Panel_3.png
         children: []    
-      - id: ProvinceInfoLayer4
+      - id: GovernmentButton #政府按钮
         behaviours:
           - type: Transform
             properties:
@@ -107,9 +107,34 @@ children:
               scaleX: .75
               scaleY: .75
               rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/TESTInterface_Country.png #此处需要添加国家图标
+        children: 
+          - id: GovernmentFlag
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/Icon_Flag_1.png
+            children: []
+          - id: GovernmentFrame #政府边框
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/Interface_ButtonCountryPanel.png
+              - type: UI_ButtonState
+            children: []
       - id: ProvinceTerrainImage #省份地形图标
         behaviours:
           - type: Transform
@@ -145,12 +170,27 @@ children:
           scaleY: 1
           rotation: 0
     children:
-      - id: ProvinceNationNameText
+      - id: ProvinceTypeText
         behaviours:
           - type: Transform
             properties:
               x: 0
               y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示省份类型'
+              color: white
+        children: []
+      - id: ProvinceNationNameText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 40
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -164,8 +204,8 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 30
+              x: 200
+              y: 305
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -174,13 +214,14 @@ children:
               fontSize: 20
               text: '这里应该显示领地产出'
               color: white
+              lineWidth: 20
         children: []
       - id: ProvinceApCostText
         behaviours:
           - type: Transform
             properties:
               x: 0
-              y: 60
+              y: 120
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -284,11 +325,21 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/Icon_BuildingBuild.png
       - type: UI_BuildButton
-    children: []
+    children:
+      - id: BuildButtonImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_BuildingBuild.png
+          - type: UI_ButtonState
   - id: ProductWindowRoot
     behaviours:
       - type: Transform
@@ -308,11 +359,21 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/Icon_ProduceUnit.png
       - type: UI_RecruitButton
-    children: []
+    children:
+      - id: RecruitButtonImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_ProduceUnit.png
+          - type: UI_ButtonState
   - id: Close
     behaviours:
       - type: Transform
@@ -322,6 +383,9 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: DestroyOnClick
+        properties:
+          targetID: UI_selectedProvinceInfo
     children:
       - id: CloseImage
         behaviours:
@@ -335,7 +399,5 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_Cross.png
-          - type: DestroyOnClick
-            properties:
-              targetID: UI_selectedProvinceInfo
+          - type: UI_ButtonState
         children: []

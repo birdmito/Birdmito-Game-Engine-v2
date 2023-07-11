@@ -68,6 +68,7 @@ children:
               scaleYForUI: 2
               borderWidthForUI: 15
               anchorType: "center"
+          - type: UI_ButtonState
       - id: ReturnButtonText
         behaviours:
           - type: Transform
@@ -83,6 +84,7 @@ children:
               fontFamily: "fangsong" 
               text: 返回主菜单
               anchorType: center
+              hitAreaType: "none"
         children: []
   - id: ContinueButton # 继续游戏按钮
     behaviours:
@@ -112,6 +114,7 @@ children:
               scaleYForUI: 2
               borderWidthForUI: 15
               anchorType: "center"
+          - type: UI_ButtonState
         children: []
       - id: ContinueButtonText
         behaviours:
@@ -128,4 +131,5 @@ children:
               fontFamily: "fangsong" 
               text: 继续游戏
               anchorType: center
+              hitAreaType: "none"
         children: []

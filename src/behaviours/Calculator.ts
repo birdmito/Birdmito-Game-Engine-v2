@@ -15,10 +15,10 @@ export class Calculator {
         var baseCost = 100;
         //加成区
         var bonus = 1;
-        if (Nation.nations[nationId].capitalProvinceCoord !== undefined) {
+        if (Nation.nations[nationId].capitalProvince !== undefined) {
             //根据距离计算金币数
-            var distance = Math.abs(targetCoord.x - Nation.nations[nationId].capitalProvinceCoord.x) +
-                Math.abs(targetCoord.y - Nation.nations[nationId].capitalProvinceCoord.y);
+            var distance = Math.abs(targetCoord.x - Nation.nations[nationId].capitalProvince.coord.x) +
+                Math.abs(targetCoord.y - Nation.nations[nationId].capitalProvince.coord.y);
             baseCost += distance * 10;
         }
         //探秘奥坎之径：殖民所需的金钱-10%
@@ -145,6 +145,8 @@ export class Calculator {
         pluser.apMax += Technology.getTechBonus(unit.nationId, "配置士兵开拓车");
         //彻查士兵档案:所有士兵维护费用-20%
         multiplier.maintCost += Technology.getTechBonus(unit.nationId, "彻查士兵档案");
+        //先进机械装配：所有士兵行动力上限+1
+        pluser.apMax += Technology.getTechBonus(unit.nationId, "先进机械装配");
 
         result.addUnitParam(pluser);
         result.multiplyUnitParam(multiplier);
@@ -187,6 +189,8 @@ export class Calculator {
 
         //计算基础战斗力
         result += unit.unitParam.power * unit.unitParam.quantity;
+        //先进作战机械：单位战斗力+10%
+        multiplier += Technology.getTechBonus(unit.nationId, "先进作战机械");
 
         unit.power = result;
 

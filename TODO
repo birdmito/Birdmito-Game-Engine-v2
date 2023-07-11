@@ -68,9 +68,17 @@
 ☐ 解决鼠标移动到边缘移动与边缘UI冲突的问题
 ✘ 复制新建gameObject @cancelled(23-07-06 17:02)
 ☐ 整合Button
-☐ button状态图
+✔ button状态图 @done(23-07-11 13:04)
 ✔ Text换行 @done(23-07-07 17:28)
     ✔ 通过设置宽度自动换行 @done(23-07-07 17:27)
     ✔ 通过 | 手动换行 @done(23-07-07 17:27)
     ✔ 设置行间距 @done(23-07-07 17:27)
+    ☐ getBounds
 ☐ transform.width/height显示的是x/y？
+☐ AudioClip
+    ✔ 测试js的Audio API @done(23-07-09 16:14)
+    ✔ 封装Audio API——基于Behaviour的AudioClip @done(23-07-09 16:39)
+    ☐ 封装Audio API——基于System的AudioClip
+    ✔ 将Audio加载整合到ResourceManager中 @done(23-07-09 16:14)
+    ☐ 使用web audio api
+☐ 点击事件屏蔽

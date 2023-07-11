@@ -30,7 +30,7 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_Panel_1.png
+              source: ./assets/images/Icon_PanelUnit.png
         children: []      
       - id: UnitInfoLayer2  #此处需要添加单位图片
         behaviours:
@@ -58,7 +58,7 @@ children:
             properties:
               source: ./assets/images/Icon_Panel_3.png
         children: []    
-      - id: UnitInfoLayer4
+      - id: GovernmentButton #政府按钮
         behaviours:
           - type: Transform
             properties:
@@ -67,32 +67,87 @@ children:
               scaleX: .75
               scaleY: .75
               rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/TESTInterface_Country.png
-        children: []    
+        children: 
+          - id: GovernmentFlag
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/Icon_Flag_1.png
+            children: []
+          - id: GovernmentFrame #政府边框
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/Interface_ButtonCountryPanel.png
+              - type: UI_ButtonState
+            children: []
   - id: UnitInfo
     behaviours:
       - type: Transform
         properties:
-          x: 50
-          y: 300
+          x: 0
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
     children:
-      - id: UI_UnitBehaviourButton
+      - id: UI_UnitSeparateButton
         behaviours:
           - type: Transform
             properties:
-              x: 425
-              y: 130
+              x: 103
+              y: 478
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Interface_ButtonExplore.png
+              source: ./assets/images/Icon_SeparateUnit.png
+          - type: UI_ButtonState
+          # - type: 
+        children: []
+      - id: UnitDeleteButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 42
+              y: 478
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_DeleteUnit.png
+          - type: UI_ButtonState
+          # - type: 
+        children: []
+      - id: UI_UnitBehaviourButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 378
+              y: 478
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_Explore.png
+          - type: UI_ButtonState
           - type: UI_UnitActButton
         children: 
           - id: UnitBehaviourText
@@ -110,6 +165,20 @@ children:
                   text: '这里应该显示单位的行为'
                   fontFamily: 'fangsong'
                   color: white
+      - id: UnitNameText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '这里应该显示单位名称'
+              color: white
       - id: UnitNationText
         behaviours:
           - type: Transform
@@ -175,6 +244,9 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: DestroyOnClick
+        properties:
+          targetID: UI_selectedUnitInfo
     children:
       - id: CloseImage
         behaviours:
@@ -188,7 +260,5 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_Cross.png
-          - type: DestroyOnClick
-            properties:
-              targetID: UI_selectedUnitInfo
+          - type: UI_ButtonState
         children: []

@@ -94,4 +94,19 @@ children:
         text: ' '
         color: white
         hitAreaType: none
+  - id: _CapitalText
+    behaviours:
+    - type: Transform
+      properties:
+        x: 86
+        y: 50
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: TextRenderer
+      properties:
+        fontSize: 50
+        text: ' '
+        color: white
+        hitAreaType: none
 

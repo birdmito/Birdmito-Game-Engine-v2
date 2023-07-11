@@ -1,0 +1,98 @@
+id: UI_nationWindow
+behaviours:
+  - type: Transform
+    properties:
+      x: 0
+      y: 0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+  - type: UI_UpdateNationInfo
+children:
+  - id: _NationInfoBgImage
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: ImageRenderer
+        properties:
+          sprite: assets/sprites/UI/Icon_TextFrame5050.png
+          renderType: 'ui'
+          scaleXForUI: 20
+          scaleYForUI: 15
+          borderWidthForUI: 15
+    children: []
+  - id: NationInfo
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children:
+    - id: _NationNameText
+      behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 0
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            fontSize: 20
+            text: '这里应该显示国家名称'
+            color: white
+      children: []
+    - id: _NationMoneyText
+      behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 40
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            fontSize: 20
+            text: '这里应该显示国家资金'
+            color: white
+      children: []
+    - id: _NationTechText
+      behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 80
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            fontSize: 20
+            text: '这里应该显示国家科技'
+            color: white
+      children: []
+    - id: _NationArmyText
+      behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 120
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            fontSize: 20
+            text: '这里应该显示国家军力'
+            color: white
+      children: []

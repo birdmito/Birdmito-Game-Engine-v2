@@ -24,12 +24,25 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 50
-          y: 270
+          x: 43
+          y: 207
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: UI_TechButton
     children:
+      - id: CurrentTechImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/ScreenArt_Technology_1.png
       - id: CurrentTechText
         behaviours:
           - type: Transform
@@ -44,21 +57,19 @@ children:
               fontSize: 20
               text: 这里应该显示当前科技
               color: white
-  - id: TechnologyText
-    behaviours:
-      - type: Transform
-        properties:
-          x: 50
-          y: 220
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 20
-          text: 研究科技
-          color: white
-      - type: UI_TechButton
+      - id: CurrentTechFrame
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Interface_ButtonTechTree.png
+          - type: UI_ButtonState
   - id: TechWindowRoot
     behaviours:
       - type: Transform
@@ -91,6 +102,7 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Interface_ButtonGovernmentLevel.png
+          - type: UI_ButtonState
       - id: _GovernmentUpgradeText
         behaviours:
           - type: Transform

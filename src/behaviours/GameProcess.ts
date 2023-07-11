@@ -14,24 +14,36 @@ import { UnitParam } from "./UnitParam";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { UI_GameOverBinding } from "../bindings/UI_GameOverBinding";
 import { Battle, BattleHandler } from "./BattleHandler";
+import { Statement } from "ts-morph";
+import { Transform } from "../engine/Transform";
+import { UI_NextTurnButtonRotate } from "./UI_NextButtonRotate";
 
 export class GameProcess extends Behaviour {
-    static gamingState: 'playerTurn' | 'enemyTurn' | 'settlement' = 'playerTurn';
+    static isCheat = false;  //是否开启作弊模式
+    static gamingState: 'playerTurn' | 'botTurn' | 'settlement' = 'settlement';
 
+   
     static nextState() {
+        const NextTurnButtonImage = getGameObjectById("NextTurnImage");
+
         switch (GameProcess.gamingState) {
             case 'playerTurn':
                 //玩家操作的状态
-                GameProcess.nextTurn();
-                GameProcess.gamingState = 'enemyTurn';
+                GameProcess.gamingState = 'botTurn';
+                //NextTurnButtonImage.getBehaviour(Transform).rotation = 135;
+                UI_NextTurnButtonRotate.rotate(NextTurnButtonImage, 120, 20);
                 break;
-            case 'enemyTurn':
+            case 'botTurn':
                 //敌人操作的状态
                 GameProcess.gamingState = 'settlement';
+                //NextTurnButtonImage.getBehaviour(Transform).rotation = 255;
+                UI_NextTurnButtonRotate.rotate(NextTurnButtonImage, 120, 20);
                 break;
             case 'settlement':
                 //结算战斗的状态
                 GameProcess.gamingState = 'playerTurn';
+                //NextTurnButtonImage.getBehaviour(Transform).rotation = 15;
+                UI_NextTurnButtonRotate.rotate(NextTurnButtonImage, 120, 20);
                 break;
         }
     }
@@ -39,11 +51,24 @@ export class GameProcess extends Behaviour {
     onStart(): void {
         this.initialNation();
         GameProcess.nextTurn();
+        //让第一个电脑帝国的isThisBotsTurn为true
     }
 
     onUpdate(): void {
+        console.log(`当前游戏状态：${GameProcess.gamingState}`);
         //更新玩家金钱显示
         getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nations[1].dora.toString();
+        switch (GameProcess.gamingState) {
+            case 'playerTurn':
+                this.playerTurn();
+                break;
+            case 'botTurn':
+                this.botTurn();
+                break;
+            case 'settlement':
+                this.settlement();
+                break;
+        }
     }
 
     //回合
@@ -52,7 +77,7 @@ export class GameProcess extends Behaviour {
 
     initialNation() {
         for (let i = Nation.nationQuantity - 1; i >= 0; i--) {
-            const nation = new Nation(i + 1, "玩家", 10000, 1);
+            const nation = new Nation(i + 1, "帝国" + i, 10000, 1);
             Nation.nations[nation.nationId] = nation;
             //nation.randomTechNameList无法在构造器中初始化，因为Technology.getTechByName()需要Nation.techTree
             nation.randomTechList = nation.getRandomTechNameList();
@@ -76,8 +101,46 @@ export class GameProcess extends Behaviour {
         }
     }
 
+    playerTurn() {
+        return;
+    }
 
-    static nextTurn() {
+    botTurn() {
+        //电脑帝国行动
+        if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
+            console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
+            Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
+        }
+        else {
+            //下一个电脑帝国
+            GameProcess.actingBotNationIndex++;
+            //跳过玩家
+            if (GameProcess.actingBotNationIndex === 1) {
+                GameProcess.actingBotNationIndex++;
+            }
+
+            //判断是否所有电脑帝国都已经行动完毕
+            if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
+                console.log("所有电脑帝国行动完毕");
+                //重置电脑帝国的行动状态
+                for (let i = 2; i < Nation.nations.length; i++) {
+                    Nation.nations[i].botActMode.isBotOperateFinish = false;
+                }
+                GameProcess.actingBotNationIndex = 0;
+                GameProcess.nextState();  //进入结算阶段
+                return;
+            }
+
+            console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
+            console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
+            Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
+            console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
+                ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
+        }
+    }
+
+    //结算阶段
+    settlement() {
         //清对国家做遍历，实现每回合执行一次的更新
         for (let i = 1; i < Nation.nations.length; i++) {
             const nation = Nation.nations[i];
@@ -89,7 +152,7 @@ export class GameProcess extends Behaviour {
                 currentTech.techProcess += nation.techPerTurn;
                 if (currentTech.techProcess >= currentTech.techProcessMax) {
                     currentTech.techProcess = currentTech.techProcessMax;
-                    console.log(nation.currentTechName + "研究完成");
+                    console.log(`国家${nation.nationId}的科技${currentTech.techName}研究完成`)
                     nation.currentTechName = "";
                     nation.randomTechList = nation.getRandomTechNameList();
 
@@ -122,16 +185,16 @@ export class GameProcess extends Behaviour {
 
 
         //后更新领地属性
-        this.updateProvincePerTurn();
+        GameProcess.updateProvincePerTurn();
 
-        this.turnrNow += 1;
-        if (this.turnrNow > this.turnTotal) {
-            this.turnrNow = this.turnTotal;
+        GameProcess.turnrNow += 1;
+        if (GameProcess.turnrNow > GameProcess.turnTotal) {
+            GameProcess.turnrNow = GameProcess.turnTotal;
         }
         getGameObjectById("TurnText").getBehaviour(TextRenderer).text =
-            this.turnrNow.toString() + "/" + this.turnTotal.toString();
-        if (this.turnrNow === this.turnTotal) {
-            this.gameOver(getGameObjectById("TurnText").getBehaviour(TextRenderer));
+            GameProcess.turnrNow.toString() + "/" + GameProcess.turnTotal.toString();
+        if (GameProcess.turnrNow === GameProcess.turnTotal) {
+            // GameProcess.gameOver(getGameObjectById("TurnText").getBehaviour(TextRenderer));
         }
 
         // //更新Ai位置
@@ -141,6 +204,7 @@ export class GameProcess extends Behaviour {
         //处理战斗
         BattleHandler.handleAllBattle();
 
+        GameProcess.nextState();
     }
 
     //执行即时的科技效果
@@ -165,6 +229,13 @@ export class GameProcess extends Behaviour {
                 province.updateProductProcess();  //更新生产队列
             }
         }
+        return;
+    }
+
+    static actingBotNationIndex = 0;  //当前行动的电脑帝国序号
+    static nextTurn() {
+        if (this.gamingState === 'playerTurn')
+            this.nextState();
     }
 
     static gameOver(behaviour: Behaviour): void {
@@ -178,7 +249,7 @@ export class GameProcess extends Behaviour {
         const button = gameover.children[2]
         const buttonText = button.children[1]
         buttonText.getBehaviour(TextRenderer).text = "返回主菜单"
-        console.log("image:"+image)
+        console.log("image:" + image)
 
         if (Nation.nations[1].provinceOwnedList.length > 0) {
             tip.getBehaviour(TextRenderer).text = "游戏胜利";

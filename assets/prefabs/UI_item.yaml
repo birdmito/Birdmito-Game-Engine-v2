@@ -1,4 +1,4 @@
-id: UI_itemInProvinceWindow
+id: UI_item
 behaviours:
   - type: Transform
     properties:
@@ -25,27 +25,55 @@ children:
           scaleYForUI: 1
           borderWidthForUI: 30
     children: []
-  - id: itemInfo
+  - id: _ItemInfo
     behaviours:
       - type: Transform
         properties:
-          x: 100
+          x: 80
           y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 20
-          text: '这里应该显示建筑或单位信息'
-          color: white
-    children: []
+      - type: ObjectDisableSimulator
+      - type: UI_UpdateItemInfo
+    children: 
+    - id: ItemInfoBgImage
+      behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 0
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: BitmapRenderer
+          properties:
+            source: ./assets/images/Icon_TextFrame5050.png
+            renderType: 'ui'
+            scaleXForUI: 22
+            scaleYForUI: 2
+            borderWidthForUI: 15
+    - id: _ItemInfoText
+      behaviours:
+        - type: Transform
+          properties:
+            x: 10
+            y: 10
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            fontSize: 20
+            text: '这里应该显示建筑或单位信息'
+            color: white
+            lineHeight: 1.2
   - id: itemButton
     behaviours:
       - type: Transform
         properties:
           x: 0
-          y: 50
+          y: 0
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -55,3 +83,18 @@ children:
           text: '这里应该显示建造、升级、拆除或取消'
           color: white
       - type: UI_ItemButton
+  - id: _ProductProcessText
+    behaviours:
+      - type: Transform
+        properties:
+          x: 5
+          y: 50
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 18
+          text: ' '
+          color: white
+          hitArea: none

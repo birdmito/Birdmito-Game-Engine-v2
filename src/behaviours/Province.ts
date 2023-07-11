@@ -42,6 +42,7 @@ export class Province extends Behaviour {
             Nation.nations[this.nationId].doraChangeNextTurn += value.dora - oldValue.dora  //更新预计的dora变动
         }
     }
+    provinceName: string = "未命名";
 
     plainPercent = 0;
     lakePercent = 0;
@@ -81,20 +82,20 @@ export class Province extends Behaviour {
                 console.log("当前选中物体为单位，预告ap消耗")
                 //若当前选中的是单位，则更改单位信息，预告将要消耗的行动点数
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
-                // if (unit.nationId === 1) {
+                if (unit.nationId === 1 || GameProcess.isCheat) {
                     unit.apCostToMove = this.apCost;
-                // }
+                }
             }
         }
-        this.gameObject.onClick = () => {
+        this.gameObject.onMouseLeftDown = () => {
             console.log("province is clicked")
             if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
                 console.log("selected is unit, move to province")
                 //若当前选中的是单位，则移动
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
-                // if (unit.nationId === 1) {
-                unit.moveToProvince(this);
-                // }
+                if (unit.nationId === 1 || GameProcess.isCheat) {
+                    unit.moveToProvince(this);
+                }
             }
             else {
                 SelectedObjectInfoMangaer.showSelectedObjectInfo(this);
@@ -102,6 +103,7 @@ export class Province extends Behaviour {
             }
         }
     }
+
 
     //随机生成地貌
     randomLandscape() {
@@ -139,9 +141,9 @@ export class Province extends Behaviour {
         // this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
         if (nationId > 0) {
             Nation.nations[nationId].provinceOwnedList.push(this);
-            if (Nation.nations[nationId].capitalProvinceCoord === undefined) {
-                Nation.nations[nationId].capitalProvinceCoord = this.coord;  //将首个被占领的领地设为首都
-                console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvinceCoord);
+            if (Nation.nations[nationId].capitalProvince === undefined) {
+                Nation.nations[nationId].capitalProvince = this;  //将首个被占领的领地设为首都
+                console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvince);
             }
         const provinceTransform = this.gameObject.getBehaviour(Transform);    
         this.gameObject.children[2].addBehaviour(new HexagonBorderRenderer());
