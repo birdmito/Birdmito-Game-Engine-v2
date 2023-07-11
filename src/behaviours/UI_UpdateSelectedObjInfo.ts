@@ -126,6 +126,7 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 }
                 const itemPrefab = this.engine.createPrefab(UI_itemBinding)
                 itemPrefab.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).province = province;
+                itemPrefab.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).indexInQueue = i;
                 productQueueRoot.addChild(itemPrefab);
             }
         }
