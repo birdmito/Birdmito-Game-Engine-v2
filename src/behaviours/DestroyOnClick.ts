@@ -1,6 +1,5 @@
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
-import { Transform } from "../engine/Transform";
 import { string } from "../engine/validators/string";
 
 export class DestroyOnClick extends Behaviour {
@@ -8,7 +7,7 @@ export class DestroyOnClick extends Behaviour {
     targetID: string = "";
 
     onUpdate(): void {
-        this.gameObject.onClick = () => {
+        this.gameObject.onMouseLeftDown = () => {
             if (this.targetID !== '') {
                 console.log("Destroy" + this.targetID)
                 getGameObjectById(this.targetID).destroy();

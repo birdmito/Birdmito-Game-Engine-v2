@@ -10,7 +10,7 @@ import { Province } from "./Province";
 
 export class UI_NextTurnButton extends Behaviour {
     onUpdate(): void {
-        this.gameObject.onClick = () => {
+        this.gameObject.onMouseLeftDown = () => {
             GameProcess.nextTurn();
             console.log('NextTurnButton is clicked')
         }
