@@ -24,8 +24,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 50
-          y: 270
+          x: 43
+          y: 207
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -44,6 +44,18 @@ children:
               fontSize: 20
               text: 这里应该显示当前科技
               color: white
+      - id: CurrentTechImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/ScreenArt_Technology_1.png
   - id: TechnologyText
     behaviours:
       - type: Transform

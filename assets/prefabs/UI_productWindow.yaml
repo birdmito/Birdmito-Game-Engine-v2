@@ -64,6 +64,6 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/Icon_Close.png
+              source: ./assets/images/Icon_Cross.png
           - type: UI_ButtonState
         children: []

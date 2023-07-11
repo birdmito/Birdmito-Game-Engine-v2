@@ -98,7 +98,7 @@ children:
             properties:
               source: ./assets/images/Icon_Panel_3.png
         children: []    
-      - id: ProvinceInfoLayer4
+      - id: GovernmentButton #政府按钮
         behaviours:
           - type: Transform
             properties:
@@ -107,9 +107,34 @@ children:
               scaleX: .75
               scaleY: .75
               rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/TESTInterface_Country.png #此处需要添加国家图标
+        children: 
+          - id: GovernmentFlag
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/Icon_Flag_1b.png
+            children: []
+          - id: GovernmentFrame #政府边框
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/Interface_ButtonCountryPanel.png
+              - type: UI_ButtonState
+            children: []
       - id: ProvinceTerrainImage #省份地形图标
         behaviours:
           - type: Transform

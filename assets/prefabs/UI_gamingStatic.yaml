@@ -281,12 +281,35 @@ children:
               scaleX: 1
               scaleY: 1
               rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/TESTInterface_ButtonCountry.png #这里的政府图标还要更改
-              anchorType: left-top
           - type: UI_Government
-        children: []
+        children:
+          - id: GovernmentFlag
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/Icon_Flag_1a.png
+            children: []
+          - id: GovernmentFrame #政府边框
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/Interface_ButtonCountry.png
+              - type: UI_ButtonState
+            children: []
       - id: ResourceShow
         behaviours:
           - type: Transform
