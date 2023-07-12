@@ -55,7 +55,7 @@ export class HexagonLine extends Behaviour {
 
         const province1 =  ProvinceGenerator.hexGridForOthers[ownedProvinces[i].coord.y][ownedProvinces[i].coord.x]
         
-        this.caculateVertices(province1.x+86,province1.y+100,99,nationId)
+        this.caculateVertices(province1.x+86,province1.y+100,98,nationId)
       }
     }
 

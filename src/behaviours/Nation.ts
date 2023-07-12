@@ -308,7 +308,7 @@ export class Nation {
             const nationId = this.nationId
                 if(nationId==1){
                   //这是玩家的颜色
-                  this.nationBorderColor = 'rgb(67,36,33)' 
+                  this.nationBorderColor = 'rgb(134,72,66)' 
                 }else if(nationId==998){
                   //这是地精的颜色
                   this.nationBorderColor = 'rgb(19, 80, 26)'         

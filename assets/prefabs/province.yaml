@@ -37,7 +37,6 @@ children:
       properties:
         source: ./assets/images/TESTColor.png
         hitAreaType: none
-    id: NationColor
   - id: _UnitRoot
     behaviours:
     - type: Transform
