@@ -8,6 +8,8 @@ import { MapGenerator, TerrainType } from "./MapGenerator";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { MiniProvincePreBinding } from "../bindings/MiniProvincePreBinding";
 import { MiniProvinceBehaviour } from "./MiniProvinceBehaviour";
+import { AStar, myNode } from "./AStar";
+import { PathFinding } from "./PathFinding";
 
 
 export class ProvinceGenerator extends Behaviour {
@@ -30,6 +32,7 @@ export class ProvinceGenerator extends Behaviour {
         ProvinceGenerator.hexGridForOthers=hexGrid;
         // 创建省份
         for (let i = 0; i < this.gridSizeY; i++) {
+            PathFinding.grid[i] = [];
             for (let j = 0; j < this.gridSizeX; j++) {
                 const province = this.gameObject.engine.createPrefab(new ProvincePrefabBinding());
                 const miniProvince = this.gameObject.engine.createPrefab(new MiniProvincePreBinding());
@@ -40,6 +43,7 @@ export class ProvinceGenerator extends Behaviour {
                 const provinceBehaviour = province.getBehaviour(Province);
                 const miniProvinceBehaviour = miniProvince.getBehaviour(MiniProvinceBehaviour);//小地图中的省份
                 provinceBehaviour.coord = { x: j, y: i };
+
                 this.gameObject.addChild(province);
                 getGameObjectById("MiniMap").addChild(miniProvince);
                 if (!Province.provincesObj[j])
@@ -57,6 +61,9 @@ export class ProvinceGenerator extends Behaviour {
                 }
                 this.randomSubTerrain(provinceBehaviour, miniProvinceBehaviour, generatedTerrain[j][i]);
                 provinceBehaviour.updateApCost();
+                
+                const node = new myNode(j, i, provinceBehaviour.apCost);
+                PathFinding.grid[i][j] = node;
             }
         }
     }

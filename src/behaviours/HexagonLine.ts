@@ -51,8 +51,6 @@ export class HexagonLine extends Behaviour {
     caculateOwnerProvinces(nationId:number){
       const ownedProvinces = Nation.nations[nationId].provinceOwnedList
       for(let i = 0; i < ownedProvinces.length; i++){
-        console.log("hexGridForOthers[ownedProvinces[i].coord.x][ownedProvinces[i].coord.y]",
-        ProvinceGenerator.hexGridForOthers[ownedProvinces[i].coord.x][ownedProvinces[i].coord.y])
 
         const province1 =  ProvinceGenerator.hexGridForOthers[ownedProvinces[i].coord.y][ownedProvinces[i].coord.x]
         
