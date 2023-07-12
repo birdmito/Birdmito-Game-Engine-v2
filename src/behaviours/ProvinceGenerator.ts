@@ -81,7 +81,7 @@ export class ProvinceGenerator extends Behaviour {
         switch (mainTerrain) {
             case TerrainType.Ocean:
                 //生成一个1-9的随机数
-                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainOcean_', 1, 100);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainOcean_', 6, 1);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;

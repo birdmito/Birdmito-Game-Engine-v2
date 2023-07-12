@@ -155,14 +155,14 @@ children:
             behaviours:
               - type: Transform
                 properties:
-                  x: 10
-                  y: 45
+                  x: -168 #210
+                  y: 52 #530
                   scaleX: 1
                   scaleY: 1
                   rotation: 0
               - type: TextRenderer
                 properties:
-                  fontSize: 30
+                  fontSize: 20
                   text: '这里应该显示单位的行为'
                   fontFamily: 'fangsong'
                   color: white
@@ -181,7 +181,7 @@ children:
               text: '这里应该显示单位名称'
               color: white
               anchorType: 'center'
-      - id: UnitNationText
+      - id: UnitNationText #仅调试
         behaviours:
           - type: Transform
             properties:
@@ -199,8 +199,8 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 80
+              x: 210
+              y: 530
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -209,12 +209,13 @@ children:
               fontSize: 20
               text: '这里应该显示行动力'
               color: white
+              anchorType: center
       - id: UnitQuantityText
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 120
+              x: 140
+              y: 400
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -223,12 +224,13 @@ children:
               fontSize: 20
               text: '这里应该显示数量'
               color: white
+              anchorType: center
       - id: UnitPowerText
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 160
+              x: 340
+              y: 400
               scaleX: 1
               scaleY: 1
               rotation: 0
@@ -237,6 +239,7 @@ children:
               fontSize: 20
               text: '这里应该显示战斗力'
               color: white
+              anchorType: center
   - id: Close
     behaviours:
       - type: Transform

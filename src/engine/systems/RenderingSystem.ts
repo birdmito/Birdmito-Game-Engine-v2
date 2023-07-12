@@ -293,25 +293,50 @@ function judgeVertex(vertexNeedJudge:{x:number,y:number},judgeVertex:{x:number,y
 
 function drawOneLine(context: CanvasRenderingContext2D,nationId:number,vertex1:{x:number,y:number},vertex2:{x:number,y:number},color:string)
 {
-        // 定义渐变对象
-        var gradient = context.createLinearGradient(vertex1.x, vertex1.y, vertex2.x, vertex2.y);
+  // 计算线段的长度和角度
+  var dx = vertex2.x - vertex1.x;
+  var dy = vertex2.y - vertex1.y;
+  var line_length = Math.sqrt(dx * dx + dy * dy);
+  var angle = Math.atan2(dy, dx);
+
+  // 计算垂直线的中点
+  var mid_x = (vertex1.x + vertex2.x) / 2;
+  var mid_y = (vertex1.y + vertex2.y) / 2;
+
+  // 计算垂直线的起点和终点
+  var perpendicular_length = 5;
+  var perpendicular_start_x = mid_x - perpendicular_length * Math.sin(angle);
+  var perpendicular_start_y = mid_y + perpendicular_length * Math.cos(angle);
+  var perpendicular_end_x = mid_x + perpendicular_length * Math.sin(angle);
+  var perpendicular_end_y = mid_y - perpendicular_length * Math.cos(angle);
 
 
-        // 添加渐变颜色停止点
+   // 创建渐变对象
+   var gradient = context.createLinearGradient(perpendicular_start_x, perpendicular_start_y, perpendicular_end_x, perpendicular_end_y);
+  
+   // 添加渐变颜色停止点
+   gradient.addColorStop(0,  getTransparentColor(color, 0)); // 起始点颜色，完全不透明
+   gradient.addColorStop(1,color); // 终点颜色，完全透明
 
 
-        // 开始绘制线段
-        context.beginPath();
-        context.moveTo(vertex1.x, vertex1.y);
-        context.lineTo(vertex2.x, vertex2.y);
+  // 开始绘制线条
+  context.beginPath();
+  context.moveTo(perpendicular_start_x, perpendicular_start_y);
+  context.lineTo(perpendicular_end_x, perpendicular_end_y);
 
-        // 设置线宽和描边样式
-        context.lineWidth = 2
-        context.strokeStyle = color;
-        // 绘制描边
-        context.stroke();
+  // 设置线条宽度和颜色
+  context.lineWidth = line_length+8;
+  context.strokeStyle = gradient;
+
+  // 绘制线条
+  context.stroke();
         
 }
+
+function getTransparentColor(color, alpha) {
+    // 将 RGB 格式的颜色字符串转换为 RGBA 格式，并设置透明度
+    return color.replace('rgb', 'rgba').replace(')', ', ' + alpha + ')');
+  }
 //     // 创建一个空的 Map 对象来保存边信息和重叠次数
 //         const edgeMap = new Map();
 
