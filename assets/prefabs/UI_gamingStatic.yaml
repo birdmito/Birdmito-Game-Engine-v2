@@ -540,27 +540,27 @@ children:
                       anchorType: left-center
                       fontFamily: FangSong_GB2312
                 children: []
-  - id: Minimap
-    behaviours:
-      - type: Transform
-        properties:
-          x: 1920
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-    children:
-      - id: MinimapFrame
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameMinimap.png
-              anchorType: right-top
-        children: []
+  # - id: Minimap
+  #   behaviours:
+  #     - type: Transform
+  #       properties:
+  #         x: 1920
+  #         y: 0
+  #         scaleX: 1
+  #         scaleY: 1
+  #         rotation: 0
+  #   children:
+  #     - id: MinimapFrame
+  #       behaviours:
+  #         - type: Transform
+  #           properties:
+  #             x: 0
+  #             y: 0
+  #             scaleX: 1
+  #             scaleY: 1
+  #             rotation: 0
+  #         - type: BitmapRenderer
+  #           properties:
+  #             source: ./assets/images/Icon_FrameMinimap.png
+  #             anchorType: right-top
+  #       children: []

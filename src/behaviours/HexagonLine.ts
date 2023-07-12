@@ -1,6 +1,9 @@
+import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
+import { HexagonBorderRenderer } from "../engine/HexagonBorderRenderer";
 import { number } from "../engine/validators/number";
 import { string } from "../engine/validators/string";
+import { Nation } from "./Nation";
 
 export class HexagonLine extends Behaviour {
 
@@ -10,7 +13,6 @@ export class HexagonLine extends Behaviour {
     
 
     onStart(): void {
-
     }
 
     onUpdate(): void {

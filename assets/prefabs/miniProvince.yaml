@@ -1,0 +1,35 @@
+behaviours:
+  - type: Transform
+    properties:
+      x: 0
+      y: 0
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+  - type: MiniProvinceBehaviour
+    properties:
+      nationId: 0    
+id: MiniProvince
+children:
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: BitmapRenderer
+      properties:
+        source: ./assets/images/Map_TerrainPlain_0.png
+        hitAreaType: hexagon
+    id: MiniTerrain
+  - behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    id: NationColor 
