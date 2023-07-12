@@ -55,7 +55,7 @@ export class HexagonLine extends Behaviour {
 
         const province1 =  ProvinceGenerator.hexGridForOthers[ownedProvinces[i].coord.y][ownedProvinces[i].coord.x]
         
-        this.caculateVertices(province1.x+86,province1.y+100,98,nationId)
+        this.caculateVertices(province1.x+86,province1.y+100,94,nationId)
       }
     }
 
@@ -129,7 +129,7 @@ export class HexagonLine extends Behaviour {
     judgeSameVertex(vertex:{x:number,y:number},vertex2:{x:number,y:number}):boolean{
       const diffX = Math.abs(vertex.x - vertex2.x);
       const diffY = Math.abs(vertex.y - vertex2.y);
-      if(diffX<5 && diffY<5){
+      if(diffX<10 && diffY<10){
         console.log(vertex,"相邻顶点",vertex2);
         //HexagonLine.vertices.splice(j,1);
         return true
