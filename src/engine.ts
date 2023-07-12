@@ -386,7 +386,7 @@ export function getBehaviourClassByName(name: string) {
 
 type GameObjectData = {
     id?: string;
-    active?: boolean;
+    //active?: boolean;
     behaviours: BehaviourData[];
     children?: GameObjectData[];
     prefab?: BehaviourData;

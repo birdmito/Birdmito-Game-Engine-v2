@@ -24,6 +24,7 @@ export class UI_ItemButton extends Behaviour {
     onStart(): void {
         console.log("start")
 
+        // this.gameObject.parent.getChildById("_ItemEventIcon").active = false;
         switch (this.eventText) {
             case "建造":
                 break;
@@ -52,12 +53,12 @@ export class UI_ItemButton extends Behaviour {
     onUpdate(): void {
         this.gameObject.onMouseHover = () => {
             // console.log(`鼠标悬浮于${this.itemName}按钮`);
-            this.gameObject.parent.getChildById("_ItemEventIcon").getBehaviour(BitmapRenderer).active = true;  //显示图标
+            this.gameObject.parent.getChildById("_ItemEventIcon").active = true;  //显示图标
             this.gameObject.parent.getChildById("_ItemInfo").active = true;
         }
 
         this.gameObject.onMouseLeave = () => {
-            this.gameObject.parent.getChildById("_ItemEventIcon").getBehaviour(BitmapRenderer).active = false;  //隐藏图标
+            this.gameObject.parent.getChildById("_ItemEventIcon").active = false;  //显示图标
             switch (this.eventText) {
                 case "建造":
                     break;
@@ -65,7 +66,7 @@ export class UI_ItemButton extends Behaviour {
                     this.gameObject.parent.getChildById("_ItemInfo").active = false;
             }  //根据不同的事件类型，设置不同的信息显示
         }
-        
+
         this.gameObject.onMouseLeftDown = () => {
             const targetProvince = SelectedObjectInfoMangaer.selectedBehaviour as Province;
             var originBuilding: Building;

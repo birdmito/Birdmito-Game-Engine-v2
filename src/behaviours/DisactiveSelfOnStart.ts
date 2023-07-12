@@ -1,7 +1,15 @@
 import { Behaviour } from "../engine/Behaviour";
 
 export class DisactiveSelfOnStart extends Behaviour {
+    isOnStart: boolean = true
     onStart(): void {
-        this.gameObject.active = false
+        if (this.isOnStart) {
+            console.log("start")
+            this.gameObject.active = false
+            this.isOnStart = false
+        }
+        else {
+            return
+        }
     }
 }
