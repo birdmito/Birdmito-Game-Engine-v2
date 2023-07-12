@@ -1,47 +1,147 @@
+import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
+import { HexagonBorderRenderer } from "../engine/HexagonBorderRenderer";
 import { number } from "../engine/validators/number";
 import { string } from "../engine/validators/string";
+import { Nation } from "./Nation";
+import { Province } from "./Province";
+import { ProvinceGenerator } from "./ProvinceGenerator";
 
 export class HexagonLine extends Behaviour {
 
     public static vertices :{x:number,y:number}[] = [];
     public static edgeMap = new Map();
-    public static drawVertices :{x:number,y:number}[] = [];
+    public static needJumpVertices:{x:number,y:number}[] = [];
+    public static oldlistlength:number[] = [];
     
 
     onStart(): void {
+      //将Border放到最上层
+      const border=getGameObjectById("Border");
+      const borderParent = border.parent;
+      border.addBehaviour(new HexagonBorderRenderer());
+      border.getBehaviour(HexagonBorderRenderer).hitAreaType = 'none';
+      const length = borderParent.children.length
+      
+      for(let i =0;i<length;i++){
+        borderParent.children[i]=borderParent.children[i+1]
+      }
+      borderParent.children[length-1]=border
+      
+     }
 
-    }
+
 
     onUpdate(): void {
+      const newListLength:number[] = [];
+      for(let i=1;i<=Nation.nationQuantity;i++){
+        newListLength[i] = Nation.nations[i].provinceOwnedList.length
+        if(newListLength[i]!=HexagonLine.oldlistlength[i]){
+          HexagonLine.oldlistlength[i] = newListLength[i]
+
+          Nation.nations[i].vertices = []
+          Nation.nations[i].needJumpVertices = []
+          
+          this.caculateOwnerProvinces(i)
+          this.judgeSameLine(i)
+        }
+      }
+    }
+
+    caculateOwnerProvinces(nationId:number){
+      const ownedProvinces = Nation.nations[nationId].provinceOwnedList
+      for(let i = 0; i < ownedProvinces.length; i++){
+        console.log("hexGridForOthers[ownedProvinces[i].coord.x][ownedProvinces[i].coord.y]",
+        ProvinceGenerator.hexGridForOthers[ownedProvinces[i].coord.x][ownedProvinces[i].coord.y])
+
+        const province1 =  ProvinceGenerator.hexGridForOthers[ownedProvinces[i].coord.y][ownedProvinces[i].coord.x]
+        
+        this.caculateVertices(province1.x+86,province1.y+100,98,nationId)
+      }
     }
 
     // 计算六边形的顶点坐标
-    caculateVertices(centerX:number,centerY:number,radius:number){
+    caculateVertices(centerX:number,centerY:number,radius:number,nationId:number){
         for (let i = 0; i < 6; i++) {
             const angle = (Math.PI / 3) * i + Math.PI / 6;
             const x =(centerX + radius * Math.cos(angle));
             const y = (centerY + radius * Math.sin(angle));
-            HexagonLine.vertices.push({ x, y });
+            Nation.nations[nationId].vertices.push({ x, y });
         }
     }
 
-    deleteSameVertex(){
-      for(let i = 0; i < HexagonLine.vertices.length; i++){
-        const vertex = HexagonLine.vertices[i];
-        for(let j = 0; j < HexagonLine.vertices.length && j!=i ; j++){
-          const vertex2 = HexagonLine.vertices[j];
-          const diffX = Math.abs(vertex.x - vertex2.x);
-          const diffY = Math.abs(vertex.y - vertex2.y);
-          if(diffX<3 && diffY<3){
-            console.log(vertex,"相邻顶点",vertex2);
-            HexagonLine.vertices.splice(j,1);
+    judgeSameLine(nationId:number){
+      for(let i = 0; i <= Nation.nations[nationId].vertices.length-1; i++){
+        let vertex1=Nation.nations[nationId].vertices[i]
+        let vertex2=Nation.nations[nationId].vertices[i+1]
+
+        if((i+1)%6!=0){
+          //对于不是每个六边形的右上角的点
+          for(let j = 1; j < Nation.nations[nationId].vertices.length; j++)
+          {
+            if(j==i){continue}
+            let vertex3=Nation.nations[nationId].vertices[j]
+            let vertex4=Nation.nations[nationId].vertices[j-1]
+              if(this.judgeSameVertex(vertex1,vertex3) && this.judgeSameVertex(vertex2,vertex4)){
+                //console.log("judge1",this.judgeSameVertex(vertex1,vertex3),"judge2",this.judgeSameVertex(vertex2,vertex4))
+                console.log("judgeSameLine运行啦")
+                Nation.nations[nationId].needJumpVertices.push(vertex1)
+                Nation.nations[nationId].needJumpVertices.push(vertex4)
+              }
           }
+        }else{
+          //对于每个六边形的右上角的点
+          let vertex1=Nation.nations[nationId].vertices[i]
+          let vertex2=Nation.nations[nationId].vertices[i-5]
+
+          for(let j = 1; j < Nation.nations[nationId].vertices.length; j++){
+            if(j==i){continue}
+            let vertex3=Nation.nations[nationId].vertices[j]
+            let vertex4=Nation.nations[nationId].vertices[j-1]
+              if(this.judgeSameVertex(vertex1,vertex3) && this.judgeSameVertex(vertex2,vertex4)){
+                //console.log("judge1",this.judgeSameVertex(vertex1,vertex3),"judge2",this.judgeSameVertex(vertex2,vertex4))
+                console.log("judgeSameLine运行啦")
+                Nation.nations[nationId].needJumpVertices.push(vertex1)
+                Nation.nations[nationId].needJumpVertices.push(vertex4)
+              }
+          }
+        }
+
+      }
+      
+      const vertex1=Nation.nations[nationId].vertices[0]
+      const vertex2=Nation.nations[nationId].vertices[Nation.nations[nationId].vertices.length-1]
+      for(let j = 1; j < Nation.nations[nationId].vertices.length; j++)
+      {
+        const vertex3=Nation.nations[nationId].vertices[j]
+        const vertex4=Nation.nations[nationId].vertices[j-1]
+          if(this.judgeSameVertex(vertex1,vertex3) && this.judgeSameVertex(vertex2,vertex4)){
+            //console.log("judge1",this.judgeSameVertex(vertex1,vertex3),"judge2",this.judgeSameVertex(vertex2,vertex4))
+            console.log("judgeSameLine运行啦")
+            Nation.nations[nationId].needJumpVertices.push(vertex2)
+            Nation.nations[nationId].needJumpVertices.push(vertex4)
+          }
+        
+      }
+
+
+    }
+
+    judgeSameVertex(vertex:{x:number,y:number},vertex2:{x:number,y:number}):boolean{
+      const diffX = Math.abs(vertex.x - vertex2.x);
+      const diffY = Math.abs(vertex.y - vertex2.y);
+      if(diffX<5 && diffY<5){
+        console.log(vertex,"相邻顶点",vertex2);
+        //HexagonLine.vertices.splice(j,1);
+        return true
+      }else{
+        return false
       }
     }
-  }
+
     showVertices(){
         console.log(HexagonLine.vertices);
+        console.log(HexagonLine.needJumpVertices);
     }
     
     // map(){

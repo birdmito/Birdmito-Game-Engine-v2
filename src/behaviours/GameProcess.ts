@@ -92,7 +92,7 @@ export class GameProcess extends Behaviour {
             Nation.nations[nation.nationId] = nation;
             //nation.randomTechNameList无法在构造器中初始化，因为Technology.getTechByName()需要Nation.techTree
             nation.randomTechList = nation.getRandomTechNameList();
-
+            nation.updateNationColor();
             //给每个国家一个初始开拓者
             //获取单位参数
             //随机一个30以内的二维坐标

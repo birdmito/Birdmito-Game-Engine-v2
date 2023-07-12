@@ -6,6 +6,9 @@ import { GameObject, getGameObjectById } from "../engine";
 import { Province } from "./Province";
 import { MapGenerator, TerrainType } from "./MapGenerator";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
+import { MiniProvincePreBinding } from "../bindings/MiniProvincePreBinding";
+import { MiniProvinceBehaviour } from "./MiniProvinceBehaviour";
+
 
 export class ProvinceGenerator extends Behaviour {
     gridSizeX: number = 10;
@@ -13,7 +16,7 @@ export class ProvinceGenerator extends Behaviour {
     gridSpace: number = 172;
     landPercentage: number = 40;
     landNum: number = 10;
-
+    static hexGridForOthers:{x:number,y:number}[] = [];
     // static provinces: GameObject[][] = [];
 
     onStart(): void {
@@ -24,17 +27,18 @@ export class ProvinceGenerator extends Behaviour {
 
         // 创建六边形网格坐标数组
         const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
+        ProvinceGenerator.hexGridForOthers=hexGrid;
         // 创建省份
         for (let i = 0; i < this.gridSizeY; i++) {
             for (let j = 0; j < this.gridSizeX; j++) {
                 const province = this.gameObject.engine.createPrefab(new ProvincePrefabBinding());
-                const miniProvince = this.gameObject.engine.createPrefab(new ProvincePrefabBinding());
+                const miniProvince = this.gameObject.engine.createPrefab(new MiniProvincePreBinding());
                 province.getBehaviour(Transform).x = hexGrid[i][j].x;
                 province.getBehaviour(Transform).y = hexGrid[i][j].y;
                 miniProvince.getBehaviour(Transform).x = hexGrid[i][j].x; //小地图省份x坐标
                 miniProvince.getBehaviour(Transform).y = hexGrid[i][j].y;   //小地图省份y坐标
                 const provinceBehaviour = province.getBehaviour(Province);
-                const miniProvinceBehaviour = miniProvince.getBehaviour(Province);//小地图中的省份
+                const miniProvinceBehaviour = miniProvince.getBehaviour(MiniProvinceBehaviour);//小地图中的省份
                 provinceBehaviour.coord = { x: j, y: i };
                 this.gameObject.addChild(province);
                 getGameObjectById("MiniMap").addChild(miniProvince);
@@ -58,7 +62,7 @@ export class ProvinceGenerator extends Behaviour {
     }
 
 
-    randomSubTerrain(provinceBehaviour: Province, miniProvinceBehaviour: Province, mainTerrain: TerrainType) {
+    randomSubTerrain(provinceBehaviour: Province, miniProvinceBehaviour: MiniProvinceBehaviour, mainTerrain: TerrainType) {
         const mainRandomPercent = (Math.random() + 1) / 2;
         const subRandomPercent1 = Math.random() * (1 - mainRandomPercent)
         const subRandomPercent2 = Math.random() * (1 - mainRandomPercent - subRandomPercent1)
