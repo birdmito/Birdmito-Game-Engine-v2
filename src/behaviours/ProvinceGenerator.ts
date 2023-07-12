@@ -11,12 +11,12 @@ import { MiniProvinceBehaviour } from "./MiniProvinceBehaviour";
 
 
 export class ProvinceGenerator extends Behaviour {
-    gridSizeX: number = 30;
-    gridSizeY: number = 30;
+    gridSizeX: number = 10;
+    gridSizeY: number = 10;
     gridSpace: number = 172;
     landPercentage: number = 40;
     landNum: number = 10;
-
+    static hexGridForOthers:{x:number,y:number}[] = [];
     // static provinces: GameObject[][] = [];
 
     onStart(): void {
@@ -27,6 +27,7 @@ export class ProvinceGenerator extends Behaviour {
 
         // 创建六边形网格坐标数组
         const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
+        ProvinceGenerator.hexGridForOthers=hexGrid;
         // 创建省份
         for (let i = 0; i < this.gridSizeY; i++) {
             for (let j = 0; j < this.gridSizeX; j++) {
@@ -73,7 +74,7 @@ export class ProvinceGenerator extends Behaviour {
         switch (mainTerrain) {
             case TerrainType.Ocean:
                 //生成一个1-9的随机数
-                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainOcean_', 9, 100);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainOcean_', 1, 100);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
@@ -82,7 +83,7 @@ export class ProvinceGenerator extends Behaviour {
                 provinceBehaviour.forestPercent = subRandomPercent1;
                 provinceBehaviour.mountainPercent = subRandomPercent2;
                 provinceBehaviour.lakePercent = subRandomPercent3;
-                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainPlain_', 1);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainPlain_', 6);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
@@ -91,7 +92,7 @@ export class ProvinceGenerator extends Behaviour {
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.mountainPercent = subRandomPercent2;
                 provinceBehaviour.lakePercent = subRandomPercent3;
-                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainForest_', 5);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainForest_', 1);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
@@ -109,7 +110,7 @@ export class ProvinceGenerator extends Behaviour {
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.forestPercent = subRandomPercent2;
                 provinceBehaviour.mountainPercent = subRandomPercent3;
-                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainLake_', 1);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainLake_', 3);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;

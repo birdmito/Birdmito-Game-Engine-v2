@@ -4,8 +4,8 @@ behaviours:
     properties:
       x: 0
       y: 0
-      scaleX: 1
-      scaleY: 1
+      scaleX: .7
+      scaleY: .7
       rotation: 0
 children:
   - behaviours:
@@ -94,7 +94,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      # - type: Staff表
+      - type: UI_StaffButton
     children:
       - id: GameStartButtonBackGround
         behaviours:
@@ -177,3 +177,13 @@ children:
               anchorType: "center"
               hitAreaType: none
         children: []
+  - id: StaffRoot # 制作人员窗口
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children: []

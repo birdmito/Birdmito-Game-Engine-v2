@@ -13,6 +13,7 @@ import { generateTip } from "./Tip";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { UnitParam } from "./UnitParam";
 import { TextRenderer } from "../engine/TextRenderer";
+import { GameProcess } from "./GameProcess";
 
 
 export class Nation {
@@ -32,6 +33,10 @@ export class Nation {
         this.cityMax = 5;
         this.upgradeCost = 100;
         this.botActMode = new BotNationActMode(this);
+        for (let i = 0; i < Nation.nationQuantity; i++) {
+            this.favorability.set(i + 1, 0);  //默认中立
+            this.foreignPolicy.set(i + 1, 'neutral');  //默认中立
+        }
     }
     botActMode: BotNationActMode = undefined;
 
@@ -48,9 +53,28 @@ export class Nation {
     currentTechName: string = '探秘奥坎之径'
     randomTechList: Technology[] = [];
 
-    favorability: number = 0;  //电脑对玩家的好感度
-    enemyNation: Nation[] = [];  //正在与该国家交战的国家
+    favorability: Map<number, number> = new Map<number, number>();  //对其他国家的好感度
+    foreignPolicy: Map<number, 'positive' | 'negative' | 'neutral'> = new Map<number, 'positive' | 'negative' | 'neutral'>();  //对其他国家的外交政策 
+    enemyNationList: Nation[] = [];  //正在与该国家交战的国家
 
+    declareWar(nation: Nation) {
+        this.enemyNationList.push(nation);
+        nation.enemyNationList.push(this);
+        nation.favorability.set(this.nationId, -10);  //宣战后立即降低对方对我们的评价
+    }
+    peace(nation: Nation) {
+        this.enemyNationList.splice(this.enemyNationList.indexOf(nation), 1);
+    }
+    changeForeignPolicy(nation: Nation, policy: 'positive' | 'negative' | 'neutral') {
+        const oldPolicy = this.foreignPolicy.get(nation.nationId);
+        this.foreignPolicy.set(nation.nationId, policy);
+        if ((oldPolicy === 'positive' || 'negative') && policy == 'neutral') {
+            this.doraChangeNextTurn -= 15;
+        }
+        if (oldPolicy === 'neutral' && (policy == 'positive' || 'negative')) {
+            this.doraChangeNextTurn -= 15;
+        }
+    }
 
     provinceOwnedList: Province[] = [];
     _capitalProvince: Province;
@@ -70,6 +94,11 @@ export class Nation {
 
     doraChangeNextTurn: number = 0;  //预计的dora变动
 
+    vertices :{x:number,y:number}[] = [];
+
+    needJumpVertices:{x:number,y:number}[] = [];
+
+    nationBorderColor: string = 'green';
     //TODO 收支明细——没想好怎么做（明细更新的时机）
     // //记录收支细节，用于在ui中展示
     // //预计的dora变动
@@ -142,14 +171,14 @@ export class Nation {
         if (newBuilding.isUniqueInProvince &&
             (province.buildingList.some(building => building.name === newBuilding.name) || province.productQueue.some(item => item.productName === newBuilding.name))) {
             console.log("建筑：" + newBuilding.name + "在同一省份中只能建造一次");
-            if (this.nationId === 1)
+            if (this.nationId === GameProcess.playerNationId)
                 generateTip(province, "建筑：" + newBuilding.name + "在同一省份中只能建造一次");
             return false;
         }
         //生产队列最多有5个
         if (province.productQueue.length >= 5) {
             console.log("生产队列最多只能有5个单位或建筑");
-            if (this.nationId === 1) {
+            if (this.nationId === GameProcess.playerNationId) {
                 generateTip(province, "生产队列最多只能有5个单位或建筑");
             }
             return;
@@ -158,14 +187,14 @@ export class Nation {
         const buildingNumIncludingQueue = province.buildingList.length + province.productQueue.filter(item => item.productType === 'building').length;
         if (buildingNumIncludingQueue >= 10) {
             console.log("省份最多只能建造10个建筑");
-            if (this.nationId === 1)
+            if (this.nationId === GameProcess.playerNationId)
                 generateTip(province, "省份最多只能建造10个建筑");
             return false;
         }
         //判断金币数
         if (this.dora < newBuilding.cost) {
             console.log("金币不足");
-            if (this.nationId === 1)
+            if (this.nationId === GameProcess.playerNationId)
                 generateTip(province, "金币不足");
             return false;
         }
@@ -173,7 +202,7 @@ export class Nation {
         if (newBuilding.name === '秘源金矿') {
             if (province.mountainPercent < 0.5) {
                 console.log("秘源金矿只能建在山地上");
-                if (this.nationId === 1)
+                if (this.nationId === GameProcess.playerNationId)
                     generateTip(province, "秘源金矿只能建在山地上");
                 return false;
             }
@@ -186,7 +215,7 @@ export class Nation {
         if (newBuilding.name === '秘源精炼厂') {
             if (!province.buildingList.some(building => building.name === '秘源金矿')) {
                 console.log("秘源精炼厂需要建造在秘源金矿上");
-                if (this.nationId === 1)
+                if (this.nationId === GameProcess.playerNationId)
                     generateTip(province, "秘源精炼厂需要建造在秘源金矿上");
                 return false;
             }
@@ -219,7 +248,7 @@ export class Nation {
         const newUnit = UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(province, unitName));
         if (this.dora < newUnit.cost) {
             console.log("金币不足");
-            if (this.nationId === 1) {
+            if (this.nationId === GameProcess.playerNationId) {
                 generateTip(province, "金币不足");
             }
             return;
@@ -227,7 +256,7 @@ export class Nation {
         //生产队列最多有5个
         if (province.productQueue.length >= 5) {
             console.log("生产队列最多只能有5个单位或建筑");
-            if (this.nationId === 1) {
+            if (this.nationId === GameProcess.playerNationId) {
                 generateTip(province, "生产队列最多只能有5个单位或建筑");
             }
             return;
@@ -269,10 +298,48 @@ export class Nation {
         }
         else {
             console.log("金币不足");
-            if (this.nationId === 1)
+            if (this.nationId === GameProcess.playerNationId)
                 generateTip(this.provinceOwnedList[0], "金币不足");
         }
     }
+
+    updateNationColor(){
+              //调整NationBorder颜色
+            const nationId = this.nationId
+                if(nationId==1){
+                  //这是玩家的颜色
+                  this.nationBorderColor = 'rgb(134,72,66)' 
+                }else if(nationId==998){
+                  //这是地精的颜色
+                  this.nationBorderColor = 'rgb(19, 80, 26)'         
+                }else if(nationId==997){
+                  //这是矮人的颜色
+                  this.nationBorderColor = 'rgb(116, 127, 139)'
+                }else if(nationId==996){
+                  //这是龙族的颜色
+                  this.nationBorderColor = 'rgb(36, 36, 47)'
+                }else if(nationId==999){
+                  //这是精灵的颜色
+                  this.nationBorderColor = 'rgb(3, 80, 72)' 
+                }else{
+                  //这是AI的颜色
+                  this.nationBorderColor = this.RandomColor() 
+                }
+              
+    }
+
+    RandomColor():string{
+        //随机生成颜色
+        let color = 'rgb('
+        for(let i=0;i<3;i++){
+            color += Math.floor(Math.random()*255)
+            if(i!=2){
+                color += ','
+            }
+        }
+        color += ')'
+        return color
+      }
 
 }
 // export class NationManager{

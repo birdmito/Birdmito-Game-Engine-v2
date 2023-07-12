@@ -17,12 +17,14 @@ import { Battle, BattleHandler } from "./BattleHandler";
 import { Statement } from "ts-morph";
 import { Transform } from "../engine/Transform";
 import { UI_NextTurnButtonRotate } from "./UI_NextButtonRotate";
+import { generateTip } from "./Tip";
 
 export class GameProcess extends Behaviour {
     static isCheat = false;  //是否开启作弊模式
     static gamingState: 'playerTurn' | 'botTurn' | 'settlement' = 'settlement';
+    static playerNationId = 1;  //玩家的nationId
 
-   
+
     static nextState() {
         const NextTurnButtonImage = getGameObjectById("NextTurnImage");
 
@@ -55,9 +57,18 @@ export class GameProcess extends Behaviour {
     }
 
     onUpdate(): void {
+        //按数字键将玩家切换到对应国家
+        document.addEventListener('keydown', function (event) {
+            const code = event.code;
+            if (code >= 'Digit1' && code <= 'Digit3') {
+                GameProcess.playerNationId = parseInt(code[5]);
+                console.log(`玩家切换到了${GameProcess.playerNationId}号国家`);
+            }
+        });
+
         console.log(`当前游戏状态：${GameProcess.gamingState}`);
         //更新玩家金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nations[1].dora.toString();
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '金币：' + Nation.nations[GameProcess.playerNationId].dora.toString();
         switch (GameProcess.gamingState) {
             case 'playerTurn':
                 this.playerTurn();
@@ -81,23 +92,43 @@ export class GameProcess extends Behaviour {
             Nation.nations[nation.nationId] = nation;
             //nation.randomTechNameList无法在构造器中初始化，因为Technology.getTechByName()需要Nation.techTree
             nation.randomTechList = nation.getRandomTechNameList();
-
+            nation.updateNationColor();
             //给每个国家一个初始开拓者
             //获取单位参数
             //随机一个30以内的二维坐标
             const x = Math.floor(Math.random() * 30);
             const y = Math.floor(Math.random() * 30);
-            const newUnitParam = UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '开拓者'));
-            //生成单位
-            const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
-            //配置单位属性
-            const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
-            prefabBehavior.nationId = nation.nationId;
-            prefabBehavior.unitParam = newUnitParam;
-            prefabBehavior.unitCoor = { x: i, y: 0 }
-            //添加到场景中
-            getGameObjectById("UnitRoot").addChild(newUnitPrefab);
-            console.log("单位所属国家" + prefabBehavior.nationId);
+
+            const newUnitList: UnitParam[] = [
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '开拓者')),
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '士兵')),
+            ];
+            
+            for(const unitParam of newUnitList){
+                //生成单位
+                const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
+                //配置单位属性
+                const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
+                prefabBehavior.nationId = nation.nationId;
+                prefabBehavior.unitParam = unitParam;
+                prefabBehavior.unitCoor = { x: i, y: 0 }
+                //添加到场景中
+                getGameObjectById("UnitRoot").addChild(newUnitPrefab);
+                console.log("单位所属国家" + prefabBehavior.nationId);
+            }
+            
+            // //生成单位
+            // const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
+            // //配置单位属性
+            // const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
+            // prefabBehavior.nationId = nation.nationId;
+            // prefabBehavior.unitParam = newSoilder;
+            // prefabBehavior.unitCoor = { x: i, y: 0 }
+
+
+            // //添加到场景中
+            // getGameObjectById("UnitRoot").addChild(newUnitPrefab);
+            // console.log("单位所属国家" + prefabBehavior.nationId);
         }
     }
 
@@ -106,37 +137,38 @@ export class GameProcess extends Behaviour {
     }
 
     botTurn() {
-        //电脑帝国行动
-        if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
-            console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
-            Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
-        }
-        else {
-            //下一个电脑帝国
-            GameProcess.actingBotNationIndex++;
-            //跳过玩家
-            if (GameProcess.actingBotNationIndex === 1) {
-                GameProcess.actingBotNationIndex++;
-            }
+        // //电脑帝国行动
+        // if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
+        //     console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
+        //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
+        // }
+        // else {
+        //     //下一个电脑帝国
+        //     GameProcess.actingBotNationIndex++;
+        //     //跳过玩家
+        //     if (GameProcess.actingBotNationIndex === GameProcess.playerNationId) {
+        //         GameProcess.actingBotNationIndex++;
+        //     }
 
-            //判断是否所有电脑帝国都已经行动完毕
-            if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
-                console.log("所有电脑帝国行动完毕");
-                //重置电脑帝国的行动状态
-                for (let i = 2; i < Nation.nations.length; i++) {
-                    Nation.nations[i].botActMode.isBotOperateFinish = false;
-                }
-                GameProcess.actingBotNationIndex = 0;
-                GameProcess.nextState();  //进入结算阶段
-                return;
-            }
+        //     //判断是否所有电脑帝国都已经行动完毕
+        //     if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
+        //         console.log("所有电脑帝国行动完毕");
+        //         //重置电脑帝国的行动状态
+        //         for (let i = 2; i < Nation.nations.length; i++) {
+        //             Nation.nations[i].botActMode.isBotOperateFinish = false;
+        //         }
+        //         GameProcess.actingBotNationIndex = 0;
+        //         GameProcess.nextState();  //进入结算阶段
+        //         return;
+        //     }
 
-            console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
-            console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
-            Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
-            console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
-                ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
-        }
+        //     console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
+        //     console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
+        //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
+        //     console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
+        //         ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
+        // }
+        GameProcess.nextState();  //进入结算阶段
     }
 
     //结算阶段
@@ -181,6 +213,20 @@ export class GameProcess extends Behaviour {
             nation.updateNationProperties();
 
             nation.dora += nation.doraChangeNextTurn; ///更新国家金钱
+
+            //更新国家好感度
+            for (let i = 1; i <= Nation.nationQuantity; i++) {
+                switch (nation.foreignPolicy.get(i)) {
+                    case 'negative':
+                        nation.favorability.set(i, nation.favorability.get(i) - 1);  //好感度-1
+                        break;
+                    case 'positive':
+                        nation.favorability.set(i, nation.favorability.get(i) + 1);  //好感度+1
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
 
@@ -226,7 +272,7 @@ export class GameProcess extends Behaviour {
                 const province = Province.provincesObj[i][j].getBehaviour(Province);
                 province.updateProvinceProperties();  //更新领地产出
                 province.giveOwnerTechPoint();  //给予所属国家科技点数
-                province.updateProductProcess();  //更新生产队列
+                province.updateProductProcessPerTurn();  //更新生产队列
             }
         }
         return;
@@ -251,7 +297,7 @@ export class GameProcess extends Behaviour {
         buttonText.getBehaviour(TextRenderer).text = "返回主菜单"
         console.log("image:" + image)
 
-        if (Nation.nations[1].provinceOwnedList.length > 0) {
+        if (Nation.nations[GameProcess.playerNationId].provinceOwnedList.length > 0) {
             tip.getBehaviour(TextRenderer).text = "游戏胜利";
 
             image.getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"

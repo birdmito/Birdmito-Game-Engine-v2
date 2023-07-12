@@ -1,5 +1,6 @@
 import { Camera } from "../../behaviours/Camera";
 import { HexagonLine } from "../../behaviours/HexagonLine";
+import { Nation } from "../../behaviours/Nation";
 import { ShapeRectRenderer } from "../../behaviours/unneed/ShapeRectRenderer";
 import { GameObject, getGameObjectById, Renderer } from "../../engine";
 import { AnimationRenderer } from "../AnimationRenderer";
@@ -103,6 +104,9 @@ export class CanvasContextRenderingSystem extends System {
         function visitChildren(gameObject: GameObject) {
             for (const child of gameObject.children) {
                 if (child.renderer) {
+                    if(child.active == false){
+                        continue;
+                    }
                     const transform = child.getBehaviour(Transform);
                     const matrix = matrixAppendMatrix(transform.globalMatrix, viewportMatrix);
                     context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
@@ -178,7 +182,9 @@ export class CanvasContextRenderingSystem extends System {
                     } else if (child.renderer instanceof HexagonBorderRenderer){
                         const renderer = child.renderer as HexagonBorderRenderer;
                         context.save()
-                        drawHexagon(context, renderer);
+                        for(let i = 1; i <= Nation.nationQuantity; i++){
+                            drawHexagon(context,i);
+                        }
                         context.restore();
 
                     }
@@ -240,26 +246,72 @@ function drawText(context: CanvasRenderingContext2D, renderer: TextRenderer){
     // console.log(renderer.measuredTextWidth)
 }
 
-function drawHexagon(context: CanvasRenderingContext2D, renderer: HexagonBorderRenderer) {
-    // 开始绘制
-    context.beginPath();
-    context.moveTo(HexagonLine.vertices[0].x, HexagonLine.vertices[0].y);
+function drawHexagon(context: CanvasRenderingContext2D,nationId:number){
+    //这一段相当于判定了一个六边形中的0-1，1-2，2-3，3-4，4-5的链接
+    for(let i = 0;i<Nation.nations[nationId].vertices.length-1;i++){
+        const vertex = Nation.nations[nationId].vertices[i]
+        const vertex1 = Nation.nations[nationId].vertices[i+1]
+        let isDraw = !judgeVertex(vertex,Nation.nations[nationId].needJumpVertices)
+        
+        //我们需要跳过5-6的链接，所以需要判定5-6的链接
+        if((i+1)%6==0 && i!=0){
+            isDraw = false
+        };
+        
+        
+        if(isDraw){drawOneLine(context,nationId,vertex,vertex1,Nation.nations[nationId].nationBorderColor)}
+    
 
-    for (let i = 1; i < 6; i++) {
-    const vertex = HexagonLine.vertices[i];
-    context.lineTo(vertex.x, vertex.y);
+
+    
+    
     }
-
-    // 设置描边颜色和线宽
-    context.strokeStyle = renderer.color;
-    context.lineWidth = 3;
-
-    // 绘制描边
-    context.stroke();
+    //判断画了多少个六边形
+    let length = Nation.nations[nationId].vertices.length
+    let number = Math.floor(length/6)
+    //nuber 即为需要判定多少0-5的链接
+    //这一段相当于判定了0-5的链接
+    for(let k=1;k<=number;k++){
+        if(judgeVertex(Nation.nations[nationId].vertices[k*6-1],Nation.nations[nationId].needJumpVertices)){
+            continue;
+        }else{
+            drawOneLine(context,nationId,Nation.nations[nationId].vertices[k*6-1],Nation.nations[nationId].vertices[(k-1)*6],Nation.nations[nationId].nationBorderColor)
+        }
+    }
 
 
 }
 
+function judgeVertex(vertexNeedJudge:{x:number,y:number},judgeVertex:{x:number,y:number}[]){
+    for(let i=0;i<judgeVertex.length;i++){
+        if(vertexNeedJudge==judgeVertex[i]){
+            return true
+        }
+    }
+    return false
+}
+
+function drawOneLine(context: CanvasRenderingContext2D,nationId:number,vertex1:{x:number,y:number},vertex2:{x:number,y:number},color:string)
+{
+        // 定义渐变对象
+        var gradient = context.createLinearGradient(vertex1.x, vertex1.y, vertex2.x, vertex2.y);
+
+
+        // 添加渐变颜色停止点
+
+
+        // 开始绘制线段
+        context.beginPath();
+        context.moveTo(vertex1.x, vertex1.y);
+        context.lineTo(vertex2.x, vertex2.y);
+
+        // 设置线宽和描边样式
+        context.lineWidth = 2
+        context.strokeStyle = color;
+        // 绘制描边
+        context.stroke();
+        
+}
 //     // 创建一个空的 Map 对象来保存边信息和重叠次数
 //         const edgeMap = new Map();
 

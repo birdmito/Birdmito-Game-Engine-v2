@@ -9,6 +9,7 @@ import { Province } from "./Province";
 import { N } from "vitest/dist/types-2b1c412e";
 import { infoShowable } from "./infoShowable";
 import { OverrideableNode } from "ts-morph";
+import { GameProcess } from "./GameProcess";
 
 export class UnitParam implements infoShowable {
     static originUnitParamList: UnitParam[] = [
@@ -33,7 +34,7 @@ export class UnitParam implements infoShowable {
         this.techRequired = techRequired;
     }
 
-    static copyOriginUnitParamList(nationId: number = 1): UnitParam[] {
+    static copyOriginUnitParamList(nationId: number = GameProcess.playerNationId): UnitParam[] {
         const result: UnitParam[] = [];
         UnitParam.originUnitParamList.forEach((unitParam) => {
             result.push(new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax,

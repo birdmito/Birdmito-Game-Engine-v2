@@ -134,6 +134,7 @@ children:
                 properties:
                   source: ./assets/images/Interface_ButtonCountryPanel.png
               - type: UI_ButtonState
+              - type: UI_NationButton
             children: []
       - id: ProvinceTerrainImage #省份地形图标
         behaviours:

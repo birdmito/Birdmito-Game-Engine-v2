@@ -8,7 +8,7 @@ export class UI_ButtonState extends Behaviour{
             this.gameObject.getBehaviour(BitmapRenderer).source = source;
         }
         this.gameObject.onMouseLeftUp = () => {
-            const source = this.gameObject.getBehaviour(BitmapRenderer).source.replace('_Active.png', '.png');
+            const source = this.gameObject.getBehaviour(BitmapRenderer).source.replace('_Active.png', '_Highlight.png');
             this.gameObject.getBehaviour(BitmapRenderer).source = source;
         }
         this.gameObject.onMouseEnter = () => {

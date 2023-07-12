@@ -56,6 +56,26 @@ export class CameraController extends Behaviour {
         // 六边形地图 30*30个 每个六边形172*200
         const transform = getGameObjectById("CameraRoot").getBehaviour(Transform);
 
+        document.addEventListener("keydown", (event) => {
+            //wasd移动摄像机
+            if (event.key == "a") {
+                transform.x -= 2;
+                transform.x = Math.max(-300, transform.x);
+            }
+            if (event.key == "d") {
+                transform.x += 2;
+                transform.x = Math.min(5460, transform.x);
+            }
+            if (event.key == "w") {
+                transform.y -= 2;
+                transform.y = Math.max(-100, transform.y);
+            }
+            if (event.key == "s") {
+                transform.y += 2;
+                transform.y = Math.min(4500, transform.y);
+            }
+        })
+
         if(checkPointInRectangle(this.mousePoint, this.leftRectangle)){
             transform.x -= 10;
             transform.x = Math.max(-300, transform.x);
