@@ -2,6 +2,7 @@ import { UI_governmentWindowPrefabBinding } from "../bindings/UI_governmentWindo
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { TextRenderer } from "../engine/TextRenderer";
+import { GameProcess } from "./GameProcess";
 import { Nation } from "./Nation";
 import { Technology } from "./Technology";
 
@@ -12,12 +13,12 @@ export class UI_Government extends Behaviour {
 
     onUpdate(): void {
         //更新玩家帝国金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '奥坎盾：' + Nation.nations[1].dora.toString();
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '奥坎盾：' + Nation.nations[GameProcess.playerNationId].dora.toString();
         //更新玩家帝国等级显示
-        getGameObjectById("PlayerLevelText").getBehaviour(TextRenderer).text = '政府等级：' + Nation.nations[1].level.toString()
-        getGameObjectById("PlayerCapacityText").getBehaviour(TextRenderer).text = "城市上限：" + Nation.nations[1].cityList.length.toString() + '/' + Nation.nations[1].cityMax.toString();
+        getGameObjectById("PlayerLevelText").getBehaviour(TextRenderer).text = '政府等级：' + Nation.nations[GameProcess.playerNationId].level.toString()
+        getGameObjectById("PlayerCapacityText").getBehaviour(TextRenderer).text = "城市上限：" + Nation.nations[GameProcess.playerNationId].cityList.length.toString() + '/' + Nation.nations[GameProcess.playerNationId].cityMax.toString();
         //更新玩家帝国科技点增长显示
-        getGameObjectById("PlayerTechText").getBehaviour(TextRenderer).text = '科技点：+' + Nation.nations[1].techPerTurn.toString();
+        getGameObjectById("PlayerTechText").getBehaviour(TextRenderer).text = '科技点：+' + Nation.nations[GameProcess.playerNationId].techPerTurn.toString();
 
 
         this.gameObject.onMouseLeftDown = () => {
@@ -27,9 +28,9 @@ export class UI_Government extends Behaviour {
                 getGameObjectById("GovernmentWindowRoot").children[0].destroy();
             } else {
                 getGameObjectById("GovernmentWindowRoot").addChild(governmentWindow);//更新玩家帝国当前科技显示 
-                if (Nation.nations[1].currentTechName !== '') {
+                if (Nation.nations[GameProcess.playerNationId].currentTechName !== '') {
                     getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
-                        "当前科技：" + Technology.getNationTechByName(1, Nation.nations[1].currentTechName).getInfo();
+                        "当前科技：" + Technology.getNationTechByName(1, Nation.nations[GameProcess.playerNationId].currentTechName).getInfo();
                 }
             }
         }

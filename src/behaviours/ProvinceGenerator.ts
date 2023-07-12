@@ -8,8 +8,8 @@ import { MapGenerator, TerrainType } from "./MapGenerator";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 
 export class ProvinceGenerator extends Behaviour {
-    gridSizeX: number = 30;
-    gridSizeY: number = 30;
+    gridSizeX: number = 10;
+    gridSizeY: number = 10;
     gridSpace: number = 172;
     landPercentage: number = 40;
     landNum: number = 10;

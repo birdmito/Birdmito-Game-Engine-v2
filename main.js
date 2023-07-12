@@ -166,6 +166,9 @@ class WebSocketProxy {
                 },
             });
             player.loadURL(url);
+            globalShortcut.register("Alt+V", function () {
+                player.webContents.openDevTools();
+            });
             player.webContents.openDevTools();
         } else {
             runtimeView.webContents.loadURL(url);
