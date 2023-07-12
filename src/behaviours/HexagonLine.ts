@@ -27,8 +27,9 @@ export class HexagonLine extends Behaviour {
         borderParent.children[i]=borderParent.children[i+1]
       }
       borderParent.children[length-1]=border
+      
+     }
 
-      }
 
 
     onUpdate(): void {

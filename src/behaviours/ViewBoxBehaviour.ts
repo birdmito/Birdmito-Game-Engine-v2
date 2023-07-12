@@ -16,10 +16,10 @@ export class ViewBoxBehaviour extends Behaviour {
     static worldGameMiniMapYRatio = 0.0377; //游戏世界与小地图Y方向比例
 
     onStart(): void {
-        if(this.cameraTransorm.x > 0 ){
-            this.gameObject.getBehaviour(Transform).x += this.cameraTransorm.x * ViewBoxBehaviour.worldGameMiniMapXRatio;
-            this.gameObject.getBehaviour(Transform).y += this.cameraTransorm.y * ViewBoxBehaviour.worldGameMiniMapYRatio;
-        }
+
+        this.gameObject.getBehaviour(Transform).x += this.cameraTransorm.x * ViewBoxBehaviour.worldGameMiniMapXRatio;
+        this.gameObject.getBehaviour(Transform).y += this.cameraTransorm.y * ViewBoxBehaviour.worldGameMiniMapYRatio;
+
         this.gameObject.getBehaviour(Transform).scaleX = this.cameraTransorm.scaleX * ViewBoxBehaviour.worldGameMiniMapXRatio;
         this.gameObject.getBehaviour(Transform).scaleY = this.cameraTransorm.scaleY * ViewBoxBehaviour.worldGameMiniMapYRatio;
         console.log("视野框大小：", this.gameObject.getBehaviour(Transform).scaleX,this.gameObject.getBehaviour(Transform).scaleY)
@@ -28,8 +28,8 @@ export class ViewBoxBehaviour extends Behaviour {
 
     onUpdate(): void {
         
-            this.gameObject.getBehaviour(Transform).x = ViewBoxBehaviour.viewBoxOriXPos + this.cameraTransorm.x * ViewBoxBehaviour.worldGameMiniMapXRatio  ;
-            this.gameObject.getBehaviour(Transform).y = ViewBoxBehaviour.viewBoxOriYPos + this.cameraTransorm.y * ViewBoxBehaviour.worldGameMiniMapYRatio ;
+        this.gameObject.getBehaviour(Transform).x = ViewBoxBehaviour.viewBoxOriXPos + this.cameraTransorm.x * ViewBoxBehaviour.worldGameMiniMapXRatio  ;
+        this.gameObject.getBehaviour(Transform).y = ViewBoxBehaviour.viewBoxOriYPos + this.cameraTransorm.y * ViewBoxBehaviour.worldGameMiniMapYRatio ;
 
         this.gameObject.getBehaviour(Transform).scaleX = this.cameraTransorm.scaleX * ViewBoxBehaviour.worldGameMiniMapXRatio;
         this.gameObject.getBehaviour(Transform).scaleY = this.cameraTransorm.scaleY * ViewBoxBehaviour.worldGameMiniMapYRatio;
