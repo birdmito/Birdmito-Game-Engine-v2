@@ -2,14 +2,14 @@ id: UI_nationWindow
 behaviours:
   - type: Transform
     properties:
-      x: 0
-      y: 0
+      x: 500
+      y: 400
       scaleX: 1
       scaleY: 1
       rotation: 0
   - type: UI_UpdateNationInfo
 children:
-  - id: _NationInfoBgImage
+  - id: NationInfoBgImage
     behaviours:
       - type: Transform
         properties:
@@ -18,15 +18,15 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: ImageRenderer
+      - type: BitmapRenderer
         properties:
-          sprite: assets/sprites/UI/Icon_TextFrame5050.png
+          source: ./assets/images/Icon_TextFrame5050.png
           renderType: 'ui'
-          scaleXForUI: 20
+          scaleXForUI: 25
           scaleYForUI: 15
           borderWidthForUI: 15
     children: []
-  - id: NationInfo
+  - id: _NationInfo
     behaviours:
       - type: Transform
         properties:
@@ -35,6 +35,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: UI_UpdateNationInfo
     children:
     - id: _NationNameText
       behaviours:
@@ -51,7 +52,7 @@ children:
             text: '这里应该显示国家名称'
             color: white
       children: []
-    - id: _NationMoneyText
+    - id: _NationGoldText
       behaviours:
         - type: Transform
           properties:
@@ -96,3 +97,149 @@ children:
             text: '这里应该显示国家军力'
             color: white
       children: []
+    - id: _NationFavorText
+      behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 160
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: TextRenderer
+          properties:
+            fontSize: 20
+            text: '这里应该显示国家好感度'
+            color: white
+      children: []
+  - id: InteractiveButtons
+    behaviours:
+      - type: Transform
+        properties:
+          x: 200
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: LayoutGroup
+        properties:
+          layoutType: 'vertical'
+          spacing: 70
+    children:
+      - id: ChangeFavorButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+        children: 
+          - id: ChangeFavorImage
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/Icon_TextFrame5050.png
+                  renderType: 'ui'
+                  scaleXForUI: 1
+                  scaleYForUI: 1
+                  borderWidthForUI: 1
+              - type: UI_ButtonState
+              - type: UI_ChangeFavorButton
+            children: []
+          - id: _ChangeFavorText
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 50
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 20
+                  text: '切换外交政策（当前：中立）'
+                  color: white
+                  hitAreaType: none
+            children: []
+      - id: DeclareWarButton
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+        children: 
+          - id: DeclareWarImage
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 0
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: BitmapRenderer
+                properties:
+                  source: ./assets/images/Icon_TextFrame5050.png
+                  renderType: 'ui'
+                  scaleXForUI: 1
+                  scaleYForUI: 1
+                  borderWidthForUI: 1
+              - type: UI_ButtonState
+              - type: UI_DeclareWarButton
+            children: []
+          - id: _DeclareWarText
+            behaviours:
+              - type: Transform
+                properties:
+                  x: 50
+                  y: 0
+                  scaleX: 1
+                  scaleY: 1
+                  rotation: 0
+              - type: TextRenderer
+                properties:
+                  fontSize: 20
+                  text: '宣战'
+                  color: red
+                  hitAreaType: none
+            children: []
+  - id: Close
+    behaviours:
+      - type: Transform
+        properties:
+          x: 300
+          y: 300
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: DestroyOnClick
+        properties:
+          targetID: UI_nationWindow
+    children:
+      - id: CloseImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_Cross.png
+          - type: UI_ButtonState
+        children: []

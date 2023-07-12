@@ -564,3 +564,20 @@ children:
               source: ./assets/images/Icon_FrameMinimap.png
               anchorType: right-top
         children: []
+  - id: FPS
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 22
+          text: 'FPS: 60'
+          color: "#DEEEFE"
+          anchorType: left-top
+          fontFamily: FangSong_GB2312
+      - type: FPSDisplay

@@ -14,7 +14,7 @@ export class MiniMapBehaviour extends Behaviour {
         for (let i = 0; i < this.gameObject.children.length; i++) {
             const child = this.gameObject.children[i];
 
-            child.onMouseLeftDown = () => {
+            child.onMouseLeftUp = () => {
                 console.log(child.getBehaviour(Transform).x, child.getBehaviour(Transform).y);
                 this.cameraTransorm.x = child.getBehaviour(Transform).x;
                 this.cameraTransorm.y = child.getBehaviour(Transform).y;

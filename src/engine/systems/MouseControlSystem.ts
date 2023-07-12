@@ -128,6 +128,7 @@ export class MouseControlSystem extends System {
                             hover = hover.parent;
                         }
                         // console.log("leave", this.currentHoverGameObject.id);
+                        this.currentDownGameObjects = [];
                     }
                     this.currentHoverGameObject = result;
                     while(result){
@@ -161,8 +162,11 @@ export class MouseControlSystem extends System {
         let result = this.hitTest(this.rootGameObject, this.mousePoint);
         if (result) {
             const event = this.calculateGameEngineMouseEvent(result, this.mousePoint)
-            if(result.onMouseHover){
-                result.onMouseHover(event)
+            while(result){
+                if(result.onMouseHover){
+                    result.onMouseHover(event)
+                }
+                result = result.parent;
             }
         }
     }

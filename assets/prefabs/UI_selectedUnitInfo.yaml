@@ -94,6 +94,7 @@ children:
                 properties:
                   source: ./assets/images/Interface_ButtonCountryPanel.png
               - type: UI_ButtonState
+              - type: UI_NationButton
             children: []
   - id: UnitInfo
     behaviours:
@@ -169,16 +170,17 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 0
+              x: 234.5
+              y: 318 #322.5
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: TextRenderer
             properties:
-              fontSize: 20
+              fontSize: 30
               text: '这里应该显示单位名称'
               color: white
+              anchorType: 'center'
       - id: UnitNationText
         behaviours:
           - type: Transform

@@ -1,4 +1,5 @@
 const defaultSceneOrPrefab = "./assets/scenes/main.yaml";
+// const defaultSceneOrPrefab = "./assets/prefabs/UI_StaffWindow.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/button.yaml";
 // const defaultSceneOrPrefab = "./assets/prefabs/UI_gamingStatic.yaml";
 
@@ -165,6 +166,9 @@ class WebSocketProxy {
                 },
             });
             player.loadURL(url);
+            globalShortcut.register("Alt+V", function () {
+                player.webContents.openDevTools();
+            });
             player.webContents.openDevTools();
         } else {
             runtimeView.webContents.loadURL(url);

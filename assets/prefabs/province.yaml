@@ -24,7 +24,8 @@ children:
         source: ./assets/images/Map_TerrainPlain_0.png
         hitAreaType: hexagon
     id: Terrain
-  - behaviours:
+  - id: NationColor
+    behaviours:
     - type: Transform
       properties:
         x: 0
