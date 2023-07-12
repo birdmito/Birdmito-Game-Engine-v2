@@ -98,17 +98,37 @@ export class GameProcess extends Behaviour {
             //随机一个30以内的二维坐标
             const x = Math.floor(Math.random() * 30);
             const y = Math.floor(Math.random() * 30);
-            const newUnitParam = UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '开拓者'));
-            //生成单位
-            const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
-            //配置单位属性
-            const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
-            prefabBehavior.nationId = nation.nationId;
-            prefabBehavior.unitParam = newUnitParam;
-            prefabBehavior.unitCoor = { x: i, y: 0 }
-            //添加到场景中
-            getGameObjectById("UnitRoot").addChild(newUnitPrefab);
-            console.log("单位所属国家" + prefabBehavior.nationId);
+
+            const newUnitList: UnitParam[] = [
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '开拓者')),
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '士兵')),
+            ];
+            
+            for(const unitParam of newUnitList){
+                //生成单位
+                const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
+                //配置单位属性
+                const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
+                prefabBehavior.nationId = nation.nationId;
+                prefabBehavior.unitParam = unitParam;
+                prefabBehavior.unitCoor = { x: i, y: 0 }
+                //添加到场景中
+                getGameObjectById("UnitRoot").addChild(newUnitPrefab);
+                console.log("单位所属国家" + prefabBehavior.nationId);
+            }
+            
+            // //生成单位
+            // const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
+            // //配置单位属性
+            // const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
+            // prefabBehavior.nationId = nation.nationId;
+            // prefabBehavior.unitParam = newSoilder;
+            // prefabBehavior.unitCoor = { x: i, y: 0 }
+
+
+            // //添加到场景中
+            // getGameObjectById("UnitRoot").addChild(newUnitPrefab);
+            // console.log("单位所属国家" + prefabBehavior.nationId);
         }
     }
 
@@ -252,7 +272,7 @@ export class GameProcess extends Behaviour {
                 const province = Province.provincesObj[i][j].getBehaviour(Province);
                 province.updateProvinceProperties();  //更新领地产出
                 province.giveOwnerTechPoint();  //给予所属国家科技点数
-                province.updateProductProcess();  //更新生产队列
+                province.updateProductProcessPerTurn();  //更新生产队列
             }
         }
         return;

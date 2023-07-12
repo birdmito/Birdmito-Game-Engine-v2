@@ -19,6 +19,7 @@ import { HexagonBorderRenderer } from "../engine/HexagonBorderRenderer";
 import { Transform } from "../engine/Transform";
 import { Click } from "./Click";
 import { HexagonLine } from "./HexagonLine";
+import { UI_UpdateSelectedObjInfo } from "./UI_UpdateSelectedObjInfo";
 
 export class Province extends Behaviour {
     static provincesObj: GameObject[][] = [];
@@ -82,7 +83,7 @@ export class Province extends Behaviour {
                 console.log("当前选中物体为单位，预告ap消耗")
                 //若当前选中的是单位，则更改单位信息，预告将要消耗的行动点数
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
-                if (unit.nationId === 1 || GameProcess.isCheat) {
+                if (unit.nationId === GameProcess.playerNationId || GameProcess.isCheat) {
                     unit.apCostToMove = this.apCost;
                 }
             }
@@ -93,7 +94,7 @@ export class Province extends Behaviour {
                 console.log("selected is unit, move to province")
                 //若当前选中的是单位，则移动
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
-                if (unit.nationId === 1 || GameProcess.isCheat) {
+                if (unit.nationId === GameProcess.playerNationId || GameProcess.isCheat) {
                     unit.moveToProvince(this);
                 }
             }
@@ -145,21 +146,23 @@ export class Province extends Behaviour {
                 Nation.nations[nationId].capitalProvince = this;  //将首个被占领的领地设为首都
                 console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvince);
             }
-        const provinceTransform = this.gameObject.getBehaviour(Transform);    
-        this.gameObject.children[2].addBehaviour(new HexagonBorderRenderer());
-        this.gameObject.children[2].getBehaviour(HexagonLine).caculateVertices(provinceTransform.x + 86, provinceTransform.y +100 ,98);
-        // this.gameObject.children[2].getBehaviour(HexagonLine).showVertices();
-        // this.gameObject.children[2].getBehaviour(HexagonLine).deleteSameVertex();
-        // this.gameObject.children[2].getBehaviour(HexagonLine).showVertices();
+            // const provinceTransform = this.gameObject.getBehaviour(Transform);    
+            // this.gameObject.children[2].addBehaviour(new HexagonBorderRenderer());
+            // this.gameObject.children[2].getBehaviour(HexagonLine).caculateVertices(provinceTransform.x + 86, provinceTransform.y +100 ,98);
+            // this.gameObject.children[2].getBehaviour(HexagonLine).showVertices();
+            // this.gameObject.children[2].getBehaviour(HexagonLine).deleteSameVertex();
+            // this.gameObject.children[2].getBehaviour(HexagonLine).showVertices();
         }
     }
 
+    /**每回合调用一次 */
     updateApCost(apCostPlused: number = 0) {
         //更新行动力消耗
         this.apCost = 1 + this.lakePercent * 5 + this.forestPercent * 2 + this.mountainPercent * 10 + apCostPlused;
         this.apCost = Math.floor(this.apCost);
     }
 
+    /**随时可调用 */
     updateProvinceProperties() {
         //更新领地属性
         //被招募单位的属性
@@ -172,6 +175,7 @@ export class Province extends Behaviour {
         Calculator.calculateProvinceProduction(this);
     }
 
+    /**每回合调用一次 */
     giveOwnerTechPoint() {
         // console.log("giveOwnerProduction")
         //给予所属国家产出
@@ -180,7 +184,8 @@ export class Province extends Behaviour {
         }
     }
 
-    updateProductProcess() {
+    /**每回合调用一次 */
+    updateProductProcessPerTurn() {
         //推进生产队列
         // console.log("updateProductProcess");
         const currentItem = this.productQueue[0];
@@ -214,6 +219,13 @@ export class Province extends Behaviour {
             else {
                 console.log("无法识别的生产类型")
             }
+        }
+
+        //若当前选中项为Province，则更新其UI
+        if (SelectedObjectInfoMangaer.selectedBehaviour === this) {
+            const window = SelectedObjectInfoMangaer.selectedInfoWindow
+            window.getBehaviour(UI_UpdateSelectedObjInfo).updateSelectedProvinceBuildingListUI();
+            window.getBehaviour(UI_UpdateSelectedObjInfo).updateSelectedProvinceProductQueueUI();
         }
     }
 

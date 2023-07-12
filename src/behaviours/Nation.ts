@@ -59,6 +59,8 @@ export class Nation {
 
     declareWar(nation: Nation) {
         this.enemyNationList.push(nation);
+        nation.enemyNationList.push(this);
+        nation.favorability.set(this.nationId, -10);  //宣战后立即降低对方对我们的评价
     }
     peace(nation: Nation) {
         this.enemyNationList.splice(this.enemyNationList.indexOf(nation), 1);

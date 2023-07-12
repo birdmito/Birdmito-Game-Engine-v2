@@ -24,7 +24,8 @@ children:
         source: ./assets/images/Map_TerrainPlain_0.png
         hitAreaType: hexagon
     id: Terrain
-  - behaviours:
+  - id: NationColor
+    behaviours:
     - type: Transform
       properties:
         x: 0
@@ -36,7 +37,20 @@ children:
       properties:
         source: ./assets/images/TESTColor.png
         hitAreaType: none
-    id: NationColor
+  - id: SelectedColor
+    behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    - type: BitmapRenderer
+      properties:
+        source: ./assets/images/TESTTransparent.png
+        hitAreaType: hexagon
+    - type: SelectedProvinceHint
   - behaviours:
     - type: Transform
       properties:
