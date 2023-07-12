@@ -97,7 +97,7 @@ export class ProvinceGenerator extends Behaviour {
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.forestPercent = subRandomPercent2;
                 provinceBehaviour.lakePercent = subRandomPercent3;
-                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainMountain_', 1);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainMountain_', 3);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
@@ -106,7 +106,7 @@ export class ProvinceGenerator extends Behaviour {
                 provinceBehaviour.plainPercent = subRandomPercent1;
                 provinceBehaviour.forestPercent = subRandomPercent2;
                 provinceBehaviour.mountainPercent = subRandomPercent3;
-                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainLake_', 1);
+                url = ProvinceGenerator.randomSelectUrl('./assets/images/Map_TerrainLake_', 3);
                 provinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 miniProvinceBehaviour.gameObject.children[0].getBehaviour(BitmapRenderer).source = url;
                 break;
