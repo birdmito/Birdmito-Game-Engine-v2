@@ -2,14 +2,14 @@ id: UI_nationWindow
 behaviours:
   - type: Transform
     properties:
-      x: 500
-      y: 400
+      x: 960
+      y: 540
       scaleX: 1
       scaleY: 1
       rotation: 0
   - type: UI_UpdateNationInfo
 children:
-  - id: NationInfoBgImage
+  - id: NationInfoBgBox #国家信息背景框
     behaviours:
       - type: Transform
         properties:
@@ -18,14 +18,48 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: ./assets/images/Icon_TextFrame5050.png
-          renderType: 'ui'
-          scaleXForUI: 25
-          scaleYForUI: 15
-          borderWidthForUI: 15
-    children: []
+    children: 
+      - id: NationInfoLayer1
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_PanelCountry_1.png
+              anchorType: center
+        children: []      
+      - id: NationInfoLayer2  #此处需要添加国家图片
+        behaviours:
+          - type: Transform
+            properties:
+              x: -285
+              y: -329
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/ScreenArt_ProvinceLake_0.png
+        children: []   
+      - id: ProvinceInfoLayer3
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_PanelCountry_3.png
+              anchorType: center
+        children: []    
   - id: _NationInfo
     behaviours:
       - type: Transform
@@ -37,6 +71,42 @@ children:
           rotation: 0
       - type: UI_UpdateNationInfo
     children:
+    - id: NationFlag
+      behaviours:
+        - type: Transform
+          properties:
+            x: -285  #-300 + 15
+            y: -336  #-350 + 14
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+      children:
+        - id: GovernmentFlag
+          behaviours:
+            - type: Transform
+              properties:
+                x: 0
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+            - type: BitmapRenderer
+              properties:
+                source: ./assets/images/Icon_Flag_1.png
+          children: []
+        - id: GovernmentFrame #政府边框
+          behaviours:
+            - type: Transform
+              properties:
+                x: 0
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+            - type: BitmapRenderer
+              properties:
+                source: ./assets/images/Interface_ButtonCountry.png
+          children: []
     - id: _NationNameText
       behaviours:
         - type: Transform
@@ -56,8 +126,8 @@ children:
       behaviours:
         - type: Transform
           properties:
-            x: 0
-            y: 40
+            x: -257 #-300+43
+            y: 90 #-350+440
             scaleX: 1
             scaleY: 1
             rotation: 0
@@ -71,8 +141,8 @@ children:
       behaviours:
         - type: Transform
           properties:
-            x: 0
-            y: 80
+            x: -257
+            y: 130
             scaleX: 1
             scaleY: 1
             rotation: 0
@@ -86,8 +156,8 @@ children:
       behaviours:
         - type: Transform
           properties:
-            x: 0
-            y: 120
+            x: -257
+            y: 170
             scaleX: 1
             scaleY: 1
             rotation: 0
@@ -101,8 +171,8 @@ children:
       behaviours:
         - type: Transform
           properties:
-            x: 0
-            y: 160
+            x: -257
+            y: 210
             scaleX: 1
             scaleY: 1
             rotation: 0
@@ -116,15 +186,15 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 200
-          y: 0
-          scaleX: 1
+          x: 7
+          y: 86
+          scaleX: 1                                  
           scaleY: 1
           rotation: 0
       - type: LayoutGroup
         properties:
           layoutType: 'vertical'
-          spacing: 70
+          spacing: 55
     children:
       - id: ChangeFavorButton
         behaviours:
@@ -149,9 +219,9 @@ children:
                 properties:
                   source: ./assets/images/Icon_TextFrame5050.png
                   renderType: 'ui'
-                  scaleXForUI: 1
+                  scaleXForUI: 11
                   scaleYForUI: 1
-                  borderWidthForUI: 1
+                  borderWidthForUI: 15
               - type: UI_ButtonState
               - type: UI_ChangeFavorButton
             children: []
@@ -194,9 +264,9 @@ children:
                 properties:
                   source: ./assets/images/Icon_TextFrame5050.png
                   renderType: 'ui'
-                  scaleXForUI: 1
+                  scaleXForUI: 11
                   scaleYForUI: 1
-                  borderWidthForUI: 1
+                  borderWidthForUI: 15
               - type: UI_ButtonState
               - type: UI_DeclareWarButton
             children: []
@@ -220,8 +290,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 300
-          y: 300
+          x: 288  # 300 - 12
+          y: -337  #-350 + 13
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -241,5 +311,6 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_Cross.png
+              anchorType: right-top
           - type: UI_ButtonState
         children: []
