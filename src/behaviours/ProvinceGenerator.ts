@@ -8,12 +8,12 @@ import { MapGenerator, TerrainType } from "./MapGenerator";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 
 export class ProvinceGenerator extends Behaviour {
-    gridSizeX: number = 30;
-    gridSizeY: number = 30;
+    gridSizeX: number = 10;
+    gridSizeY: number = 10;
     gridSpace: number = 172;
     landPercentage: number = 40;
     landNum: number = 10;
-
+    static hexGridForOthers:{x:number,y:number}[] = [];
     // static provinces: GameObject[][] = [];
 
     onStart(): void {
@@ -24,6 +24,7 @@ export class ProvinceGenerator extends Behaviour {
 
         // 创建六边形网格坐标数组
         const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
+        ProvinceGenerator.hexGridForOthers=hexGrid;
         // 创建省份
         for (let i = 0; i < this.gridSizeY; i++) {
             for (let j = 0; j < this.gridSizeX; j++) {
