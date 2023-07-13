@@ -45,8 +45,8 @@ export class BotNationActMode {
             if((this.nation.cityMax-this.nation.cityList.length)<3){
                 console.log(`电脑帝国${this.nation.nationId}正在尝试升级政府`)
                 this.nation.upgrade();
-                this.objectIndex++;
             }
+            this.objectIndex++;
         }
 
 
