@@ -17,13 +17,13 @@ export class UI_ChangeFavorButton extends Behaviour {
         // 获取玩家对该国家的外交政策
         switch (Nation.nations[GameProcess.playerNationId].foreignPolicy.get(this.nation.nationId)) {
             case 'positive':
-                getGameObjectById("_ChangeFavorText").getBehaviour(TextRenderer).text = '更改外交政策（当前：改善关系 每回合-15奥坎盾）'
+                getGameObjectById("_ChangeFavorText").getBehaviour(TextRenderer).text = '更改外交的政策|（当前：改善关系）|（每回合-15奥坎盾）'
                 break;
             case 'neutral':
-                getGameObjectById("_ChangeFavorText").getBehaviour(TextRenderer).text = '更改外交政策（当前：中立）'
+                getGameObjectById("_ChangeFavorText").getBehaviour(TextRenderer).text = '更改外交的政策|（当前：中立）'
                 break;
             case 'negative':
-                getGameObjectById("_ChangeFavorText").getBehaviour(TextRenderer).text = '更改外交政策（当前：恶化关系 每回合-15奥坎盾）'
+                getGameObjectById("_ChangeFavorText").getBehaviour(TextRenderer).text = '更改外交的政策|（当前：恶化关系）|（每回合-15奥坎盾）'
                 break;
 
         }
