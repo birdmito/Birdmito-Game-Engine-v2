@@ -224,6 +224,7 @@ children:
                   borderWidthForUI: 15
               - type: UI_ButtonState
               - type: UI_ChangeFavorButton
+              - type: Au_GeneralButton
             children: []
           - id: _ChangeFavorText
             behaviours:
@@ -269,6 +270,7 @@ children:
                   borderWidthForUI: 15
               - type: UI_ButtonState
               - type: UI_DeclareWarButton
+              - type: Au_DeclareWarButton
             children: []
           - id: _DeclareWarText
             behaviours:
@@ -313,4 +315,5 @@ children:
               source: ./assets/images/Icon_Cross.png
               anchorType: right-top
           - type: UI_ButtonState
+          - type: Au_GeneralButton
         children: []

@@ -24,7 +24,7 @@ export class UI_DeclareWarButton extends Behaviour {
             getGameObjectById("_DeclareWarText").getBehaviour(TextRenderer).color = '#ff0000'
         }
 
-        this.gameObject.onMouseLeftDown = () => {
+        this.gameObject.onMouseLeftUp = () => {
             switch (getGameObjectById("_DeclareWarText").getBehaviour(TextRenderer).text) {
                 case '议和':
                     Nation.nations[GameProcess.playerNationId].peace(this.targetNation)

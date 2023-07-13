@@ -54,10 +54,10 @@ export class ProvinceGenerator extends Behaviour {
                 // console.log(generatedTerrain[j][i]);
                 switch (generatedTerrain[j][i]) {
                     case 0:
-                        provinceBehaviour.isOwnable = false;
+                        provinceBehaviour.isLand = false;
                         break;
                     default:
-                        provinceBehaviour.isOwnable = true;
+                        provinceBehaviour.isLand = true;
                         break;
                 }
                 this.randomSubTerrain(provinceBehaviour, miniProvinceBehaviour, generatedTerrain[j][i]);

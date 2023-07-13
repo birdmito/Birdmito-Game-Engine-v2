@@ -29,7 +29,7 @@ export class Province extends Behaviour {
 
     nationId = 0;
 
-    isOwnable = true;
+    isLand = true;
     apCost = 1;
 
     private _provinceProduction: Resource = undefined;

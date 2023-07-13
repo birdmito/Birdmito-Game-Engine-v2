@@ -127,7 +127,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             return false;
         }
 
-        if (!province.isOwnable) {
+        if (!province.isLand) {
             generateTip(this, "海面不可通行");
             return false;
         }
