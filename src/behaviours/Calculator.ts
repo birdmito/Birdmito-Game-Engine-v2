@@ -150,7 +150,7 @@ export class Calculator {
 
         result.addUnitParam(pluser);
         result.multiplyUnitParam(multiplier);
-        console.log("计算和平状态下单位的信息")
+        // console.log("计算和平状态下单位的信息")
         unit.unitParam = result;
     }
 

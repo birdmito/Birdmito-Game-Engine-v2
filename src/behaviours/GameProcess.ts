@@ -88,7 +88,7 @@ export class GameProcess extends Behaviour {
 
     initialNation() {
         for (let i = Nation.nationQuantity - 1; i >= 0; i--) {
-            const nation = new Nation(i + 1, "帝国" + i, 10000, 1);
+            const nation = new Nation(i + 1, "帝国" + (i + 1), 10000, 1);
             Nation.nations[nation.nationId] = nation;
             //nation.randomTechNameList无法在构造器中初始化，因为Technology.getTechByName()需要Nation.techTree
             nation.randomTechList = nation.getRandomTechNameList();
@@ -102,9 +102,10 @@ export class GameProcess extends Behaviour {
             const newUnitList: UnitParam[] = [
                 UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '开拓者')),
                 UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '士兵')),
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '士兵')),
             ];
-            
-            for(const unitParam of newUnitList){
+
+            for (const unitParam of newUnitList) {
                 //生成单位
                 const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
                 //配置单位属性
@@ -116,7 +117,7 @@ export class GameProcess extends Behaviour {
                 getGameObjectById("UnitRoot").addChild(newUnitPrefab);
                 console.log("单位所属国家" + prefabBehavior.nationId);
             }
-            
+
             // //生成单位
             // const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
             // //配置单位属性
@@ -204,9 +205,6 @@ export class GameProcess extends Behaviour {
                     "的ap为" + nation.unitList[j].unitParam.ap);
                 const unit = nation.unitList[j];
                 Calculator.calculateUnitPerTurn(unit);
-
-                // //扣除单位维护费用
-                // nation.dora -= nation.unitList[j].unitParam.maintCost;
             }
 
             //先更新国家属性，因为涉及科技等增益
@@ -230,7 +228,7 @@ export class GameProcess extends Behaviour {
         }
 
 
-        //后更新领地属性
+        //更新领地属性
         GameProcess.updateProvincePerTurn();
 
         GameProcess.turnrNow += 1;
@@ -264,7 +262,7 @@ export class GameProcess extends Behaviour {
     }
 
 
-
+    /**每回合调用一次 */
     static updateProvincePerTurn() {
         //每回合开始时，所有领地给予所属国家产出
         for (let i = 0; i < Province.provincesObj.length; i++) {
@@ -273,6 +271,37 @@ export class GameProcess extends Behaviour {
                 province.updateProvinceProperties();  //更新领地产出
                 province.giveOwnerTechPoint();  //给予所属国家科技点数
                 province.updateProductProcessPerTurn();  //更新生产队列
+                if (province.unitList.length > 0) {
+                    console.log(`${province.coord.x} ${province.coord.y} 有 ${province.unitList.length} 个单位`)
+                }
+                //合并单位
+                if (province.unitList.length > 1) {
+                    for (let k = 0; k < province.unitList.length; k++) {
+                        const unit = province.unitList[k];
+                        console.log(`unit1 name is ${unit.unitParam.name}`)
+                        for (let l = k + 1; l < province.unitList.length; l++) {
+                            const unit2 = province.unitList[l];
+                            console.log(`unit2 name is ${unit2.unitParam.name}`)
+                            if (unit.unitParam.name === unit2.unitParam.name && unit.nationId === unit2.nationId) {
+                                unit.unitParam.quantity += unit2.unitParam.quantity;  //数量相加
+                                // console.log(`合并前单位列表为`);
+                                for (let m = 0; m < province.unitList.length; m++) {
+                                    console.log(province.unitList[m].unitParam.name);
+                                }
+                                province.unitList[l].gameObject.destroy();  //销毁单位
+                                // console.log(`销毁后单位列表为`);
+                                for (let m = 0; m < province.unitList.length; m++) {
+                                    console.log(province.unitList[m].unitParam.name);
+                                }
+                                province.unitList.splice(l, 1);  //删除单位
+                                // console.log(`合并后单位列表为`);
+                                for (let m = 0; m < province.unitList.length; m++) {
+                                    console.log(province.unitList[m].unitParam.name);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         return;

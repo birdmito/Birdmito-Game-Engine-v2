@@ -18,7 +18,7 @@ export class UI_DeclareWarButton extends Behaviour {
     onUpdate(): void {
         // 获取玩家对该国家的态度
         this.gameObject.onMouseLeftDown = () => {
-            if (Nation.nations[GameProcess.playerNationId].favorability.get(this.nation.nationId) >= -5) {
+            if (Nation.nations[GameProcess.playerNationId].favorability.get(this.nation.nationId) >= 5) {
                 console.log('我们对他们的态度不够恶劣，无法宣战')
                 generateTip(this, '我们对他们的态度不够恶劣，无法宣战')
             }

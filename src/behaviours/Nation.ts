@@ -160,7 +160,12 @@ export class Nation {
     }
 
     //在指定省份建造指定建筑
-    buildBuilding(province: Province, buildingName: string): boolean {
+    buildBuilding(province: Province, buildingName: string, building: Building = undefined): boolean {
+        if (building) {
+            province.buildingList.push(building);  //直接添加建筑
+            return true;
+        }
+
         const newBuilding = Building.copyBuilding(Building.getProvinceBuildingByName(province, buildingName))
 
         if (newBuilding.isUniqueInProvince &&
