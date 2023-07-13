@@ -46,5 +46,13 @@ export class UI_UpdateGovernmentStatic extends Behaviour {
                 }
             }
         }
+
+        // if (getGameObjectById("UI_governmentWindow")) {
+        //     //更新玩家帝国当前科技显示 
+        //     if (Nation.nations[GameProcess.playerNationId].currentTechName !== '') {
+        //         getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
+        //             "当前科技：" + Technology.getNationTechByName(1, Nation.nations[GameProcess.playerNationId].currentTechName).getInfo();
+        //     }
+        // }
     }
 }
