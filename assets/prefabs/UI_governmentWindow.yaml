@@ -30,6 +30,10 @@ children:
           scaleY: 1
           rotation: 0
       - type: UI_TechButton
+      - type: Au_CustomButton
+        properties:
+          enterAudio: 按钮进入音效
+          clickAudio: 科技按钮音效
     children:
       - id: _CurrentTechImage
         behaviours:
@@ -105,6 +109,10 @@ children:
             properties:
               source: ./assets/images/Interface_ButtonGovernmentLevel.png
           - type: UI_ButtonState
+          - type: Au_CustomButton
+            properties:
+              enterAudio: 按钮进入音效
+              clickAudio: 政府等级提升音效
       - id: _GovernmentUpgradeText
         behaviours:
           - type: Transform

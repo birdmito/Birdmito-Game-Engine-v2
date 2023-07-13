@@ -14,6 +14,8 @@ import { ObjectDisableSimulator } from "./ObjectDisableSimulator";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { GameProcess } from "./GameProcess";
 import { UI_UpdateSelectedObjInfo } from "./UI_UpdateSelectedObjInfo";
+import { Au_GeneralButton } from "./Au_GeneralButton";
+import { Au_ItemButton } from "./Au_ItemButton";
 
 //在ui界面中，根据EventText的不同，实现点击后建造或者拆除等生产队列操作
 export class UI_ItemButton extends Behaviour {
@@ -32,7 +34,7 @@ export class UI_ItemButton extends Behaviour {
         //         this.gameObject.parent.getChildById("_ItemInfo").active = false;
         // }  //根据不同的事件类型，设置不同的信息显示
         this.gameObject.parent.getChildById("_ItemInfo").active = false;
-
+        this.gameObject.getBehaviour(Au_ItemButton).eventText = this.eventText;
 
         switch (this.eventText) {
             case "建造":
@@ -77,7 +79,7 @@ export class UI_ItemButton extends Behaviour {
             this.gameObject.parent.getChildById("_ItemInfo").active = false;
         }
 
-        this.gameObject.onMouseLeftDown = () => {
+        this.gameObject.onMouseLeftUp = () => {
             const targetProvince = SelectedObjectInfoMangaer.selectedBehaviour as Province;
             var originBuilding: Building;
             var originUnitParam: UnitParam;

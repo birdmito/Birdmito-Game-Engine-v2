@@ -69,6 +69,7 @@ children:
           scaleYForUI: 1
           borderWidthForUI: 30
       - type: UI_ItemButton
+      - type: Au_ItemButton
     children: []
   - id: _ItemEventIcon
     behaviours:
