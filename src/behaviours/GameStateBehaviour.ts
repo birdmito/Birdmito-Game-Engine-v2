@@ -6,12 +6,15 @@ import { getGameObjectById } from "../engine";
 import { UI_gamingStaticPrefabBinding } from "../bindings/UI_gamingStaticPrefabBinding";
 import { MiniMapBoxPrefabBinding } from "../bindings/MiniMapBoxPrefabBinding";
 import { Camera } from "./Camera";
+import { AudioClip } from "../engine/AudioClip";
 
 export class GameStateBehaviour extends Behaviour {
     gameState: number = 0;
+    audios: { [key: string]: AudioClip } = {};
 
     onStart(): void {
         console.log("open login panel");
+        this.audios = getGameObjectById("AudioManager").getAudioClips();
         this.changeGameState(0);
     }
 
@@ -23,6 +26,20 @@ export class GameStateBehaviour extends Behaviour {
     //挂在sceneRoot上的脚本，用于实现切换场景
     changeGameState(gameState: number) {
         console.log("change scene to " + gameState);
+
+        // 播放背景音乐
+        switch (gameState) {
+            case 0:
+                this.audios["登录界面背景音乐"].play();
+                break;
+            case 1:
+                this.audios["登录界面背景音乐"].stop();
+                this.audios["游戏界面背景音乐"].play();
+                break;
+            default:
+                break;
+        }
+
         //删除旧场景
         if (this.gameObject.children[0]) {
             this.gameObject.removeChild(this.gameObject.children[0]);

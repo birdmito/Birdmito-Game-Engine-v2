@@ -2,14 +2,14 @@ id: UI_battleInfoWindow
 behaviours:
   - type: Transform
     properties:
-      x: 500
-      y: 400
+      x: 960
+      y: 540
       scaleX: 1
       scaleY: 1
       rotation: 0
   - type: UI_UpdateBattleInfo
 children:
-  - id: BattleInfoBgImage
+  - id: BattleInfoBgBox #战斗信息背景框
     behaviours:
       - type: Transform
         properties:
@@ -18,20 +18,91 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
-      - type: BitmapRenderer
+    children: 
+      - id: BattleInfoLayer1
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_PanelBattle_1.png
+              anchorType: center
+        children: []      
+      - id: BattleInfoLayer2  #此处需要添加省份景观图片
+        behaviours:
+          - type: Transform
+            properties:
+              x: -435 #-450+15
+              y: -329 #-350+21
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/ScreenArt_ProvinceLake_0.png
+        children: []   
+      - id: BattleInfoLayer3
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_PanelBattle_3.png
+              anchorType: center
+        children: []    
+  - id: BattleDefender
+    behaviours:
+      - type: Transform
         properties:
-          source: ./assets/images/Icon_TextFrame5050.png
-          renderType: 'ui'
-          scaleXForUI: 25
-          scaleYForUI: 15
-          borderWidthForUI: 15
-    children: []
+          x: -344.5 # -450+105.5== -344.5
+          y: 17.5 # -350+367.5== 17.5
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children:
+    - id: BattleDefenderFlag
+      behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 0
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: BitmapRenderer
+          properties:
+            source: ./assets/images/Icon_Flag_1.png
+            anchorType: center
+    - id: BattleDefenderFrame
+      behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 0
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: BitmapRenderer
+          properties:
+            source: ./assets/images/Interface_ButtonCountryPanel.png
+            anchorType: center
+      children: []
   - id: _BattleDefenderInfoText
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: -344.5 # -450+105.5== -344.5
+          y: 140 #490-350 == 140
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -40,13 +111,51 @@ children:
           fontSize: 20
           text: '这里应该显示防守方信息'
           color: white
+          anchorType: center
     children: []
+  - id: BattleAttacker
+    behaviours:
+      - type: Transform
+        properties:
+          x: 344.5 #450-105.5=344.5
+          y: 17.5 # -350+367.5== 17.5
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+    children:
+    - id: BattleAttackerFlag
+      behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 0
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: BitmapRenderer
+          properties:
+            source: ./assets/images/Icon_Flag_1.png
+            anchorType: center
+    - id: BattleAttackerFrame
+      behaviours:
+        - type: Transform
+          properties:
+            x: 0
+            y: 0
+            scaleX: 1
+            scaleY: 1
+            rotation: 0
+        - type: BitmapRenderer
+          properties:
+            source: ./assets/images/Interface_ButtonCountryPanel.png
+            anchorType: center
+      children: []
   - id: _BattleAttackerInfoText
     behaviours:
       - type: Transform
         properties:
-          x: 200
-          y: 0
+          x: 344.5 # -450+105.5== -344.5
+          y: 140 #490-350 == 140
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -55,13 +164,14 @@ children:
           fontSize: 20
           text: '这里应该显示进攻方信息'
           color: white
+          anchorType: center
     children: []
   - id: _LastTurnInfo
     behaviours:
       - type: Transform
         properties:
           x: 0
-          y: 250
+          y: -45
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -70,13 +180,14 @@ children:
           fontSize: 20
           text: '这里应该显示上一回合信息'
           color: white
+          anchorType: center
     children: []
   - id: Close
     behaviours:
       - type: Transform
         properties:
-          x: 300
-          y: 300
+          x: 387 #837-450=387
+          y: -337 #-350+13=-337
           scaleX: 1
           scaleY: 1
           rotation: 0

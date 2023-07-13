@@ -41,10 +41,12 @@ export class BotNationActMode {
                 const randomTech = this.nation.randomTechList[Math.floor(Math.random() * this.nation.randomTechList.length)];
                 this.nation.currentTechName = randomTech.techName;
             }
-            //尝试升级政府
-            console.log(`电脑帝国${this.nation.nationId}正在尝试升级政府`)
-            this.nation.upgrade();
-            this.objectIndex++;
+            //只有在当前城市数量接近城市上限时才尝试升级政府
+            if((this.nation.cityMax-this.nation.cityList.length)<3){
+                console.log(`电脑帝国${this.nation.nationId}正在尝试升级政府`)
+                this.nation.upgrade();
+                this.objectIndex++;
+            }
         }
 
 
