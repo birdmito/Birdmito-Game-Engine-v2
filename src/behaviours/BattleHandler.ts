@@ -39,7 +39,7 @@ export class BattleHandler {
                 battle.defenderPowerLeft -= dmg;
                 battle.defenderPowerLeft = Math.max(0, battle.defenderPowerLeft); //防止战力为负数
                 console.log(`攻击方拼点胜利，防御方损失${dmg}战力`)
-                battle.lastTurnInfo += "攻击方拼点胜利，防御方损失" + dmg + "战力|"
+                battle.lastTurnInfo += "攻击方拼点胜利，防御方损失" + dmg + "战力||"
             }
             else {
                 var dmg = battle.defenderPowerLeft / 20 * (1 - Technology.getTechBonus(battle.attackerNation.nationId, "配置秘源护盾"))

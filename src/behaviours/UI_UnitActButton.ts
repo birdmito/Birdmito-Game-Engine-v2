@@ -25,10 +25,10 @@ export class UI_UnitActButton extends Behaviour {
         //更新按钮文本
         switch (this.unitToDestroy.getBehaviour(UnitBehaviour).unitParam.name) {
             case "开拓者":
-                getGameObjectById("UnitBehaviourText").getBehaviour(TextRenderer).text = "开拓 （" + this.colonyCost + "金币）";
+                getGameObjectById("UnitBehaviourText").getBehaviour(TextRenderer).text = "开拓 ||（" + this.colonyCost + "金币）";
                 break;
             case "筑城者":
-                getGameObjectById("UnitBehaviourText").getBehaviour(TextRenderer).text = "筑城 （" + this.colonyCost + "金币）";
+                getGameObjectById("UnitBehaviourText").getBehaviour(TextRenderer).text = "筑城 ||（" + this.colonyCost + "金币）";
                 break;
         }
 

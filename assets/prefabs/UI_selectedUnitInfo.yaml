@@ -155,7 +155,7 @@ children:
             behaviours:
               - type: Transform
                 properties:
-                  x: -168 #210
+                  x: -63 #210 +
                   y: 52 #530
                   scaleX: 1
                   scaleY: 1
@@ -164,8 +164,8 @@ children:
                 properties:
                   fontSize: 20
                   text: '这里应该显示单位的行为'
-                  fontFamily: 'fangsong'
                   color: white
+                  anchorType: center
       - id: UnitNameText
         behaviours:
           - type: Transform
