@@ -19,7 +19,7 @@ export class BattleHandler {
     //处理一场战斗
     static handleBattle(battle: Battle) {
         console.log("处理战斗")
-        battle.lastTurnInfo = "上一回合战报：|"; //清空上一回合的战斗信息
+        battle.lastTurnInfo = "               上一回合战报：||||"; //清空上一回合的战斗信息
 
         //每回合投六次骰子
         for (let i = 0; i < 6; i++) {
@@ -40,7 +40,7 @@ export class BattleHandler {
                 battle.defenderPowerLeft -= dmg;
                 battle.defenderPowerLeft = Math.max(0, battle.defenderPowerLeft); //防止战力为负数
                 console.log(`攻击方拼点胜利，防御方损失${dmg}战力`)
-                battle.lastTurnInfo += "攻击方拼点胜利，防御方损失" + dmg + "战力||"
+                battle.lastTurnInfo += "攻击方拼点胜利，防御方损失" + dmg + "战力|||"
             }
             else {
                 var dmg = battle.defenderPowerLeft / 20 * (1 - Technology.getTechBonus(battle.attackerNation.nationId, "配置秘源护盾"))
@@ -48,7 +48,7 @@ export class BattleHandler {
                 battle.attackerPowerLeft -= dmg;
                 battle.attackerPowerLeft = Math.max(0, battle.attackerPowerLeft); //防止战力为负数
                 console.log(`防御方拼点胜利，攻击方损失${dmg}战力`)
-                battle.lastTurnInfo += "防御方拼点胜利，攻击方损失" + dmg + "战力|"
+                battle.lastTurnInfo += "防御方拼点胜利，攻击方损失" + dmg + "战力|||"
             }
         }
 
