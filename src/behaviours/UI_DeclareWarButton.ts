@@ -9,23 +9,33 @@ import { generateTip } from "./Tip";
 import { UnitBehaviour } from "./UnitBehaviour";
 
 export class UI_DeclareWarButton extends Behaviour {
-    nation: Nation
+    targetNation: Nation
     onStart(): void {
         const selectedObj = SelectedObjectInfoMangaer.selectedBehaviour as Province | UnitBehaviour
-        this.nation = Nation.nations[selectedObj.nationId]
+        this.targetNation = Nation.nations[selectedObj.nationId]
     }
 
     onUpdate(): void {
-        // 获取玩家对该国家的态度
+        if (Nation.nations[GameProcess.playerNationId].enemyNationList.includes(this.targetNation)) {
+            getGameObjectById("_DeclareWarText").getBehaviour(TextRenderer).text = '议和'
+            getGameObjectById("_DeclareWarText").getBehaviour(TextRenderer).color = '#00ff00'
+        } else {
+            getGameObjectById("_DeclareWarText").getBehaviour(TextRenderer).text = '宣战'
+            getGameObjectById("_DeclareWarText").getBehaviour(TextRenderer).color = '#ff0000'
+        }
+
         this.gameObject.onMouseLeftDown = () => {
-            if (Nation.nations[GameProcess.playerNationId].favorability.get(this.nation.nationId) >= 5) {
-                console.log('我们对他们的态度不够恶劣，无法宣战')
-                generateTip(this, '我们对他们的态度不够恶劣，无法宣战')
-            }
-            else {
-                Nation.nations[GameProcess.playerNationId].declareWar(this.nation)
-                console.log('我们对他们宣战了')
-                generateTip(this, `我们对${this.nation.nationName}宣战了`)
+            switch (getGameObjectById("_DeclareWarText").getBehaviour(TextRenderer).text) {
+                case '议和':
+                    Nation.nations[GameProcess.playerNationId].peace(this.targetNation)
+                    console.log('我们和他们议和了')
+                    generateTip(this, `我们和${this.targetNation.nationName}议和了`)
+                    return
+                case '宣战':
+                    Nation.nations[GameProcess.playerNationId].declareWar(this.targetNation)
+                    console.log('我们对他们宣战了')
+                    generateTip(this, `我们对${this.targetNation.nationName}宣战了`)
+                    return
             }
         }
     }

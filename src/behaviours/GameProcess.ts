@@ -216,10 +216,10 @@ export class GameProcess extends Behaviour {
             for (let i = 1; i <= Nation.nationQuantity; i++) {
                 switch (nation.foreignPolicy.get(i)) {
                     case 'negative':
-                        nation.favorability.set(i, nation.favorability.get(i) - 1);  //好感度-1
+                        Nation.nations[i].favorability.set(nation.nationId, Nation.nations[i].favorability.get(nation.nationId) - 1);  //对方对我好感度-1
                         break;
                     case 'positive':
-                        nation.favorability.set(i, nation.favorability.get(i) + 1);  //好感度+1
+                        Nation.nations[i].favorability.set(nation.nationId, Nation.nations[i].favorability.get(nation.nationId) + 1);  //对方对我好感度+1
                         break;
                     default:
                         break;

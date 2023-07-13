@@ -78,6 +78,14 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 (unit.unitParam.name !== '开拓者' && unit.unitParam.name !== '筑城者')) {
                 getGameObjectById("UI_UnitBehaviourButton").destroy();
             }
+            //若不是玩家的单位，则销毁_UnitSeparateButton
+            if (unit.nationId !== GameProcess.playerNationId) {
+                getGameObjectById("_UnitSeparateButton").destroy();
+            }
+            //若不是玩家的单位，则销毁_UnitDeleteButton
+            if (unit.nationId !== GameProcess.playerNationId) {
+                getGameObjectById("_UnitDeleteButton").destroy();
+            }
         }
     }
 

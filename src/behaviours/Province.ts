@@ -20,6 +20,7 @@ import { Transform } from "../engine/Transform";
 import { Click } from "./Click";
 import { HexagonLine } from "./HexagonLine";
 import { UI_UpdateSelectedObjInfo } from "./UI_UpdateSelectedObjInfo";
+import { PathFinding } from "./PathFinding";
 
 export class Province extends Behaviour {
     static provincesObj: GameObject[][] = [];
@@ -80,11 +81,16 @@ export class Province extends Behaviour {
     onUpdate(): void {
         this.gameObject.onMouseEnter = () => {
             if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
-                // console.log("当前选中物体为单位，预告ap消耗")
-                //若当前选中的是单位，则更改单位信息，预告将要消耗的行动点数
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
-                if (unit.nationId === GameProcess.playerNationId || GameProcess.isCheat) {
-                    unit.apCostToMove = this.apCost;
+                if ((unit.nationId === GameProcess.playerNationId || GameProcess.isCheat)) {
+                    const path: Province[] = PathFinding.findPath(unit.currentProvince, this);
+                    unit.apCostToMove = 0;
+                    //按顺序设置每个省份gameObject上_PathNoText的text
+                    for (let i = 0; i < path.length; i++) {
+                        const pathNoText = path[i].gameObject.getChildById("_PathNoText").getBehaviour(TextRenderer);
+                        pathNoText.text = i.toString();
+                        unit.apCostToMove += path[i].apCost;
+                    }
                 }
             }
         }

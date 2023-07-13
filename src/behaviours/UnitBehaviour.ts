@@ -279,8 +279,11 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                         console.log(nation.cityList);
                     }
                     nation.dora -= Calculator.calculateColonyCost(nation.nationId, this.currentProvince.coord);  //扣钱
-                    this.gameObject.destroy();  //销毁单位
-                    if (getGameObjectById("UI_selectedUnitInfo")) {
+                    if (this.unitParam.quantity > 1) {
+                        this.unitParam.quantity--;
+                    }
+                    else {
+                        this.gameObject.destroy();
                         getGameObjectById("UI_selectedUnitInfo").destroy();
                     }
                 }
@@ -323,8 +326,13 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                     //处理逻辑
                     this.currentProvince.becomeCity();
                     nation.dora -= Calculator.calculateColonyCost(nation.nationId, this.currentProvince.coord);  //扣钱
-                    this.gameObject.destroy();
-                    getGameObjectById("UI_selectedUnitInfo").destroy();
+                    if (this.unitParam.quantity > 1) {
+                        this.unitParam.quantity--;
+                    }
+                    else {
+                        this.gameObject.destroy();
+                        getGameObjectById("UI_selectedUnitInfo").destroy();
+                    }
                 }
                 break;
         }

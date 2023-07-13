@@ -7,6 +7,8 @@ export class UI_DismissUnitButton extends Behaviour {
         this.gameObject.onMouseLeftDown = () => {
             console.log("dismiss unit");
             const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
+            SelectedObjectInfoMangaer.selectedBehaviour = null;
+            SelectedObjectInfoMangaer.selectedInfoWindow.destroy();
             unit.dismiss();
         }
     }

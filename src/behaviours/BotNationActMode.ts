@@ -7,6 +7,10 @@ export class BotNationActMode {
     constructor(nation: Nation) {
         this.nation = nation;
     }
+    //对其他国家发来的求和请求的接受度
+    acceptPeaceRequest: Map<number, number> = new Map();
+
+
     isBotOperateFinish: boolean = false;
     nation: Nation;
     operatedObjectList: Array<Province | UnitBehaviour> = [];
