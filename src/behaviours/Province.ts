@@ -145,12 +145,6 @@ export class Province extends Behaviour {
                 Nation.nations[nationId].capitalProvince = this;  //将首个被占领的领地设为首都
                 console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvince);
             }
-            // const provinceTransform = this.gameObject.getBehaviour(Transform);    
-            // this.gameObject.children[2].addBehaviour(new HexagonBorderRenderer());
-            // this.gameObject.children[2].getBehaviour(HexagonLine).caculateVertices(provinceTransform.x + 86, provinceTransform.y +100 ,98);
-            // this.gameObject.children[2].getBehaviour(HexagonLine).showVertices();
-            // this.gameObject.children[2].getBehaviour(HexagonLine).deleteSameVertex();
-            // this.gameObject.children[2].getBehaviour(HexagonLine).showVertices();
         }
     }
 

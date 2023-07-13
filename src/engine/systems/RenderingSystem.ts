@@ -1,5 +1,6 @@
 import { Camera } from "../../behaviours/Camera";
 import { HexagonLine } from "../../behaviours/HexagonLine";
+import { Nation } from "../../behaviours/Nation";
 import { ShapeRectRenderer } from "../../behaviours/unneed/ShapeRectRenderer";
 import { GameObject, getGameObjectById, Renderer } from "../../engine";
 import { AnimationRenderer } from "../AnimationRenderer";
@@ -181,7 +182,9 @@ export class CanvasContextRenderingSystem extends System {
                     } else if (child.renderer instanceof HexagonBorderRenderer){
                         const renderer = child.renderer as HexagonBorderRenderer;
                         context.save()
-                        drawHexagon(context, renderer);
+                        for(let i = 1; i <= Nation.nationQuantity; i++){
+                            drawHexagon(context,i);
+                        }
                         context.restore();
 
                     }
@@ -243,26 +246,97 @@ function drawText(context: CanvasRenderingContext2D, renderer: TextRenderer){
     // console.log(renderer.measuredTextWidth)
 }
 
-function drawHexagon(context: CanvasRenderingContext2D, renderer: HexagonBorderRenderer) {
-    // 开始绘制
-    context.beginPath();
-    context.moveTo(HexagonLine.vertices[0].x, HexagonLine.vertices[0].y);
+function drawHexagon(context: CanvasRenderingContext2D,nationId:number){
+    //这一段相当于判定了一个六边形中的0-1，1-2，2-3，3-4，4-5的链接
+    for(let i = 0;i<Nation.nations[nationId].vertices.length-1;i++){
+        const vertex = Nation.nations[nationId].vertices[i]
+        const vertex1 = Nation.nations[nationId].vertices[i+1]
+        let isDraw = !judgeVertex(vertex,Nation.nations[nationId].needJumpVertices)
+        
+        //我们需要跳过5-6的链接，所以需要判定5-6的链接
+        if((i+1)%6==0 && i!=0){
+            isDraw = false
+        };
+        
+        
+        if(isDraw){drawOneLine(context,nationId,vertex,vertex1,Nation.nations[nationId].nationBorderColor)}
+    
 
-    for (let i = 1; i < 6; i++) {
-    const vertex = HexagonLine.vertices[i];
-    context.lineTo(vertex.x, vertex.y);
+
+    
+    
     }
-
-    // 设置描边颜色和线宽
-    context.strokeStyle = renderer.color;
-    context.lineWidth = 3;
-
-    // 绘制描边
-    context.stroke();
+    //判断画了多少个六边形
+    let length = Nation.nations[nationId].vertices.length
+    let number = Math.floor(length/6)
+    //nuber 即为需要判定多少0-5的链接
+    //这一段相当于判定了0-5的链接
+    for(let k=1;k<=number;k++){
+        if(judgeVertex(Nation.nations[nationId].vertices[k*6-1],Nation.nations[nationId].needJumpVertices)){
+            continue;
+        }else{
+            drawOneLine(context,nationId,Nation.nations[nationId].vertices[k*6-1],Nation.nations[nationId].vertices[(k-1)*6],Nation.nations[nationId].nationBorderColor)
+        }
+    }
 
 
 }
 
+function judgeVertex(vertexNeedJudge:{x:number,y:number},judgeVertex:{x:number,y:number}[]){
+    for(let i=0;i<judgeVertex.length;i++){
+        if(vertexNeedJudge==judgeVertex[i]){
+            return true
+        }
+    }
+    return false
+}
+
+function drawOneLine(context: CanvasRenderingContext2D,nationId:number,vertex1:{x:number,y:number},vertex2:{x:number,y:number},color:string)
+{
+  // 计算线段的长度和角度
+  var dx = vertex2.x - vertex1.x;
+  var dy = vertex2.y - vertex1.y;
+  var line_length = Math.sqrt(dx * dx + dy * dy);
+  var angle = Math.atan2(dy, dx);
+
+  // 计算垂直线的中点
+  var mid_x = (vertex1.x + vertex2.x) / 2;
+  var mid_y = (vertex1.y + vertex2.y) / 2;
+
+  // 计算垂直线的起点和终点
+  var perpendicular_length = 5;
+  var perpendicular_start_x = mid_x - perpendicular_length * Math.sin(angle);
+  var perpendicular_start_y = mid_y + perpendicular_length * Math.cos(angle);
+  var perpendicular_end_x = mid_x + perpendicular_length * Math.sin(angle);
+  var perpendicular_end_y = mid_y - perpendicular_length * Math.cos(angle);
+
+
+   // 创建渐变对象
+   var gradient = context.createLinearGradient(perpendicular_start_x, perpendicular_start_y, perpendicular_end_x, perpendicular_end_y);
+  
+   // 添加渐变颜色停止点
+   gradient.addColorStop(0,  getTransparentColor(color, 0)); // 起始点颜色，完全不透明
+   gradient.addColorStop(1,color); // 终点颜色，完全透明
+
+
+  // 开始绘制线条
+  context.beginPath();
+  context.moveTo(perpendicular_start_x, perpendicular_start_y);
+  context.lineTo(perpendicular_end_x, perpendicular_end_y);
+
+  // 设置线条宽度和颜色
+  context.lineWidth = line_length+8;
+  context.strokeStyle = gradient;
+
+  // 绘制线条
+  context.stroke();
+        
+}
+
+function getTransparentColor(color, alpha) {
+    // 将 RGB 格式的颜色字符串转换为 RGBA 格式，并设置透明度
+    return color.replace('rgb', 'rgba').replace(')', ', ' + alpha + ')');
+  }
 //     // 创建一个空的 Map 对象来保存边信息和重叠次数
 //         const edgeMap = new Map();
 

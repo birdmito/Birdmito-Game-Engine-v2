@@ -19,14 +19,15 @@ children:
           scaleY: 0.05
           rotation: 0
           anchorType: left-top
-      - type: MiniMapBehaviour    
+      - type: MiniMapBehaviour  
+      - type: PathFinding  
     children: []
   - id: ViewBox
     behaviours:
       - type: Transform
         properties:
           x: 1118
-          y: 877
+          y: 87
           scaleX: 0.05
           scaleY: 0.05
           rotation: 0

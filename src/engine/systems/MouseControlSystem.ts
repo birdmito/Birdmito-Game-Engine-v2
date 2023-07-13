@@ -128,6 +128,7 @@ export class MouseControlSystem extends System {
                             hover = hover.parent;
                         }
                         // console.log("leave", this.currentHoverGameObject.id);
+                        this.currentDownGameObjects = [];
                     }
                     this.currentHoverGameObject = result;
                     while(result){

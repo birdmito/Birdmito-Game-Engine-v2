@@ -19,9 +19,50 @@ children:
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: ./assets/images/Icon_PanelMenu.png
+          source: ./assets/images/Icon_PanelMenuCross.png
           renderType: 'ui'
-          scaleXForUI: 5
-          scaleYForUI: 5
+          scaleXForUI: 40
+          scaleYForUI: 20
           borderWidthForUI: 100
           anchorType: center
+  - id: StaffList
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/StaffList.png
+          anchorType: center
+  - id: Close
+    behaviours:
+      - type: Transform
+        properties:
+          x: 889 #40/2 * 40 + 100 - 11
+          y: -487 #-20/2 * 40 - 100 + 13
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: DestroyOnClick
+        properties:
+          targetID: StaffWindow
+    children:
+      - id: CloseImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_Cross.png
+              anchorType: right-top
+          - type: UI_ButtonState
+        children: []

@@ -94,6 +94,11 @@ export class Nation {
 
     doraChangeNextTurn: number = 0;  //预计的dora变动
 
+    vertices :{x:number,y:number}[] = [];
+
+    needJumpVertices:{x:number,y:number}[] = [];
+
+    nationBorderColor: string = 'green';
     //TODO 收支明细——没想好怎么做（明细更新的时机）
     // //记录收支细节，用于在ui中展示
     // //预计的dora变动
@@ -302,6 +307,44 @@ export class Nation {
                 generateTip(this.provinceOwnedList[0], "金币不足");
         }
     }
+
+    updateNationColor(){
+              //调整NationBorder颜色
+            const nationId = this.nationId
+                if(nationId==1){
+                  //这是玩家的颜色
+                  this.nationBorderColor = 'rgb(134,72,66)' 
+                }else if(nationId==998){
+                  //这是地精的颜色
+                  this.nationBorderColor = 'rgb(19, 80, 26)'         
+                }else if(nationId==997){
+                  //这是矮人的颜色
+                  this.nationBorderColor = 'rgb(116, 127, 139)'
+                }else if(nationId==996){
+                  //这是龙族的颜色
+                  this.nationBorderColor = 'rgb(36, 36, 47)'
+                }else if(nationId==999){
+                  //这是精灵的颜色
+                  this.nationBorderColor = 'rgb(3, 80, 72)' 
+                }else{
+                  //这是AI的颜色
+                  this.nationBorderColor = this.RandomColor() 
+                }
+              
+    }
+
+    RandomColor():string{
+        //随机生成颜色
+        let color = 'rgb('
+        for(let i=0;i<3;i++){
+            color += Math.floor(Math.random()*255)
+            if(i!=2){
+                color += ','
+            }
+        }
+        color += ')'
+        return color
+      }
 
 }
 // export class NationManager{
