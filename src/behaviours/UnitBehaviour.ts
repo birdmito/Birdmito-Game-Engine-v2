@@ -21,6 +21,7 @@ import { b2QueryCallback } from "@flyover/box2d";
 import { Building } from "./Building";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
+import { Technology } from "./Technology";
 
 export class UnitBehaviour extends Behaviour implements Moveable {
     nationId: number;
@@ -151,7 +152,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             return false;
         }
 
-        if (!province.isLand) {
+        if (!province.isLand && !Technology.isTechCompleted(this.nationId, "征服星辰大海")) {
             if (this.nationId === GameProcess.playerNationId)
                 generateTip(this, "海面不可通行");
             return false;
