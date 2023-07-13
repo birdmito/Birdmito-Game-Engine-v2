@@ -35,17 +35,17 @@ export class LayoutGroup extends Behaviour {
 
     onUpdate(): void {
         this.updateChildrenPosition();
-        if (this.numPerLine !== undefined) {
-            //disactive编号大于page + numPerLine的子物体和编号小于page的子物体
-            this.gameObject.children.forEach((child, index) => {
-                if (index < this.page || index >= (this.page + Number(this.numPerLine))) {
-                    child.active = false;
-                }
-                else {
-                    child.active = true;
-                }
-            })
-        }
+        // if (this.numPerLine !== undefined) {
+        //     //disactive编号大于page + numPerLine的子物体和编号小于page的子物体
+        //     this.gameObject.children.forEach((child, index) => {
+        //         if (index < this.page || index >= (this.page + Number(this.numPerLine))) {
+        //             child.active = false;
+        //         }
+        //         else {
+        //             child.active = true;
+        //         }
+        //     })
+        // }
     }
 
     updateChildrenPosition() {
