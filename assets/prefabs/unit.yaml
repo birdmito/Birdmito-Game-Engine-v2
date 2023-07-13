@@ -8,17 +8,40 @@ behaviours:
       rotation: 0
       anchorType: 'center'
   - type: UnitBehaviour
-  - type: BitmapRenderer
-    properties:
-      source: ./assets/images/Interface_MilitaryUnit.png
 id: Unit
 children:
-  - id: UnitPowerText
+  - id: _UnitFlagImage
     behaviours:
       - type: Transform
         properties:
           x: 0
           y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Interface_UnitBanner_Friendly.png
+  - id: _UnitHeadIconImage
+    behaviours:
+      - type: Transform
+        properties:
+          x: 32
+          y: 45
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+          anchorType: 'center'
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Interface_Unit_Soldier.png
+          hitAreaType: none
+  - id: UnitPowerText
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: -30
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -34,7 +57,7 @@ children:
       - type: Transform
         properties:
           x: 0
-          y: 15
+          y: -15
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -45,3 +68,13 @@ children:
           color: white
           fontSize: 15
           hitAreaType: none
+  - id: _BattleInfoButtonRoot
+    behaviours:
+    - type: Transform
+      properties:
+        x: 32
+        y: -45
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    children: []

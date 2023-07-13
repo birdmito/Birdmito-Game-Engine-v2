@@ -31,7 +31,7 @@ children:
           rotation: 0
       - type: UI_TechButton
     children:
-      - id: CurrentTechImage
+      - id: _CurrentTechImage
         behaviours:
           - type: Transform
             properties:
@@ -43,20 +43,6 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/ScreenArt_Technology_0.png
-      - id: CurrentTechText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: 这里应该显示当前科技
-              color: white
       - id: CurrentTechFrame
         behaviours:
           - type: Transform
@@ -70,6 +56,22 @@ children:
             properties:
               source: ./assets/images/Interface_ButtonTechTree.png
           - type: UI_ButtonState
+      - id: CurrentTechText
+        behaviours:
+          - type: Transform
+            properties:
+              x: 5
+              y: 5
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: TextRenderer
+            properties:
+              fontSize: 20
+              text: '当前科技：无'
+              color: white
+              hitAreaType: none
+              lineHeight: 1.2
   - id: TechWindowRoot
     behaviours:
       - type: Transform

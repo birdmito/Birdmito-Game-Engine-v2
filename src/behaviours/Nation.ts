@@ -90,11 +90,11 @@ export class Nation {
     provinceOwnedList: Province[] = [];
     _capitalProvince: Province;
     set capitalProvince(value: Province) {
-        if (this._capitalProvince)
-            this._capitalProvince.gameObject.getChildById('_CapitalText').getBehaviour(TextRenderer).text = ' ';
+        // if (this._capitalProvince)
+        //     this._capitalProvince.gameObject.getChildById('_CapitalText').getBehaviour(TextRenderer).text = ' ';
         this._capitalProvince = value;
-        if (this._capitalProvince)
-            this._capitalProvince.gameObject.getChildById('_CapitalText').getBehaviour(TextRenderer).text = '★';
+        // if (this._capitalProvince)
+        //     this._capitalProvince.gameObject.getChildById('_CapitalText').getBehaviour(TextRenderer).text = '★';
     }
     get capitalProvince(): Province {
         return this._capitalProvince;

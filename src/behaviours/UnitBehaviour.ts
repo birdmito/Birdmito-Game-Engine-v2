@@ -20,6 +20,7 @@ import { UI_BattleInfoButtonPrefabBinding } from "../bindings/UI_BattleInfoButto
 import { b2QueryCallback } from "@flyover/box2d";
 import { Building } from "./Building";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
+import { BitmapRenderer } from "../engine/BitmapRenderer";
 
 export class UnitBehaviour extends Behaviour implements Moveable {
     nationId: number;
@@ -56,8 +57,18 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         this.currentProvince.unitList.push(this);
 
         this.unitParamWhenRecruited = UnitParam.copyUnitParam(this.unitParam);  //记录单位的初始属性
-        // this.updateTransform();
-        // Nation.nations[this.nationId].doraChangeNextTurn -= this.unitParam.maintCost * this.unitParam.quantity;  //扣除维护费用
+        // 根据单位名称更换单位图标
+        switch (this.unitParam.name) {
+            case '士兵' || '自行火炮':
+                this.gameObject.getChildById("_UnitHeadIconImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_Unit_Soldier.png';
+                break;
+            case '开拓者':
+                this.gameObject.getChildById("_UnitHeadIconImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_Unit_Explorer.png';
+                break;
+            case '筑城者':
+                this.gameObject.getChildById("_UnitHeadIconImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_Unit_BuildCity.png';
+                break;
+        }
     }
 
     onUpdate(): void {
@@ -78,6 +89,17 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         }
         else {
             this.gameObject.getChildById("_UnitApText").getBehaviour(TextRenderer).text = `AP:${this.unitParam.ap}/${this.unitParam.apMax}`;
+        }
+
+        //根据阵营更换旗子颜色
+        if (this.nationId === GameProcess.playerNationId) {
+            this.gameObject.getChildById("_UnitFlagImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_UnitBanner_Friendly.png';
+        }
+        else if (Nation.nations[GameProcess.playerNationId].enemyNationList.some((enemyNation) => enemyNation.nationId === this.nationId)) {
+            this.gameObject.getChildById("_UnitFlagImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_UnitBanner_Hostil.png';
+        }
+        else {
+            this.gameObject.getChildById("_UnitFlagImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_UnitBanner_Neutral.png';
         }
     }
 
@@ -234,8 +256,10 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                     newBattle.province = province;
                     BattleHandler.battleQueue.push(newBattle);  //将战斗加入战斗队列
                     const prefab = this.engine.createPrefab(new UI_BattleInfoButtonPrefabBinding());
+                    newBattle.battleInfoButton = prefab;
                     prefab.getBehaviour(UI_BattleInfoButton).battle = newBattle;
-                    province.gameObject.getChildById("_BattleInfoButtonRoot").addChild(prefab);
+                    this.gameObject.getChildById("_BattleInfoButtonRoot").addChild(prefab);
+                    // province.gameObject.getChildById("_BattleInfoButtonRoot").addChild(prefab);
                 }
                 //没有敌国战斗单位
                 else {

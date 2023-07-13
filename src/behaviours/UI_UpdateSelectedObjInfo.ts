@@ -71,6 +71,7 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
             }
 
         }
+        //若选中的是单位
         else if (this.selectedBehaviour instanceof UnitBehaviour) {
             const unit = this.selectedBehaviour as UnitBehaviour;
             //若不是玩家的单位，或单位没有特殊行为，则销毁UI_UnitBehaviourButton
@@ -85,6 +86,22 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
             //若不是玩家的单位，则销毁_UnitDeleteButton
             if (unit.nationId !== GameProcess.playerNationId) {
                 getGameObjectById("_UnitDeleteButton").destroy();
+            }
+
+            //根据单位名称更换单位图片
+            switch (unit.unitParam.name) {
+                case "开拓者":
+                    getGameObjectById("UnitInfoLayer2").getBehaviour(BitmapRenderer).source =
+                        "./assets/images/ScreenArt_Explorer.png";
+                    break;
+                case "筑城者":
+                    getGameObjectById("UnitInfoLayer2").getBehaviour(BitmapRenderer).source =
+                        "./assets/images/ScreenArt_BuildCity.png";
+                    break;
+                case "士兵" || '自行火炮':
+                    getGameObjectById("UnitInfoLayer2").getBehaviour(BitmapRenderer).source =
+                        "./assets/images/ScreenArt_Unit.png";
+                    break;
             }
         }
 
@@ -106,12 +123,12 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
         else if (this.selectedBehaviour instanceof Province) {
             //更新Info界面
             const province = this.selectedBehaviour as Province;
-            if (province.isCity) {
-                getGameObjectById("ProvinceTypeText").getBehaviour(TextRenderer).text = `城市`;
-            }
-            else {
-                getGameObjectById("ProvinceTypeText").getBehaviour(TextRenderer).text = `村庄`;
-            }
+            // if (province.isCity) {
+            //     getGameObjectById("ProvinceTypeText").getBehaviour(TextRenderer).text = `城市`;
+            // }
+            // else {
+            //     getGameObjectById("ProvinceTypeText").getBehaviour(TextRenderer).text = `村庄`;
+            // }
             getGameObjectById("ProvinceNationNameText").getBehaviour(TextRenderer).text = `所属国家：${province.nationId}`;
             getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = `奥坎盾：${province.provinceProduction.dora.toString()} 
             ||生产力：${province.provinceProduction.production.toString()} ||科技点：${province.provinceProduction.techPoint.toString()}`;

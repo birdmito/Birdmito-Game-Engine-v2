@@ -1,3 +1,4 @@
+import { GameObject } from "../engine";
 import { Nation } from "./Nation";
 import { Province } from "./Province";
 import { Technology } from "./Technology";
@@ -115,7 +116,7 @@ export class BattleHandler {
             }
 
             //销毁战斗
-            battle.province.gameObject.getChildById("_BattleInfoButtonRoot").children[0].destroy();
+            battle.battleInfoButton.destroy();
             battle.province.battle = undefined;
 
             //从战斗队列中移除
@@ -146,6 +147,8 @@ export class Battle {
     //战斗双方的剩余战力
     attackerPowerLeft: number;
     defenderPowerLeft: number;
+
+    battleInfoButton: GameObject;
 
     lastTurnInfo: string = " ";
 }

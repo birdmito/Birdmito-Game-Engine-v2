@@ -18,10 +18,12 @@ export class UI_RecruitButton extends Behaviour {
             const provinceToRecruit = SelectedObjectInfoMangaer.selectedBehaviour as Province;
             for (const unit of provinceToRecruit.recruitableUnitList) {
                 if (unit.techRequired !== '') {
+                    console.log(`单位${unit.name}的科技要求：${unit.techRequired}`)
                     if (!Technology.isTechCompleted(provinceToRecruit.nationId, unit.techRequired)) {
                         continue;
                     }
                 }
+                // console.log(`将单位${unit.name}加入招募列表}`)
                 const unitUiBinding = new UI_itemPrefabBinding;
                 unitUiBinding.itemClickEventText = "招募";
                 unitUiBinding.item = unit.name;
