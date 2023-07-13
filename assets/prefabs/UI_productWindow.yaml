@@ -31,7 +31,7 @@ children:
       - type: Transform
         properties:
           x: -37.5
-          y: -350
+          y: -300
           scaleX: 1
           scaleY: 1
           rotation: 0

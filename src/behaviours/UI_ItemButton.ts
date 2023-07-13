@@ -61,6 +61,12 @@ export class UI_ItemButton extends Behaviour {
             this.gameObject.parent.getChildById("_ItemInfo").active = true;
         }
 
+        //这是一个很奇怪的bug，必须强制拆除按钮不显示info，否则其一直显示，怀疑是buildingList的问题
+        // if (this.eventText == "拆除") {
+        //     this.gameObject.parent.getChildById("_ItemEventIcon").active = false;
+        //     this.gameObject.parent.getChildById("_ItemInfo").active = false;
+        // }
+
         this.gameObject.onMouseLeave = () => {
             // this.gameObject.parent.getChildById("_ItemEventIcon").active = false;  //显示图标
             // switch (this.eventText) {
@@ -69,7 +75,7 @@ export class UI_ItemButton extends Behaviour {
             //     default:
             //         this.gameObject.parent.getChildById("_ItemInfo").active = false;
             // }  //根据不同的事件类型，设置不同的信息显示
-            this.gameObject.parent.getChildById("_ItemEventIcon").active = false;  
+            this.gameObject.parent.getChildById("_ItemEventIcon").active = false;
             this.gameObject.parent.getChildById("_ItemInfo").active = false;
         }
 

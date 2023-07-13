@@ -69,6 +69,16 @@ export class UI_UpdateItemInfo extends Behaviour {
             case '奇迹工坊之路' || '秘源驱动机械' || '发掘秘源之金' || '全民机械浪潮' || '新型机械工业' || '浪淘尽现黄金' || '秘源金销全国' || '秘源金再升级':
                 itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Technology_3.png'
                 break;
+            case '开拓者':
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Unit_Explore.png'
+                break;
+            case '筑城者':
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Unit_BuildCity.png'
+                break;
+            case '士兵' || '自行火炮':
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Unit_Soldier.png'
+                break;
+
         }
     }
 }
