@@ -60,7 +60,7 @@ children:
               source: ./assets/images/Icon_PanelBattle_3.png
               anchorType: center
         children: []    
-  - id: BattleDefender
+  - id: _BattleDefender
     behaviours:
       - type: Transform
         properties:
@@ -70,7 +70,7 @@ children:
           scaleY: 1
           rotation: 0
     children:
-    - id: BattleDefenderFlag
+    - id: _BattleDefenderFlag
       behaviours:
         - type: Transform
           properties:
@@ -114,7 +114,7 @@ children:
           anchorType: center
           lineHeight: 2.5
     children: []
-  - id: BattleAttacker
+  - id: _BattleAttacker
     behaviours:
       - type: Transform
         properties:
@@ -124,7 +124,7 @@ children:
           scaleY: 1
           rotation: 0
     children:
-    - id: BattleAttackerFlag
+    - id: _BattleAttackerFlag
       behaviours:
         - type: Transform
           properties:

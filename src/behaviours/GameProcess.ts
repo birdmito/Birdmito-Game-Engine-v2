@@ -95,7 +95,7 @@ export class GameProcess extends Behaviour {
 
     //回合
     static turnrNow = 1;
-    static turnTotal = 50;
+    static turnTotal = 100;
 
     initialNation() {
         for (let i = Nation.nationQuantity - 1; i >= 0; i--) {
@@ -127,7 +127,6 @@ export class GameProcess extends Behaviour {
 
             const newUnitList: UnitParam[] = [
                 UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[0][0].getBehaviour(Province), '开拓者')),
-                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[0][0].getBehaviour(Province), '士兵')),
                 UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[0][0].getBehaviour(Province), '士兵')),
             ];
 
@@ -208,7 +207,6 @@ export class GameProcess extends Behaviour {
         //清对国家做遍历，实现每回合执行一次的更新
         for (let i = 1; i < Nation.nations.length; i++) {
             const nation = Nation.nations[i];
-            nation.techPerTurn = 100;
 
             //更新当前研究进度
             const currentTech = Technology.getNationTechByName(nation.nationId, nation.currentTechName);
@@ -345,7 +343,7 @@ export class GameProcess extends Behaviour {
         buttonText.getBehaviour(TextRenderer).text = "返回主菜单"
         console.log("image:" + image)
 
-        if (Nation.nations[GameProcess.playerNationId].provinceOwnedList.length > 0) {
+        if (Nation.nations[GameProcess.playerNationId].provinceOwnedList.length > 100) {
             tip.getBehaviour(TextRenderer).text = "游戏胜利";
 
             image.getBehaviour(BitmapRenderer).source = "./assets/images/ScreenArt_Win.png"

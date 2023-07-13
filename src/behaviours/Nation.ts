@@ -33,6 +33,7 @@ export class Nation {
         this.cityMax = 5;
         this.upgradeCost = 100;
         this.botActMode = new BotNationActMode(this);
+        this.techPerTurn = 10;
         for (let i = 0; i < Nation.nationQuantity; i++) {
             this.favorability.set(i + 1, 0);  //默认中立
             this.foreignPolicy.set(i + 1, 'neutral');  //默认中立

@@ -59,7 +59,8 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         this.unitParamWhenRecruited = UnitParam.copyUnitParam(this.unitParam);  //记录单位的初始属性
         // 根据单位名称更换单位图标
         switch (this.unitParam.name) {
-            case '士兵' || '自行火炮':
+            case '自行火炮':
+            case '士兵':
                 this.gameObject.getChildById("_UnitHeadIconImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_Unit_Soldier.png';
                 break;
             case '开拓者':
