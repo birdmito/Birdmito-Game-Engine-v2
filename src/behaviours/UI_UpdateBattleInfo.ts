@@ -8,10 +8,10 @@ export class UI_UpdateBattleInfo extends Behaviour {
     onUpdate(): void {
         this.gameObject.getChildById("_BattleDefenderInfoText").getBehaviour(TextRenderer).text =
             "      防守方|       " + this.battle.defenderNation.nationName + "|"
-            + (this.battle.defenderPowerLeft ? ("剩余兵力：" + this.battle.defenderPowerLeft) : ' ');
+            + (this.battle.defenderPowerLeft ? ("剩余战力：" + this.battle.defenderPowerLeft) : ' ');
         this.gameObject.getChildById("_BattleAttackerInfoText").getBehaviour(TextRenderer).text =
             "      进攻方|       " + this.battle.attackerNation.nationName + "|"
-            + (this.battle.attackerPowerLeft ? ("剩余兵力：" + this.battle.attackerPowerLeft) : ' ');
+            + (this.battle.attackerPowerLeft ? ("剩余战力：" + this.battle.attackerPowerLeft) : ' ');
         this.gameObject.getChildById("_LastTurnInfo").getBehaviour(TextRenderer).text =
             " |" + this.battle.lastTurnInfo;
         this.gameObject.getChildById("_BattleDefender").getChildById("_BattleDefenderFlag").getBehaviour(BitmapRenderer).source =

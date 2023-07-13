@@ -135,6 +135,7 @@ children:
                   source: ./assets/images/Interface_ButtonCountryPanel.png
               - type: UI_ButtonState
               - type: UI_NationButton
+              - type: Au_NationFlag
             children: []
       - id: ProvinceTerrainImage #省份地形图标
         behaviours:
@@ -171,36 +172,6 @@ children:
           scaleY: 1
           rotation: 0
     children:
-      - id: ProvinceTypeText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示省份类型'
-              color: white
-        children: []
-      - id: ProvinceNationNameText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 40
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示所属国家'
-              color: white
-        children: []
       - id: ProvinceProductionText
         behaviours:
           - type: Transform
@@ -216,21 +187,6 @@ children:
               text: '这里应该显示领地产出'
               color: white
               lineWidth: 20
-        children: []
-      - id: ProvinceApCostText
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 120
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示邻格单位到达该省份所需行动点'
-              color: white
         children: []
       - id: ProvinceTerrainText #省份地形文本
         behaviours:
@@ -327,6 +283,10 @@ children:
           scaleY: 1
           rotation: 0
       - type: UI_BuildButton
+      - type: Au_CustomButton
+        properties:
+          enterAudio: 按钮点击音效
+          clickAudio: 省份建造音效
     children:
       - id: BuildButtonImage
         behaviours:
@@ -361,6 +321,10 @@ children:
           scaleY: 1
           rotation: 0
       - type: UI_RecruitButton
+      - type: Au_CustomButton
+        properties:
+          enterAudio: 按钮点击音效
+          clickAudio: 省份招募音效
     children:
       - id: RecruitButtonImage
         behaviours:
@@ -401,4 +365,5 @@ children:
             properties:
               source: ./assets/images/Icon_Cross.png
           - type: UI_ButtonState
+          - type: Au_GeneralButton
         children: []

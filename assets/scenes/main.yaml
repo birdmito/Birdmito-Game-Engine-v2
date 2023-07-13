@@ -116,6 +116,10 @@ children:
         properties:
           name: 解散音效
           source: "./assets/audios/disband_unit.mp3"
+      - type: AudioClip # 分兵音效
+        properties:
+          name: 分兵音效
+          source: "./assets/audios/Audio_SeparateUnit.mp3"
       - type: AudioClip # 开拓音效
         properties:
           name: 开拓音效
@@ -147,7 +151,7 @@ children:
       - type: AudioClip # 建造音效
         properties:
           name: 建造音效
-          source: "./assets/audios/Audio_BuildingBuild.mp3"
+          source: "./assets/audios/construction_begin.mp3"
       - type: AudioClip # 拆除音效
         properties:
           name: 拆除音效
@@ -176,5 +180,13 @@ children:
         properties:
           name: 下一回合鼠标进入音效
           source: "./assets/audios/time_forward.mp3"
+      - type: AudioClip # 省份招募音效
+        properties:
+          name: 省份招募音效
+          source: "./assets/audios/Audio_ProduceUnit.mp3"
+      - type: AudioClip # 省份建造音效
+        properties:
+          name: 省份建造音效
+          source: "./assets/audios/Audio_BuildingBuild.mp3"
       - type: Au_Manager
     children: []

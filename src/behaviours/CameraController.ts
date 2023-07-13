@@ -10,9 +10,9 @@ export class CameraController extends Behaviour {
     boardWidth: number = 50;   //边缘检测盒范围宽度
 
     leftRectangle: Rectangle = { x: 0, y: 0, width: this.boardWidth, height: this.screenPreset.height };
-    rightRectangle: Rectangle = { x: this.screenPreset.width, y: 0, width: this.boardWidth, height: this.screenPreset.height };
+    rightRectangle: Rectangle = { x: 1900, y: 0, width: this.boardWidth, height: this.screenPreset.height };
     topRectangle: Rectangle = { x: 0, y: 0, width: this.screenPreset.width, height: this.boardWidth };
-    bottomRectangle: Rectangle = { x: 0, y: this.screenPreset.height, width: this.screenPreset.width, height: this.boardWidth };
+    bottomRectangle: Rectangle = { x: 0, y: 1020, width: this.screenPreset.width, height: this.boardWidth };
     mousePoint: Point = { x: 500, y: 500 };
 
     onStart(): void {
@@ -59,19 +59,19 @@ export class CameraController extends Behaviour {
         document.addEventListener("keydown", (event) => {
             //wasd移动摄像机
             if (event.key == "a") {
-                transform.x -= 2;
+                transform.x -= 0.1;
                 transform.x = Math.max(-300, transform.x);
             }
             if (event.key == "d") {
-                transform.x += 2;
+                transform.x += 0.1;
                 transform.x = Math.min(5460, transform.x);
             }
             if (event.key == "w") {
-                transform.y -= 2;
+                transform.y -= 0.1;
                 transform.y = Math.max(-100, transform.y);
             }
             if (event.key == "s") {
-                transform.y += 2;
+                transform.y += 0.1;
                 transform.y = Math.min(4500, transform.y);
             }
         })
