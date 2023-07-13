@@ -18,7 +18,7 @@ export class ProvinceGenerator extends Behaviour {
     gridSpace: number = 172;
     landPercentage: number = 40;
     landNum: number = 10;
-    static hexGridForOthers:{x:number,y:number}[] = [];
+    static hexGridForOthers: { x: number, y: number }[] = [];
     // static provinces: GameObject[][] = [];
 
     onStart(): void {
@@ -29,11 +29,12 @@ export class ProvinceGenerator extends Behaviour {
 
         // 创建六边形网格坐标数组
         const hexGrid = this.createHexGrid(this.gridSizeX, this.gridSizeY, this.gridSpace);
-        ProvinceGenerator.hexGridForOthers=hexGrid;
+        ProvinceGenerator.hexGridForOthers = hexGrid;
+
         // 创建省份
         for (let i = 0; i < this.gridSizeY; i++) {
-            PathFinding.grid[i] = [];
             for (let j = 0; j < this.gridSizeX; j++) {
+
                 const province = this.gameObject.engine.createPrefab(new ProvincePrefabBinding());
                 const miniProvince = this.gameObject.engine.createPrefab(new MiniProvincePreBinding());
                 province.getBehaviour(Transform).x = hexGrid[i][j].x;
@@ -61,9 +62,11 @@ export class ProvinceGenerator extends Behaviour {
                 }
                 this.randomSubTerrain(provinceBehaviour, miniProvinceBehaviour, generatedTerrain[j][i]);
                 provinceBehaviour.updateApCost();
-                
+
                 const node = new myNode(j, i, provinceBehaviour.apCost);
-                PathFinding.grid[i][j] = node;
+                if (!PathFinding.grid[j])
+                    PathFinding.grid[j] = []
+                PathFinding.grid[j][i] = node;
             }
         }
     }
