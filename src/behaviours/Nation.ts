@@ -42,6 +42,7 @@ export class Nation {
 
     nationId: number = 1;  //1-玩家 >2-AI
     nationName: string = "玩家";
+    nationFlagUrl;
 
     dora: number = 0;
     techPerTurn: number = 0;

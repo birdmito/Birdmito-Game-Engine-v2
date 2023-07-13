@@ -63,6 +63,7 @@ export class GameProcess extends Behaviour {
             if (code >= 'Digit1' && code <= 'Digit3') {
                 GameProcess.playerNationId = parseInt(code[5]);
                 console.log(`玩家切换到了${GameProcess.playerNationId}号国家`);
+                // generateTip(Province.provincesObj[0][0].getBehaviour(Province), `玩家切换到了${GameProcess.playerNationId}号国家`);
             }
         });
 
@@ -88,21 +89,36 @@ export class GameProcess extends Behaviour {
 
     initialNation() {
         for (let i = Nation.nationQuantity - 1; i >= 0; i--) {
-            const nation = new Nation(i + 1, "帝国" + (i + 1), 10000, 1);
+            const nation = new Nation(i + 1, "帝国" + (i + 1), 1000, 1);
             Nation.nations[nation.nationId] = nation;
             //nation.randomTechNameList无法在构造器中初始化，因为Technology.getTechByName()需要Nation.techTree
             nation.randomTechList = nation.getRandomTechNameList();
             nation.updateNationColor();
+            nation.nationFlagUrl = `./assets/images/Icon_Flag_${nation.nationId}.png`;
+
+
             //给每个国家一个初始开拓者
             //获取单位参数
             //随机一个30以内的二维坐标
             const x = Math.floor(Math.random() * 30);
             const y = Math.floor(Math.random() * 30);
 
+            //获取所有陆地的省份
+            var landProvinces: Province[] = [];
+            for (let i = 0; i < Province.provincesObj.length; i++) {
+                for (let j = 0; j < Province.provincesObj[i].length; j++) {
+                    if (Province.provincesObj[i][j].getBehaviour(Province).isOwnable) {
+                        landProvinces.push(Province.provincesObj[i][j].getBehaviour(Province));
+                    }
+                }
+            }
+            //随机一个省份
+            const randomProvince = landProvinces[Math.floor(Math.random() * landProvinces.length)];
+
             const newUnitList: UnitParam[] = [
-                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '开拓者')),
-                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '士兵')),
-                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '士兵')),
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[0][0].getBehaviour(Province), '开拓者')),
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[0][0].getBehaviour(Province), '士兵')),
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[0][0].getBehaviour(Province), '士兵')),
             ];
 
             for (const unitParam of newUnitList) {
@@ -112,7 +128,8 @@ export class GameProcess extends Behaviour {
                 const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
                 prefabBehavior.nationId = nation.nationId;
                 prefabBehavior.unitParam = unitParam;
-                prefabBehavior.unitCoor = { x: i, y: 0 }
+
+                prefabBehavior.unitCoor = { x: randomProvince.coord.x, y: randomProvince.coord.y };
                 //添加到场景中
                 getGameObjectById("UnitRoot").addChild(newUnitPrefab);
                 console.log("单位所属国家" + prefabBehavior.nationId);
@@ -138,42 +155,46 @@ export class GameProcess extends Behaviour {
     }
 
     botTurn() {
-        // //电脑帝国行动
-        // if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
-        //     console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
-        //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
-        // }
-        // else {
-        //     //下一个电脑帝国
-        //     GameProcess.actingBotNationIndex++;
-        //     //跳过玩家
-        //     if (GameProcess.actingBotNationIndex === GameProcess.playerNationId) {
-        //         GameProcess.actingBotNationIndex++;
-        //     }
+        //电脑帝国行动
+        if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
+            console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
+            Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
+        }
+        else {
+            //下一个电脑帝国
+            GameProcess.actingBotNationIndex++;
+            //跳过玩家
+            if (GameProcess.actingBotNationIndex === GameProcess.playerNationId) {
+                GameProcess.actingBotNationIndex++;
+            }
 
-        //     //判断是否所有电脑帝国都已经行动完毕
-        //     if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
-        //         console.log("所有电脑帝国行动完毕");
-        //         //重置电脑帝国的行动状态
-        //         for (let i = 2; i < Nation.nations.length; i++) {
-        //             Nation.nations[i].botActMode.isBotOperateFinish = false;
-        //         }
-        //         GameProcess.actingBotNationIndex = 0;
-        //         GameProcess.nextState();  //进入结算阶段
-        //         return;
-        //     }
+            //判断是否所有电脑帝国都已经行动完毕
+            if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
+                console.log("所有电脑帝国行动完毕");
+                //重置电脑帝国的行动状态
+                for (let i = 2; i < Nation.nations.length; i++) {
+                    Nation.nations[i].botActMode.isBotOperateFinish = false;
+                }
+                GameProcess.actingBotNationIndex = 0;
+                GameProcess.nextState();  //进入结算阶段
+                return;
+            }
 
-        //     console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
-        //     console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
-        //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
-        //     console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
-        //         ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
-        // }
-        GameProcess.nextState();  //进入结算阶段
+            console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
+            console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
+            Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
+            console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
+                ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
+        }
+        // GameProcess.nextState();  //进入结算阶段
     }
 
     //结算阶段
     settlement() {
+        //若玩家城市数为0，则游戏结束
+        if (Nation.nations[GameProcess.playerNationId].cityList.length <= 0 && GameProcess.turnrNow > 0) {
+            GameProcess.gameOver(Province.provincesObj[0][0].getBehaviour(Province));
+        }
         //清对国家做遍历，实现每回合执行一次的更新
         for (let i = 1; i < Nation.nations.length; i++) {
             const nation = Nation.nations[i];
@@ -309,6 +330,8 @@ export class GameProcess extends Behaviour {
         const gameover = behaviour.engine.createPrefab(new UI_GameOverBinding)
         const uiRoot = getGameObjectById("uiRoot")
         uiRoot.addChild(gameover)
+
+        getGameObjectById("MiniMap").destroy()
 
         const tip = gameover.children[1]
         const image = gameover.children[0]
