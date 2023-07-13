@@ -144,7 +144,7 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
             const unit = this.selectedBehaviour as UnitBehaviour;
             getGameObjectById("UnitNameText").getBehaviour(TextRenderer).text = `单位名称：${unit.unitParam.name}`;
             getGameObjectById("UnitNationText").getBehaviour(TextRenderer).text = `所属国家：${unit.nationId}`;
-            getGameObjectById("UnitApText").getBehaviour(TextRenderer).text = `行动点：${unit.unitParam.ap}/${unit.unitParam.apMax}`;
+            getGameObjectById("UnitApText").getBehaviour(TextRenderer).text = `行动点：||${unit.unitParam.ap}/${unit.unitParam.apMax}`;
             getGameObjectById("UnitQuantityText").getBehaviour(TextRenderer).text = `数量：${unit.unitParam.quantity}`;
             getGameObjectById("UnitPowerText").getBehaviour(TextRenderer).text = `战力：${unit.power}`;
         }
