@@ -121,7 +121,10 @@ children:
               source: ./assets/images/Icon_SeparateUnit.png
           - type: UI_ButtonState
           - type: UI_SplitUnitButton
-          - type: Au_GeneralButton
+          - type: Au_CustomButton
+            properties:
+              enterAudio: 按钮进入音效
+              clickAudio: 分兵音效
         children: []
       - id: _UnitDeleteButton
         behaviours:

@@ -16,7 +16,6 @@ export class Au_ItemButton extends Behaviour {
             case "建造":
                 this.gameObject.onMouseLeftDownList.push(() => {
                     this.audios['建造音效'].play();   // 鼠标按下时播放音效
-                    this.audios['花钱音效'].play();   // 鼠标按下时播放音效
                 });
                 break;
             case "拆除":
