@@ -154,6 +154,7 @@ export class MouseControlSystem extends System {
                             entered = entered.parent;
                         }
                         // console.log("leave", this.currentHoverGameObject.id);
+                        this.currentDownGameObjects = [];
                     }
                     this.currentHoverGameObject = result;
                     while(result){

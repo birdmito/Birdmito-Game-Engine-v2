@@ -1,0 +1,15 @@
+id: _BattleInfoButton
+behaviours:
+- type: Transform
+  properties:
+    x: 50
+    y: 50
+    scaleX: 1
+    scaleY: 1
+    rotation: 0
+- type: BitmapRenderer
+  properties:
+    source: ./assets/images/Icon_TextFrame5050.png
+- type: UI_BattleInfoButton
+- type: UI_ButtonState
+children: []

@@ -24,7 +24,8 @@ children:
         source: ./assets/images/Map_TerrainPlain_0.png
         hitAreaType: hexagon
     id: Terrain
-  - behaviours:
+  - id: NationColor
+    behaviours:
     - type: Transform
       properties:
         x: 0
@@ -36,17 +37,6 @@ children:
       properties:
         source: ./assets/images/TESTColor.png
         hitAreaType: none
-    id: NationColor
-  - behaviours:
-    - type: Transform
-      properties:
-        x: 0
-        y: 0
-        scaleX: 1
-        scaleY: 1
-        rotation: 0
-    - type: HexagonLine    
-    id: BorderColor  
   - id: _UnitRoot
     behaviours:
     - type: Transform
@@ -109,4 +99,13 @@ children:
         text: ' '
         color: white
         hitAreaType: none
-
+  - id: _BattleInfoButtonRoot
+    behaviours:
+    - type: Transform
+      properties:
+        x: 0
+        y: 0
+        scaleX: 1
+        scaleY: 1
+        rotation: 0
+    children: []

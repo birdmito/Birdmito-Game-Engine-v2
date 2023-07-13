@@ -5,12 +5,13 @@ import { GameProcess } from "./GameProcess";
 import { Nation } from "./Nation";
 import { Province } from "./Province";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
+import { UnitBehaviour } from "./UnitBehaviour";
 
 export class UI_UpdateNationInfo extends Behaviour {
     nation: Nation;
     onStart(): void {
-        const province = SelectedObjectInfoMangaer.selectedBehaviour as Province
-        const nation = Nation.nations[province.nationId]
+        const selectedObj = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour | Province;
+        const nation = Nation.nations[selectedObj.nationId]
         this.nation = nation;
     }
     onUpdate(): void {

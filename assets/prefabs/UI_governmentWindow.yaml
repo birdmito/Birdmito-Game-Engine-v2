@@ -42,7 +42,7 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/ScreenArt_Technology_1.png
+              source: ./assets/images/ScreenArt_Technology_0.png
       - id: CurrentTechText
         behaviours:
           - type: Transform

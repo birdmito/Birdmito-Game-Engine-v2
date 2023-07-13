@@ -14,7 +14,7 @@ export class UI_itemPrefabBinding extends Binding {
 
     @string()
     @binding((prefabRoot, value) => {
-        prefabRoot.children[2].getBehaviour(UI_ItemButton).itemName = value;
+        prefabRoot.getChildById("_ItemButton").getBehaviour(UI_ItemButton).itemName = value;
         prefabRoot.getChildById("_ItemInfo").getBehaviour(UI_UpdateItemInfo).itemName = value;
     })
     item: string;

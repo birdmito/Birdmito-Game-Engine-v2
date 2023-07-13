@@ -15,6 +15,11 @@ import { Calculator } from "./Calculator";
 import { Battle, BattleHandler } from "./BattleHandler";
 import { TextRenderer } from "../engine/TextRenderer";
 import { GameProcess } from "./GameProcess";
+import { UI_BattleInfoButton } from "./UI_BattleInfoButton";
+import { UI_BattleInfoButtonPrefabBinding } from "../bindings/UI_BattleInfoButtonPrefabBinding";
+import { b2QueryCallback } from "@flyover/box2d";
+import { Building } from "./Building";
+import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 
 export class UnitBehaviour extends Behaviour implements Moveable {
     nationId: number;
@@ -67,7 +72,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         }
 
         //更新显示
-        this.gameObject.getChildById("UnitPowerText").getBehaviour(TextRenderer).text = this.power.toString();
+        this.gameObject.getChildById("UnitPowerText").getBehaviour(TextRenderer).text = `${this.power.toString()}`;
         if (SelectedObjectInfoMangaer.selectedBehaviour == this) {
             this.gameObject.getChildById("_UnitApText").getBehaviour(TextRenderer).text = `AP:${this.unitParam.ap}/${this.unitParam.apMax}(-${this.apCostToMove})`;
         }
@@ -77,7 +82,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
     }
 
     onEnd(): void {
-        console.log(`unit${this.nationId} is destroyed`)
+        console.log(`UnitBehaviour ${this.unitParam.name}(国家：${this.nationId}) 被destroy`)
         Nation.nations[this.nationId].unitList.splice(Nation.nations[this.nationId].unitList.indexOf(this), 1);  //从unitList中删除
         Nation.nations[this.nationId].doraChangeNextTurn += this.unitParam.maintCost;  //退还维护费用
         this.currentProvince.unitList.splice(this.currentProvince.unitList.indexOf(this), 1);  //从当前省份的unitList中删除
@@ -142,27 +147,92 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         }
 
         var parent = province.gameObject.getChildById("_UnitRoot");
-        //若领地上已经有战斗
-        if (province.battle !== undefined) {
-            //根据自己的nationId加入相应的一方
-            if (this.nationId == province.battle.attackerUnitList[0].nationId) {
-                console.log(`unit${this.nationId} 加入进攻方`);
-                this.isInCombat = true;
-                province.battle.attackerUnitList.push(this);
-                parent = province.gameObject.getChildById("_AttackerUnitRoot")
-            }
-            else if (this.nationId == province.battle.defenderUnitList[0].nationId) {
-                console.log(`unit${this.nationId} 加入防守方`);
-                this.isInCombat = true;
-                province.battle.defenderUnitList.push(this);
-            }
-            else {
-                //都不是，说明是第三方单位，无法进入领地
-                console.log("unit is not belong to either side");
-                if (this.nationId === GameProcess.playerNationId) {
-                    generateTip(this, "目标省份处于战争状态");
+
+        if (this.unitParam.isBattleUnit) {
+            //移除目标领地上的敌国非战斗单位
+            for (let i = 0; i < province.unitList.length; i++) {
+                if (!province.unitList[i].unitParam.isBattleUnit
+                    && Nation.nations[this.nationId].enemyNationList.some((nation) => nation.nationId == province.unitList[i].nationId)) {
+                    province.unitList[i].gameObject.destroy();
                 }
-                return false;
+            }
+
+            //若领地上已经有战斗
+            if (province.battle !== undefined) {
+                //根据自己的nationId加入相应的一方
+                if (this.nationId == province.battle.attackerUnitList[0].nationId) {
+                    console.log(`unit${this.nationId} 加入进攻方`);
+                    this.isInCombat = true;
+                    province.battle.attackerUnitList.push(this);
+                    province.battle.attackerPowerLeft += this.power;
+                    parent = province.gameObject.getChildById("_AttackerUnitRoot")
+                }
+                else if (this.nationId == province.battle.defenderUnitList[0].nationId) {
+                    console.log(`unit${this.nationId} 加入防守方`);
+                    this.isInCombat = true;
+                    province.battle.defenderUnitList.push(this);
+                    province.battle.defenderPowerLeft += this.power;
+                }
+                else {
+                    //都不是，说明是第三方单位，无法进入领地
+                    console.log("unit is not belong to either side");
+                    if (this.nationId === GameProcess.playerNationId) {
+                        generateTip(this, "目标省份处于战争状态");
+                    }
+                    return false;
+                }
+            }
+            //若领地上没有战斗
+            else {
+                //获取目标领地上的敌国战斗单位
+                const enemyUnitInProvince = province.unitList.filter((unit) => Nation.nations[this.nationId].enemyNationList.some((nation) => nation.nationId == unit.nationId));
+                //若目标省份上有敌国战斗单位
+                if (enemyUnitInProvince.length > 0) {
+                    console.log(`领地的单位列表长度为${province.unitList.length}`)
+                    console.log(`${this.nationId} 与 ${province.unitList[0].nationId} 发生战斗`);
+                    this.isInCombat = true;
+                    province.unitList[0].isInCombat = true;
+                    var newBattle = new Battle();
+                    const attackerNationId = this.nationId;  //进入领地者为攻击方
+                    newBattle.attackerNation = Nation.nations[this.nationId];
+                    const defenderNationId = province.unitList[0].nationId;  //领地内单位为防守方
+                    newBattle.defenderNation = Nation.nations[province.unitList[0].nationId];
+
+                    //填入自己
+                    newBattle.attackerUnitList.push(this);
+                    newBattle.attackerPowerLeft += this.power;
+                    parent = province.gameObject.getChildById("_AttackerUnitRoot")
+
+                    for (const unit of province.unitList) {
+                        //填入防守方单位
+                        if (unit.nationId == defenderNationId) {
+                            newBattle.defenderUnitList.push(unit);
+                            newBattle.defenderPowerLeft += unit.power;
+                        }
+                        else {
+                            //都不是，则将其传送回其国家最近的城市
+                            var nearestCit;
+                            for (const city of Nation.nations[unit.nationId].cityList) {
+                                if (nearestCit === undefined) {
+                                    nearestCit = city;
+                                }
+                                else {
+                                    if (this.currentProvince.getDistanceToProvince(city) < this.currentProvince.getDistanceToProvince(nearestCit.coord)) {
+                                        nearestCit = city;
+                                    }
+                                }
+                            }
+                            unit.unitCoor = nearestCit.coord;
+                        }
+                    }
+
+                    province.battle = newBattle;
+                    newBattle.province = province;
+                    BattleHandler.battleQueue.push(newBattle);  //将战斗加入战斗队列
+                    const prefab = this.engine.createPrefab(new UI_BattleInfoButtonPrefabBinding());
+                    prefab.getBehaviour(UI_BattleInfoButton).battle = newBattle;
+                    province.gameObject.getChildById("_BattleInfoButtonRoot").addChild(prefab);
+                }
             }
         }
 
@@ -178,59 +248,6 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         this.currentProvince = province;
         this.gameObject.changeParent(parent);
 
-        //移除目标领地上的异国非战斗单位
-        if (this.unitParam.isBattleUnit) {
-            for (let i = 0; i < province.unitList.length; i++) {
-                if (!province.unitList[i].unitParam.isBattleUnit
-                    && Nation.nations[this.nationId].enemyNationList.some((nation) => nation.nationId == province.unitList[i].nationId)) {
-                    province.unitList[i].gameObject.destroy();
-                }
-            }
-
-            //获取目标领地上的异国战斗单位
-            const enemyUnitInProvince = province.unitList.filter((unit) => Nation.nations[this.nationId].enemyNationList.some((nation) => nation.nationId == unit.nationId));
-            //若移动后遇到异国战斗单位，则给BattleManager添加一场战斗，优先和list中靠前的单位战斗
-            if (enemyUnitInProvince.length > 0) {
-                console.log(`领地的单位列表长度为${province.unitList.length}`)
-                console.log(`${this.nationId} 与 ${province.unitList[0].nationId} 发生战斗`);
-                this.isInCombat = true;
-                province.unitList[0].isInCombat = true;
-                var newBattle = new Battle();
-                const attackerNationId = this.nationId;  //进入领地者为攻击方
-                newBattle.attackerNation = Nation.nations[this.nationId];
-                const defenderNationId = province.unitList[0].nationId;  //领地内单位为防守方
-                newBattle.defenderNation = Nation.nations[province.unitList[0].nationId];
-                for (const unit of province.unitList) {
-                    //先填入防守方单位
-                    if (unit.nationId == defenderNationId) {
-                        newBattle.defenderUnitList.push(unit);
-                    }
-                    //再填入攻击方单位
-                    else if (unit.nationId == attackerNationId) {
-                        newBattle.attackerUnitList.push(unit);
-                        this.gameObject.changeParent(province.gameObject.getChildById("_AttackerUnitRoot"));
-                    }
-                    else {
-                        //都不是，则将其传送回其国家最近的城市
-                        var nearestCit;
-                        for (const city of Nation.nations[unit.nationId].cityList) {
-                            if (nearestCit === undefined) {
-                                nearestCit = city;
-                            }
-                            else {
-                                if (this.currentProvince.getDistanceToProvince(city) < this.currentProvince.getDistanceToProvince(nearestCit.coord)) {
-                                    nearestCit = city;
-                                }
-                            }
-                        }
-                        unit.unitCoor = nearestCit.coord;
-                    }
-                }
-                province.battle = newBattle;
-                newBattle.province = province;
-                BattleHandler.battleQueue.push(newBattle);  //将战斗加入战斗队列
-            }
-        }
         return true;
     }
 
@@ -299,8 +316,10 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                         return;
                     }
                     //生成提示
-                    if (this.nationId === GameProcess.playerNationId)
+                    if (this.nationId === GameProcess.playerNationId) {
                         generateTip(this, "筑城成功");
+                    }
+
                     //处理逻辑
                     this.currentProvince.becomeCity();
                     nation.dora -= Calculator.calculateColonyCost(nation.nationId, this.currentProvince.coord);  //扣钱
@@ -309,5 +328,38 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                 }
                 break;
         }
+    }
+
+    //分出一半单位
+    split() {
+        if (this.unitParam.quantity <= 1) {
+            //生成提示
+            if (this.nationId === GameProcess.playerNationId) {
+                generateTip(this, "该单位数量不足以拆分");
+            }
+            return;
+        }
+
+        //获取单位参数
+        const newUnitParam = UnitParam.copyUnitParam(this.unitParam);
+        //生成单位
+        const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
+        //配置单位属性
+        const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
+        prefabBehavior.nationId = this.nationId;
+        prefabBehavior.unitParam = newUnitParam;
+        prefabBehavior.unitCoor = this.unitCoor;
+        //添加到场景中
+        getGameObjectById("UnitRoot").addChild(newUnitPrefab);
+    }
+
+    //解散
+    dismiss() {
+        //生成提示
+        if (this.nationId === GameProcess.playerNationId) {
+            generateTip(this, "解散成功");
+        }
+        //销毁单位
+        this.gameObject.destroy();
     }
 }

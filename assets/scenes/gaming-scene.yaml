@@ -25,7 +25,19 @@ children:
           rotation: 0
           anchorType: left-top
       - type: ProvinceGenerator
-    children: []
+    children: 
+      - id: Border
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+              anchorType: left-top
+          - type: HexagonLine   
+        children: []  
   - id: UnitRoot
     behaviours:
       - type: Transform
