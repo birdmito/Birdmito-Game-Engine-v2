@@ -74,7 +74,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         //更新显示
         this.gameObject.getChildById("UnitPowerText").getBehaviour(TextRenderer).text = `${this.power.toString()}`;
         if (SelectedObjectInfoMangaer.selectedBehaviour == this) {
-            this.gameObject.getChildById("_UnitApText").getBehaviour(TextRenderer).text = `AP:${this.unitParam.ap}/${this.unitParam.apMax}(-${this.apCostToMove})`;
+            this.gameObject.getChildById("_UnitApText").getBehaviour(TextRenderer).text = `AP:${this.unitParam.ap}/${this.unitParam.apMax}|(-${this.apCostToMove})`;
         }
         else {
             this.gameObject.getChildById("_UnitApText").getBehaviour(TextRenderer).text = `AP:${this.unitParam.ap}/${this.unitParam.apMax}`;
@@ -123,18 +123,21 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         if (this.unitParam.ap < province.apCost) {
             console.log("AP is not enough");
 
-            generateTip(this, "行动点不足");
+            if (this.nationId === GameProcess.playerNationId)
+                generateTip(this, "行动点不足");
             return false;
         }
 
         if (!province.isOwnable) {
-            generateTip(this, "海面不可通行");
+            if (this.nationId === GameProcess.playerNationId)
+                generateTip(this, "海面不可通行");
             return false;
         }
 
         if (!ProvinceGenerator.areAdjacent(this.unitCoor.x, this.unitCoor.y, provinceCoor.x, provinceCoor.y)) {
             console.log("province is not adjacent");
-            generateTip(this, "不相邻");
+            if (this.nationId === GameProcess.playerNationId)
+                generateTip(this, "不相邻");
             return false;
         }
 
@@ -234,6 +237,15 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                     prefab.getBehaviour(UI_BattleInfoButton).battle = newBattle;
                     province.gameObject.getChildById("_BattleInfoButtonRoot").addChild(prefab);
                 }
+                //没有敌国战斗单位
+                else {
+                    //若领地属于敌国，则直接占领
+                    if (Nation.nations[this.nationId].enemyNationList.some((nation) => nation.nationId == province.nationId)) {
+                        console.log("领地属于敌国，直接占领");
+                        province.changeNationId(this.nationId);
+                        parent = province.gameObject.getChildById("_UnitRoot");
+                    }
+                }
             }
         }
 
@@ -285,7 +297,9 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                     }
                     else {
                         this.gameObject.destroy();
-                        getGameObjectById("UI_selectedUnitInfo").destroy();
+                        if (getGameObjectById("UI_selectedUnitInfo")) {
+                            getGameObjectById("UI_selectedUnitInfo").destroy();
+                        }
                     }
                 }
                 else {
@@ -332,7 +346,9 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                     }
                     else {
                         this.gameObject.destroy();
-                        getGameObjectById("UI_selectedUnitInfo").destroy();
+                        if (getGameObjectById("UI_selectedUnitInfo")) {
+                            getGameObjectById("UI_selectedUnitInfo").destroy();
+                        }
                     }
                 }
                 break;
@@ -349,8 +365,11 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             return;
         }
 
+
         //获取单位参数
         const newUnitParam = UnitParam.copyUnitParam(this.unitParam);
+        newUnitParam.quantity = Math.floor(newUnitParam.quantity / 2);
+        this.unitParam.quantity -= newUnitParam.quantity;
         //生成单位
         const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
         //配置单位属性

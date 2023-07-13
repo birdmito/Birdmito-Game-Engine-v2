@@ -30,8 +30,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: -100
+          y: -100
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -39,6 +39,7 @@ children:
         properties:
           layoutType: vertical
           spacing: 100
+          numPerPage: 1
           anchorType: center
   - id: Close
     behaviours:

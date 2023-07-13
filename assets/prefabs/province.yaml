@@ -23,6 +23,7 @@ children:
       properties:
         source: ./assets/images/Map_TerrainPlain_0.png
         hitAreaType: hexagon
+    - type: Au_Province
     id: Terrain
   - id: NationColor
     behaviours:

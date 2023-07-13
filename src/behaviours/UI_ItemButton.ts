@@ -25,12 +25,14 @@ export class UI_ItemButton extends Behaviour {
         console.log("start")
 
         // this.gameObject.parent.getChildById("_ItemEventIcon").active = false;
-        switch (this.eventText) {
-            case "建造":
-                break;
-            default:
-                this.gameObject.parent.getChildById("_ItemInfo").active = false;
-        }  //根据不同的事件类型，设置不同的信息显示
+        // switch (this.eventText) {
+        //     case "建造":
+        //         break;
+        //     default:
+        //         this.gameObject.parent.getChildById("_ItemInfo").active = false;
+        // }  //根据不同的事件类型，设置不同的信息显示
+        this.gameObject.parent.getChildById("_ItemInfo").active = false;
+
 
         switch (this.eventText) {
             case "建造":
@@ -59,12 +61,13 @@ export class UI_ItemButton extends Behaviour {
 
         this.gameObject.onMouseLeave = () => {
             this.gameObject.parent.getChildById("_ItemEventIcon").active = false;  //显示图标
-            switch (this.eventText) {
-                case "建造":
-                    break;
-                default:
-                    this.gameObject.parent.getChildById("_ItemInfo").active = false;
-            }  //根据不同的事件类型，设置不同的信息显示
+            // switch (this.eventText) {
+            //     case "建造":
+            //         break;
+            //     default:
+            //         this.gameObject.parent.getChildById("_ItemInfo").active = false;
+            // }  //根据不同的事件类型，设置不同的信息显示
+            this.gameObject.parent.getChildById("_ItemInfo").active = false;
         }
 
         this.gameObject.onMouseLeftDown = () => {

@@ -50,6 +50,7 @@ children:
           scaleY: 1
           rotation: 0
       - type: UI_ReturnButton
+      - type: Au_GeneralButton
     children:
       - id: ReturnButtonBackGround
         behaviours:
@@ -96,6 +97,7 @@ children:
           scaleY: 1
           rotation: 0
       - type: UI_ContinueButton
+      - type: Au_GeneralButton
     children:
       - id: ContinueButtonBackGround
         behaviours:

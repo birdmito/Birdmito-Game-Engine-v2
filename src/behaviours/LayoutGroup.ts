@@ -14,10 +14,38 @@ export class LayoutGroup extends Behaviour {
     spacing = 100;
     @string()
     numPerLine = undefined;
+    @string()
+    numPerPage = undefined;
 
+    page = 0;
+
+    onStart(): void {
+        //滚轮控制翻页
+        document.addEventListener('wheel', (e) => {
+            if (this.numPerPage !== undefined) {
+                if (e.deltaY > 0) {
+                    this.page = Math.min(this.page + 1, Math.ceil(this.gameObject.children.length / Number(this.numPerPage)) - 1);
+                }
+                else if (e.deltaY < 0) {
+                    this.page = Math.max(this.page - 1, 0);
+                }
+            }
+        })
+    }
 
     onUpdate(): void {
         this.updateChildrenPosition();
+        if (this.numPerLine !== undefined) {
+            //disactive编号大于page + numPerLine的子物体和编号小于page的子物体
+            this.gameObject.children.forEach((child, index) => {
+                if (index < this.page || index >= (this.page + Number(this.numPerLine))) {
+                    child.active = false;
+                }
+                else {
+                    child.active = true;
+                }
+            })
+        }
     }
 
     updateChildrenPosition() {

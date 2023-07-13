@@ -1,5 +1,6 @@
 import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
+import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { TextRenderer } from "../engine/TextRenderer";
 import { GameProcess } from "./GameProcess";
 import { Nation } from "./Nation";
@@ -13,6 +14,7 @@ export class UI_UpdateNationInfo extends Behaviour {
         const selectedObj = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour | Province;
         const nation = Nation.nations[selectedObj.nationId]
         this.nation = nation;
+        getGameObjectById("_NationWindowFlag").getBehaviour(BitmapRenderer).source = nation.nationFlagUrl;
     }
     onUpdate(): void {
         getGameObjectById("_NationNameText").getBehaviour(TextRenderer).text = 'ID：' + this.nation.nationId.toString();

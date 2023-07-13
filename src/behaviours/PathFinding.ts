@@ -11,6 +11,7 @@ export class PathFinding extends Behaviour {
     }
 
     static findPath(startProvice: Province, endProvince: Province): Province[] | null {
+        console.log(`起点坐标：${startProvice.coord.x}, ${startProvice.coord.y}，终点坐标：${endProvince.coord.x}, ${endProvince.coord.y}`);
         // 指定起始节点和结束节点
         const startNode = PathFinding.grid[startProvice.coord.x][startProvice.coord.y];
         const endNode = PathFinding.grid[endProvince.coord.x][endProvince.coord.y];
