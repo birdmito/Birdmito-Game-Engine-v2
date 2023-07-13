@@ -21,7 +21,7 @@ import { generateTip } from "./Tip";
 
 export class GameProcess extends Behaviour {
     static isCheat = false;  //是否开启作弊模式
-    static gamingState: 'playerTurn' | 'botTurn' | 'settlement' = 'settlement';
+    static gamingState: 'playerTurn' | 'botTurn' | 'settlement' = 'playerTurn';
     static playerNationId = 1;  //玩家的nationId
 
 
@@ -51,12 +51,18 @@ export class GameProcess extends Behaviour {
     }
 
     onStart(): void {
+        GameProcess.turnrNow = 1;
+        GameProcess.turnTotal = 50;
         this.initialNation();
-        GameProcess.nextTurn();
+        // GameProcess.nextTurn();
         //让第一个电脑帝国的isThisBotsTurn为true
     }
 
     onUpdate(): void {
+        //更新回合数显示
+        getGameObjectById("TurnText").getBehaviour(TextRenderer).text =
+            GameProcess.turnrNow.toString() + "/" + GameProcess.turnTotal.toString();
+
         //按数字键将玩家切换到对应国家
         document.addEventListener('keydown', function (event) {
             const code = event.code;
@@ -84,7 +90,7 @@ export class GameProcess extends Behaviour {
     }
 
     //回合
-    static turnrNow = 0;
+    static turnrNow = 1;
     static turnTotal = 50;
 
     initialNation() {
@@ -151,6 +157,10 @@ export class GameProcess extends Behaviour {
     }
 
     playerTurn() {
+        //若玩家城市数为0，则游戏结束
+        if (Nation.nations[GameProcess.playerNationId].cityList.length <= 0 && GameProcess.turnrNow > 1) {
+            GameProcess.gameOver(Province.provincesObj[0][0].getBehaviour(Province));
+        }
         return;
     }
 
@@ -191,10 +201,6 @@ export class GameProcess extends Behaviour {
 
     //结算阶段
     settlement() {
-        //若玩家城市数为0，则游戏结束
-        if (Nation.nations[GameProcess.playerNationId].cityList.length <= 0 && GameProcess.turnrNow > 0) {
-            GameProcess.gameOver(Province.provincesObj[0][0].getBehaviour(Province));
-        }
         //清对国家做遍历，实现每回合执行一次的更新
         for (let i = 1; i < Nation.nations.length; i++) {
             const nation = Nation.nations[i];
@@ -256,10 +262,8 @@ export class GameProcess extends Behaviour {
         if (GameProcess.turnrNow > GameProcess.turnTotal) {
             GameProcess.turnrNow = GameProcess.turnTotal;
         }
-        getGameObjectById("TurnText").getBehaviour(TextRenderer).text =
-            GameProcess.turnrNow.toString() + "/" + GameProcess.turnTotal.toString();
         if (GameProcess.turnrNow === GameProcess.turnTotal) {
-            // GameProcess.gameOver(getGameObjectById("TurnText").getBehaviour(TextRenderer));
+            GameProcess.gameOver(getGameObjectById("TurnText").getBehaviour(TextRenderer));
         }
 
         // //更新Ai位置
@@ -331,7 +335,7 @@ export class GameProcess extends Behaviour {
         const uiRoot = getGameObjectById("uiRoot")
         uiRoot.addChild(gameover)
 
-        getGameObjectById("MiniMap").destroy()
+        getGameObjectById("MiniMapRoot").destroy()
 
         const tip = gameover.children[1]
         const image = gameover.children[0]

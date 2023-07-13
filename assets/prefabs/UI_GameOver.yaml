@@ -80,4 +80,5 @@ children:
               fontFamily: "fangsong" 
               text: 返回主菜单
               anchorType: center
+              hitAreaType: none
         children: []
