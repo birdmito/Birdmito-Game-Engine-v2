@@ -178,6 +178,19 @@ children:
               anchorType: "center"
               hitAreaType: none
         children: []
+  - id: GameLogo
+    behaviours:
+      - type: Transform
+        properties:
+          x: 1900
+          y: 20
+          scaleX: .4
+          scaleY: .4
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: "./assets/images/ArcaneEra.png"
+          anchorType: right-top
   - id: StaffRoot # 制作人员窗口
     behaviours:
       - type: Transform
