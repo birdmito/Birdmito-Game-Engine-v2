@@ -12,7 +12,7 @@ export class CameraController extends Behaviour {
     leftRectangle: Rectangle = { x: 0, y: 0, width: this.boardWidth, height: this.screenPreset.height };
     rightRectangle: Rectangle = { x: 1900, y: 0, width: this.boardWidth, height: this.screenPreset.height };
     topRectangle: Rectangle = { x: 0, y: 0, width: this.screenPreset.width, height: this.boardWidth };
-    bottomRectangle: Rectangle = { x: 0, y: this.screenPreset.height, width: this.screenPreset.width, height: this.boardWidth };
+    bottomRectangle: Rectangle = { x: 0, y: 1020, width: this.screenPreset.width, height: this.boardWidth };
     mousePoint: Point = { x: 500, y: 500 };
 
     onStart(): void {
