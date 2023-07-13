@@ -24,13 +24,8 @@ export class ViewBoxBehaviour extends Behaviour {
     onUpdate(): void {
         this.changeViewBoxPosition();
         this.changeViewBoxSize();
-        this.gameObject.onMouseLeftDown = () =>{       
-            console.log('视野框当前位置: ' ,this.gameObject.getBehaviour(Transform).x,this.gameObject.getBehaviour(Transform).y);
-            console.log("摄像机当前位置： ",this.cameraTransorm.x,this.cameraTransorm.y);
-            console.log('视野框当前大小: ' ,this.gameObject.getBehaviour(Transform).scaleX,this.gameObject.getBehaviour(Transform).scaleY);
-        }
     }
-    
+
     changeViewBoxPosition(){
         const viewBoxOriXPos = ViewBoxBehaviour.viewBoxOriXPos;
         const viewBoxOriYPos = ViewBoxBehaviour.viewBoxOriYPos;
