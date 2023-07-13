@@ -8,6 +8,7 @@ behaviours:
       scaleY: 1
       rotation: 0
   - type: UI_UpdateBattleInfo
+  - type: Au_BattleInfoWindow
 children:
   - id: BattleInfoBgBox #战斗信息背景框
     behaviours:
@@ -211,4 +212,5 @@ children:
             properties:
               source: ./assets/images/Icon_Cross.png
           - type: UI_ButtonState
+          - type: Au_GeneralButton
         children: []

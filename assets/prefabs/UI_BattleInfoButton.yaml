@@ -12,4 +12,8 @@ behaviours:
     source: ./assets/images/Icon_OnBattle.png
     anchorType: 'center'
 - type: UI_BattleInfoButton
+- type: Au_CustomButton
+  properties:
+    enterAudio: 战斗气泡进入音效
+    clickAudio: 按钮点击音效
 children: []
