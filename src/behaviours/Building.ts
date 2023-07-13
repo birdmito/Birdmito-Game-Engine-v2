@@ -20,7 +20,7 @@ export class Building implements infoShowable {
         new Building('金矿', 380, 30, new Resource(85, 0, 0), new Resource(35, 0, 0), false),
         new Building('工厂', 250, 30, new Resource(0, 25, 0), new Resource(30, 0, 0), false),
         new Building('兵营', 300, 50, new Resource(0, 0, 0), new Resource(50, 0, 0), true),
-        new Building('大学', 300, 50, new Resource(0, 0, 15), new Resource(50, 0, 0), false),
+        new Building('大学', 300, 50, new Resource(0, 0, 10), new Resource(50, 0, 0), false),
         new Building('秘源金矿', 500, 50, new Resource(0, 0, 0), new Resource(50, 0, 0), true, "发掘秘源之金"),
         new Building('机械工业厂', 300, 50, new Resource(0, 15, 0), new Resource(30, 0, 0), true, "新型机械工业"),
         new Building('贸易站', 200, 50, new Resource(0, 0, 0), new Resource(0, 0, 0), true, "秘源金销全国"),

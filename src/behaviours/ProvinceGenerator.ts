@@ -62,11 +62,6 @@ export class ProvinceGenerator extends Behaviour {
                 }
                 this.randomSubTerrain(provinceBehaviour, miniProvinceBehaviour, generatedTerrain[j][i]);
                 provinceBehaviour.updateApCost();
-
-                const node = new myNode(j, i, provinceBehaviour.apCost);
-                if (!PathFinding.grid[j])
-                    PathFinding.grid[j] = []
-                PathFinding.grid[j][i] = node;
             }
         }
     }
