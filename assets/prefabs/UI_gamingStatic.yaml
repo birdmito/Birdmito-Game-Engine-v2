@@ -455,8 +455,8 @@ children:
                               source: ./assets/images/Icon_TextFrame5050.png
                               hitAreaType: none
                               renderType: 'ui'
-                              scaleXForUI: 10
-                              scaleYForUI: 2.2
+                              scaleXForUI: 12
+                              scaleYForUI: 10
                               borderWidthForUI: 15
                         children: []
                       - id: _PlayerGoldChangeText
@@ -473,7 +473,6 @@ children:
                               fontSize: 22
                               text: '这里应该显示奥坎盾变化'
                               color: "#DEEEFE"
-                              anchorType: left-center
                               fontFamily: FangSong_GB2312
                         children: []
           - id: PlayerTech #玩家科技点

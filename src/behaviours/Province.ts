@@ -41,10 +41,12 @@ export class Province extends Behaviour {
     set provinceProduction(value: Resource) {
         const oldValue = this._provinceProduction;
         this._provinceProduction = value;
-        if (this.nationId !== 0) {
-            Nation.nations[this.nationId].doraChangeNextTurn += value.dora - oldValue.dora  //更新预计的dora变动
-        }
+        // if (this.nationId !== 0) {
+        //     Nation.nations[this.nationId].doraChangeNextTurn += value.dora - oldValue.dora  //更新预计的dora变动
+        // }
     }
+
+
     provinceName: string = "未命名";
 
     plainPercent = 0;
@@ -135,6 +137,8 @@ export class Province extends Behaviour {
             if (this.isCity) {
                 Nation.nations[this.nationId].cityList.splice(Nation.nations[this.nationId].cityList.indexOf(this), 1);
             }
+            //扣去原主来自该领地的dora
+            // Nation.nations[this.nationId].doraChangeNextTurn -= this.provinceProduction.dora;
         }
         this.nationId = nationId;
         // this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
@@ -148,6 +152,8 @@ export class Province extends Behaviour {
                 Nation.nations[nationId].cityList.push(this);
             }
             HexagonLine.reDrawBorderLine(); //重绘边界线
+            //增加新主来自该领地的dora
+            // Nation.nations[this.nationId].doraChangeNextTurn += this.provinceProduction.dora;
         }
     }
 

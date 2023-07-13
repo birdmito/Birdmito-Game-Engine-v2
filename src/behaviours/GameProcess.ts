@@ -51,6 +51,7 @@ export class GameProcess extends Behaviour {
     }
 
     onStart(): void {
+        GameProcess.updateProvincePerTurn();
         GameProcess.turnrNow = 1;
         GameProcess.turnTotal = 50;
         this.initialNation();
@@ -62,6 +63,9 @@ export class GameProcess extends Behaviour {
         //更新回合数显示
         getGameObjectById("TurnText").getBehaviour(TextRenderer).text =
             GameProcess.turnrNow.toString() + "/" + GameProcess.turnTotal.toString();
+
+        //更新每个国家收支预告
+        Nation.updateDoraChange();
 
         //按数字键将玩家切换到对应国家
         document.addEventListener('keydown', function (event) {
@@ -166,37 +170,37 @@ export class GameProcess extends Behaviour {
 
     botTurn() {
         //电脑帝国行动
-        if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
-            console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
-            Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
-        }
-        else {
-            //下一个电脑帝国
-            GameProcess.actingBotNationIndex++;
-            //跳过玩家
-            if (GameProcess.actingBotNationIndex === GameProcess.playerNationId) {
-                GameProcess.actingBotNationIndex++;
-            }
+        // if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
+        //     console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
+        //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
+        // }
+        // else {
+        //     //下一个电脑帝国
+        //     GameProcess.actingBotNationIndex++;
+        //     //跳过玩家
+        //     if (GameProcess.actingBotNationIndex === GameProcess.playerNationId) {
+        //         GameProcess.actingBotNationIndex++;
+        //     }
 
-            //判断是否所有电脑帝国都已经行动完毕
-            if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
-                console.log("所有电脑帝国行动完毕");
-                //重置电脑帝国的行动状态
-                for (let i = 2; i < Nation.nations.length; i++) {
-                    Nation.nations[i].botActMode.isBotOperateFinish = false;
-                }
-                GameProcess.actingBotNationIndex = 0;
-                GameProcess.nextState();  //进入结算阶段
-                return;
-            }
+        //     //判断是否所有电脑帝国都已经行动完毕
+        //     if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
+        //         console.log("所有电脑帝国行动完毕");
+        //         //重置电脑帝国的行动状态
+        //         for (let i = 2; i < Nation.nations.length; i++) {
+        //             Nation.nations[i].botActMode.isBotOperateFinish = false;
+        //         }
+        //         GameProcess.actingBotNationIndex = 0;
+        //         GameProcess.nextState();  //进入结算阶段
+        //         return;
+        //     }
 
-            console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
-            console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
-            Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
-            console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
-                ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
-        }
-        // GameProcess.nextState();  //进入结算阶段
+        //     console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
+        //     console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
+        //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
+        //     console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
+        //         ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
+        // }
+        GameProcess.nextState();  //进入结算阶段
     }
 
     //结算阶段
@@ -287,7 +291,7 @@ export class GameProcess extends Behaviour {
     }
 
 
-    /**每回合调用一次 */
+    /**每回合调用一次，更新省份信息 */
     static updateProvincePerTurn() {
         //每回合开始时，所有领地给予所属国家产出
         for (let i = 0; i < Province.provincesObj.length; i++) {
@@ -309,10 +313,7 @@ export class GameProcess extends Behaviour {
                             console.log(`unit2 name is ${unit2.unitParam.name}`)
                             if (unit.unitParam.name === unit2.unitParam.name && unit.nationId === unit2.nationId) {
                                 unit.unitParam.quantity += unit2.unitParam.quantity;  //数量相加
-                                // console.log(`合并前单位列表为`);
-                                // for (let m = 0; m < province.unitList.length; m++) {
-                                //     console.log(province.unitList[m].unitParam.name);
-                                // }
+                                //重新计入
                                 province.unitList[l].gameObject.destroy();  //销毁单位
                             }
                         }
