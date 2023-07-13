@@ -11,6 +11,7 @@ behaviours:
   - type: BitmapRenderer
     properties:
       source: ./assets/images/Interface_MilitaryUnit.png
+  - type: Au_Unit
 id: Unit
 children:
   - id: UnitPowerText

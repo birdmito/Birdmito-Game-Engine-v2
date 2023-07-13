@@ -159,7 +159,7 @@ class WebSocketProxy {
                 width: config.player.width,
                 height: config.player.height + 12,
                 autoHideMenuBar: true,
-                frame:false,
+                frame: false,       // 无边框
                 resizable: false,
                 webPreferences: {
                     nodeIntegration: true, //允许渲染进程使用Nodejs

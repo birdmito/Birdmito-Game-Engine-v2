@@ -215,6 +215,7 @@ export class Calculator {
 
         result += pluser;
         result *= multiplier;
+        result = Math.floor(result);
         unit.power = result;
     }
 }

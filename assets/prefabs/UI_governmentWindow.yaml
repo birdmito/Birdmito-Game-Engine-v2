@@ -3,7 +3,7 @@ behaviours:
   - type: Transform
     properties:
       x: 0
-      y: 0
+      y: 20
       scaleX: 1
       scaleY: 1
       rotation: 0
@@ -74,8 +74,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 450
-          y: 75
+          x: 455
+          y: 30
           scaleX: 1
           scaleY: 1
           rotation: 0

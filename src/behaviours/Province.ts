@@ -29,7 +29,7 @@ export class Province extends Behaviour {
 
     nationId = 0;
 
-    isOwnable = true;
+    isLand = true;
     apCost = 1;
 
     private _provinceProduction: Resource = undefined;
@@ -41,10 +41,12 @@ export class Province extends Behaviour {
     set provinceProduction(value: Resource) {
         const oldValue = this._provinceProduction;
         this._provinceProduction = value;
-        if (this.nationId !== 0) {
-            Nation.nations[this.nationId].doraChangeNextTurn += value.dora - oldValue.dora  //更新预计的dora变动
-        }
+        // if (this.nationId !== 0) {
+        //     Nation.nations[this.nationId].doraChangeNextTurn += value.dora - oldValue.dora  //更新预计的dora变动
+        // }
     }
+
+
     provinceName: string = "未命名";
 
     plainPercent = 0;
@@ -135,6 +137,8 @@ export class Province extends Behaviour {
             if (this.isCity) {
                 Nation.nations[this.nationId].cityList.splice(Nation.nations[this.nationId].cityList.indexOf(this), 1);
             }
+            //扣去原主来自该领地的dora
+            // Nation.nations[this.nationId].doraChangeNextTurn -= this.provinceProduction.dora;
         }
         this.nationId = nationId;
         // this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
@@ -148,6 +152,8 @@ export class Province extends Behaviour {
                 Nation.nations[nationId].cityList.push(this);
             }
             HexagonLine.reDrawBorderLine(); //重绘边界线
+            //增加新主来自该领地的dora
+            // Nation.nations[this.nationId].doraChangeNextTurn += this.provinceProduction.dora;
         }
     }
 
@@ -254,7 +260,7 @@ export class Province extends Behaviour {
 // 1. Province：地块属性——Behavior
 //   1. nationId 阵营归属：number
 //     1. 0 代表无归属（野地），1 为玩家，2 及以上代表 AI，每个数字都是一个 AI 的 ID
-//   2. + isOwnable 是否能被占领（陆地-海洋）:boolean
+//   2. + isLand 是否能被占领（陆地-海洋）:boolean
 //     1. 是否可走，是否包含地貌
 //   3. apCost 单位到达该地块所需行动点：number
 //   4. production 地块产出的资源（金币）: number

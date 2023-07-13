@@ -16,7 +16,7 @@ export class ProvinceGenerator extends Behaviour {
     gridSizeX: number = 15;
     gridSizeY: number = 15;
     gridSpace: number = 172;
-    landPercentage: number = 40;
+    landPercentage: number = 60;
     landNum: number = 10;
     static hexGridForOthers: { x: number, y: number }[] = [];
     // static provinces: GameObject[][] = [];
@@ -54,10 +54,10 @@ export class ProvinceGenerator extends Behaviour {
                 // console.log(generatedTerrain[j][i]);
                 switch (generatedTerrain[j][i]) {
                     case 0:
-                        provinceBehaviour.isOwnable = false;
+                        provinceBehaviour.isLand = false;
                         break;
                     default:
-                        provinceBehaviour.isOwnable = true;
+                        provinceBehaviour.isLand = true;
                         break;
                 }
                 this.randomSubTerrain(provinceBehaviour, miniProvinceBehaviour, generatedTerrain[j][i]);

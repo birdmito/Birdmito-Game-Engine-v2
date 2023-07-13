@@ -35,16 +35,16 @@ export class UnitBehaviour extends Behaviour implements Moveable {
     //存储移动时省份路径的栈
     apCostToMove: number = 0;
 
-    private _unitParam: UnitParam = UnitParam.originUnitParamList[0];
-    get unitParam(): UnitParam {
-        return this._unitParam;
-    }
-    /**在更新该属性时一定要直接赋值，不要修改其内部属性，否则会导致预计的dora变动出错*/
-    set unitParam(value: UnitParam) {
-        const oldUnitParam = this._unitParam;
-        this._unitParam = value;
-        Nation.nations[this.nationId].doraChangeNextTurn += (oldUnitParam.maintCost - value.maintCost) * this.unitParam.quantity;  //更新预计的dora变动
-    }
+    unitParam: UnitParam = UnitParam.originUnitParamList[0];
+    // get unitParam(): UnitParam {
+    //     return this._unitParam;
+    // }
+    // /**在更新该属性时一定要直接赋值，不要修改其内部属性，否则会导致预计的dora变动出错*/
+    // set unitParam(value: UnitParam) {
+    //     const oldUnitParam = this._unitParam;
+    //     this._unitParam = value;
+    //     Nation.nations[this.nationId].doraChangeNextTurn += (oldUnitParam.maintCost - value.maintCost) * this.unitParam.quantity;  //更新预计的dora变动
+    // }
 
     onStart(): void {
         console.log(`单位生成 所属国家${this.nationId} 所属领地坐标 ${this.unitCoor.x} ${this.unitCoor.y}`)
@@ -57,7 +57,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
 
         this.unitParamWhenRecruited = UnitParam.copyUnitParam(this.unitParam);  //记录单位的初始属性
         // this.updateTransform();
-        Nation.nations[this.nationId].doraChangeNextTurn -= this.unitParam.maintCost;  //扣除维护费用
+        // Nation.nations[this.nationId].doraChangeNextTurn -= this.unitParam.maintCost * this.unitParam.quantity;  //扣除维护费用
     }
 
     onUpdate(): void {
@@ -84,7 +84,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
     onEnd(): void {
         console.log(`UnitBehaviour ${this.unitParam.name}(国家：${this.nationId}) 被destroy`)
         Nation.nations[this.nationId].unitList.splice(Nation.nations[this.nationId].unitList.indexOf(this), 1);  //从unitList中删除
-        Nation.nations[this.nationId].doraChangeNextTurn += this.unitParam.maintCost;  //退还维护费用
+        // Nation.nations[this.nationId].doraChangeNextTurn += this.unitParam.maintCost * this.unitParam.quantity;  //退还维护费用
         this.currentProvince.unitList.splice(this.currentProvince.unitList.indexOf(this), 1);  //从当前省份的unitList中删除
         console.log(`死亡单位属于领地${this.currentProvince.coord.x} ${this.currentProvince.coord.y}
         ，死亡后该领地单位数量为${this.currentProvince.unitList.length}`)
@@ -128,7 +128,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             return false;
         }
 
-        if (!province.isOwnable) {
+        if (!province.isLand) {
             if (this.nationId === GameProcess.playerNationId)
                 generateTip(this, "海面不可通行");
             return false;

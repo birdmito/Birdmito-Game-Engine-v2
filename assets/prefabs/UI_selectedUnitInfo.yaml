@@ -95,6 +95,7 @@ children:
                   source: ./assets/images/Interface_ButtonCountryPanel.png
               - type: UI_ButtonState
               - type: UI_NationButton
+              - type: Au_NationFlag
             children: []
   - id: UnitInfo
     behaviours:
@@ -120,6 +121,7 @@ children:
               source: ./assets/images/Icon_SeparateUnit.png
           - type: UI_ButtonState
           - type: UI_SplitUnitButton
+          - type: Au_GeneralButton
         children: []
       - id: _UnitDeleteButton
         behaviours:
@@ -135,6 +137,10 @@ children:
               source: ./assets/images/Icon_DeleteUnit.png
           - type: UI_ButtonState
           - type: UI_DismissUnitButton
+          - type: Au_CustomButton
+            properties:
+              enterAudio: 按钮进入音效
+              clickAudio: 解散音效
         children: []
       - id: UI_UnitBehaviourButton
         behaviours:
@@ -150,6 +156,7 @@ children:
               source: ./assets/images/Icon_Explore.png
           - type: UI_ButtonState
           - type: UI_UnitActButton
+          - type: Au_UnitActButton
         children: 
           - id: UnitBehaviourText
             behaviours:
@@ -266,4 +273,5 @@ children:
             properties:
               source: ./assets/images/Icon_Cross.png
           - type: UI_ButtonState
+          - type: Au_GeneralButton
         children: []

@@ -23,9 +23,11 @@ export class UI_UpdateGovernmentStatic extends Behaviour {
         //更新旗帜
         getGameObjectById("_PlayersGovernmentFlag").getBehaviour(BitmapRenderer).source = Nation.nations[GameProcess.playerNationId].nationFlagUrl;
         //更新玩家帝国下回合金钱变化
-        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text = '下回合增长：' + Nation.nations[GameProcess.playerNationId].doraChangeNextTurn.toString();
+        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text = '每回合变动' + Nation.nations[GameProcess.playerNationId].doraChangeNextTurn.toString();
+        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += `|省份：${Nation.nations[GameProcess.playerNationId].doraChangeFromProvince.toString()}`;
+        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += `|单位：${Nation.nations[GameProcess.playerNationId].doraChangeFromUnit.toString()}`;
         if (Nation.nations[GameProcess.playerNationId].dora < 0) {
-            getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += '|我们正在负债！科研进度-80%，所有省份生产力-80%，单位战力-80%';
+            getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += '||我们正在负债！|科研进度-80%|所有省份生产力-80%|单位战力-80%';
         }
 
 

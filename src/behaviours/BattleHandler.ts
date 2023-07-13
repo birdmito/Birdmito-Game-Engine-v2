@@ -70,7 +70,7 @@ export class BattleHandler {
             }
             else if (battle.defenderPowerLeft > 0) {
                 winnerUnitList = battle.defenderUnitList;
-                powerLeft = battle.defenderPowerLeft    
+                powerLeft = battle.defenderPowerLeft
                 //摧毁进攻方所有单位
                 for (let unit of battle.attackerUnitList) {
                     unit.gameObject.destroy();
@@ -92,6 +92,9 @@ export class BattleHandler {
                 else if (powerLeft > 0) {
                     //剩余战力小于原始战力，按照剩余战力计算单位数量
                     const unitQuantity = Math.floor(powerLeft / winnerUnitList[i].unitParam.power);
+                    //保证维护费计算正确
+                    Nation.nations[winnerUnitList[i].unitParam.nationId].dora
+                        += (unitQuantity - winnerUnitList[i].unitParam.quantity) * winnerUnitList[i].unitParam.maintCost;
                     winnerUnitList[i].unitParam.quantity = unitQuantity;
                     powerLeft -= unitQuantity * winnerUnitList[i].unitParam.power;
                     console.log(`对单位 ${winnerUnitList[i].unitParam.name} 修改数量为 ${unitQuantity}`)
