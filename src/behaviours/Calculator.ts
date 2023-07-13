@@ -70,6 +70,8 @@ export class Calculator {
         var pluser = new Resource(0, 0, 0);
         var multiplier = new Resource(1, 1, 1);
 
+        //-------------------------------------------
+
         //来自建筑的产出
         for (const building of province.buildingList) {
             pluser.add(building.buildingProduction);
@@ -95,6 +97,14 @@ export class Calculator {
         multiplier.production += Technology.getTechBonus(province.nationId, "秘源驱动机械");
         //浪淘尽现黄金：省份金钱产出+1
         pluser.dora += Technology.getTechBonus(province.nationId, "浪淘尽现黄金");
+
+        //负债状态下：生产力-80% 科技点产出-80%
+        if (province.nationId > 0 && Nation.nations[province.nationId].dora < 0) {
+            multiplier.production -= 0.8;
+            multiplier.techPoint -= 0.8;
+        }
+
+        //-------------------------------------------
 
         result.add(pluser);
         result.multiply(multiplier);
@@ -163,6 +173,7 @@ export class Calculator {
             var result = Building.copyBuilding(Building.getOriginBuildingByName(province, buildableBuildingList[i].name));
             var pluser = Building.getBuildingWhichAllParamIsZero();
             var multiplier = Building.getBuildingWhichAllParamIsOne();
+            //----------------------------------
 
             //奇迹工坊之路：建筑花费-10%
             multiplier.cost += Technology.getTechBonus(province.nationId, "奇迹工坊之路");
@@ -170,6 +181,9 @@ export class Calculator {
             //全民机械浪潮：建筑额外提供2生产力
             pluser.buildingProduction.production += Technology.getTechBonus(province.nationId, "全民机械浪潮");
 
+
+
+            //----------------------------------
             result.addBuildingParam(pluser);
             result.multiplyBuildingParam(multiplier);
             buildableBuildingList[i] = result;
@@ -186,13 +200,21 @@ export class Calculator {
         var result = 0;
         var pluser = 0;
         var multiplier = 1;
+        //----------------------------------
 
         //计算基础战斗力
-        result += unit.unitParam.power * unit.unitParam.quantity;
+        pluser += unit.unitParam.power * unit.unitParam.quantity;
         //先进作战机械：单位战斗力+10%
         multiplier += Technology.getTechBonus(unit.nationId, "先进作战机械");
+        //负债状态下：单位战斗力-80%
+        if (Nation.nations[unit.nationId].dora < 0) {
+            multiplier -= 0.8;
+        }
 
+        //----------------------------------
+
+        result += pluser;
+        result *= multiplier;
         unit.power = result;
-
     }
 }

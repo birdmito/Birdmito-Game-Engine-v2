@@ -50,6 +50,7 @@ children:
       - type: DestroyOnClick
         properties:
           targetID: StaffWindow
+      - type: Au_GeneralButton
     children:
       - id: CloseImage
         behaviours:

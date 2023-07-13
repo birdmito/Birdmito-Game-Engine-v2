@@ -61,3 +61,40 @@ children:
                   rotation: 0
                   anchorType: left-top
             children: []
+  - id: AudioManager
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: AudioClip # 登录界面背景音乐
+        properties:
+          name: 登录界面背景音乐
+          source: "./assets/audios/1_Into the Beyond.mp3"
+          loop: true
+      - type: AudioClip # 游戏界面背景音乐
+        properties:
+          name: 游戏界面背景音乐
+          source: "./assets/audios/mood_landinsight.mp3"
+          loop: true
+      - type: AudioClip # 按钮进入音效
+        properties:
+          name: 按钮进入音效
+          source: "./assets/audios/click.mp3"
+      - type: AudioClip # 按钮点击音效
+        properties:
+          name: 按钮点击音效
+          source: "./assets/audios/enact_decision.mp3"
+      - type: AudioClip # 开始游戏音效
+        properties:
+          name: 开始游戏音效
+          source: "./assets/audios/start_game.mp3"
+      - type: AudioClip # 省份选择音效
+        properties:
+          name: 省份选择音效
+          source: "./assets/audios/province_own_click.mp3"
+      - type: Au_Manager
+    children: []

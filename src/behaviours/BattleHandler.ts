@@ -53,12 +53,14 @@ export class BattleHandler {
 
 
         var winnerUnitList: UnitBehaviour[] = [];
+        var powerLeft;
         //战斗结束，结算剩余单位数量
         if (battle.attackerPowerLeft <= 0 || battle.defenderPowerLeft <= 0) {
             console.log("战斗结束")
             //战斗结束，结算剩余单位数量
             if (battle.attackerPowerLeft > 0) {
                 winnerUnitList = battle.attackerUnitList;
+                powerLeft = battle.attackerPowerLeft
                 //摧毁败方所有单位
                 for (let unit of battle.defenderUnitList) {
                     unit.gameObject.destroy();
@@ -68,6 +70,7 @@ export class BattleHandler {
             }
             else if (battle.defenderPowerLeft > 0) {
                 winnerUnitList = battle.defenderUnitList;
+                powerLeft = battle.defenderPowerLeft    
                 //摧毁进攻方所有单位
                 for (let unit of battle.attackerUnitList) {
                     unit.gameObject.destroy();
@@ -77,7 +80,6 @@ export class BattleHandler {
             }
 
             //计算剩余战力，从unitList的尾部开始填充
-            var powerLeft = battle.attackerPowerLeft;
             for (let i = winnerUnitList.length - 1; i >= 0; i--) {
                 //先清空单位的数量
                 winnerUnitList[i].unitParam.quantity = 0;

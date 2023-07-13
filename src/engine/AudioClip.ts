@@ -11,6 +11,8 @@ import { string } from "./validators/string";
  */
 export class AudioClip extends Behaviour {
     @string()
+    name = 'AudioClip';
+    @string()
     source = '';
 
     @string()

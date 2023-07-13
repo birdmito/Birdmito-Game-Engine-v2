@@ -87,9 +87,14 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 getGameObjectById("_UnitDeleteButton").destroy();
             }
         }
+
     }
 
     onUpdate(): void {
+        const selectedBehaviour = SelectedObjectInfoMangaer.selectedBehaviour as Province | UnitBehaviour;
+        //设置旗帜
+        if (selectedBehaviour.nationId > 0)
+            getGameObjectById("_SelectedObjFlag").getBehaviour(BitmapRenderer).source = Nation.nations[selectedBehaviour.nationId].nationFlagUrl;
         // if (Date.now() - this.lastUpdateTime < 1000) {
         //     return;  // 1秒更新一次
         // }
