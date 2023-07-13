@@ -44,7 +44,7 @@ children:
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/ScreenArt_ProvinceLake_0.png
+              source: ./assets/images/ScreenArt_Interact.png
         children: []   
       - id: ProvinceInfoLayer3
         behaviours:
@@ -121,6 +121,7 @@ children:
             fontSize: 20
             text: '这里应该显示国家名称'
             color: white
+            anchorType: center
       children: []
     - id: _NationGoldText
       behaviours:
@@ -172,7 +173,7 @@ children:
         - type: Transform
           properties:
             x: -257
-            y: 210
+            y: 220
             scaleX: 1
             scaleY: 1
             rotation: 0
@@ -194,7 +195,7 @@ children:
       - type: LayoutGroup
         properties:
           layoutType: 'vertical'
-          spacing: 55
+          spacing: 95
     children:
       - id: ChangeFavorButton
         behaviours:
@@ -220,7 +221,7 @@ children:
                   source: ./assets/images/Icon_TextFrame5050.png
                   renderType: 'ui'
                   scaleXForUI: 11
-                  scaleYForUI: 1
+                  scaleYForUI: 3
                   borderWidthForUI: 15
               - type: UI_ButtonState
               - type: UI_ChangeFavorButton
@@ -230,8 +231,8 @@ children:
             behaviours:
               - type: Transform
                 properties:
-                  x: 50
-                  y: 0
+                  x: 125
+                  y: 45
                   scaleX: 1
                   scaleY: 1
                   rotation: 0
@@ -240,6 +241,7 @@ children:
                   fontSize: 20
                   text: '切换外交政策（当前：中立）'
                   color: white
+                  anchorType: center
                   hitAreaType: none
             children: []
       - id: DeclareWarButton
@@ -276,8 +278,8 @@ children:
             behaviours:
               - type: Transform
                 properties:
-                  x: 50
-                  y: 0
+                  x: 125
+                  y: 25
                   scaleX: 1
                   scaleY: 1
                   rotation: 0
@@ -286,6 +288,7 @@ children:
                   fontSize: 20
                   text: '宣战'
                   color: red
+                  anchorType: center
                   hitAreaType: none
             children: []
   - id: Close

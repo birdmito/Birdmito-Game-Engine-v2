@@ -129,10 +129,10 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
             // else {
             //     getGameObjectById("ProvinceTypeText").getBehaviour(TextRenderer).text = `村庄`;
             // }
-            getGameObjectById("ProvinceNationNameText").getBehaviour(TextRenderer).text = `所属国家：${province.nationId}`;
+            //getGameObjectById("ProvinceNationNameText").getBehaviour(TextRenderer).text = `所属国家：${province.nationId}`;
             getGameObjectById("ProvinceProductionText").getBehaviour(TextRenderer).text = `奥坎盾：${province.provinceProduction.dora.toString()} 
             ||生产力：${province.provinceProduction.production.toString()} ||科技点：${province.provinceProduction.techPoint.toString()}`;
-            getGameObjectById("ProvinceApCostText").getBehaviour(TextRenderer).text = `行动力消耗：${province.apCost}`;
+            //getGameObjectById("ProvinceApCostText").getBehaviour(TextRenderer).text = `行动力消耗：${province.apCost}`;
             getGameObjectById("ProvincePlainPercentText").getBehaviour(TextRenderer).text = `平原：${Math.floor(province.plainPercent * 100)}%`;
             getGameObjectById("ProvinceLakePercentText").getBehaviour(TextRenderer).text = `湖泊：${Math.floor(province.lakePercent * 100)}%`;
             getGameObjectById("ProvinceForestPercentText").getBehaviour(TextRenderer).text = `森林：${Math.floor(province.forestPercent * 100)}%`;
@@ -143,7 +143,7 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
         else if (this.selectedBehaviour instanceof UnitBehaviour) {
             const unit = this.selectedBehaviour as UnitBehaviour;
             getGameObjectById("UnitNameText").getBehaviour(TextRenderer).text = `单位名称：${unit.unitParam.name}`;
-            getGameObjectById("UnitNationText").getBehaviour(TextRenderer).text = `所属国家：${unit.nationId}`;
+            //getGameObjectById("UnitNationText").getBehaviour(TextRenderer).text = `所属国家：${unit.nationId}`;
             getGameObjectById("UnitApText").getBehaviour(TextRenderer).text = `行动点：||${unit.unitParam.ap}/${unit.unitParam.apMax}`;
             getGameObjectById("UnitQuantityText").getBehaviour(TextRenderer).text = `数量：${unit.unitParam.quantity}`;
             getGameObjectById("UnitPowerText").getBehaviour(TextRenderer).text = `战力：${unit.power}`;

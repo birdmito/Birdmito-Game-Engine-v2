@@ -191,20 +191,6 @@ children:
               text: '这里应该显示单位名称'
               color: white
               anchorType: 'center'
-      - id: UnitNationText #仅调试
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 40
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: '这里应该显示所属国家'
-              color: white
       - id: UnitApText
         behaviours:
           - type: Transform
