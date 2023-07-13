@@ -1,3 +1,4 @@
+import { s } from "vitest/dist/types-2b1c412e";
 import { Behaviour } from "../engine/Behaviour";
 import { string } from "./validators/string";
 
@@ -9,46 +10,91 @@ import { string } from "./validators/string";
  * * 获取：提供了获取开始/结束时间startTime/endTime、当前播放时间currentTime、获取总播放时间duration、获取是否播放中isPlaying、获取是否播放完毕isEnded等功能
  */
 export class AudioClip extends Behaviour {
-    // pause(): 暂停音频的播放。
-    // currentTime: 获取或设置音频的当前播放时间（以秒为单位）。
-    // duration: 获取音频的总播放时间（以秒为单位）。
-    // volume: 获取或设置音频的音量，范围从0.0（静音）到1.0（最大音量）。
-    // muted: 获取或设置音频的静音状态。
-    // loop: 获取或设置音频是否循环播放。
-    // ended: 表示音频是否已经播放完毕。
-    // playbackRate: 获取或设置音频的播放速度，默认值为1.0。
     @string()
     source = '';
 
-    startTime = 0;
-    endTime = 0;
-    duration = 0;
-    volume = 1;
-    playBackRate = 1;
-    currentTime = 0;
+    @string()
     loop = false;
+    @string()
+    autoPlay = false;
+    @string()
+    mute = false;
 
-    _state: 'play' | 'playing' | 'pause' | 'stop' = 'stop';
+    @string()
+    startTime = 0;
+    @string()
+    endTime = 0;
+    @string()
+    volume = 1;
+    @string()
+    playbackRate = 1;
+    _currentTime = 0;
+    _duration = 0;
+
+    _state: 'start' | 'play' | 'playing' | 'pause' | 'stop' = 'stop';
 
     audioElement: HTMLAudioElement | undefined;
     sourceNode: MediaElementAudioSourceNode | undefined;
+    gainNode: GainNode | undefined;
 
+    /**
+     * @description 播放音频  
+     * 设置音频的播放状态为play，从startTime开始播放
+     */
     play(): void {
-        this._state = 'play';
+        this._state = 'start';
     }
-
+    /**
+     * @description 暂停音频
+     * 设置音频的播放状态为pause, 暂停播放
+     */
     pause(): void {
         this._state = 'pause';
     }
-
+    /**
+     * @description 继续播放音频（暂未实现）
+     * 设置音频的播放状态为play, 继续播放
+     */
     continue(): void {
         this._state = 'play';
     }
-
+    /**
+     * @description 停止播放音频
+     * 设置音频的播放状态为stop, 停止播放, 并将currentTime设置为startTime
+     */
     stop(): void {
         this._state = 'stop';
     }
+    /**
+     * 
+     * @returns 是否播放中
+     */
     isPlaying(): boolean {
         return this._state === 'playing';
+    }
+    /**
+     * 
+     * @returns 是否播放完毕
+     */
+    isEnded(): boolean {
+        return this._state === 'stop';
+    }
+    /**
+     * @description 获取音频Clip总时间
+     */
+    get duration(): number {
+        return this._duration;
+    }
+    /**
+     * @description 获取音频Clip当前播放时间
+     */
+    get currentTime(): number {
+        return this._currentTime;
+    }
+    /**
+     * @description 获取音频Clip状态
+     */
+    get state(): string {
+        return this._state;
     }
 }

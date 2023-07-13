@@ -19,7 +19,6 @@ children:
       - type: BitmapRenderer
         properties:
           source: "./assets/images/ScreenArt_Start.png"
-      - type: Click
     id: 背景
   - behaviours:
       - type: Transform
@@ -37,7 +36,6 @@ children:
           scaleYForUI: 3
           borderWidthForUI: 100
           anchorType: "center"
-      - type: Click
     id: MainMenuBackGround
   - id: StartButton # 开始游戏按钮
     behaviours:
@@ -48,6 +46,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: Au_GeneralButton
       - type: LoginBehaviour
     children:
       - id: GameStartButtonBackGround
@@ -95,6 +94,7 @@ children:
           scaleY: 1
           rotation: 0
       - type: UI_StaffButton
+      - type: Au_GeneralButton
     children:
       - id: GameStartButtonBackGround
         behaviours:
@@ -140,6 +140,7 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+      - type: Au_GeneralButton
       # - type: 关闭游戏
     children:
       - id: GameStartButtonBackGround
@@ -186,4 +187,29 @@ children:
           scaleX: 1
           scaleY: 1
           rotation: 0
+    children: []
+  - id: AudioManager
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: AudioClip # 背景音乐
+        properties:
+          source: "./assets/audios/1_Into the Beyond.mp3"
+          autoPlay: true
+          loop: true
+      - type: AudioClip # 按钮进入音效
+        properties:
+          source: "./assets/audios/click.mp3"
+      - type: AudioClip # 按钮点击音效
+        properties:
+          source: "./assets/audios/enact_decision.mp3"
+      - type: AudioClip # 开始游戏音效
+        properties:
+          source: "./assets/audios/start_game.mp3"
+      - type: Au_Manager
     children: []
