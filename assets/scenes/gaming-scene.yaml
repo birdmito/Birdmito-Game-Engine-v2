@@ -8,6 +8,11 @@ behaviours:
       scaleY: 1
       rotation: 0
       anchorType: left-top
+  - type: AudioClip
+    properties:
+      source: "./assets/audios/inthestreets.mp3"
+      autoPlay: true
+      loop: true
 children:
   - id: Map
     behaviours:

@@ -22,14 +22,14 @@
 ✔ 修复TextRenderer的getBounds @done(23-06-30 09:48)
 ✘ 引入EventSystem @cancelled(23-06-30 13:30)
 ✔ 游戏开始如果场景没有相机则自动创建相机 @done(23-06-30 14:45)
-☐ Button组件
-    ☐ Button Prefab
-    ☐ Button Behaviour
-        ☐ onClick
-        ☐ onEnter
-        ☐ onExit
-        ☐ onDown
-        ☐ onUp
+✔ Button组件 @done(23-07-12 11:05)
+    ✔ Button Prefab @done(23-07-12 11:05)
+    ✔ Button Behaviour @done(23-07-12 11:05)
+        ✔ onClick @done(23-07-12 11:04)
+        ✔ onEnter @done(23-07-12 11:04)
+        ✔ onExit @done(23-07-12 11:05)
+        ✔ onDown @done(23-07-12 11:04)
+        ✔ onUp @done(23-07-12 11:05)
     ✔ 鼠标悬浮 @done(23-07-06 15:35)
 ✔ 修复锚点适应九宫格自缩放问题 @done(23-07-01 00:31)
 ✔ getBounds优化 @done(23-07-06 09:25)
@@ -67,7 +67,7 @@
 ✔ 鼠标移到边缘时移动相机 @done(23-07-06 09:15)
 ☐ 解决鼠标移动到边缘移动与边缘UI冲突的问题
 ✘ 复制新建gameObject @cancelled(23-07-06 17:02)
-☐ 整合Button
+✔ 整合Button @done(23-07-12 11:05)
 ✔ button状态图 @done(23-07-11 13:04)
 ✔ Text换行 @done(23-07-07 17:28)
     ✔ 通过设置宽度自动换行 @done(23-07-07 17:27)
@@ -78,7 +78,27 @@
 ☐ AudioClip
     ✔ 测试js的Audio API @done(23-07-09 16:14)
     ✔ 封装Audio API——基于Behaviour的AudioClip @done(23-07-09 16:39)
-    ☐ 封装Audio API——基于System的AudioClip
+    ✔ 封装Audio API——基于System的AudioClip @done(23-07-12 23:14)
+        ✔ Audio状态转换 @done(23-07-12 23:14)
+            ✔ start：从startTime开始播放 -> play @done(23-07-12 23:14)
+            ✔ play：从当前时间开始播放 -> playing @done(23-07-12 23:14)
+            ✔ playing：播放状态 -> stop @done(23-07-12 23:14)
+            ✔ pause：暂停状态 -> play @done(23-07-12 23:14)
+            ✔ stop：停止状态 -> play @done(23-07-12 23:14)
     ✔ 将Audio加载整合到ResourceManager中 @done(23-07-09 16:14)
-    ☐ 使用web audio api
+    ✔ 使用web audio api @done(23-07-12 21:37)
+    ✔ 多个音频同时播放 @done(23-07-12 21:38)
+    ✔ 更丰富的音频设置 @done(23-07-12 23:30)
+        ✔ loop @done(23-07-12 21:38)
+        ✔ autoPlay @done(23-07-12 21:38)
+        ✔ volume @done(23-07-12 23:15)
+        ✔ playbackRate @done(23-07-12 23:15)
 ☐ 点击事件屏蔽
+✘ 退出游戏 @cancelled(23-07-12 23:15)
+✔ 鼠标监听事件列表 @done(23-07-12 23:15)
+☐ 游戏音效
+    ☐ Button音效
+        ☐ 按钮点击音效
+        ☐ 按钮进入音效
+    ☐ 背景音乐
+    

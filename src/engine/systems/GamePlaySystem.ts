@@ -20,7 +20,6 @@ import config from "../../../config.json";
 import { gameObjects } from "../../engine";
 import { CameraController } from "../../behaviours/CameraController";
 import { GameStateBehaviour } from "../../behaviours/GameStateBehaviour";
-import { Point, Hexagon, checkPointInHexagon } from "../math";
 
 export class GamePlaySystem extends System {
     onStart(): void {
@@ -92,7 +91,7 @@ export class GamePlaySystem extends System {
         if(cameraController){
             camera.removeBehaviour(cameraController);
             console.log("remove camera controller");
-            console.log(camera);
+            // console.log(camera);
         }
     }
 
