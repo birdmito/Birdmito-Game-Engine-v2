@@ -12,6 +12,6 @@ export class UI_UpdateBattleInfo extends Behaviour {
             "      进攻方|       "  + this.battle.attackerNation.nationName + "|"
             + (this.battle.attackerPowerLeft ? ("剩余兵力：" + this.battle.attackerPowerLeft) : ' ');
         this.gameObject.getChildById("_LastTurnInfo").getBehaviour(TextRenderer).text =
-            "上一回合战斗结果：" + this.battle.lastTurnInfo;
+            " |" + this.battle.lastTurnInfo;
     }
 }
