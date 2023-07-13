@@ -96,5 +96,41 @@ children:
         properties:
           name: 省份选择音效
           source: "./assets/audios/province_own_click.mp3"
+      - type: AudioClip # 单位选择音效
+        properties:
+          name: 单位选择音效
+          source: "./assets/audios/select_army.mp3"
+      - type: AudioClip # 单位移动音效
+        properties:
+          name: 单位移动音效
+          source: "./assets/audios/give_army_move_order.mp3"
+      - type: AudioClip # 单位不可通行音效
+        properties:
+          name: 单位不可通行音效
+          source: "./assets/audios/impossible_move.mp3"
+      - type: AudioClip # 国家选择音效
+        properties:
+          name: 国家选择音效
+          source: "./assets/audios/select_nation.mp3"
+      - type: AudioClip # 解散音效
+        properties:
+          name: 解散音效
+          source: "./assets/audios/disband_unit.mp3"
+      - type: AudioClip # 开拓音效
+        properties:
+          name: 开拓音效
+          source: "./assets/audios/inland_province_discoverd.mp3"
+      - type: AudioClip # 筑城音效
+        properties:
+          name: 筑城音效
+          source: "./assets/audios/Audio_Explore.mp3"
+      - type: AudioClip # 宣战音效
+        properties:
+          name: 宣战音效
+          source: "./assets/audios/declare_war_on_other.mp3"
+      - type: AudioClip # 议和音效
+        properties:
+          name: 议和音效
+          source: "./assets/audios/peace_offer_accepted.mp3"
       - type: Au_Manager
     children: []

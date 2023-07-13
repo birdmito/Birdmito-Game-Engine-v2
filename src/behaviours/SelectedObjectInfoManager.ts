@@ -16,6 +16,7 @@ import { Nation } from "./Nation";
 import { UI_UpdateSelectedObjInfo } from "./UI_UpdateSelectedObjInfo";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { GameProcess } from "./GameProcess";
+import { Au_UnitActButton } from "./Au_UnitActButton";
 
 export class SelectedObjectInfoMangaer extends Behaviour {
     static selectedBehaviour: Behaviour;
@@ -51,6 +52,7 @@ export class SelectedObjectInfoMangaer extends Behaviour {
             unitBehaviourButton.getBehaviour(UI_UnitActButton).targetProvinceObj =
                 Province.provincesObj[selectedBehaviour.unitCoor.x][selectedBehaviour.unitCoor.y];
             unitBehaviourButton.getBehaviour(UI_UnitActButton).unitToDestroy = selectedBehaviour.gameObject;
+            unitBehaviourButton.getBehaviour(Au_UnitActButton).unitToDestroy = selectedBehaviour.gameObject;
 
         }
     }

@@ -30,6 +30,9 @@ export class GameStateBehaviour extends Behaviour {
         // 播放背景音乐
         switch (gameState) {
             case 0:
+                if (this.audios["游戏界面背景音乐"].isPlaying) {
+                    this.audios["游戏界面背景音乐"].stop();
+                }
                 this.audios["登录界面背景音乐"].play();
                 break;
             case 1:
