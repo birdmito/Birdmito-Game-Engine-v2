@@ -63,5 +63,6 @@ children:
           - type: DestroyOnClick
             properties:
               targetID: UI_techWindow
+          - type: Au_GeneralButton
           - type: UI_ButtonState
         children: []

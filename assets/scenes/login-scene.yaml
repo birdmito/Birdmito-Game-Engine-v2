@@ -188,28 +188,3 @@ children:
           scaleY: 1
           rotation: 0
     children: []
-  - id: AudioManager
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: AudioClip # 背景音乐
-        properties:
-          source: "./assets/audios/1_Into the Beyond.mp3"
-          autoPlay: true
-          loop: true
-      - type: AudioClip # 按钮进入音效
-        properties:
-          source: "./assets/audios/click.mp3"
-      - type: AudioClip # 按钮点击音效
-        properties:
-          source: "./assets/audios/enact_decision.mp3"
-      - type: AudioClip # 开始游戏音效
-        properties:
-          source: "./assets/audios/start_game.mp3"
-      - type: Au_Manager
-    children: []
