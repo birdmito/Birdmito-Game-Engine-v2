@@ -132,5 +132,49 @@ children:
         properties:
           name: 议和音效
           source: "./assets/audios/peace_offer_accepted.mp3"
+      - type: AudioClip # 科技按钮音效
+        properties:
+          name: 科技按钮音效
+          source: "./assets/audios/tab_ideas.mp3"
+      - type: AudioClip # 政府等级提升音效
+        properties:
+          name: 政府等级提升音效
+          source: "./assets/audios/Audio_GovernmentLevel.mp3"
+      - type: AudioClip # 研究音效
+        properties:
+          name: 研究音效
+          source: "./assets/audios/decided_new_idea_group.mp3"
+      - type: AudioClip # 建造音效
+        properties:
+          name: 建造音效
+          source: "./assets/audios/Audio_BuildingBuild.mp3"
+      - type: AudioClip # 拆除音效
+        properties:
+          name: 拆除音效
+          source: "./assets/audios/Audio_BuildingDestroy.mp3"
+      - type: AudioClip # 取消音效
+        properties:
+          name: 取消音效
+          source: "./assets/audios/close_window.mp3"
+      - type: AudioClip # 招募音效
+        properties:
+          name: 招募音效
+          source: "./assets/audios/unit_production_begin.mp3"
+      - type: AudioClip # 花钱音效
+        properties:
+          name: 花钱音效
+          source: "./assets/audios/lose_gold.mp3"
+      - type: AudioClip # 金钱音效
+        properties:
+          name: 金钱音效
+          source: "./assets/audios/gain_gold.mp3"
+      - type: AudioClip # 下一回合音效
+        properties:
+          name: 下一回合音效
+          source: "./assets/audios/excommunicated.mp3"
+      - type: AudioClip # 下一回合鼠标进入音效
+        properties:
+          name: 下一回合鼠标进入音效
+          source: "./assets/audios/time_forward.mp3"
       - type: Au_Manager
     children: []
