@@ -4,10 +4,10 @@ import { GameProcess } from "./GameProcess";
 
 export class UnitParam implements infoShowable {
     static originUnitParamList: UnitParam[] = [
-        new UnitParam("开拓者", 10, 10, 20, 15, 1),
-        new UnitParam("筑城者", 10, 10, 20, 15, 1),
-        new UnitParam("士兵", 10, 10, 20, 20, 1, true, 1, 10),
-        new UnitParam("自走火炮", 10, 10, 20, 20, 1, true, 1, 10, '先进自走火炮'),
+        new UnitParam("开拓者", 10, 10, 8, 15, 1),
+        new UnitParam("筑城者", 10, 10, 8, 15, 1),
+        new UnitParam("士兵", 10, 10, 8, 20, 1, true, 1, 10),
+        new UnitParam("自走火炮", 10, 10, 8, 20, 1, true, 1, 10, '先进自走火炮'),
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,
