@@ -9,14 +9,28 @@ behaviours:
       rotation: 0
       anchorType: left-top  
 children: 
+  - id: MinimapFrame
+    behaviours:
+      - type: Transform
+        properties:
+          x: 1915
+          y: 80
+          scaleX: 1
+          scaleY: 0.9
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_FrameMinimap.png
+          anchorType: right-top
+        children: []
   - id: MiniMap
     behaviours:
       - type: Transform
         properties:
-          x: 1070
-          y: 60
-          scaleX: 0.05
-          scaleY: 0.05
+          x: 1609
+          y: 90
+          scaleX: 0.11
+          scaleY: 0.11
           rotation: 0
           anchorType: left-top
       - type: MiniMapBehaviour   
@@ -25,12 +39,12 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 1118
-          y: 87
+          x: 1688
+          y: 117
           scaleX: 0.05
           scaleY: 0.05
           rotation: 0
-          anchorType: left-top
+          anchorType: center
       - type: ViewBoxBehaviour    
       - type: BitmapRenderer   
         properties:

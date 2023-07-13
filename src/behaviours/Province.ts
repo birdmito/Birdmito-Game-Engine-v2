@@ -235,6 +235,12 @@ export class Province extends Behaviour {
         //升级为城市
         this.isCity = true;
         Nation.nations[this.nationId].cityList.push(this);
+        //更换图片
+        console.log("更换图片");
+        console.log(this.gameObject.getChildById("Terrain").getBehaviour(BitmapRenderer).source);
+        this.gameObject.getChildById("Terrain").getBehaviour(BitmapRenderer).source =
+            this.gameObject.getChildById("Terrain").getBehaviour(BitmapRenderer).source.replace('.png', '_City.png');
+        console.log(this.gameObject.getChildById("Terrain").getBehaviour(BitmapRenderer).source);
     }
 
     //获取相邻领地

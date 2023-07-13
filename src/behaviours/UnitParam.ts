@@ -6,8 +6,8 @@ export class UnitParam implements infoShowable {
     static originUnitParamList: UnitParam[] = [
         new UnitParam("开拓者", 10, 10, 20, 15, 1),
         new UnitParam("筑城者", 10, 10, 20, 15, 1),
-        new UnitParam("士兵", 10, 10, 20, 20, 1, true, 10, 10),
-        new UnitParam("自走火炮", 10, 10, 20, 20, 1, true, 10, 10, '先进自走火炮'),
+        new UnitParam("士兵", 10, 10, 20, 20, 1, true, 1, 10),
+        new UnitParam("自走火炮", 10, 10, 20, 20, 1, true, 1, 10, '先进自走火炮'),
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,
@@ -36,7 +36,7 @@ export class UnitParam implements infoShowable {
 
     static copyUnitParam(unitParam: UnitParam): UnitParam {
         return new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax,
-            unitParam.maintCost, unitParam.nationId, unitParam.isBattleUnit, unitParam.quantity, unitParam.power);
+            unitParam.maintCost, unitParam.nationId, unitParam.isBattleUnit, unitParam.quantity, unitParam.power, unitParam.techRequired);
     }
 
     /**获得目标省份可招募单位列表中的目标单位（属性已经过修正） */

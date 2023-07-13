@@ -2,14 +2,14 @@ id: _BattleInfoButton
 behaviours:
 - type: Transform
   properties:
-    x: 50
-    y: 50
-    scaleX: 1
-    scaleY: 1
+    x: 0
+    y: 0
+    scaleX: 0.5
+    scaleY: 0.5
     rotation: 0
 - type: BitmapRenderer
   properties:
-    source: ./assets/images/Icon_TextFrame5050.png
+    source: ./assets/images/Icon_OnBattle.png
+    anchorType: 'center'
 - type: UI_BattleInfoButton
-- type: UI_ButtonState
 children: []

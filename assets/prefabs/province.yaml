@@ -42,8 +42,8 @@ children:
     behaviours:
     - type: Transform
       properties:
-        x: 120
-        y: 70
+        x: 130
+        y: 100
         scaleX: 1
         scaleY: 1
         rotation: 0
@@ -58,7 +58,7 @@ children:
     behaviours:
     - type: Transform
       properties:
-        x: 120
+        x: 130
         y: 170
         scaleX: 1
         scaleY: 1
@@ -82,21 +82,6 @@ children:
     - type: TextRenderer
       properties:
         fontSize: 20
-        text: ' '
-        color: white
-        hitAreaType: none
-  - id: _CapitalText
-    behaviours:
-    - type: Transform
-      properties:
-        x: 86
-        y: 50
-        scaleX: 1
-        scaleY: 1
-        rotation: 0
-    - type: TextRenderer
-      properties:
-        fontSize: 50
         text: ' '
         color: white
         hitAreaType: none

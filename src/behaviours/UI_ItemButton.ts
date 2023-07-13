@@ -47,10 +47,10 @@ export class UI_ItemButton extends Behaviour {
                 this.gameObject.parent.getChildById("_ItemEventIcon").getBehaviour(BitmapRenderer).source = './assets/images/Icon_Destroy.png';
                 break;
             case "招募":
-                this.gameObject.parent.getChildById("_ItemEventIcon").getBehaviour(BitmapRenderer).source = './assets/images/Icon_ProduceUnit.png';
+                this.gameObject.parent.getChildById("_ItemEventIcon").getBehaviour(BitmapRenderer).source = './assets/images/Icon_Produce.png';
                 break;
             case "研究":
-                this.gameObject.parent.getChildById("_ItemEventIcon").getBehaviour(BitmapRenderer).source = './assets/images/Icon_Build.png';
+                this.gameObject.parent.getChildById("_ItemEventIcon").getBehaviour(BitmapRenderer).source = './assets/images/Icon_Research.png';
                 break;
         }  //根据不同的事件类型，设置不同的图标
     }
@@ -62,13 +62,14 @@ export class UI_ItemButton extends Behaviour {
         }
 
         this.gameObject.onMouseLeave = () => {
-            this.gameObject.parent.getChildById("_ItemEventIcon").active = false;  //显示图标
+            // this.gameObject.parent.getChildById("_ItemEventIcon").active = false;  //显示图标
             // switch (this.eventText) {
             //     case "建造":
             //         break;
             //     default:
             //         this.gameObject.parent.getChildById("_ItemInfo").active = false;
             // }  //根据不同的事件类型，设置不同的信息显示
+            this.gameObject.parent.getChildById("_ItemEventIcon").active = false;  
             this.gameObject.parent.getChildById("_ItemInfo").active = false;
         }
 
