@@ -188,5 +188,17 @@ children:
         properties:
           name: 省份建造音效
           source: "./assets/audios/Audio_BuildingBuild.mp3"
+      - type: AudioClip # 战斗气泡进入音效
+        properties:
+          name: 战斗气泡进入音效
+          source: "./assets/audios/battle_sword_01.mp3"
+      - type: AudioClip # 接战音效
+        properties:
+          name: 接战音效
+          source: "./assets/audios/battle_sword_02.mp3"
+      - type: AudioClip # 战斗界面音效
+        properties:
+          name: 战斗界面音效
+          source: "./assets/audios/Audio_Battle.mp3"
       - type: Au_Manager
     children: []

@@ -21,8 +21,10 @@ import { b2QueryCallback } from "@flyover/box2d";
 import { Building } from "./Building";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
+import { AudioClip } from "../engine/AudioClip";
 
 export class UnitBehaviour extends Behaviour implements Moveable {
+    audios: { [key: string]: AudioClip } = {};
     nationId: number;
     unitCoor: { x: number, y: number } = { x: 1, y: 0 };
     currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
@@ -48,6 +50,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
     // }
 
     onStart(): void {
+        this.audios = getGameObjectById("AudioManager").getAudioClips();
         console.log(`单位生成 所属国家${this.nationId} 所属领地坐标 ${this.unitCoor.x} ${this.unitCoor.y}`)
         Nation.nations[this.nationId].unitList.push(this);
         this.currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
@@ -256,6 +259,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                     newBattle.province = province;
                     BattleHandler.battleQueue.push(newBattle);  //将战斗加入战斗队列
                     const prefab = this.engine.createPrefab(new UI_BattleInfoButtonPrefabBinding());
+                    this.audios['接战音效'].play();
                     newBattle.battleInfoButton = prefab;
                     prefab.getBehaviour(UI_BattleInfoButton).battle = newBattle;
                     this.gameObject.getChildById("_BattleInfoButtonRoot").addChild(prefab);
