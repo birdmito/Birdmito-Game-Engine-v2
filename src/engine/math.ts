@@ -127,3 +127,15 @@ export function invertMatrix(m: Matrix) {
     return result;
 
 }
+
+/**
+ * 
+ * @description 钳制函数，用于限定一个值在某个范围内
+ * @param value 需要限定的值
+ * @param min 钳制的最小值
+ * @param max 钳制的最大值 
+ * @returns 
+ */
+export function clamp(value: number, min: number, max: number) {
+    return Math.max(min, Math.min(max, value));
+}

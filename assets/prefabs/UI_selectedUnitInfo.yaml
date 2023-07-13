@@ -106,7 +106,7 @@ children:
           scaleY: 1
           rotation: 0
     children:
-      - id: UI_UnitSeparateButton
+      - id: _UnitSeparateButton
         behaviours:
           - type: Transform
             properties:
@@ -119,9 +119,9 @@ children:
             properties:
               source: ./assets/images/Icon_SeparateUnit.png
           - type: UI_ButtonState
-          # - type: 
+          - type: UI_SplitUnitButton
         children: []
-      - id: UnitDeleteButton
+      - id: _UnitDeleteButton
         behaviours:
           - type: Transform
             properties:
@@ -134,7 +134,7 @@ children:
             properties:
               source: ./assets/images/Icon_DeleteUnit.png
           - type: UI_ButtonState
-          # - type: 
+          - type: UI_DismissUnitButton
         children: []
       - id: UI_UnitBehaviourButton
         behaviours:

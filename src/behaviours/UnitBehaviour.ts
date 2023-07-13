@@ -19,6 +19,7 @@ import { UI_BattleInfoButton } from "./UI_BattleInfoButton";
 import { UI_BattleInfoButtonPrefabBinding } from "../bindings/UI_BattleInfoButtonPrefabBinding";
 import { b2QueryCallback } from "@flyover/box2d";
 import { Building } from "./Building";
+import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 
 export class UnitBehaviour extends Behaviour implements Moveable {
     nationId: number;
@@ -71,7 +72,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
         }
 
         //更新显示
-        this.gameObject.getChildById("UnitPowerText").getBehaviour(TextRenderer).text = this.power.toString();
+        this.gameObject.getChildById("UnitPowerText").getBehaviour(TextRenderer).text = `${this.power.toString()}`;
         if (SelectedObjectInfoMangaer.selectedBehaviour == this) {
             this.gameObject.getChildById("_UnitApText").getBehaviour(TextRenderer).text = `AP:${this.unitParam.ap}/${this.unitParam.apMax}(-${this.apCostToMove})`;
         }
@@ -278,8 +279,11 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                         console.log(nation.cityList);
                     }
                     nation.dora -= Calculator.calculateColonyCost(nation.nationId, this.currentProvince.coord);  //扣钱
-                    this.gameObject.destroy();  //销毁单位
-                    if (getGameObjectById("UI_selectedUnitInfo")) {
+                    if (this.unitParam.quantity > 1) {
+                        this.unitParam.quantity--;
+                    }
+                    else {
+                        this.gameObject.destroy();
                         getGameObjectById("UI_selectedUnitInfo").destroy();
                     }
                 }
@@ -322,10 +326,48 @@ export class UnitBehaviour extends Behaviour implements Moveable {
                     //处理逻辑
                     this.currentProvince.becomeCity();
                     nation.dora -= Calculator.calculateColonyCost(nation.nationId, this.currentProvince.coord);  //扣钱
-                    this.gameObject.destroy();
-                    getGameObjectById("UI_selectedUnitInfo").destroy();
+                    if (this.unitParam.quantity > 1) {
+                        this.unitParam.quantity--;
+                    }
+                    else {
+                        this.gameObject.destroy();
+                        getGameObjectById("UI_selectedUnitInfo").destroy();
+                    }
                 }
                 break;
         }
+    }
+
+    //分出一半单位
+    split() {
+        if (this.unitParam.quantity <= 1) {
+            //生成提示
+            if (this.nationId === GameProcess.playerNationId) {
+                generateTip(this, "该单位数量不足以拆分");
+            }
+            return;
+        }
+
+        //获取单位参数
+        const newUnitParam = UnitParam.copyUnitParam(this.unitParam);
+        //生成单位
+        const newUnitPrefab = this.engine.createPrefab(new UnitPrefabBinding());
+        //配置单位属性
+        const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
+        prefabBehavior.nationId = this.nationId;
+        prefabBehavior.unitParam = newUnitParam;
+        prefabBehavior.unitCoor = this.unitCoor;
+        //添加到场景中
+        getGameObjectById("UnitRoot").addChild(newUnitPrefab);
+    }
+
+    //解散
+    dismiss() {
+        //生成提示
+        if (this.nationId === GameProcess.playerNationId) {
+            generateTip(this, "解散成功");
+        }
+        //销毁单位
+        this.gameObject.destroy();
     }
 }

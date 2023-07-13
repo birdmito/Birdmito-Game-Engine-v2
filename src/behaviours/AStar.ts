@@ -1,3 +1,5 @@
+import { ProvinceGenerator } from "./ProvinceGenerator";
+
 // 创建一个表示节点的类
 export class myNode {
   x: number;
@@ -72,10 +74,16 @@ export class AStar {
       let neighbors: myNode[] = [];
       let { x, y } = currentmyNode;
 
-      if (x > 0) neighbors.push(this.grid[x - 1][y]);
-      if (x < this.grid.length - 1) neighbors.push(this.grid[x + 1][y]);
-      if (y > 0) neighbors.push(this.grid[x][y - 1]);
-      if (y < this.grid[0].length - 1) neighbors.push(this.grid[x][y + 1]);
+      const neighborsCoordList = ProvinceGenerator.getAdjacentCoords(x, y)
+      for (let coord of neighborsCoordList) {
+        if (coord.x >= 0 && coord.x < this.grid.length && coord.y >= 0 && coord.y < this.grid[0].length)
+          neighbors.push(this.grid[coord.x][coord.y]);
+      }
+
+      // if (x > 0) neighbors.push(this.grid[x - 1][y]);
+      // if (x < this.grid.length - 1) neighbors.push(this.grid[x + 1][y]);
+      // if (y > 0) neighbors.push(this.grid[x][y - 1]);
+      // if (y < this.grid[0].length - 1) neighbors.push(this.grid[x][y + 1]);
 
       for (let neighbor of neighbors) {
         if (neighbor === null || this.closedList.includes(neighbor)) continue;

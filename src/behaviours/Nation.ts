@@ -60,10 +60,20 @@ export class Nation {
     declareWar(nation: Nation) {
         this.enemyNationList.push(nation);
         nation.enemyNationList.push(this);
-        nation.favorability.set(this.nationId, -10);  //宣战后立即降低对方对我们的评价
+        nation.favorability.set(this.nationId, nation.favorability.get(this.nationId) - 10);
     }
     peace(nation: Nation) {
+        if (nation.botActMode !== undefined) {
+            if (nation.botActMode.acceptPeaceRequest.get(this.nationId) < 0) {
+                //对方拒绝了我们的和平请求
+                if (this.nationId === GameProcess.playerNationId) {
+                    generateTip(this._capitalProvince, '对方拒绝了我们的和平请求');
+                }
+                return;
+            }
+        }
         this.enemyNationList.splice(this.enemyNationList.indexOf(nation), 1);
+        nation.enemyNationList.splice(nation.enemyNationList.indexOf(this), 1);
     }
     changeForeignPolicy(nation: Nation, policy: 'positive' | 'negative' | 'neutral') {
         const oldPolicy = this.foreignPolicy.get(nation.nationId);
@@ -94,9 +104,9 @@ export class Nation {
 
     doraChangeNextTurn: number = 0;  //预计的dora变动
 
-    vertices :{x:number,y:number}[] = [];
+    vertices: { x: number, y: number }[] = [];
 
-    needJumpVertices:{x:number,y:number}[] = [];
+    needJumpVertices: { x: number, y: number }[] = [];
 
     nationBorderColor: string = 'green';
     //TODO 收支明细——没想好怎么做（明细更新的时机）
@@ -308,43 +318,43 @@ export class Nation {
         }
     }
 
-    updateNationColor(){
-              //调整NationBorder颜色
-            const nationId = this.nationId
-                if(nationId==1){
-                  //这是玩家的颜色
-                  this.nationBorderColor = 'rgb(134,72,66)' 
-                }else if(nationId==998){
-                  //这是地精的颜色
-                  this.nationBorderColor = 'rgb(19, 80, 26)'         
-                }else if(nationId==997){
-                  //这是矮人的颜色
-                  this.nationBorderColor = 'rgb(116, 127, 139)'
-                }else if(nationId==996){
-                  //这是龙族的颜色
-                  this.nationBorderColor = 'rgb(36, 36, 47)'
-                }else if(nationId==999){
-                  //这是精灵的颜色
-                  this.nationBorderColor = 'rgb(3, 80, 72)' 
-                }else{
-                  //这是AI的颜色
-                  this.nationBorderColor = this.RandomColor() 
-                }
-              
+    updateNationColor() {
+        //调整NationBorder颜色
+        const nationId = this.nationId
+        if (nationId == 1) {
+            //这是玩家的颜色
+            this.nationBorderColor = 'rgb(134,72,66)'
+        } else if (nationId == 998) {
+            //这是地精的颜色
+            this.nationBorderColor = 'rgb(19, 80, 26)'
+        } else if (nationId == 997) {
+            //这是矮人的颜色
+            this.nationBorderColor = 'rgb(116, 127, 139)'
+        } else if (nationId == 996) {
+            //这是龙族的颜色
+            this.nationBorderColor = 'rgb(36, 36, 47)'
+        } else if (nationId == 999) {
+            //这是精灵的颜色
+            this.nationBorderColor = 'rgb(3, 80, 72)'
+        } else {
+            //这是AI的颜色
+            this.nationBorderColor = this.RandomColor()
+        }
+
     }
 
-    RandomColor():string{
+    RandomColor(): string {
         //随机生成颜色
         let color = 'rgb('
-        for(let i=0;i<3;i++){
-            color += Math.floor(Math.random()*255)
-            if(i!=2){
+        for (let i = 0; i < 3; i++) {
+            color += Math.floor(Math.random() * 255)
+            if (i != 2) {
                 color += ','
             }
         }
         color += ')'
         return color
-      }
+    }
 
 }
 // export class NationManager{

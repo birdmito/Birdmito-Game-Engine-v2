@@ -8,6 +8,7 @@ import { System } from "./System";
 
 export class MouseControlSystem extends System {
     private callback(event: GameEngineMouseEvent) { }
+    private callbackList: ((event: GameEngineMouseEvent) => void)[] = [];
     private currentHoverGameObject: GameObject | null = null;
     private currentDownGameObjects: GameObject[] = [];
     private mousePoint: Point = {x:0, y:0};
@@ -26,25 +27,29 @@ export class MouseControlSystem extends System {
                     if (code === 0) {    // 左键
                         // 如果有onClick事件，callback = onClick，否则callback = onMouseLeftDown
                         this.callback = result.onMouseLeftDown ? result.onMouseLeftDown : result.onClick;
+                        this.callbackList = result.onMouseLeftDownList;
+
                     }
                     else if (code === 1) {   // 中键
                         this.callback = result.onMouseMiddleDown;
+                        this.callbackList = result.onMouseMiddleDownList;
                     }
                     else if (code === 2) {   // 右键
                         this.callback = result.onMouseRightDown;
+                        this.callbackList = result.onMouseRightDownList;
                     }
 
-                    if (this.callback) {
-                        const invertGlobalMatrix = invertMatrix(result.getBehaviour(Transform).globalMatrix)
-                        const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
-                        const event: GameEngineMouseEvent = {
-                            globalX: globalPoint.x,
-                            globalY: globalPoint.y,
-                            localX: localPoint.x,
-                            localY: localPoint.y
-                        }
+                    // calculateGameEngineMouseEvent
+                    const event = this.calculateGameEngineMouseEvent(result, globalPoint);
+                    if(this.callback){  // 向下兼容
                         this.callback(event);
                     }
+                    this.callbackList.forEach((callback) => {
+                        if(callback){
+                            callback(event);
+                        }
+                    })
+
                     // console.log("hit", result.id);
                     this.currentDownGameObjects.push(result);
                     if(result.stopPropagation){
@@ -57,23 +62,33 @@ export class MouseControlSystem extends System {
                 if (code === 0) {    // 左键
                     // 如果有onClick事件，callback = onClick，否则callback = onMouseLeftDown
                     this.callback = this.rootGameObject.onMouseLeftDown ? this.rootGameObject.onMouseLeftDown : this.rootGameObject.onClick;
+                    this.callbackList = this.rootGameObject.onMouseLeftDownList;
                 }
                 else if (code === 1) {   // 中键
                     this.callback = this.rootGameObject.onMouseMiddleDown;
+                    this.callbackList = this.rootGameObject.onMouseMiddleDownList;
                 }
                 else if (code === 2) {   // 右键
                     this.callback = this.rootGameObject.onMouseRightDown;
+                    this.callbackList = this.rootGameObject.onMouseRightDownList;
                 }
                 
-                if (this.callback) {
-                    const event: GameEngineMouseEvent = {
-                        globalX: globalPoint.x,
-                        globalY: globalPoint.y,
-                        localX: globalPoint.x,
-                        localY: globalPoint.y
-                    }
+                
+                const event: GameEngineMouseEvent = {
+                    globalX: globalPoint.x,
+                    globalY: globalPoint.y,
+                    localX: globalPoint.x,
+                    localY: globalPoint.y
+                }
+                if(this.callback){  // 向下兼容
                     this.callback(event);
                 }
+                this.callbackList.forEach((callback) => {
+                    if(callback){
+                        callback(event);
+                    }
+                });
+                
             }
         });
         window.addEventListener('mouseup', (event) => {
@@ -87,24 +102,27 @@ export class MouseControlSystem extends System {
                 if (code === 0) {    // 左键
                     // 如果有onClick事件，callback = onClick，否则callback = onMouseLeftDown
                     this.callback = gameObject.onMouseLeftUp ? gameObject.onMouseLeftUp : gameObject.onClick;
+                    this.callbackList = gameObject.onMouseLeftUpList;
                 }
                 else if (code === 1) {   // 中键
                     this.callback = gameObject.onMouseMiddleUp;
+                    this.callbackList = gameObject.onMouseMiddleUpList;
                 }
                 else if (code === 2) {   // 右键
                     this.callback = gameObject.onMouseRightUp;
+                    this.callbackList = gameObject.onMouseRightUpList;
                 }
-                if (this.callback) {
-                    const invertGlobalMatrix = invertMatrix(gameObject.getBehaviour(Transform).globalMatrix)
-                    const localPoint = pointAppendMatrix(globalPoint, invertGlobalMatrix)
-                    const event: GameEngineMouseEvent = {
-                        globalX: globalPoint.x,
-                        globalY: globalPoint.y,
-                        localX: localPoint.x,
-                        localY: localPoint.y
-                    }
+
+                // calculateGameEngineMouseEvent
+                const event = this.calculateGameEngineMouseEvent(gameObject, globalPoint);
+                if(this.callback){  // 向下兼容
                     this.callback(event);
                 }
+                this.callbackList.forEach((callback) => {
+                    if(callback){
+                        callback(event);
+                    }
+                })
             }
             this.currentDownGameObjects = [];
         });
@@ -119,23 +137,39 @@ export class MouseControlSystem extends System {
             if(result){
                 if(result !== this.currentHoverGameObject){
                     if(this.currentHoverGameObject){
-                        let hover = this.currentHoverGameObject;
-                        while(hover){
-                            if(hover.onMouseLeave){
-                                const event = this.calculateGameEngineMouseEvent(hover, globalPoint);
-                                hover.onMouseLeave(event);
+                        let entered = this.currentHoverGameObject;
+                        while(entered){
+                            this.callbackList = entered.onMouseLeaveList;
+
+                            const event = this.calculateGameEngineMouseEvent(entered, globalPoint);
+                            if(entered.onMouseLeave){   // 向下兼容
+                                entered.onMouseLeave(event);
                             }
-                            hover = hover.parent;
+                            this.callbackList.forEach((callback) => {
+                                if(callback){
+                                    callback(event);
+                                }
+                            })
+
+                            entered = entered.parent;
                         }
                         // console.log("leave", this.currentHoverGameObject.id);
                         this.currentDownGameObjects = [];
                     }
                     this.currentHoverGameObject = result;
                     while(result){
-                        if(result.onMouseEnter){
-                            const event = this.calculateGameEngineMouseEvent(result, globalPoint);
+                        this.callbackList = result.onMouseEnterList;
+
+                        const event = this.calculateGameEngineMouseEvent(result, globalPoint);
+                        if(result.onMouseEnter){    // 向下兼容
                             result.onMouseEnter(event);
                         }
+                        this.callbackList.forEach((callback) => {
+                            if(callback){
+                                callback(event);
+                            }
+                        })
+                        
                         result = result.parent;
                     }
                     // console.log("enter", this.currentHoverGameObject.id);
@@ -143,14 +177,22 @@ export class MouseControlSystem extends System {
             }
             else{
                 if(this.currentHoverGameObject){
-                    let hover = this.currentHoverGameObject;
-                    if(hover){
-                        while(hover){
-                            if(hover.onMouseLeave){
-                                const event = this.calculateGameEngineMouseEvent(hover, globalPoint);
-                                hover.onMouseLeave(event);
+                    let entered = this.currentHoverGameObject;
+                    if(entered){
+                        while(entered){
+                            this.callbackList = entered.onMouseLeaveList;
+                            
+                            const event = this.calculateGameEngineMouseEvent(entered, globalPoint);
+                            if(entered.onMouseLeave){   // 向下兼容
+                                entered.onMouseLeave(event);
                             }
-                            hover = hover.parent;
+                            this.callbackList.forEach((callback) => {
+                                if(callback){
+                                    callback(event);
+                                }
+                            })
+
+                            entered = entered.parent;
                     }
                     this.currentHoverGameObject = null;
                     }
@@ -161,11 +203,19 @@ export class MouseControlSystem extends System {
     onUpdate() {
         let result = this.hitTest(this.rootGameObject, this.mousePoint);
         if (result) {
-            const event = this.calculateGameEngineMouseEvent(result, this.mousePoint)
             while(result){
-                if(result.onMouseHover){
-                    result.onMouseHover(event)
+                this.callbackList = result.onMouseHoverList;
+
+                const event = this.calculateGameEngineMouseEvent(result, this.mousePoint)
+                if(result.onMouseHover){    // 向下兼容
+                    result.onMouseHover(event);
                 }
+                this.callbackList.forEach((callback) => {
+                    if(callback){
+                        callback(event);
+                    }
+                })
+
                 result = result.parent;
             }
         }
@@ -213,7 +263,7 @@ export class MouseControlSystem extends System {
             case 'none':
                 return false;
             default:
-                throw new Error('未知的hitAreaType,策划请检查.yaml文件并核对hitAreaType，开发请检查Renderer代码');
+                throw new Error(`未知的hitAreaType:${hitAreaType},策划请检查.yaml文件并核对hitAreaType，开发请检查Renderer代码`);
         }
     }
 

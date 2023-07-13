@@ -73,9 +73,18 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
         }
         else if (this.selectedBehaviour instanceof UnitBehaviour) {
             const unit = this.selectedBehaviour as UnitBehaviour;
-            //若不是玩家的单位，则销毁UI_UnitBehaviourButton
-            if (unit.nationId !== GameProcess.playerNationId) {
+            //若不是玩家的单位，或单位没有特殊行为，则销毁UI_UnitBehaviourButton
+            if (unit.nationId !== GameProcess.playerNationId ||
+                (unit.unitParam.name !== '开拓者' && unit.unitParam.name !== '筑城者')) {
                 getGameObjectById("UI_UnitBehaviourButton").destroy();
+            }
+            //若不是玩家的单位，则销毁_UnitSeparateButton
+            if (unit.nationId !== GameProcess.playerNationId) {
+                getGameObjectById("_UnitSeparateButton").destroy();
+            }
+            //若不是玩家的单位，则销毁_UnitDeleteButton
+            if (unit.nationId !== GameProcess.playerNationId) {
+                getGameObjectById("_UnitDeleteButton").destroy();
             }
         }
     }

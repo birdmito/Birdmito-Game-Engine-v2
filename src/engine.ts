@@ -258,15 +258,106 @@ export class GameObject {
      * 请使用onMouseLeftDown、onMouseRightDown、onMouseMiddleDown替代。
      */
     onClick?: (event: GameEngineMouseEvent) => void;
+    /**
+     * @deprecated onMouseLeftDown函数为过时函数，不建议继续使用。  
+     * 现在GameObject支持onMouseLeftDownList数组，可以添加多个回调函数。  
+     * List使用方法：onMouseLeftDownList.push(someFunction);
+     */
     onMouseLeftDown?: (event: GameEngineMouseEvent) => void;
+    /**
+     * @deprecated onMouseMiddleDown函数为过时函数，不建议继续使用。
+     * 现在GameObject支持onMouseMiddleDownList数组，可以添加多个回调函数。
+     * List使用方法：onMouseMiddleDownList.push(someFunction);
+     */
     onMouseMiddleDown?: (event: GameEngineMouseEvent) => void;
+    /**
+     * @deprecated onMouseRightDown函数为过时函数，不建议继续使用。
+     * 现在GameObject支持onMouseRightDownList数组，可以添加多个回调函数。
+     * List使用方法：onMouseRightDownList.push(someFunction);
+     */
     onMouseRightDown?: (event: GameEngineMouseEvent) => void;
+    /**
+     * @deprecated onMouseLeftUp函数为过时函数，不建议继续使用。
+     * 现在GameObject支持onMouseLeftUpList数组，可以添加多个回调函数。
+     * List使用方法：onMouseLeftUpList.push(someFunction);
+     */
     onMouseLeftUp?: (event: GameEngineMouseEvent) => void;
+    /**
+     * @deprecated onMouseMiddleUp函数为过时函数，不建议继续使用。
+     * 现在GameObject支持onMouseMiddleUpList数组，可以添加多个回调函数。
+     * List使用方法：onMouseMiddleUpList.push(someFunction);
+     */
     onMouseMiddleUp?: (event: GameEngineMouseEvent) => void;
+    /**
+     * @deprecated onMouseRightUp函数为过时函数，不建议继续使用。
+     * 现在GameObject支持onMouseRightUpList数组，可以添加多个回调函数。
+     * List使用方法：onMouseRightUpList.push(someFunction);
+     */
     onMouseRightUp?: (event: GameEngineMouseEvent) => void;
+    /**
+     * @deprecated onMouseEnter函数为过时函数，不建议继续使用。
+     * 现在GameObject支持onMouseEnterList数组，可以添加多个回调函数。
+     * List使用方法：onMouseEnterList.push(someFunction);
+     */
     onMouseEnter?: (event: GameEngineMouseEvent) => void;
+    /**
+     * @deprecated onMouseLeave函数为过时函数，不建议继续使用。
+     * 现在GameObject支持onMouseLeaveList数组，可以添加多个回调函数。
+     * List使用方法：onMouseLeaveList.push(someFunction);
+     */
     onMouseLeave?: (event: GameEngineMouseEvent) => void;
+    /**
+     * @deprecated onMouseHover函数为过时函数，不建议继续使用。
+     * 现在GameObject支持onMouseHoverList数组，可以添加多个回调函数。
+     * List使用方法：onMouseHoverList.push(someFunction);
+     */
     onMouseHover?: (event: GameEngineMouseEvent) => void;
+
+    /**
+     * @description 当鼠标左键按下时，会触发该数组中的所有回调函数。  
+     * List使用方法：onMouseLeftDownList.push(someFunction);
+     */
+    onMouseLeftDownList: ((event: GameEngineMouseEvent) => void)[] = [];
+    /**
+     * @description 当鼠标中键按下时，会触发该数组中的所有回调函数。  
+     * List使用方法：onMouseMiddleDownList.push(someFunction);
+     */
+    onMouseMiddleDownList: ((event: GameEngineMouseEvent) => void)[] = [];
+    /**
+     * @description 当鼠标右键按下时，会触发该数组中的所有回调函数。  
+     * List使用方法：onMouseRightDownList.push(someFunction);
+     */
+    onMouseRightDownList: ((event: GameEngineMouseEvent) => void)[] = [];
+    /**
+     * @description 当鼠标左键抬起时，会触发该数组中的所有回调函数。  
+     * List使用方法：onMouseLeftUpList.push(someFunction);
+     */
+    onMouseLeftUpList: ((event: GameEngineMouseEvent) => void)[] = [];
+    /**
+     * @description 当鼠标中键抬起时，会触发该数组中的所有回调函数。
+     * List使用方法：onMouseMiddleUpList.push(someFunction);
+     */
+    onMouseMiddleUpList: ((event: GameEngineMouseEvent) => void)[] = [];
+    /**
+     * @description 当鼠标右键抬起时，会触发该数组中的所有回调函数。
+     * List使用方法：onMouseRightUpList.push(someFunction);
+     */
+    onMouseRightUpList: ((event: GameEngineMouseEvent) => void)[] = [];
+    /**
+     * @description 当鼠标进入时，会触发该数组中的所有回调函数。
+     * List使用方法：onMouseEnterList.push(someFunction);
+     */
+    onMouseEnterList: ((event: GameEngineMouseEvent) => void)[] = [];
+    /**
+     * @description 当鼠标离开时，会触发该数组中的所有回调函数。
+     * List使用方法：onMouseLeaveList.push(someFunction);
+     */
+    onMouseLeaveList: ((event: GameEngineMouseEvent) => void)[] = [];
+    /**
+     * @description 当鼠标悬停时，会触发该数组中的所有回调函数。
+     * List使用方法：onMouseHoverList.push(someFunction);
+     */
+    onMouseHoverList: ((event: GameEngineMouseEvent) => void)[] = [];
 
     behaviours: Behaviour[] = [];
 
@@ -351,6 +442,15 @@ export class GameObject {
         }
         return null;
     }
+    getBehaviours<T extends typeof Behaviour>(clz: T): InstanceType<T>[] {
+        let behaviours: InstanceType<T>[] = [];
+        for (const behaviour of this.behaviours) {
+            if (behaviour.constructor.name === clz.name) {
+                behaviours.push(behaviour as any);
+            }
+        }
+        return behaviours;
+    }
 
     removeBehaviour(behaviour: Behaviour) {
         const index = this.behaviours.indexOf(behaviour);
@@ -386,7 +486,7 @@ export function getBehaviourClassByName(name: string) {
 
 type GameObjectData = {
     id?: string;
-    //active?: boolean;
+    // active?: boolean;   //OPTIMIZE
     behaviours: BehaviourData[];
     children?: GameObjectData[];
     prefab?: BehaviourData;
@@ -477,16 +577,15 @@ function createGameObject(data: GameObjectData, gameEngine: GameEngine): GameObj
         gameObject.id = data.id;
         // console.log("生成了id:", gameObject.id);
     }
-    
-    // if(data.active == undefined){
-    //     gameObject.active = true;
-    // }
-    // else{
-    //     gameObject.active = data.active;  //OPTIMIZE
-    // }
-    // console.log(gameObject)
 
     if (data.prefab) {
+        // if(data.active == undefined){
+        //     gameObject.active = true;
+        // }
+        // else{
+        //     gameObject.active = data.active;  //OPTIMIZE
+        // }
+
         return gameObject;
     }
     for (const behaviourData of data.behaviours) {

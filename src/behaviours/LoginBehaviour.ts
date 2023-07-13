@@ -4,7 +4,7 @@ import { GameStateBehaviour } from "./GameStateBehaviour";
 
 export class LoginBehaviour extends Behaviour {
     onUpdate() {
-        this.gameObject.onMouseLeftDown = () => {
+        this.gameObject.onMouseLeftUp = () => {
             console.log("game started");
             getGameObjectById("sceneRoot").getBehaviour(GameStateBehaviour).changeGameState(1);
         }

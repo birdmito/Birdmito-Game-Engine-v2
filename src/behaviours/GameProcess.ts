@@ -216,10 +216,10 @@ export class GameProcess extends Behaviour {
             for (let i = 1; i <= Nation.nationQuantity; i++) {
                 switch (nation.foreignPolicy.get(i)) {
                     case 'negative':
-                        nation.favorability.set(i, nation.favorability.get(i) - 1);  //好感度-1
+                        Nation.nations[i].favorability.set(nation.nationId, Nation.nations[i].favorability.get(nation.nationId) - 1);  //对方对我好感度-1
                         break;
                     case 'positive':
-                        nation.favorability.set(i, nation.favorability.get(i) + 1);  //好感度+1
+                        Nation.nations[i].favorability.set(nation.nationId, Nation.nations[i].favorability.get(nation.nationId) + 1);  //对方对我好感度+1
                         break;
                     default:
                         break;
@@ -285,19 +285,10 @@ export class GameProcess extends Behaviour {
                             if (unit.unitParam.name === unit2.unitParam.name && unit.nationId === unit2.nationId) {
                                 unit.unitParam.quantity += unit2.unitParam.quantity;  //数量相加
                                 // console.log(`合并前单位列表为`);
-                                for (let m = 0; m < province.unitList.length; m++) {
-                                    console.log(province.unitList[m].unitParam.name);
-                                }
+                                // for (let m = 0; m < province.unitList.length; m++) {
+                                //     console.log(province.unitList[m].unitParam.name);
+                                // }
                                 province.unitList[l].gameObject.destroy();  //销毁单位
-                                // console.log(`销毁后单位列表为`);
-                                for (let m = 0; m < province.unitList.length; m++) {
-                                    console.log(province.unitList[m].unitParam.name);
-                                }
-                                province.unitList.splice(l, 1);  //删除单位
-                                // console.log(`合并后单位列表为`);
-                                for (let m = 0; m < province.unitList.length; m++) {
-                                    console.log(province.unitList[m].unitParam.name);
-                                }
                             }
                         }
                     }

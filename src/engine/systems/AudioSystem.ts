@@ -1,6 +1,7 @@
 import { GameObject } from "../../engine";
 import { AudioClip } from "../AudioClip";
 import { Behaviour } from "../Behaviour";
+import { clamp } from "../math";
 import { System } from "./System";
 
 export class AudioSystem extends System{
@@ -17,11 +18,65 @@ export class AudioSystem extends System{
         if (component instanceof AudioClip) {
             component.audioElement = this.gameEngine.resourceManager.getAudio(component.source);
             if(component.audioElement){
-                component.startTime = 0;
-                component.endTime = component.audioElement.duration;
-                component.duration = component.endTime - component.startTime;
+                // 设置开始/结束时间
+                if(component.startTime === undefined){
+                    // console.log(`AudioClip: ${component.source} startTime is undefined, set to 0`);
+                    component.startTime = 0;
+                }
+                if(component.startTime < 0){
+                    console.warn(`AudioClip: ${component.source} startTime is out of range, set to 0`);
+                    component.startTime = 0;
+                }
+                if(component.startTime > component.audioElement.duration){
+                    // component.startTime = component.audioElement.duration;
+                    throw new Error(`AudioClip: ${component.source} startTime is out of range`);
+                }
+                component._currentTime = component.startTime;
+                if(component.endTime === undefined){
+                    // console.log(`AudioClip: ${component.source} endTime is undefined, set to ${component.audioElement.duration}`);
+                    component.endTime = component.audioElement.duration;
+                }
+                if(component.endTime < 0){
+                    throw new Error(`AudioClip: ${component.source} endTime is out of range`);
+                }
+                if(component.endTime > component.audioElement.duration){
+                    console.warn(`AudioClip: ${component.source} endTime is out of range, set to ${component.audioElement.duration}`);
+                    component.endTime = component.audioElement.duration;
+                }
+                // 持续时间
+                component._duration = component.endTime - component.startTime;
+                // 设置音量
+                if(component.volume === undefined){
+                    component.volume = 1;
+                }
+                // 设置播放速率
+                if(component.playbackRate === undefined){
+                    component.playbackRate = 1;
+                }
+                component.playbackRate = clamp(component.playbackRate, 0.5, 2);
+                // 设置自动播放
+                if(component.autoPlay === undefined){ 
+                    component.autoPlay = false; 
+                }
+                if(component.autoPlay == true){
+                    component._state = 'play';
+                }
+                // 设置循环播放
+                if(component.loop === undefined){
+                    component.loop = false;
+                }
+                // 设置静音
+                if(component.mute === undefined){
+                    component.mute = false;
+                }
+
+                // 创建音频源
                 component.sourceNode = this.audioContext?.createMediaElementSource(component.audioElement);
-                // component.sourceNode.connect(this.audioContext!.destination);
+                // 创建音量控制节点
+                component.gainNode = this.audioContext?.createGain();
+                component.gainNode.gain.value = clamp(component.volume, -3, 3);
+                // 连接节点
+                component.sourceNode.connect(component.gainNode).connect(this.audioContext.destination);
                 this.gameObjects.push(gameObject);
             }
         }
@@ -30,6 +85,8 @@ export class AudioSystem extends System{
     onRemoveComponent(gameObject: GameObject, component: Behaviour): void {
         // 移除GameObject
         if (component instanceof AudioClip) {
+            component.audioElement?.pause();
+            component.audioElement = undefined;
             this.gameObjects = this.gameObjects.filter((item) => item !== gameObject);
         }
     }
@@ -37,48 +94,61 @@ export class AudioSystem extends System{
     onUpdate(): void {
         //TODO 设置音量等操作
         for(const gameObject of this.gameObjects){
-            const audioClip = gameObject.getBehaviour(AudioClip);
-            if(!audioClip.sourceNode){ continue; }  // 如果没有音频源，则跳过
-            // 连接节点
-            audioClip.sourceNode.mediaElement.loop = audioClip.loop;
-            audioClip.sourceNode.connect(this.audioContext!.destination);
+            const audioClips = gameObject.getBehaviours(AudioClip);
+            for(const audioClip of audioClips){
+                if(!audioClip.sourceNode){ continue; }  // 如果没有音频源，则跳过
 
-            // 根据状态执行操作
-            switch(audioClip._state){
-                case 'play':
-                    if(audioClip.audioElement){
-                        audioClip.audioElement.currentTime = audioClip.currentTime;
-                        audioClip.audioElement.play();
-                        audioClip._state = 'playing';
-                        // console.log('System play');
-                    }
-                    break;
-                case 'playing':
-                    if(audioClip.audioElement){
-                        audioClip.currentTime = audioClip.audioElement.currentTime;
-                        if(audioClip.currentTime >= audioClip.endTime){
-                            if(audioClip.loop){break;}
-                            audioClip._state = 'stop';
+                // 音频属性设置
+                audioClip.sourceNode.mediaElement.loop = audioClip.loop;
+                audioClip.sourceNode.mediaElement.playbackRate = audioClip.playbackRate;
+                audioClip.gainNode.gain.value = clamp(audioClip.volume, -3, 3);
+                if(audioClip.mute){ // 静音
+                    audioClip.gainNode.gain.value = 0;
+                }
+    
+                // 根据状态执行操作
+                switch(audioClip._state){
+                    case 'start':
+                        if(audioClip.audioElement){
+                            audioClip._currentTime = audioClip.startTime;
+                            audioClip._state = 'play';
+                            // console.log('System start');
                         }
-                        // console.log('System playing');
-                    }
-                    break;
-                case 'pause':
-                    if(audioClip.audioElement){
-                        audioClip.audioElement.pause();
-                        audioClip.currentTime = audioClip.audioElement.currentTime;
-                        // console.log('System pause');
-                    }
-                    break;
-                case 'stop':
-                    if(audioClip.audioElement){
-                        audioClip.audioElement.pause();
-                        audioClip.currentTime = audioClip.startTime;
-                        // console.log('System stop');
-                    }
-                    break;
+                        break;
+                    case 'play':
+                        if(audioClip.audioElement){
+                            audioClip.audioElement.currentTime = audioClip._currentTime;
+                            audioClip.audioElement.play();
+                            audioClip._state = 'playing';
+                            // console.log('System play');
+                        }
+                        break;
+                    case 'playing':
+                        if(audioClip.audioElement){
+                            audioClip._currentTime = audioClip.audioElement.currentTime;
+                            if(audioClip._currentTime >= audioClip.endTime){
+                                if(audioClip.loop){break;}
+                                audioClip._state = 'stop';
+                            }
+                            // console.log('System playing');
+                        }
+                        break;
+                    case 'pause':
+                        if(audioClip.audioElement){
+                            audioClip.audioElement.pause();
+                            audioClip._currentTime = audioClip.audioElement.currentTime;
+                            // console.log('System pause');
+                        }
+                        break;
+                    case 'stop':
+                        if(audioClip.audioElement){
+                            audioClip.audioElement.pause();
+                            audioClip._currentTime = audioClip.startTime;
+                            // console.log('System stop');
+                        }
+                        break;
+                }
             }
-            
         }
     }
 
