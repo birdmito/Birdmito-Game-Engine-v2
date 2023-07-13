@@ -13,8 +13,8 @@ import { PathFinding } from "./PathFinding";
 
 
 export class ProvinceGenerator extends Behaviour {
-    gridSizeX: number = 10;
-    gridSizeY: number = 10;
+    gridSizeX: number = 15;
+    gridSizeY: number = 15;
     gridSpace: number = 172;
     landPercentage: number = 40;
     landNum: number = 10;
