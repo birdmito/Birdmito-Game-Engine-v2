@@ -157,6 +157,12 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 provinceBuildingList.addChild(UI_building);
             }
         }
+
+        //若当前选中项不在玩家国家的city中，或者当前选中项没有兵营，则删除征兵按钮
+        if (!Nation.nations[GameProcess.playerNationId].cityList.some(city => city === province) || !province.buildingList.some(building => building.name === "兵营")) {
+            if (getGameObjectById("RecruitButton") !== null)
+                getGameObjectById("RecruitButton").destroy();
+        }
     }
 
     updateSelectedProvinceProductQueueUI() {

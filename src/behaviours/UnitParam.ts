@@ -1,22 +1,13 @@
-import { UI_selectedUnitInfoPrefabBinding } from "../bindings/UI_SelectedUnitInfoPrefabBinding";
-import { getGameObjectById } from "../engine";
-import { Behaviour } from "../engine/Behaviour";
-import { Transform } from "../engine/Transform";
-import { UI_UnitActButton } from "./UI_UnitActButton";
-import { ProvinceGenerator } from "./ProvinceGenerator";
-import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { Province } from "./Province";
-import { N } from "vitest/dist/types-2b1c412e";
 import { infoShowable } from "./infoShowable";
-import { OverrideableNode } from "ts-morph";
 import { GameProcess } from "./GameProcess";
 
 export class UnitParam implements infoShowable {
     static originUnitParamList: UnitParam[] = [
-        new UnitParam("开拓者", 10, 10, 20, 150, 1),
-        new UnitParam("筑城者", 10, 10, 20, 150, 1),
-        new UnitParam("士兵", 10, 10, 20, 200, 1, true, 10, 10),
-        new UnitParam("自走火炮", 10, 10, 20, 200, 1, true, 10, 10, '先进自走火炮'),
+        new UnitParam("开拓者", 10, 10, 20, 15, 1),
+        new UnitParam("筑城者", 10, 10, 20, 15, 1),
+        new UnitParam("士兵", 10, 10, 20, 20, 1, true, 10, 10),
+        new UnitParam("自走火炮", 10, 10, 20, 20, 1, true, 10, 10, '先进自走火炮'),
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,

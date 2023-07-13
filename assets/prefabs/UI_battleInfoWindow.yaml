@@ -1,0 +1,100 @@
+id: UI_battleInfoWindow
+behaviours:
+  - type: Transform
+    properties:
+      x: 500
+      y: 400
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+  - type: UI_UpdateBattleInfo
+children:
+  - id: BattleInfoBgImage
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: BitmapRenderer
+        properties:
+          source: ./assets/images/Icon_TextFrame5050.png
+          renderType: 'ui'
+          scaleXForUI: 25
+          scaleYForUI: 15
+          borderWidthForUI: 15
+    children: []
+  - id: _BattleDefenderInfoText
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 20
+          text: '这里应该显示防守方信息'
+          color: white
+    children: []
+  - id: _BattleAttackerInfoText
+    behaviours:
+      - type: Transform
+        properties:
+          x: 200
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 20
+          text: '这里应该显示进攻方信息'
+          color: white
+    children: []
+  - id: _LastTurnInfo
+    behaviours:
+      - type: Transform
+        properties:
+          x: 0
+          y: 250
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: TextRenderer
+        properties:
+          fontSize: 20
+          text: '这里应该显示上一回合信息'
+          color: white
+    children: []
+  - id: Close
+    behaviours:
+      - type: Transform
+        properties:
+          x: 300
+          y: 300
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
+      - type: DestroyOnClick
+        properties:
+          targetID: UI_battleInfoWindow
+    children:
+      - id: CloseImage
+        behaviours:
+          - type: Transform
+            properties:
+              x: 0
+              y: 0
+              scaleX: 1
+              scaleY: 1
+              rotation: 0
+          - type: BitmapRenderer
+            properties:
+              source: ./assets/images/Icon_Cross.png
+          - type: UI_ButtonState
+        children: []

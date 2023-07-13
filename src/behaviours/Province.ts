@@ -80,7 +80,7 @@ export class Province extends Behaviour {
     onUpdate(): void {
         this.gameObject.onMouseEnter = () => {
             if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
-                console.log("当前选中物体为单位，预告ap消耗")
+                // console.log("当前选中物体为单位，预告ap消耗")
                 //若当前选中的是单位，则更改单位信息，预告将要消耗的行动点数
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
                 if (unit.nationId === GameProcess.playerNationId || GameProcess.isCheat) {
@@ -90,17 +90,16 @@ export class Province extends Behaviour {
         }
         this.gameObject.onMouseLeftDown = () => {
             console.log("province is clicked")
+            SelectedObjectInfoMangaer.showSelectedObjectInfo(this);
+        }
+        this.gameObject.onMouseRightDown = () => {
             if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
                 console.log("selected is unit, move to province")
                 //若当前选中的是单位，则移动
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
-                if (unit.nationId === GameProcess.playerNationId || GameProcess.isCheat) {
+                if ((unit.nationId === GameProcess.playerNationId || GameProcess.isCheat)) {
                     unit.moveToProvince(this);
                 }
-            }
-            else {
-                SelectedObjectInfoMangaer.showSelectedObjectInfo(this);
-
             }
         }
     }
