@@ -13,37 +13,37 @@ children:
       - type: Transform
         properties:
           x: 0
-          y: 0
+          y: 320
           scaleX: 1
-          scaleY: 1
+          scaleY: -1
           rotation: 0
       - type: BitmapRenderer
         properties:
-          source: ./assets/images/Icon_TextFrame5050.png
+          source: ./assets/images/Icon_PanelMenuCross.png
           renderType: 'ui'
-          scaleXForUI: 25
-          scaleYForUI: 10
-          borderWidthForUI: 15
+          scaleXForUI: 1
+          scaleYForUI: 3
+          borderWidthForUI: 100
     children: []
   - id: TechWindowItemListRoot
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: 82.5
+          y: 40
           scaleX: 1
           scaleY: 1
           rotation: 0
       - type: LayoutGroup
         properties:
           layoutType: vertical
-          spacing: 100
+          spacing: 80
   - id: Close
     behaviours:
       - type: Transform
         properties:
-          x: 250
-          y: 250
+          x: 229
+          y: 307
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -60,6 +60,7 @@ children:
           - type: BitmapRenderer
             properties:
               source: ./assets/images/Icon_Cross.png
+              anchorType: right-bottom
           - type: DestroyOnClick
             properties:
               targetID: UI_techWindow
