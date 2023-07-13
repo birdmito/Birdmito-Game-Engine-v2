@@ -104,6 +104,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
 
     }
 
+    path: Province[] = [];
     moveToProvince(province: Province): boolean {
         if (this.isInCombat) {
             console.log("unit is in combat");

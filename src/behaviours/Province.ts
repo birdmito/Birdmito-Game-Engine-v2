@@ -83,13 +83,24 @@ export class Province extends Behaviour {
             if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
                 if ((unit.nationId === GameProcess.playerNationId || GameProcess.isCheat)) {
-                    const path: Province[] = PathFinding.findPath(unit.currentProvince, this);
+                    //清空之前的路径
+                    if (unit.path) {
+                        for (let i = 0; i < unit.path.length; i++) {
+                            const pathNoText = unit.path[i].gameObject.getChildById("_PathNoText").getBehaviour(TextRenderer);
+                            pathNoText.text = " ";
+                        }
+                    }
+                    unit.path = []
+
+                    unit.path = PathFinding.findPath(unit.currentProvince, this);
                     unit.apCostToMove = 0;
                     //按顺序设置每个省份gameObject上_PathNoText的text
-                    for (let i = 0; i < path.length; i++) {
-                        const pathNoText = path[i].gameObject.getChildById("_PathNoText").getBehaviour(TextRenderer);
-                        pathNoText.text = i.toString();
-                        unit.apCostToMove += path[i].apCost;
+                    if (unit.path) {
+                        for (let i = 0; i < unit.path.length; i++) {
+                            const pathNoText = unit.path[i].gameObject.getChildById("_PathNoText").getBehaviour(TextRenderer);
+                            pathNoText.text = i.toString();
+                            unit.apCostToMove += unit.path[i].apCost;
+                        }
                     }
                 }
             }
