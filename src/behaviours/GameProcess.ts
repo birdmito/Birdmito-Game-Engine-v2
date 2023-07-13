@@ -117,7 +117,7 @@ export class GameProcess extends Behaviour {
             var landProvinces: Province[] = [];
             for (let i = 0; i < Province.provincesObj.length; i++) {
                 for (let j = 0; j < Province.provincesObj[i].length; j++) {
-                    if (Province.provincesObj[i][j].getBehaviour(Province).isOwnable) {
+                    if (Province.provincesObj[i][j].getBehaviour(Province).isLand) {
                         landProvinces.push(Province.provincesObj[i][j].getBehaviour(Province));
                     }
                 }
