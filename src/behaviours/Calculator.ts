@@ -63,8 +63,8 @@ export class Calculator {
     static calculateProvinceProduction(province: Province) {
         var result = new Resource(0, 0, 0);
         //来自地形的产出
-        result.dora = 5 + province.plainPercent * 10 + province.lakePercent * 20 + province.forestPercent * 10;
-        result.production = 5 + province.plainPercent * 5 + province.lakePercent * 20 + province.forestPercent * 15;
+        result.dora = province.plainPercent * 30 + province.lakePercent * 30 + province.forestPercent * 10 + province.mountainPercent * 20;
+        result.production = province.plainPercent * 10 + province.lakePercent * 10 + province.forestPercent * 15 + province.mountainPercent * 5;
         result.techPoint = 0;
 
         var pluser = new Resource(0, 0, 0);
