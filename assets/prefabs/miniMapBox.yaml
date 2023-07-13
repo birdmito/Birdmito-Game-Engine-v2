@@ -19,8 +19,7 @@ children:
           scaleY: 0.05
           rotation: 0
           anchorType: left-top
-      - type: MiniMapBehaviour  
-      - type: PathFinding  
+      - type: MiniMapBehaviour   
     children: []
   - id: ViewBox
     behaviours:

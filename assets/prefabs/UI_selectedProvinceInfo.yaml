@@ -108,7 +108,7 @@ children:
               scaleY: .75
               rotation: 0
         children: 
-          - id: GovernmentFlag
+          - id: _SelectedObjFlag
             behaviours:
               - type: Transform
                 properties:
@@ -345,8 +345,8 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 1000
-          y: 0
+          x: 650
+          y: 380
           scaleX: 1
           scaleY: 1
           rotation: 0

@@ -13,10 +13,10 @@ import { PathFinding } from "./PathFinding";
 
 
 export class ProvinceGenerator extends Behaviour {
-    gridSizeX: number = 10;
-    gridSizeY: number = 10;
+    gridSizeX: number = 15;
+    gridSizeY: number = 15;
     gridSpace: number = 172;
-    landPercentage: number = 40;
+    landPercentage: number = 60;
     landNum: number = 10;
     static hexGridForOthers: { x: number, y: number }[] = [];
     // static provinces: GameObject[][] = [];
@@ -62,11 +62,6 @@ export class ProvinceGenerator extends Behaviour {
                 }
                 this.randomSubTerrain(provinceBehaviour, miniProvinceBehaviour, generatedTerrain[j][i]);
                 provinceBehaviour.updateApCost();
-
-                const node = new myNode(j, i, provinceBehaviour.apCost);
-                if (!PathFinding.grid[j])
-                    PathFinding.grid[j] = []
-                PathFinding.grid[j][i] = node;
             }
         }
     }

@@ -281,9 +281,9 @@ children:
               scaleX: 1
               scaleY: 1
               rotation: 0
-          - type: UI_Government
+          - type: UI_UpdateGovernmentStatic
         children:
-          - id: GovernmentFlag
+          - id: _PlayersGovernmentFlag
             behaviours:
               - type: Transform
                 properties:
@@ -429,7 +429,52 @@ children:
                       color: "#DEEEFE"
                       anchorType: left-center
                       fontFamily: FangSong_GB2312
-                children: []
+                children: 
+                  - id: PlayerGoldChange
+                    behaviours:
+                      - type: Transform
+                        properties:
+                          x: -50
+                          y: 50
+                          scaleX: 1
+                          scaleY: 1
+                          rotation: 0
+                      - type: AutoHide
+                    children: 
+                      - id: PlayerGoldChangeImage
+                        behaviours:
+                          - type: Transform
+                            properties:
+                              x: 0
+                              y: 0
+                              scaleX: 1
+                              scaleY: 1
+                              rotation: 0
+                          - type: BitmapRenderer
+                            properties:
+                              source: ./assets/images/Icon_TextFrame5050.png
+                              hitAreaType: none
+                              renderType: 'ui'
+                              scaleXForUI: 12
+                              scaleYForUI: 10
+                              borderWidthForUI: 15
+                        children: []
+                      - id: _PlayerGoldChangeText
+                        behaviours:
+                          - type: Transform
+                            properties:
+                              x: 20
+                              y: 20
+                              scaleX: 1
+                              scaleY: 1
+                              rotation: 0
+                          - type: TextRenderer
+                            properties:
+                              fontSize: 22
+                              text: '这里应该显示奥坎盾变化'
+                              color: "#DEEEFE"
+                              fontFamily: FangSong_GB2312
+                        children: []
           - id: PlayerTech #玩家科技点
             behaviours:
               - type: Transform

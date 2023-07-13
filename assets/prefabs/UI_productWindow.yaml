@@ -21,8 +21,8 @@ children:
         properties:
           source: ./assets/images/Icon_PanelMenuCross.png
           renderType: 'ui'
-          scaleXForUI: 5
-          scaleYForUI: 5
+          scaleXForUI: 1
+          scaleYForUI: 14
           borderWidthForUI: 100
           anchorType: center
     children: []
@@ -30,28 +30,30 @@ children:
     behaviours:
       - type: Transform
         properties:
-          x: 0
-          y: 0
+          x: -37.5
+          y: -350
           scaleX: 1
           scaleY: 1
           rotation: 0
       - type: LayoutGroup
         properties:
           layoutType: vertical
-          spacing: 100
+          spacing: 80
+          numPerPage: 1
           anchorType: center
   - id: Close
     behaviours:
       - type: Transform
         properties:
-          x: 189
-          y: -187
+          x: 109
+          y: -367
           scaleX: 1
           scaleY: 1
           rotation: 0
       - type: DestroyOnClick
         properties:
           targetID: UI_productWindow
+          anchorType: right-top
     children:
       - id: CloseImage
         behaviours:

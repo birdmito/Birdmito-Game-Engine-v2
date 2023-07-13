@@ -81,7 +81,7 @@ children:
             scaleY: 1
             rotation: 0
       children:
-        - id: GovernmentFlag
+        - id: _NationWindowFlag
           behaviours:
             - type: Transform
               properties:

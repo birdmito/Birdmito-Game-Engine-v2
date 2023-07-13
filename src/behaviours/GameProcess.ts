@@ -21,7 +21,7 @@ import { generateTip } from "./Tip";
 
 export class GameProcess extends Behaviour {
     static isCheat = false;  //是否开启作弊模式
-    static gamingState: 'playerTurn' | 'botTurn' | 'settlement' = 'settlement';
+    static gamingState: 'playerTurn' | 'botTurn' | 'settlement' = 'playerTurn';
     static playerNationId = 1;  //玩家的nationId
 
 
@@ -51,18 +51,29 @@ export class GameProcess extends Behaviour {
     }
 
     onStart(): void {
+        GameProcess.updateProvincePerTurn();
+        GameProcess.turnrNow = 1;
+        GameProcess.turnTotal = 50;
         this.initialNation();
-        GameProcess.nextTurn();
+        // GameProcess.nextTurn();
         //让第一个电脑帝国的isThisBotsTurn为true
     }
 
     onUpdate(): void {
+        //更新回合数显示
+        getGameObjectById("TurnText").getBehaviour(TextRenderer).text =
+            GameProcess.turnrNow.toString() + "/" + GameProcess.turnTotal.toString();
+
+        //更新每个国家收支预告
+        Nation.updateDoraChange();
+
         //按数字键将玩家切换到对应国家
         document.addEventListener('keydown', function (event) {
             const code = event.code;
             if (code >= 'Digit1' && code <= 'Digit3') {
                 GameProcess.playerNationId = parseInt(code[5]);
                 console.log(`玩家切换到了${GameProcess.playerNationId}号国家`);
+                // generateTip(Province.provincesObj[0][0].getBehaviour(Province), `玩家切换到了${GameProcess.playerNationId}号国家`);
             }
         });
 
@@ -83,26 +94,41 @@ export class GameProcess extends Behaviour {
     }
 
     //回合
-    static turnrNow = 0;
+    static turnrNow = 1;
     static turnTotal = 50;
 
     initialNation() {
         for (let i = Nation.nationQuantity - 1; i >= 0; i--) {
-            const nation = new Nation(i + 1, "帝国" + (i + 1), 10000, 1);
+            const nation = new Nation(i + 1, "帝国" + (i + 1), 1000, 1);
             Nation.nations[nation.nationId] = nation;
             //nation.randomTechNameList无法在构造器中初始化，因为Technology.getTechByName()需要Nation.techTree
             nation.randomTechList = nation.getRandomTechNameList();
             nation.updateNationColor();
+            nation.nationFlagUrl = `./assets/images/Icon_Flag_${nation.nationId}.png`;
+
+
             //给每个国家一个初始开拓者
             //获取单位参数
             //随机一个30以内的二维坐标
             const x = Math.floor(Math.random() * 30);
             const y = Math.floor(Math.random() * 30);
 
+            //获取所有陆地的省份
+            var landProvinces: Province[] = [];
+            for (let i = 0; i < Province.provincesObj.length; i++) {
+                for (let j = 0; j < Province.provincesObj[i].length; j++) {
+                    if (Province.provincesObj[i][j].getBehaviour(Province).isOwnable) {
+                        landProvinces.push(Province.provincesObj[i][j].getBehaviour(Province));
+                    }
+                }
+            }
+            //随机一个省份
+            const randomProvince = landProvinces[Math.floor(Math.random() * landProvinces.length)];
+
             const newUnitList: UnitParam[] = [
-                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '开拓者')),
-                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '士兵')),
-                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[i][0].getBehaviour(Province), '士兵')),
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[0][0].getBehaviour(Province), '开拓者')),
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[0][0].getBehaviour(Province), '士兵')),
+                UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(Province.provincesObj[0][0].getBehaviour(Province), '士兵')),
             ];
 
             for (const unitParam of newUnitList) {
@@ -112,7 +138,8 @@ export class GameProcess extends Behaviour {
                 const prefabBehavior = newUnitPrefab.getBehaviour(UnitBehaviour);
                 prefabBehavior.nationId = nation.nationId;
                 prefabBehavior.unitParam = unitParam;
-                prefabBehavior.unitCoor = { x: i, y: 0 }
+
+                prefabBehavior.unitCoor = { x: randomProvince.coord.x, y: randomProvince.coord.y };
                 //添加到场景中
                 getGameObjectById("UnitRoot").addChild(newUnitPrefab);
                 console.log("单位所属国家" + prefabBehavior.nationId);
@@ -134,11 +161,15 @@ export class GameProcess extends Behaviour {
     }
 
     playerTurn() {
+        //若玩家城市数为0，则游戏结束
+        if (Nation.nations[GameProcess.playerNationId].cityList.length <= 0 && GameProcess.turnrNow > 1) {
+            GameProcess.gameOver(Province.provincesObj[0][0].getBehaviour(Province));
+        }
         return;
     }
 
     botTurn() {
-        // //电脑帝国行动
+        //电脑帝国行动
         // if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
         //     console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
         //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
@@ -235,10 +266,8 @@ export class GameProcess extends Behaviour {
         if (GameProcess.turnrNow > GameProcess.turnTotal) {
             GameProcess.turnrNow = GameProcess.turnTotal;
         }
-        getGameObjectById("TurnText").getBehaviour(TextRenderer).text =
-            GameProcess.turnrNow.toString() + "/" + GameProcess.turnTotal.toString();
         if (GameProcess.turnrNow === GameProcess.turnTotal) {
-            // GameProcess.gameOver(getGameObjectById("TurnText").getBehaviour(TextRenderer));
+            GameProcess.gameOver(getGameObjectById("TurnText").getBehaviour(TextRenderer));
         }
 
         // //更新Ai位置
@@ -262,7 +291,7 @@ export class GameProcess extends Behaviour {
     }
 
 
-    /**每回合调用一次 */
+    /**每回合调用一次，更新省份信息 */
     static updateProvincePerTurn() {
         //每回合开始时，所有领地给予所属国家产出
         for (let i = 0; i < Province.provincesObj.length; i++) {
@@ -284,10 +313,7 @@ export class GameProcess extends Behaviour {
                             console.log(`unit2 name is ${unit2.unitParam.name}`)
                             if (unit.unitParam.name === unit2.unitParam.name && unit.nationId === unit2.nationId) {
                                 unit.unitParam.quantity += unit2.unitParam.quantity;  //数量相加
-                                // console.log(`合并前单位列表为`);
-                                // for (let m = 0; m < province.unitList.length; m++) {
-                                //     console.log(province.unitList[m].unitParam.name);
-                                // }
+                                //重新计入
                                 province.unitList[l].gameObject.destroy();  //销毁单位
                             }
                         }
@@ -309,6 +335,8 @@ export class GameProcess extends Behaviour {
         const gameover = behaviour.engine.createPrefab(new UI_GameOverBinding)
         const uiRoot = getGameObjectById("uiRoot")
         uiRoot.addChild(gameover)
+
+        getGameObjectById("MiniMapRoot").destroy()
 
         const tip = gameover.children[1]
         const image = gameover.children[0]

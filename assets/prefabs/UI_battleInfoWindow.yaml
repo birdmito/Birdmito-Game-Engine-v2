@@ -37,14 +37,14 @@ children:
         behaviours:
           - type: Transform
             properties:
-              x: -435 #-450+15
+              x: -440 #-450+10
               y: -329 #-350+21
               scaleX: 1
               scaleY: 1
               rotation: 0
           - type: BitmapRenderer
             properties:
-              source: ./assets/images/ScreenArt_ProvinceLake_0.png
+              source: ./assets/images/ScreenArt_Battle.png
         children: []   
       - id: BattleInfoLayer3
         behaviours:
@@ -102,7 +102,7 @@ children:
       - type: Transform
         properties:
           x: -344.5 # -450+105.5== -344.5
-          y: 140 #490-350 == 140
+          y: 200 #490-350 == 140
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -112,6 +112,7 @@ children:
           text: '这里应该显示防守方信息'
           color: white
           anchorType: center
+          lineHeight: 2.5
     children: []
   - id: BattleAttacker
     behaviours:
@@ -155,7 +156,7 @@ children:
       - type: Transform
         properties:
           x: 344.5 # -450+105.5== -344.5
-          y: 140 #490-350 == 140
+          y: 200 #490-350 == 140
           scaleX: 1
           scaleY: 1
           rotation: 0
@@ -165,6 +166,7 @@ children:
           text: '这里应该显示进攻方信息'
           color: white
           anchorType: center
+          lineHeight: 2.5
     children: []
   - id: _LastTurnInfo
     behaviours:

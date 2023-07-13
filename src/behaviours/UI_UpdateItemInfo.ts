@@ -1,4 +1,5 @@
 import { Behaviour } from "../engine/Behaviour";
+import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Building } from "./Building";
 import { Province } from "./Province";
@@ -30,6 +31,32 @@ export class UI_UpdateItemInfo extends Behaviour {
         if (this.indexInQueue !== -1) {
             this.gameObject.parent.getChildById("_ProductProcessText").getBehaviour(TextRenderer).text =
                 `${this.province.productQueue[this.indexInQueue].productProcess} / ${this.province.productQueue[this.indexInQueue].productProcessMax}`;
+        }
+
+        //更新图标
+        const itemButton = this.gameObject.parent.getChildById("_ItemButton");
+        switch (this.itemName) {
+            case "金矿":
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingMine.png'
+                break;
+            case "兵营":
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingArmy.png'
+                break;
+            case "大学":
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingUniversity.png'
+                break;
+            case "秘源金矿":
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingMagicMine.png'
+                break;
+            case "机械工业厂":
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingIndustry.png'
+                break;
+            case "贸易站":
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingTrade.png'
+                break;
+            case "秘源精炼厂":
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingMagicIndustry.png'
+                break;
         }
     }
 }

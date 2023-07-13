@@ -42,6 +42,7 @@ export class Nation {
 
     nationId: number = 1;  //1-玩家 >2-AI
     nationName: string = "玩家";
+    nationFlagUrl;
 
     dora: number = 0;
     techPerTurn: number = 0;
@@ -78,12 +79,12 @@ export class Nation {
     changeForeignPolicy(nation: Nation, policy: 'positive' | 'negative' | 'neutral') {
         const oldPolicy = this.foreignPolicy.get(nation.nationId);
         this.foreignPolicy.set(nation.nationId, policy);
-        if ((oldPolicy === 'positive' || 'negative') && policy == 'neutral') {
-            this.doraChangeNextTurn -= 15;
-        }
-        if (oldPolicy === 'neutral' && (policy == 'positive' || 'negative')) {
-            this.doraChangeNextTurn -= 15;
-        }
+        // if ((oldPolicy === 'positive' || 'negative') && policy == 'neutral') {
+        //     this.doraChangeNextTurn -= 15;
+        // }
+        // if (oldPolicy === 'neutral' && (policy == 'positive' || 'negative')) {
+        //     this.doraChangeNextTurn -= 15;
+        // }
     }
 
     provinceOwnedList: Province[] = [];
@@ -103,6 +104,43 @@ export class Nation {
     unitList: UnitBehaviour[] = [];  //国家拥有的所有单位
 
     doraChangeNextTurn: number = 0;  //预计的dora变动
+    doraChangeFromProvince: number = 0;  //省份产出的dora
+    doraChangeFromUnit: number = 0;  //单位产出的dora
+    doraChangeFromBuilding: number = 0;  //建筑产出的dora
+    doraChangeFromOther: number = 0;  //其他产出的dora
+
+    static updateDoraChange() {
+        //遍历所有国家
+        for (let i = 1; i <= Nation.nationQuantity; i++) {
+            //遍历所有省份，获得其dora产出，并扣除其建筑列表的维护费
+            Nation.nations[i].doraChangeFromProvince = 0;
+            Nation.nations[i].doraChangeFromUnit = 0;
+            Nation.nations[i].doraChangeFromBuilding = 0;
+
+            if (Nation.nations[i].provinceOwnedList) {
+                for (let province of Nation.nations[i].provinceOwnedList) {
+                    Nation.nations[i].doraChangeFromProvince += province.provinceProduction.dora;
+                    for (let building of province.buildingList) {
+                        Nation.nations[i].doraChangeFromBuilding -= building.maintCost.dora;
+                    }
+                }
+            }
+
+            //遍历所有单位，扣除其维护费
+            if (Nation.nations[i].unitList) {
+                for (let unit of Nation.nations[i].unitList) {
+                    Nation.nations[i].doraChangeFromUnit -= unit.unitParam.maintCost * unit.unitParam.quantity;
+                }
+            }
+            //遍历对他国外交政策，扣除其外交费用
+            for (let i = 1; i < Nation.nationQuantity; i++) {
+                if (Nation.nations[i].foreignPolicy.get(i + 1) === 'positive' || Nation.nations[i].foreignPolicy.get(i + 1) === 'negative') {
+                    Nation.nations[i].doraChangeFromOther -= 15;
+                }
+            }
+            Nation.nations[i].doraChangeNextTurn = Nation.nations[i].doraChangeFromProvince + Nation.nations[i].doraChangeFromUnit + Nation.nations[i].doraChangeFromBuilding + Nation.nations[i].doraChangeFromOther;
+        }
+    }
 
     vertices: { x: number, y: number }[] = [];
 

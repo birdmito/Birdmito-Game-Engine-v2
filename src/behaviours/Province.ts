@@ -36,14 +36,17 @@ export class Province extends Behaviour {
     get provinceProduction(): Resource {
         return this._provinceProduction;
     }
+
     /**在更新该属性时一定要直接赋值，不要修改其内部属性，否则会导致预计的dora变动出错*/
     set provinceProduction(value: Resource) {
         const oldValue = this._provinceProduction;
         this._provinceProduction = value;
-        if (this.nationId !== 0) {
-            Nation.nations[this.nationId].doraChangeNextTurn += value.dora - oldValue.dora  //更新预计的dora变动
-        }
+        // if (this.nationId !== 0) {
+        //     Nation.nations[this.nationId].doraChangeNextTurn += value.dora - oldValue.dora  //更新预计的dora变动
+        // }
     }
+
+
     provinceName: string = "未命名";
 
     plainPercent = 0;
@@ -79,32 +82,6 @@ export class Province extends Behaviour {
     }
 
     onUpdate(): void {
-        this.gameObject.onMouseEnter = () => {
-            if (SelectedObjectInfoMangaer.selectedBehaviour instanceof UnitBehaviour) {
-                const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
-                if ((unit.nationId === GameProcess.playerNationId || GameProcess.isCheat)) {
-                    //清空之前的路径
-                    if (unit.path) {
-                        for (let i = 0; i < unit.path.length; i++) {
-                            const pathNoText = unit.path[i].gameObject.getChildById("_PathNoText").getBehaviour(TextRenderer);
-                            pathNoText.text = " ";
-                        }
-                    }
-                    unit.path = []
-
-                    unit.path = PathFinding.findPath(unit.currentProvince, this);
-                    unit.apCostToMove = 0;
-                    //按顺序设置每个省份gameObject上_PathNoText的text
-                    if (unit.path) {
-                        for (let i = 0; i < unit.path.length; i++) {
-                            const pathNoText = unit.path[i].gameObject.getChildById("_PathNoText").getBehaviour(TextRenderer);
-                            pathNoText.text = i.toString();
-                            unit.apCostToMove += unit.path[i].apCost;
-                        }
-                    }
-                }
-            }
-        }
         this.gameObject.onMouseLeftDown = () => {
             console.log("province is clicked")
             SelectedObjectInfoMangaer.showSelectedObjectInfo(this);
@@ -151,8 +128,17 @@ export class Province extends Behaviour {
 
     changeNationId(nationId: number) {
         //改变领地所属国家
-        if (nationId !== 0) {
-            Nation.nations[nationId].doraChangeNextTurn += this.provinceProduction.dora;  //更新预计的dora变动
+        // if (nationId !== 0) {
+        //     Nation.nations[nationId].doraChangeNextTurn += this.provinceProduction.dora;  //更新预计的dora变动
+        // }
+        //若领地原本有主，从原主的领地列表中删除
+        if (this.nationId > 0) {
+            Nation.nations[this.nationId].provinceOwnedList.splice(Nation.nations[this.nationId].provinceOwnedList.indexOf(this), 1);
+            if (this.isCity) {
+                Nation.nations[this.nationId].cityList.splice(Nation.nations[this.nationId].cityList.indexOf(this), 1);
+            }
+            //扣去原主来自该领地的dora
+            // Nation.nations[this.nationId].doraChangeNextTurn -= this.provinceProduction.dora;
         }
         this.nationId = nationId;
         // this.gameObject.children[1].getBehaviour(BitmapRenderer).source = './assets/images/TESTColor.png';
@@ -162,6 +148,12 @@ export class Province extends Behaviour {
                 Nation.nations[nationId].capitalProvince = this;  //将首个被占领的领地设为首都
                 console.log("capitalProvinceCoord", Nation.nations[nationId].capitalProvince);
             }
+            if (this.isCity) {
+                Nation.nations[nationId].cityList.push(this);
+            }
+            HexagonLine.reDrawBorderLine(); //重绘边界线
+            //增加新主来自该领地的dora
+            // Nation.nations[this.nationId].doraChangeNextTurn += this.provinceProduction.dora;
         }
     }
 
