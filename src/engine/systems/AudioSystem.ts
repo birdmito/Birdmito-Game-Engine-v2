@@ -16,7 +16,20 @@ export class AudioSystem extends System{
     onAddComponent(gameObject: GameObject, component: Behaviour): void {
         // 加载音频
         if (component instanceof AudioClip) {
+            if(component.source === undefined){
+                throw new Error(`AudioClip: ${component.source} source is undefined`); 
+            }
+            if(component.name === undefined){
+                // 只保留source的文件名
+                component.name = component.source.split('/').pop()?.split('.')[0];
+            }
+
+            // 加载音频
+            // OPTIMIZE 解决不同场景加载相同音频时audioElement已被连接至其他AudioContext的问题（可能原因：audioElement被缓存、未成功disconnect）
             component.audioElement = this.gameEngine.resourceManager.getAudio(component.source);
+
+            // 设置音频属性
+            //#region 音频属性设置
             if(component.audioElement){
                 // 设置开始/结束时间
                 if(component.startTime === undefined){
@@ -69,6 +82,7 @@ export class AudioSystem extends System{
                 if(component.mute === undefined){
                     component.mute = false;
                 }
+                // #endregion
 
                 // 创建音频源
                 component.sourceNode = this.audioContext?.createMediaElementSource(component.audioElement);
@@ -86,13 +100,17 @@ export class AudioSystem extends System{
         // 移除GameObject
         if (component instanceof AudioClip) {
             component.audioElement?.pause();
+            component.sourceNode?.disconnect();
+            component.gainNode?.disconnect();
+            component.sourceNode = undefined;
+            component.gainNode = undefined;
             component.audioElement = undefined;
+
             this.gameObjects = this.gameObjects.filter((item) => item !== gameObject);
         }
     }
 
     onUpdate(): void {
-        //TODO 设置音量等操作
         for(const gameObject of this.gameObjects){
             const audioClips = gameObject.getBehaviours(AudioClip);
             for(const audioClip of audioClips){

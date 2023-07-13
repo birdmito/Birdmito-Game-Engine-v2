@@ -6,8 +6,8 @@ export class DestroyOnClick extends Behaviour {
     @string()
     targetID: string = "";
 
-    onUpdate(): void {
-        this.gameObject.onMouseLeftDown = () => {
+    onStart(): void {
+        this.gameObject.onMouseLeftUp = () => {
             if (this.targetID !== '') {
                 console.log("Destroy" + this.targetID)
                 getGameObjectById(this.targetID).destroy();
@@ -17,5 +17,8 @@ export class DestroyOnClick extends Behaviour {
                 this.gameObject.parent.destroy();
             }
         }
+    }
+
+    onUpdate(): void {
     }
 }

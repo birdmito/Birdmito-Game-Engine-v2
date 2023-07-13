@@ -8,6 +8,7 @@ import { System } from "./engine/systems/System";
 import { CanvasContextRenderingSystem } from "./engine/systems/RenderingSystem";
 import { LayoutGroup } from "./behaviours/LayoutGroup";
 import { AnchorSystem } from "./engine/systems/AnchorSystem";
+import { AudioClip } from "./engine/AudioClip";
 
 export const gameObjects: { [id: string]: GameObject } = {};
 
@@ -253,6 +254,7 @@ export class GameObject {
     // input event
     // ------------------------------
     stopPropagation: boolean = false; // 是否停止事件冒泡
+    //#region 鼠标回调函数
     /**
      * @deprecated onClick函数为过时函数，不建议继续使用。
      * 请使用onMouseLeftDown、onMouseRightDown、onMouseMiddleDown替代。
@@ -262,102 +264,121 @@ export class GameObject {
      * @deprecated onMouseLeftDown函数为过时函数，不建议继续使用。  
      * 现在GameObject支持onMouseLeftDownList数组，可以添加多个回调函数。  
      * List使用方法：onMouseLeftDownList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseLeftDown?: (event: GameEngineMouseEvent) => void;
     /**
      * @deprecated onMouseMiddleDown函数为过时函数，不建议继续使用。
      * 现在GameObject支持onMouseMiddleDownList数组，可以添加多个回调函数。
      * List使用方法：onMouseMiddleDownList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseMiddleDown?: (event: GameEngineMouseEvent) => void;
     /**
      * @deprecated onMouseRightDown函数为过时函数，不建议继续使用。
      * 现在GameObject支持onMouseRightDownList数组，可以添加多个回调函数。
      * List使用方法：onMouseRightDownList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseRightDown?: (event: GameEngineMouseEvent) => void;
     /**
      * @deprecated onMouseLeftUp函数为过时函数，不建议继续使用。
      * 现在GameObject支持onMouseLeftUpList数组，可以添加多个回调函数。
      * List使用方法：onMouseLeftUpList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseLeftUp?: (event: GameEngineMouseEvent) => void;
     /**
      * @deprecated onMouseMiddleUp函数为过时函数，不建议继续使用。
      * 现在GameObject支持onMouseMiddleUpList数组，可以添加多个回调函数。
      * List使用方法：onMouseMiddleUpList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseMiddleUp?: (event: GameEngineMouseEvent) => void;
     /**
      * @deprecated onMouseRightUp函数为过时函数，不建议继续使用。
      * 现在GameObject支持onMouseRightUpList数组，可以添加多个回调函数。
      * List使用方法：onMouseRightUpList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseRightUp?: (event: GameEngineMouseEvent) => void;
     /**
      * @deprecated onMouseEnter函数为过时函数，不建议继续使用。
      * 现在GameObject支持onMouseEnterList数组，可以添加多个回调函数。
      * List使用方法：onMouseEnterList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseEnter?: (event: GameEngineMouseEvent) => void;
     /**
      * @deprecated onMouseLeave函数为过时函数，不建议继续使用。
      * 现在GameObject支持onMouseLeaveList数组，可以添加多个回调函数。
      * List使用方法：onMouseLeaveList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseLeave?: (event: GameEngineMouseEvent) => void;
     /**
      * @deprecated onMouseHover函数为过时函数，不建议继续使用。
      * 现在GameObject支持onMouseHoverList数组，可以添加多个回调函数。
      * List使用方法：onMouseHoverList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseHover?: (event: GameEngineMouseEvent) => void;
 
     /**
      * @description 当鼠标左键按下时，会触发该数组中的所有回调函数。  
      * List使用方法：onMouseLeftDownList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseLeftDownList: ((event: GameEngineMouseEvent) => void)[] = [];
     /**
      * @description 当鼠标中键按下时，会触发该数组中的所有回调函数。  
      * List使用方法：onMouseMiddleDownList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseMiddleDownList: ((event: GameEngineMouseEvent) => void)[] = [];
     /**
      * @description 当鼠标右键按下时，会触发该数组中的所有回调函数。  
      * List使用方法：onMouseRightDownList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseRightDownList: ((event: GameEngineMouseEvent) => void)[] = [];
     /**
      * @description 当鼠标左键抬起时，会触发该数组中的所有回调函数。  
      * List使用方法：onMouseLeftUpList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseLeftUpList: ((event: GameEngineMouseEvent) => void)[] = [];
     /**
      * @description 当鼠标中键抬起时，会触发该数组中的所有回调函数。
      * List使用方法：onMouseMiddleUpList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseMiddleUpList: ((event: GameEngineMouseEvent) => void)[] = [];
     /**
      * @description 当鼠标右键抬起时，会触发该数组中的所有回调函数。
      * List使用方法：onMouseRightUpList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseRightUpList: ((event: GameEngineMouseEvent) => void)[] = [];
     /**
      * @description 当鼠标进入时，会触发该数组中的所有回调函数。
      * List使用方法：onMouseEnterList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseEnterList: ((event: GameEngineMouseEvent) => void)[] = [];
     /**
      * @description 当鼠标离开时，会触发该数组中的所有回调函数。
      * List使用方法：onMouseLeaveList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseLeaveList: ((event: GameEngineMouseEvent) => void)[] = [];
     /**
      * @description 当鼠标悬停时，会触发该数组中的所有回调函数。
      * List使用方法：onMouseHoverList.push(someFunction);
+     * @argument 注意：如果需要在onUpdate中调用，请暂时不要使用List。
      */
     onMouseHoverList: ((event: GameEngineMouseEvent) => void)[] = [];
+    //#endregion
 
     behaviours: Behaviour[] = [];
 
@@ -450,6 +471,16 @@ export class GameObject {
             }
         }
         return behaviours;
+    }
+    // return [key:audioClip.name, value:audioClip]
+    getAudioClips(): { [key: string]: AudioClip } {
+        let audioClips: { [key: string]: AudioClip } = {};
+        for (const behaviour of this.behaviours) {
+            if (behaviour instanceof AudioClip) {
+                audioClips[behaviour.name] = behaviour;
+            }
+        }
+        return audioClips;
     }
 
     removeBehaviour(behaviour: Behaviour) {
