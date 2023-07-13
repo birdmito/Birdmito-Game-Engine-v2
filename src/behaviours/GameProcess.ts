@@ -285,19 +285,10 @@ export class GameProcess extends Behaviour {
                             if (unit.unitParam.name === unit2.unitParam.name && unit.nationId === unit2.nationId) {
                                 unit.unitParam.quantity += unit2.unitParam.quantity;  //数量相加
                                 // console.log(`合并前单位列表为`);
-                                for (let m = 0; m < province.unitList.length; m++) {
-                                    console.log(province.unitList[m].unitParam.name);
-                                }
+                                // for (let m = 0; m < province.unitList.length; m++) {
+                                //     console.log(province.unitList[m].unitParam.name);
+                                // }
                                 province.unitList[l].gameObject.destroy();  //销毁单位
-                                // console.log(`销毁后单位列表为`);
-                                for (let m = 0; m < province.unitList.length; m++) {
-                                    console.log(province.unitList[m].unitParam.name);
-                                }
-                                province.unitList.splice(l, 1);  //删除单位
-                                // console.log(`合并后单位列表为`);
-                                for (let m = 0; m < province.unitList.length; m++) {
-                                    console.log(province.unitList[m].unitParam.name);
-                                }
                             }
                         }
                     }

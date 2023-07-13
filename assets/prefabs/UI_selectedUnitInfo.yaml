@@ -119,7 +119,7 @@ children:
             properties:
               source: ./assets/images/Icon_SeparateUnit.png
           - type: UI_ButtonState
-          # - type: 
+          - type: UI_SplitUnitButton
         children: []
       - id: UnitDeleteButton
         behaviours:
@@ -134,7 +134,7 @@ children:
             properties:
               source: ./assets/images/Icon_DeleteUnit.png
           - type: UI_ButtonState
-          # - type: 
+          - type: UI_DismissUnitButton
         children: []
       - id: UI_UnitBehaviourButton
         behaviours:
