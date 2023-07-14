@@ -101,6 +101,9 @@ export class UI_UpdateItemInfo extends Behaviour {
             case '自行火炮':
                 itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Unit_Soldier.png'
                 break;
+            default:
+                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Unit_Soldier.png'
+                break;
 
         }
     }

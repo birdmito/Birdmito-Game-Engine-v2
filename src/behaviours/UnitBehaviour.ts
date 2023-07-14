@@ -73,6 +73,10 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             case '筑城者':
                 this.gameObject.getChildById("_UnitHeadIconImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_Unit_BuildCity.png';
                 break;
+            default:
+                this.gameObject.getChildById("_UnitHeadIconImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_Unit_Soldier.png';
+                break;
+
         }
     }
 
