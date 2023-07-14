@@ -124,6 +124,7 @@ children:
         properties:
           name: 开拓音效
           source: "./assets/audios/inland_province_discoverd.mp3"
+          volume: 3
       - type: AudioClip # 筑城音效
         properties:
           name: 筑城音效
