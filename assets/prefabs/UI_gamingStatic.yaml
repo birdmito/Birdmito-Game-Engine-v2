@@ -439,7 +439,7 @@ children:
                       anchorType: left-center
                       fontFamily: FangSong_GB2312
                 children: 
-                  - id: PlayerGoldChange
+                  - id: PlayerGoldChange #玩家奥坎盾变化
                     behaviours:
                       - type: Transform
                         properties:
@@ -464,8 +464,8 @@ children:
                               source: ./assets/images/Icon_TextFrame5050.png
                               hitAreaType: none
                               renderType: 'ui'
-                              scaleXForUI: 12
-                              scaleYForUI: 10
+                              scaleXForUI: 10
+                              scaleYForUI: 6
                               borderWidthForUI: 15
                         children: []
                       - id: _PlayerGoldChangeText
