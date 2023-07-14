@@ -100,11 +100,14 @@ export class BotNationActMode {
                     else if (this.timesOfSameOperateIndex < 3 && this.nation.provinceOwnedList.filter(province => province.isCity === false).length > 0) {
                         console.log(`%c电脑帝国${this.nation.nationId}正在移动筑城者单位`, 'color: red')
                         //在已拥有且未筑城的省份中随机抽取一个
-                        const provinceList = this.nation.provinceOwnedList.filter(province => province.isCity === false);
-                        const randomProvince = provinceList[Math.floor(Math.random() * provinceList.length)];
-                        console.log(`下一步路径：${PathFinding.noobFindPath(operatedObject.currentProvince, randomProvince)}`)
-                        const nextProvince = PathFinding.noobFindPath(operatedObject.currentProvince, randomProvince) ?
-                            PathFinding.noobFindPath(operatedObject.currentProvince, randomProvince) : operatedObject.currentProvince;
+                        if (operatedObject.provinceToGo === null) {
+                            const provinceList = this.nation.provinceOwnedList.filter(province => province.isCity === false);
+                            operatedObject.provinceToGo = provinceList[Math.floor(Math.random() * provinceList.length)];
+                        }
+
+                        console.log(`下一步路径：${PathFinding.noobFindPath(operatedObject.currentProvince, operatedObject.provinceToGo)}`)
+                        const nextProvince = PathFinding.noobFindPath(operatedObject.currentProvince, operatedObject.provinceToGo) ?
+                            PathFinding.noobFindPath(operatedObject.currentProvince, operatedObject.provinceToGo) : operatedObject.currentProvince;
                         operatedObject.moveToProvince(nextProvince);
                         this.operateThis();
 
@@ -125,6 +128,20 @@ export class BotNationActMode {
                     else {
                         this.operateNext();
                     }
+                }
+                else if (operatedObject.unitParam.name === '士兵' && this.timesOfSameOperateIndex < 3) {
+                    this.operateNext();
+                }
+                else if (operatedObject.unitParam.name === '骑兵' || '战法师' || '自行火炮' && this.timesOfSameOperateIndex < 3) {
+                    //移动到随机一个敌方城市
+                    if (operatedObject.provinceToGo === null) {
+                        if (this.nation.enemyNationList[0].provinceOwnedList.length === 0) {
+                            const provinceList = this.nation.enemyNationList[0].provinceOwnedList.filter(province => province.isCity === true);
+                            operatedObject.provinceToGo = provinceList[Math.floor(Math.random() * provinceList.length)];
+                        }
+                    }
+                    operatedObject.moveToProvince(operatedObject.provinceToGo);
+                    this.operateThis();
                 }
                 else {
                     this.operateNext();
@@ -153,8 +170,10 @@ export class BotNationActMode {
                     }
                     //有敌人的情况下
                     else {
-                        //优先招募士兵
-                        this.nation.recruitUnit(operatedObject, '士兵');
+                        //随机招募战斗单位
+                        const unitList = operatedObject.recruitableUnitList.filter(unit => unit.isBattleUnit === true);
+                        const randomUnit = unitList[Math.floor(Math.random() * unitList.length)];
+                        this.nation.recruitUnit(operatedObject, randomUnit.name);
                     }
                 }
 

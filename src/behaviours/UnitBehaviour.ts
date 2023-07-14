@@ -31,6 +31,8 @@ export class UnitBehaviour extends Behaviour implements Moveable {
     currentProvince = Province.provincesObj[this.unitCoor.x][this.unitCoor.y].getBehaviour(Province);
     unitParamWhenRecruited: UnitParam;
 
+    provinceToGo: Province; //仅限ai使用的变量
+
     power;
     isInCombat: boolean = false;
 
