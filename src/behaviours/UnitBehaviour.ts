@@ -22,6 +22,7 @@ import { Building } from "./Building";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { AudioClip } from "../engine/AudioClip";
+import { Technology } from "./Technology";
 
 export class UnitBehaviour extends Behaviour implements Moveable {
     audios: { [key: string]: AudioClip } = {};
@@ -72,6 +73,10 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             case '筑城者':
                 this.gameObject.getChildById("_UnitHeadIconImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_Unit_BuildCity.png';
                 break;
+            default:
+                this.gameObject.getChildById("_UnitHeadIconImage").getBehaviour(BitmapRenderer).source = './assets/images/Interface_Unit_Soldier.png';
+                break;
+
         }
     }
 
@@ -154,7 +159,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             return false;
         }
 
-        if (!province.isLand) {
+        if (!province.isLand && !Technology.isTechCompleted(this.nationId, "征服星辰大海")) {
             if (this.nationId === GameProcess.playerNationId)
                 generateTip(this, "海面不可通行");
             return false;

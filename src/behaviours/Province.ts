@@ -161,6 +161,9 @@ export class Province extends Behaviour {
     updateApCost(apCostPlused: number = 0) {
         //更新行动力消耗
         this.apCost = 1 + this.lakePercent * 5 + this.forestPercent * 2 + this.mountainPercent * 10 + apCostPlused;
+        if(!this.isLand){
+            this.apCost = 8;
+        }
         this.apCost = Math.floor(this.apCost);
     }
 

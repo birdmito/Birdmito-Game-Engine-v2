@@ -42,7 +42,7 @@ export class BotNationActMode {
                 this.nation.currentTechName = randomTech.techName;
             }
             //只有在当前城市数量接近城市上限时才尝试升级政府
-            if((this.nation.cityMax-this.nation.cityList.length)<3){
+            if ((this.nation.cityMax - this.nation.cityList.length) < 3) {
                 console.log(`电脑帝国${this.nation.nationId}正在尝试升级政府`)
                 this.nation.upgrade();
             }
@@ -99,7 +99,7 @@ export class BotNationActMode {
                         const provinceList = operatedObject.currentProvince.getAdjacentProvinces();
                         if (provinceList.some(province => province.nationId === this.nation.nationId && province.isCity === false)) {
                             //若周围有符合条件的领地，则移动至该领地
-                            const randomProvince = provinceList.filter(province => province.nationId === this.nation.nationId 
+                            const randomProvince = provinceList.filter(province => province.nationId === this.nation.nationId
                                 && province.isCity === false)[Math.floor(Math.random() * provinceList.length)];
                             operatedObject.moveToProvince(randomProvince)
                             this.operateThis();
@@ -117,17 +117,7 @@ export class BotNationActMode {
                     }
                 }
                 else {
-                    if (this.timesOfSameOperateIndex < 3) {
-                        //若都不是，则随机移动
-                        console.log(`%c电脑帝国${this.nation.nationId}正在移动未定义行动的单位`, 'color: red')
-                        const provinceList = operatedObject.currentProvince.getAdjacentProvinces();
-                        const randomProvince = provinceList[Math.floor(Math.random() * provinceList.length)];
-                        operatedObject.moveToProvince(randomProvince)
-                        this.operateThis();
-                    }
-                    else {
-                        this.operateNext();
-                    }
+                    this.operateNext();
                 }
             }
         }
@@ -141,16 +131,48 @@ export class BotNationActMode {
                 //若省份有兵营，则随机招募单位
                 if (operatedObject.buildingList.some(building => building.name === '兵营')) {
                     console.log(`%c电脑帝国${this.nation.nationId}正在招募单位`, 'color: red')
-                    const unitList = operatedObject.recruitableUnitList;
-                    const randomUnit = unitList[Math.floor(Math.random() * unitList.length)];
-                    this.nation.recruitUnit(operatedObject, randomUnit.name);
+                    //没有敌人的情况下
+                    if (this.nation.enemyNationList.length === 0) {
+                        //若拥有省份数量大于城市数量，且城市数量小于城市数量上限，则优先招募筑城者
+                        if (this.nation.provinceOwnedList.length > this.nation.cityList.length && this.nation.cityList.length < this.nation.cityMax) {
+                            this.nation.recruitUnit(operatedObject, '筑城者');
+                        }
+                        else {
+                            this.nation.recruitUnit(operatedObject, '开拓者');
+                        }
+                    }
+                    //有敌人的情况下
+                    else {
+                        //优先招募士兵
+                        this.nation.recruitUnit(operatedObject, '士兵');
+                    }
                 }
 
                 //建造建筑
                 console.log(`%c电脑帝国${this.nation.nationId}正在建造建筑`, 'color: red')
-                const buildableBuildingList = operatedObject.buildableBuildingList;
-                var randomBuilding = buildableBuildingList[Math.floor(Math.random() * buildableBuildingList.length)];
-                isOperateFinish = this.nation.buildBuilding(operatedObject, randomBuilding.name);
+                if (this.nation.doraChangeNextTurn < 250) {
+                    //优先建造金矿
+                    isOperateFinish = this.nation.buildBuilding(operatedObject, '金矿');
+                }
+                else if (this.nation.doraChangeNextTurn < 500) {
+                    //其次建造兵营
+                    isOperateFinish = this.nation.buildBuilding(operatedObject, '兵营');
+                    if (!isOperateFinish) {
+                        isOperateFinish = this.nation.buildBuilding(operatedObject, '大学');
+                    }
+                }
+                else {
+                    const randomNum = Math.random() * 2;
+                    if (randomNum < 1) {
+                        isOperateFinish = this.nation.buildBuilding(operatedObject, '大学');
+                    }
+                    else {
+                        isOperateFinish = this.nation.buildBuilding(operatedObject, '工厂');
+                    }
+                }
+            }
+            else {
+                isOperateFinish = this.nation.buildBuilding(operatedObject, '金矿');
             }
 
             if (!isOperateFinish && this.timesOfSameOperateIndex < 3) {

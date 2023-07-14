@@ -237,6 +237,7 @@ children:
           scaleY: 1
           rotation: 0
       - type: UI_SettingButton
+      - type: Au_GeneralButton
     children:
       - id: SettingImage #设置按钮
         behaviours:

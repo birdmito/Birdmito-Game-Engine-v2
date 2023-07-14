@@ -131,7 +131,7 @@ children:
               anchorType: "center"
               hitAreaType: none
         children: []
-  - id: CloseButton # 关闭游戏按钮
+  - id: _ChangeGameModeButton 
     behaviours:
       - type: Transform
         properties:
@@ -141,6 +141,7 @@ children:
           scaleY: 1
           rotation: 0
       - type: Au_GeneralButton
+      - type: UI_ChangeGameModeButton
       # - type: 关闭游戏
     children:
       - id: GameStartButtonBackGround
@@ -161,7 +162,7 @@ children:
               borderWidthForUI: 15
               anchorType: "center"
           - type: UI_ButtonState
-      - id: GameStartButton
+      - id: _GameModeText
         behaviours:
           - type: Transform
             properties:
@@ -174,7 +175,7 @@ children:
             properties:
               fontSize: 40
               fontFamily: "fangsong" 
-              text: 关闭游戏
+              text: 热座
               anchorType: "center"
               hitAreaType: none
         children: []

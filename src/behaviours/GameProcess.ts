@@ -23,6 +23,8 @@ export class GameProcess extends Behaviour {
     static isCheat = false;  //是否开启作弊模式
     static gamingState: 'playerTurn' | 'botTurn' | 'settlement' = 'playerTurn';
     static playerNationId = 1;  //玩家的nationId
+    //游戏模式：热座模式、PVE模式
+    static gameMode: 'hotSeat' | 'PVE' = 'hotSeat';
 
 
     static nextState() {
@@ -168,38 +170,44 @@ export class GameProcess extends Behaviour {
     }
 
     botTurn() {
-        //电脑帝国行动
-        // if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
-        //     console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
-        //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
-        // }
-        // else {
-        //     //下一个电脑帝国
-        //     GameProcess.actingBotNationIndex++;
-        //     //跳过玩家
-        //     if (GameProcess.actingBotNationIndex === GameProcess.playerNationId) {
-        //         GameProcess.actingBotNationIndex++;
-        //     }
+        switch (GameProcess.gameMode) {
+            case 'hotSeat':
+                GameProcess.nextState();  //进入结算阶段
+                break;
+            case 'PVE':
+                //电脑帝国行动
+                if (Nation.nations[GameProcess.actingBotNationIndex] && !Nation.nations[GameProcess.actingBotNationIndex].botActMode.isBotOperateFinish) {
+                    console.log(`当前行动的电脑帝国：${Nation.nations[GameProcess.actingBotNationIndex].nationId}`);
+                    Nation.nations[GameProcess.actingBotNationIndex].botActMode.botAct();  //执行该电脑帝国的行动
+                }
+                else {
+                    //下一个电脑帝国
+                    GameProcess.actingBotNationIndex++;
+                    //跳过玩家
+                    if (GameProcess.actingBotNationIndex === GameProcess.playerNationId) {
+                        GameProcess.actingBotNationIndex++;
+                    }
 
-        //     //判断是否所有电脑帝国都已经行动完毕
-        //     if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
-        //         console.log("所有电脑帝国行动完毕");
-        //         //重置电脑帝国的行动状态
-        //         for (let i = 2; i < Nation.nations.length; i++) {
-        //             Nation.nations[i].botActMode.isBotOperateFinish = false;
-        //         }
-        //         GameProcess.actingBotNationIndex = 0;
-        //         GameProcess.nextState();  //进入结算阶段
-        //         return;
-        //     }
+                    //判断是否所有电脑帝国都已经行动完毕
+                    if (GameProcess.actingBotNationIndex >= Nation.nations.length) {
+                        console.log("所有电脑帝国行动完毕");
+                        //重置电脑帝国的行动状态
+                        for (let i = 2; i < Nation.nations.length; i++) {
+                            Nation.nations[i].botActMode.isBotOperateFinish = false;
+                        }
+                        GameProcess.actingBotNationIndex = 0;
+                        GameProcess.nextState();  //进入结算阶段
+                        return;
+                    }
 
-        //     console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
-        //     console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
-        //     Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
-        //     console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
-        //         ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
-        // }
-        GameProcess.nextState();  //进入结算阶段
+                    console.log(`遍历到第${GameProcess.actingBotNationIndex}个电脑帝国`)
+                    console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}开始行动`);
+                    Nation.nations[GameProcess.actingBotNationIndex].botActMode.updateOperatedObjectList();  //更新该电脑帝国的属性
+                    console.log(`电脑帝国${Nation.nations[GameProcess.actingBotNationIndex].nationId}有
+                            ${Nation.nations[GameProcess.actingBotNationIndex].botActMode.operatedObjectList.length}个操作对象`);
+                }
+                break;
+        }
     }
 
     //结算阶段

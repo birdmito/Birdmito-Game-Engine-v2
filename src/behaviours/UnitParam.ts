@@ -4,10 +4,12 @@ import { GameProcess } from "./GameProcess";
 
 export class UnitParam implements infoShowable {
     static originUnitParamList: UnitParam[] = [
-        new UnitParam("开拓者", 10, 10, 20, 15, 1),
-        new UnitParam("筑城者", 10, 10, 20, 15, 1),
-        new UnitParam("士兵", 10, 10, 20, 20, 1, true, 1, 10),
-        new UnitParam("自走火炮", 10, 10, 20, 20, 1, true, 1, 10, '先进自走火炮'),
+        new UnitParam("开拓者", 100, 30, 8, 0, 1),
+        new UnitParam("筑城者", 100, 30, 8, 0, 1),
+        new UnitParam("士兵", 150, 50, 8, 20, 1, true, 1, 10),
+        new UnitParam("骑兵", 180, 70, 12, 25, 1, true, 1, 10),
+        new UnitParam("战法师", 190, 75, 6, 30, 1, true, 1, 20),
+        new UnitParam("自走火炮", 200, 100, 8, 40, 1, true, 1, 15, '先进自走火炮'),
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,
@@ -102,6 +104,6 @@ export class UnitParam implements infoShowable {
     }
 
     getInfo(): string {
-        return `${this.name} 所属国家: ${this.nationId} 招募费用: ${this.cost} 生产力花费: ${this.recruitProcessMax} 行动力: ${this.ap}/${this.apMax} 维护费用: ${this.maintCost}`;
+        return `${this.name} 所属国家: ${this.nationId} 招募费用: ${this.cost} 生产力花费: ${this.recruitProcessMax}|战力：${this.power} 行动力: ${this.ap}/${this.apMax} 维护费用: ${this.maintCost}`;
     }
 }
