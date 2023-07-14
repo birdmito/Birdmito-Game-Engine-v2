@@ -32,5 +32,26 @@ export class PathFinding extends Behaviour {
             return null;
         }
     }
+
+    static noobFindPath(startProvince: Province, endProvince: Province): Province {
+        //直接走折线，优先走x轴
+        if (!startProvince || !endProvince) {
+            console.log("startProvince or endProvince is null");
+            return null;
+        }
+        if (startProvince.coord.x === endProvince.coord.x) {
+            if (startProvince.coord.y < endProvince.coord.y) {
+                return Province.provincesObj[startProvince.coord.x][startProvince.coord.y + 1].getBehaviour(Province) as Province;
+            } else {
+                return Province.provincesObj[startProvince.coord.x][startProvince.coord.y - 1].getBehaviour(Province) as Province;
+            }
+        } else {
+            if (startProvince.coord.x < endProvince.coord.x) {
+                return Province.provincesObj[startProvince.coord.x + 1][startProvince.coord.y].getBehaviour(Province) as Province;
+            } else {
+                return Province.provincesObj[startProvince.coord.x - 1][startProvince.coord.y].getBehaviour(Province) as Province;
+            }
+        }
+    }
 }
 

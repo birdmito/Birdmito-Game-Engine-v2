@@ -55,7 +55,7 @@ export class GameProcess extends Behaviour {
     onStart(): void {
         GameProcess.updateProvincePerTurn();
         GameProcess.turnrNow = 1;
-        GameProcess.turnTotal = 50;
+        GameProcess.turnTotal = 300;
         this.initialNation();
         // GameProcess.nextTurn();
         //让第一个电脑帝国的isThisBotsTurn为true
@@ -97,7 +97,7 @@ export class GameProcess extends Behaviour {
 
     //回合
     static turnrNow = 1;
-    static turnTotal = 100;
+    static turnTotal = 300;
 
     initialNation() {
         for (let i = Nation.nationQuantity - 1; i >= 0; i--) {
