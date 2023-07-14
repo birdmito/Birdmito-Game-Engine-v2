@@ -98,10 +98,16 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                     getGameObjectById("UnitInfoLayer2").getBehaviour(BitmapRenderer).source =
                         "./assets/images/ScreenArt_BuildCity.png";
                     break;
-                case "士兵" || '自行火炮':
+                case "士兵":
+                case '自行火炮':
                     getGameObjectById("UnitInfoLayer2").getBehaviour(BitmapRenderer).source =
                         "./assets/images/ScreenArt_Unit.png";
                     break;
+                default:
+                    getGameObjectById("UnitInfoLayer2").getBehaviour(BitmapRenderer).source =
+                        "./assets/images/ScreenArt_Unit.png";
+                    break;
+
             }
         }
 
