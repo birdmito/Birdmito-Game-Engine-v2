@@ -1,6 +1,8 @@
 import { Behaviour } from "../engine/Behaviour";
 import { Nation } from "./Nation";
+import { PathFinding } from "./PathFinding";
 import { Province } from "./Province";
+import { generateTip } from "./Tip";
 import { UnitBehaviour } from "./UnitBehaviour";
 
 export class BotNationActMode {
@@ -35,6 +37,7 @@ export class BotNationActMode {
     }
 
     botAct() {
+        generateTip(Province.provincesObj[0][0].getBehaviour(Province), "电脑帝国正在行动")
         if (this.objectIndex === -1) {
             //若没有正在研究的科技，则随机选择一个科技
             if (this.nation.currentTechName === "") {
@@ -94,27 +97,51 @@ export class BotNationActMode {
                         operatedObject.act();
                         this.operateNext();
                     }
-                    else if (this.timesOfSameOperateIndex < 3) {
+                    else if (this.timesOfSameOperateIndex < 3 && this.nation.provinceOwnedList.filter(province => province.isCity === false).length > 0) {
                         console.log(`%c电脑帝国${this.nation.nationId}正在移动筑城者单位`, 'color: red')
-                        const provinceList = operatedObject.currentProvince.getAdjacentProvinces();
-                        if (provinceList.some(province => province.nationId === this.nation.nationId && province.isCity === false)) {
-                            //若周围有符合条件的领地，则移动至该领地
-                            const randomProvince = provinceList.filter(province => province.nationId === this.nation.nationId
-                                && province.isCity === false)[Math.floor(Math.random() * provinceList.length)];
-                            operatedObject.moveToProvince(randomProvince)
-                            this.operateThis();
+                        //在已拥有且未筑城的省份中随机抽取一个
+                        if (operatedObject.provinceToGo === null) {
+                            const provinceList = this.nation.provinceOwnedList.filter(province => province.isCity === false);
+                            operatedObject.provinceToGo = provinceList[Math.floor(Math.random() * provinceList.length)];
                         }
-                        else {
-                            //若周围领地均不符合条件，则随机移动
-                            const randomProvince = provinceList[Math.floor(Math.random() * provinceList.length)];
-                            operatedObject.moveToProvince(randomProvince)
-                            this.operateThis();
 
-                        }
+                        console.log(`下一步路径：${PathFinding.noobFindPath(operatedObject.currentProvince, operatedObject.provinceToGo)}`)
+                        const nextProvince = PathFinding.noobFindPath(operatedObject.currentProvince, operatedObject.provinceToGo) ?
+                            PathFinding.noobFindPath(operatedObject.currentProvince, operatedObject.provinceToGo) : operatedObject.currentProvince;
+                        operatedObject.moveToProvince(nextProvince);
+                        this.operateThis();
+
+                        // if (provinceList.some(province => province.nationId === this.nation.nationId && province.isCity === false)) {
+                        //     //若周围有符合条件的领地，则移动至该领地
+                        //     const randomProvince = provinceList.filter(province => province.nationId === this.nation.nationId
+                        //         && province.isCity === false)[Math.floor(Math.random() * provinceList.length)];
+                        //     operatedObject.moveToProvince(randomProvince)
+                        //     this.operateThis();
+                        // }
+                        // else {
+                        //     //若周围领地均不符合条件，则随机移动
+                        //     const randomProvince = provinceList[Math.floor(Math.random() * provinceList.length)];
+                        //     operatedObject.moveToProvince(randomProvince)
+                        //     this.operateThis();
+                        // }
                     }
                     else {
                         this.operateNext();
                     }
+                }
+                else if (operatedObject.unitParam.name === '士兵' && this.timesOfSameOperateIndex < 3) {
+                    this.operateNext();
+                }
+                else if (operatedObject.unitParam.name === '骑兵' || '战法师' || '自行火炮' && this.timesOfSameOperateIndex < 3) {
+                    //移动到随机一个敌方城市
+                    if (operatedObject.provinceToGo === null) {
+                        if (this.nation.enemyNationList[0].provinceOwnedList.length === 0) {
+                            const provinceList = this.nation.enemyNationList[0].provinceOwnedList.filter(province => province.isCity === true);
+                            operatedObject.provinceToGo = provinceList[Math.floor(Math.random() * provinceList.length)];
+                        }
+                    }
+                    operatedObject.moveToProvince(operatedObject.provinceToGo);
+                    this.operateThis();
                 }
                 else {
                     this.operateNext();
@@ -143,8 +170,10 @@ export class BotNationActMode {
                     }
                     //有敌人的情况下
                     else {
-                        //优先招募士兵
-                        this.nation.recruitUnit(operatedObject, '士兵');
+                        //随机招募战斗单位
+                        const unitList = operatedObject.recruitableUnitList.filter(unit => unit.isBattleUnit === true);
+                        const randomUnit = unitList[Math.floor(Math.random() * unitList.length)];
+                        this.nation.recruitUnit(operatedObject, randomUnit.name);
                     }
                 }
 
@@ -162,12 +191,15 @@ export class BotNationActMode {
                     }
                 }
                 else {
-                    const randomNum = Math.random() * 2;
-                    if (randomNum < 1) {
-                        isOperateFinish = this.nation.buildBuilding(operatedObject, '大学');
-                    }
-                    else {
-                        isOperateFinish = this.nation.buildBuilding(operatedObject, '工厂');
+                    isOperateFinish = this.nation.buildBuilding(operatedObject, '兵营');
+                    if (!isOperateFinish) {
+                        const randomNum = Math.random() * 2;
+                        if (randomNum < 1) {
+                            isOperateFinish = this.nation.buildBuilding(operatedObject, '大学');
+                        }
+                        else {
+                            isOperateFinish = this.nation.buildBuilding(operatedObject, '工厂');
+                        }
                     }
                 }
             }

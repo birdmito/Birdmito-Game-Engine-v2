@@ -51,6 +51,7 @@ children:
             text: '这里应该显示建筑或单位信息'
             color: white
             lineHeight: 1.2
+            lineWidth: 23
             hitAreaType: none
   - id: _ItemButton
     behaviours:

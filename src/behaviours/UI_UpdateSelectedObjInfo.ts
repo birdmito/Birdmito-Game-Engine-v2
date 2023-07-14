@@ -183,6 +183,7 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 const building = province.buildingList[i];
                 const UI_buildingBinding = new UI_itemPrefabBinding;
                 UI_buildingBinding.item = building.name;
+                UI_buildingBinding.idInList = i;
                 if (province.nationId === 1 || GameProcess.isCheat) {
                     UI_buildingBinding.itemClickEventText = "拆除";
                 }

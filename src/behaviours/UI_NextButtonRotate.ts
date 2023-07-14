@@ -3,8 +3,6 @@ import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
 
 export class UI_NextTurnButtonRotate extends Behaviour {
-    private static isFirstCall = true;
-    private static initialRotation = 15;
 
 
     static async rotate(rotateObject: GameObject, rotateAngle: number, rotateTime: number): Promise<void> {
@@ -12,11 +10,6 @@ export class UI_NextTurnButtonRotate extends Behaviour {
         const rotateInterval = 10;
         let i = 0;
         
-        if (this.isFirstCall) {
-            rotateObject.getBehaviour(Transform).rotation = this.initialRotation;
-            this.isFirstCall = false;
-            return;
-        }
 
         const rotatePromise = new Promise<void>((resolve) => {
           const rotationInterval = setInterval(() => {
