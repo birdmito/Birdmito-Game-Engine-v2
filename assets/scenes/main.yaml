@@ -90,6 +90,11 @@ children:
           name: 宣战背景音乐2
           source: "./assets/audios/Civil War.mp3"
           loop: true
+      - type: AudioClip # 宣战背景音乐3
+        properties:
+          name: 宣战背景音乐3
+          source: "./assets/audios/anempiredivided.mp3"
+          loop: true
       - type: AudioClip # 按钮进入音效
         properties:
           name: 按钮进入音效
