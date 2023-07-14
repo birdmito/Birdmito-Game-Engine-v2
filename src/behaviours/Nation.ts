@@ -283,7 +283,7 @@ export class Nation {
         }
         //判断贸易站
         if (newBuilding.name === '贸易站') {
-            if (!Technology.isTechCompleted(this.nationId, "贸易站")) {
+            if (!Technology.isTechCompleted(this.nationId, "秘源金销全国")) {
                 console.log("只应被AI触发的console：需要贸易站");
                 return false;
             }
