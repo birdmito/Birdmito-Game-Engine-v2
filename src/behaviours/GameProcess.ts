@@ -236,7 +236,7 @@ export class GameProcess extends Behaviour {
                 }
             }
             //更新科技研究进度后，重置科技研究点数
-            nation.techPerTurn = 0;
+            nation.techPerTurn = 10;
 
             //更新已招募的单位信息
             for (let j = 0; j < nation.unitList.length; j++) {
