@@ -67,6 +67,7 @@ export class UI_UpdateItemInfo extends Behaviour {
             case '政府规模升级':
             case '劳动力再升级':
             case '科技再生产':
+            case '征服星辰大海':
                 itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Technology_1.png'
                 break;
             case '战火狂潮之道':

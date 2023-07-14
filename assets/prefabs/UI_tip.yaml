@@ -42,3 +42,5 @@ children:
           text: '这里应该显示提示信息'
           color: white
           anchorType: center
+          lineHeight: 1.2
+          lineWidth: 18

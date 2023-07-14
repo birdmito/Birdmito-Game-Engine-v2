@@ -223,6 +223,8 @@ export class GameProcess extends Behaviour {
                 if (currentTech.techProcess >= currentTech.techProcessMax) {
                     currentTech.techProcess = currentTech.techProcessMax;
                     console.log(`国家${nation.nationId}的科技${currentTech.techName}研究完成`)
+                    if (nation.nationId === GameProcess.playerNationId)
+                        generateTip(Nation.nations[1]._capitalProvince, `科技【${currentTech.techName}】研究完成，需要选择新的科技研究`);
                     nation.currentTechName = "";
                     nation.randomTechList = nation.getRandomTechNameList();
 
