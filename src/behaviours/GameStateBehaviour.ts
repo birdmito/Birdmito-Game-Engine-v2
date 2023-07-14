@@ -7,14 +7,17 @@ import { UI_gamingStaticPrefabBinding } from "../bindings/UI_gamingStaticPrefabB
 import { MiniMapBoxPrefabBinding } from "../bindings/MiniMapBoxPrefabBinding";
 import { Camera } from "./Camera";
 import { AudioClip } from "../engine/AudioClip";
+import { Au_Manager } from "./Au_Manager";
 
 export class GameStateBehaviour extends Behaviour {
     gameState: number = 0;
     audios: { [key: string]: AudioClip } = {};
+    audioManager: Au_Manager;
 
     onStart(): void {
         console.log("open login panel");
         this.audios = getGameObjectById("AudioManager").getAudioClips();
+        this.audioManager = getGameObjectById("AudioManager").getBehaviour(Au_Manager);
         this.changeGameState(0);
     }
 
@@ -30,14 +33,22 @@ export class GameStateBehaviour extends Behaviour {
         // 播放背景音乐
         switch (gameState) {
             case 0:
-                if (this.audios["游戏界面背景音乐"].isPlaying) {
-                    this.audios["游戏界面背景音乐"].stop();
+                if(this.audioManager.currentBackgroundMusic){
+                    if (this.audioManager.currentBackgroundMusic.isPlaying()) {
+                        this.audioManager.currentBackgroundMusic.stop();
+                    }
                 }
                 this.audios["登录界面背景音乐"].play();
+                this.audioManager.currentBackgroundMusic = this.audios["登录界面背景音乐"];
                 break;
             case 1:
-                this.audios["登录界面背景音乐"].stop();
+                if(this.audioManager.currentBackgroundMusic){
+                    if (this.audioManager.currentBackgroundMusic.isPlaying()) {
+                        this.audioManager.currentBackgroundMusic.stop();
+                    }
+                }
                 this.audios["游戏界面背景音乐"].play();
+                this.audioManager.currentBackgroundMusic = this.audios["游戏界面背景音乐"];
                 break;
             default:
                 break;

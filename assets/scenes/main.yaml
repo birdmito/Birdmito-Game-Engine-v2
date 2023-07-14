@@ -80,6 +80,16 @@ children:
           name: 游戏界面背景音乐
           source: "./assets/audios/mood_landinsight.mp3"
           loop: true
+      - type: AudioClip # 宣战背景音乐1
+        properties:
+          name: 宣战背景音乐1
+          source: "./assets/audios/atthegatesofconstantinople.mp3"
+          loop: true
+      - type: AudioClip # 宣战背景音乐2
+        properties:
+          name: 宣战背景音乐2
+          source: "./assets/audios/Civil War.mp3"
+          loop: true
       - type: AudioClip # 按钮进入音效
         properties:
           name: 按钮进入音效
