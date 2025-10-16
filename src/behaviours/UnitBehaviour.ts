@@ -18,11 +18,11 @@ import { GameProcess } from "./GameProcess";
 import { UI_BattleInfoButton } from "./UI_BattleInfoButton";
 import { UI_BattleInfoButtonPrefabBinding } from "../bindings/UI_BattleInfoButtonPrefabBinding";
 import { b2QueryCallback } from "@flyover/box2d";
+import { Tech, Technology } from "./Technology";
 import { Building } from "./Building";
 import { UnitPrefabBinding } from "../bindings/UnitPrefabBinding";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { AudioClip } from "../engine/AudioClip";
-import { Technology } from "./Technology";
 
 export class UnitBehaviour extends Behaviour implements Moveable {
     audios: { [key: string]: AudioClip } = {};
@@ -161,7 +161,7 @@ export class UnitBehaviour extends Behaviour implements Moveable {
             return false;
         }
 
-        if (!province.isLand && !Technology.isTechCompleted(this.nationId, "征服星辰大海")) {
+        if (!province.isLand && !Technology.isTechCompleted(this.nationId, Tech.征服星辰大海)) {
             if (this.nationId === GameProcess.playerNationId)
                 generateTip(this, "海面不可通行");
             return false;

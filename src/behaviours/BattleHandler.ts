@@ -1,7 +1,7 @@
 import { GameObject } from "../engine";
 import { Nation } from "./Nation";
 import { Province } from "./Province";
-import { Technology } from "./Technology";
+import { Tech, Technology } from "./Technology";
 import { UI_BattleInfoButton } from "./UI_BattleInfoButton";
 import { UnitBehaviour } from "./UnitBehaviour";
 
@@ -24,18 +24,18 @@ export class BattleHandler {
         //每回合投六次骰子
         for (let i = 0; i < 6; i++) {
             //战斗双方投骰子
-            var attackerDice = Math.random() * 6 + Technology.getTechBonus(battle.attackerNation.nationId, "先进机械装配", 1);
+            var attackerDice = Math.random() * 6 + Technology.getTechBonus(battle.attackerNation.nationId, Tech.先进机械装配, 1);
             if (battle.attackerUnitList.some(unit => unit.unitParam.name === "自走火炮")) {
                 attackerDice += 1
             }
-            var defencerDice = Math.random() * 6 + Technology.getTechBonus(battle.defenderNation.nationId, "先进机械装配", 1);
+            var defencerDice = Math.random() * 6 + Technology.getTechBonus(battle.defenderNation.nationId, Tech.先进机械装配, 1);
             if (battle.defenderUnitList.some(unit => unit.unitParam.name === "自走火炮")) {
                 defencerDice += 1
             }
 
             //按照战力的百分之十计算伤害
             if (attackerDice > defencerDice) {
-                var dmg = battle.attackerPowerLeft / 20 * (1 - Technology.getTechBonus(battle.defenderNation.nationId, "配置秘源护盾"))
+                var dmg = battle.attackerPowerLeft / 20 * (1 - Technology.getTechBonus(battle.defenderNation.nationId, Tech.配置秘源护盾))
                 dmg = Math.ceil(dmg);  //向上取整
                 battle.defenderPowerLeft -= dmg;
                 battle.defenderPowerLeft = Math.max(0, battle.defenderPowerLeft); //防止战力为负数
@@ -43,7 +43,7 @@ export class BattleHandler {
                 battle.lastTurnInfo += "攻击方拼点胜利，防御方损失" + dmg + "战力|||"
             }
             else {
-                var dmg = battle.defenderPowerLeft / 20 * (1 - Technology.getTechBonus(battle.attackerNation.nationId, "配置秘源护盾"))
+                var dmg = battle.defenderPowerLeft / 20 * (1 - Technology.getTechBonus(battle.attackerNation.nationId, Tech.配置秘源护盾))
                 dmg = Math.ceil(dmg);  //向上取整
                 battle.attackerPowerLeft -= dmg;
                 battle.attackerPowerLeft = Math.max(0, battle.attackerPowerLeft); //防止战力为负数

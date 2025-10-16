@@ -3,7 +3,7 @@ import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { TextRenderer } from "../engine/TextRenderer";
 import { Building } from "./Building";
 import { Province } from "./Province";
-import { Technology } from "./Technology";
+import { Tech, Technology } from "./Technology";
 import { UnitParam } from "./UnitParam";
 
 export class UI_UpdateItemInfo extends Behaviour {
@@ -60,36 +60,36 @@ export class UI_UpdateItemInfo extends Behaviour {
             case "工厂":
                 itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingFactory.png'
                 break;
-            case '探秘奥坎之径':
-            case '我来我见我征服':
-            case '科技第一生产力':
-            case '劳动资源统合':
-            case '政府规模升级':
-            case '劳动力再升级':
-            case '科技再生产':
-            case '征服星辰大海':
+            case Tech.探秘奥坎之径:
+            case Tech.我来我见我征服:
+            case Tech.科技第一生产力:
+            case Tech.劳动资源统合:
+            case Tech.政府规模升级:
+            case Tech.劳动力再升级:
+            case Tech.科技再生产:
+            case Tech.征服星辰大海:
                 itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Technology_1.png'
                 break;
-            case '战火狂潮之道':
-            case '下岗士兵再就业':
-            case '配置士兵开拓车':
-            case '先进作战机械':
-            case '小兵团作战':
-            case '彻查士兵档案':
-            case '配置飞行装置':
-            case '配置秘源护盾':
-            case '先进自走火炮':
-            case '现今机械装配':
+            case Tech.战火狂潮之道:
+            case Tech.下岗士兵再就业:
+            case Tech.配置士兵开拓车:
+            case Tech.先进作战机械:
+            case Tech.小兵团作战:
+            case Tech.彻查士兵档案:
+            case Tech.配置飞行装置:
+            case Tech.配置秘源护盾:
+            case Tech.先进自走火炮:
+            case Tech.先进机械装配:
                 itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Technology_2.png'
                 break;
-            case '奇迹工坊之路':
-            case '秘源驱动机械':
-            case '发掘秘源之金':
-            case '全民机械浪潮':
-            case '新型机械工业':
-            case '浪淘尽现黄金':
-            case '秘源金销全国':
-            case '秘源金再升级':
+            case Tech.奇迹工坊之路:
+            case Tech.秘源驱动机械:
+            case Tech.发掘秘源之金:
+            case Tech.全民机械浪潮:
+            case Tech.新型机械工业:
+            case Tech.浪淘尽现黄金:
+            case Tech.秘源金销全国:
+            case Tech.秘源金再升级:
                 itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Technology_3.png'
                 break;
             case '开拓者':

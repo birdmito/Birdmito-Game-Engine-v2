@@ -1,6 +1,7 @@
 import { Province } from "./Province";
 import { infoShowable } from "./infoShowable";
 import { GameProcess } from "./GameProcess";
+import { Tech } from "./Technology";
 
 export class UnitParam implements infoShowable {
     static originUnitParamList: UnitParam[] = [
@@ -9,7 +10,7 @@ export class UnitParam implements infoShowable {
         new UnitParam("士兵", 150, 50, 8, 20, 1, true, 1, 10),
         new UnitParam("骑兵", 180, 70, 12, 25, 1, true, 1, 10),
         new UnitParam("战法师", 190, 75, 6, 30, 1, true, 1, 20),
-        new UnitParam("自走火炮", 200, 100, 8, 40, 1, true, 1, 15, '先进自走火炮'),
+        new UnitParam("自走火炮", 200, 100, 8, 40, 1, true, 1, 15, Tech.先进自走火炮),
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,
@@ -79,11 +80,11 @@ export class UnitParam implements infoShowable {
     //战力
     power: number = 1;
 
-    static getUnitParamWhichAllParamIsOne(): UnitParam {
+    static OneUnitParam(): UnitParam {
         return new UnitParam('这是一段不应该被看到的文本', 1, 1, 1, 1, 1);
     }
 
-    static getUnitParamWhichAllParamIsZero(): UnitParam {
+    static ZeroUnitParam(): UnitParam {
         return new UnitParam('这是一段不应该被看到的文本', 0, 0, 0, 0, 0);
     }
 

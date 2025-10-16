@@ -8,7 +8,7 @@ import { Calculator } from "./Calculator";
 import { ProductingItem } from "./ProductingItem";
 import { Province } from "./Province";
 import { Resource } from "./Resource";
-import { Technology } from "./Technology";
+import { Tech, Technology } from "./Technology";
 import { generateTip } from "./Tip";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { UnitParam } from "./UnitParam";
@@ -260,7 +260,7 @@ export class Nation {
                     generateTip(province, "秘源金矿只能建在山地上");
                 return false;
             }
-            if (!Technology.isTechCompleted(this.nationId, "发掘秘源之金")) {
+            if (!Technology.isTechCompleted(this.nationId, Tech.发掘秘源之金)) {
                 console.log("只应被AI触发的console：需要发掘秘源之金");
                 return false;
             }
@@ -276,14 +276,14 @@ export class Nation {
         }
         //判断机械工业厂
         if (newBuilding.name === '机械工业厂') {
-            if (!Technology.isTechCompleted(this.nationId, "新型机械工业")) {
+            if (!Technology.isTechCompleted(this.nationId, Tech.新型机械工业)) {
                 console.log("只应被AI触发的console：需要新型机械工业");
                 return false;
             }
         }
         //判断贸易站
         if (newBuilding.name === '贸易站') {
-            if (!Technology.isTechCompleted(this.nationId, "秘源金销全国")) {
+            if (!Technology.isTechCompleted(this.nationId, Tech.秘源金销全国)) {
                 console.log("只应被AI触发的console：需要贸易站");
                 return false;
             }
@@ -317,7 +317,7 @@ export class Nation {
         }
         //判断自走火炮
         if (newUnit.name === '自走火炮') {
-            if (!Technology.isTechCompleted(this.nationId, "先进自走火炮")) {
+            if (!Technology.isTechCompleted(this.nationId, Tech.先进自走火炮)) {
                 console.log("只应被AI触发的console：需要自走火炮");
                 return;
             }

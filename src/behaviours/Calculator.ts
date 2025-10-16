@@ -4,7 +4,7 @@ import { Building } from "./Building";
 import { Nation } from "./Nation";
 import { Province } from "./Province";
 import { Resource } from "./Resource";
-import { Technology } from "./Technology";
+import { Tech, Technology } from "./Technology";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { UnitParam } from "./UnitParam";
 
@@ -22,7 +22,7 @@ export class Calculator {
             baseCost += distance * 10;
         }
         //探秘奥坎之径：殖民所需的金钱-10%
-        bonus += Technology.getTechBonus(nationId, "探秘奥坎之径");
+        bonus += Technology.getTechBonus(nationId, Tech.探秘奥坎之径);
         const result = baseCost * bonus;
         return result;
     }
@@ -31,9 +31,9 @@ export class Calculator {
     static calculateCityMax(nation: Nation) {
         var cityMax = 5 + nation.level * 2;
         //我来我见我征服：城市控制上限基础值+3
-        cityMax += Technology.getTechBonus(nation.nationId, "我来我见我征服");
+        cityMax += Technology.getTechBonus(nation.nationId, Tech.我来我见我征服);
         //劳动资源统合：城市控制上限翻倍
-        if (Technology.isTechCompleted(nation.nationId, "劳动资源统合")) {
+        if (Technology.isTechCompleted(nation.nationId, Tech.劳动资源统合)) {
             cityMax *= 2;
         }
         console.log("城市上限：" + cityMax);
@@ -44,7 +44,7 @@ export class Calculator {
     static calculateTechProcessMax(nation: Nation, tech: Technology): number {
         const base = Technology.getOriginTechByName(tech.techName).techProcessMax;
         var bonus = 1;
-        bonus += Technology.getTechBonus(nation.nationId, "科技第一生产力");
+        bonus += Technology.getTechBonus(nation.nationId, Tech.科技第一生产力);
         console.log("bonus:" + bonus);
         const result = Math.floor(base * bonus);
         return result;
@@ -54,7 +54,7 @@ export class Calculator {
     static calculateUpgradeCost(nation): number {
         const base = 100 + nation.level * 50;
         var bonus = 1;
-        bonus += Technology.getTechBonus(nation.nationId, "政府规模升级");
+        bonus += Technology.getTechBonus(nation.nationId, Tech.政府规模升级);
         const result = Math.floor(base * bonus);
         return result;
     }
@@ -67,23 +67,23 @@ export class Calculator {
         result.production = province.plainPercent * 10 + province.lakePercent * 10 + province.forestPercent * 15 + province.mountainPercent * 5;
         result.techPoint = 0;
 
-        var pluser = new Resource(0, 0, 0);
+        var adder = new Resource(0, 0, 0);
         var multiplier = new Resource(1, 1, 1);
 
         //-------------------------------------------
 
         //来自建筑的产出
         for (const building of province.buildingList) {
-            pluser.add(building.buildingProduction);
+            adder.add(building.buildingProduction);
             if (building.name === "秘源金矿") {
                 //秘源金矿：金钱产出+40%
-                multiplier.dora += Technology.getTechBonus(province.nationId, "秘源金矿");
+                multiplier.dora += Technology.getTechBonus(province.nationId, Tech.发掘秘源之金);
             }
             if (building.name === "贸易站") {
                 //贸易站：当相邻的地块同时拥有“贸易站”时，该省份金币产出+5
                 for (const neighbour of province.getAdjacentProvinces()) {
                     if (neighbour.buildingList.find((building) => building.name === "贸易站") !== undefined) {
-                        pluser.dora += 5;
+                        adder.dora += 5;
                     }
                 }
             }
@@ -91,12 +91,12 @@ export class Calculator {
 
         //来自科技的产出
         //科技再生产：此后，每研究一项科技，当前拥有的地块基础产出+1
-        const techBonus = Technology.getTechBonus(province.nationId, "科技再生产");
-        pluser.add(new Resource(techBonus, techBonus, techBonus));
+        const techBonus = Technology.getTechBonus(province.nationId, Tech.科技再生产);
+        adder.add(new Resource(techBonus, techBonus, techBonus));
         //秘源驱动机械：省份生产力产出+10%
-        multiplier.production += Technology.getTechBonus(province.nationId, "秘源驱动机械");
+        multiplier.production += Technology.getTechBonus(province.nationId, Tech.秘源驱动机械);
         //浪淘尽现黄金：省份金钱产出+1
-        pluser.dora += Technology.getTechBonus(province.nationId, "浪淘尽现黄金");
+        adder.dora += Technology.getTechBonus(province.nationId, Tech.浪淘尽现黄金);
 
         //负债状态下：生产力-80% 科技点产出-80%
         if (province.nationId > 0 && Nation.nations[province.nationId].dora < 0) {
@@ -106,7 +106,7 @@ export class Calculator {
 
         //-------------------------------------------
 
-        result.add(pluser);
+        result.add(adder);
         result.multiply(multiplier);
 
         //取整
@@ -121,18 +121,18 @@ export class Calculator {
         const unitList = province.recruitableUnitList
         for (let i = 0; i < unitList.length; i++) {
             const base = UnitParam.copyUnitParam(UnitParam.getOriginUnitParamByName(unitList[i].name));
-            var bonus = UnitParam.getUnitParamWhichAllParamIsOne();
+            var bonus = UnitParam.OneUnitParam();
 
             //劳动力再升级：生产筑城者所需的生产力-20%
             if (unitList[i].name === "开拓者") {
-                bonus.recruitProcessMax += Technology.getTechBonus(province.nationId, "劳动力再升级");
+                bonus.recruitProcessMax += Technology.getTechBonus(province.nationId, Tech.劳动力再升级);
             }
 
             //战火狂潮之道：单位招募金钱花费-10%
-            bonus.cost += Technology.getTechBonus(province.nationId, "战火狂潮之道");
+            bonus.cost += Technology.getTechBonus(province.nationId, Tech.战火狂潮之道);
 
             //下岗士兵再就业：单位招募生产力花费-10%
-            bonus.recruitProcessMax += Technology.getTechBonus(province.nationId, "下岗士兵再就业");
+            bonus.recruitProcessMax += Technology.getTechBonus(province.nationId, Tech.下岗士兵再就业);
 
             base.multiplyUnitParam(bonus);
             unitList[i] = base;
@@ -148,15 +148,15 @@ export class Calculator {
     //即时生效，计算单位的参数
     static calculateUnitInstant(unit: UnitBehaviour) {
         var result: UnitParam = unit.unitParamWhenRecruited;
-        var pluser = UnitParam.getUnitParamWhichAllParamIsZero();
-        var multiplier = UnitParam.getUnitParamWhichAllParamIsOne();
+        var pluser = UnitParam.ZeroUnitParam();
+        var multiplier = UnitParam.OneUnitParam();
 
         //配置士兵开拓车：所有士兵行动力上限+3
-        pluser.apMax += Technology.getTechBonus(unit.nationId, "配置士兵开拓车");
+        pluser.apMax += Technology.getTechBonus(unit.nationId, Tech.配置士兵开拓车);
         //彻查士兵档案:所有士兵维护费用-20%
-        multiplier.maintCost += Technology.getTechBonus(unit.nationId, "彻查士兵档案");
+        multiplier.maintCost += Technology.getTechBonus(unit.nationId, Tech.彻查士兵档案);
         //先进机械装配：所有士兵行动力上限+1
-        pluser.apMax += Technology.getTechBonus(unit.nationId, "先进机械装配");
+        pluser.apMax += Technology.getTechBonus(unit.nationId, Tech.先进机械装配);
 
         result.addUnitParam(pluser);
         result.multiplyUnitParam(multiplier);
@@ -176,10 +176,10 @@ export class Calculator {
             //----------------------------------
 
             //奇迹工坊之路：建筑花费-10%
-            multiplier.cost += Technology.getTechBonus(province.nationId, "奇迹工坊之路");
+            multiplier.cost += Technology.getTechBonus(province.nationId, Tech.奇迹工坊之路);
 
             //全民机械浪潮：建筑额外提供2生产力
-            pluser.buildingProduction.production += Technology.getTechBonus(province.nationId, "全民机械浪潮");
+            pluser.buildingProduction.production += Technology.getTechBonus(province.nationId, Tech.全民机械浪潮);
 
 
 
@@ -205,7 +205,7 @@ export class Calculator {
         //计算基础战斗力
         pluser += unit.unitParam.power * unit.unitParam.quantity;
         //先进作战机械：单位战斗力+10%
-        multiplier += Technology.getTechBonus(unit.nationId, "先进作战机械");
+        multiplier += Technology.getTechBonus(unit.nationId, Tech.先进作战机械);
         //负债状态下：单位战斗力-80%
         if (Nation.nations[unit.nationId].dora < 0) {
             multiplier -= 0.8;
