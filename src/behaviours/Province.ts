@@ -57,8 +57,14 @@ export class Province extends Behaviour {
     buildingList: Building[] = [];
     unitList: UnitBehaviour[] = [];
     battle: Battle = undefined;
+    get isInBattle(): boolean {
+        return this.battle !== undefined;
+    }
 
-    isCity: boolean = false;
+    cityLevel: number = 0;
+    public get isCity(): boolean {
+        return this.cityLevel > 0;
+    }
 
 
     //可建造的建筑列表
@@ -129,7 +135,7 @@ export class Province extends Behaviour {
     changeNationId(nationId: number) {
         //改变领地所属国家
         // if (nationId !== 0) {
-        //     Nation.nations[nationId].doraChangeNextTurn += this.provinceProduction.dora;  //更新预计的dora变动
+            // Nation.nations[nationId].doraChangeNextTurn += this.provinceProduction.dora;  //更新预计的dora变动
         // }
         //若领地原本有主，从原主的领地列表中删除
         if (this.nationId > 0) {
@@ -191,8 +197,12 @@ export class Province extends Behaviour {
 
     /**每回合调用一次 */
     updateProductProcessPerTurn() {
+        if (this.isInBattle) {
+            console.log("省份处于战斗中无法生产", this.coord);
+            return; //战斗中无法生产
+        }
         //推进生产队列
-        // console.log("updateProductProcess");
+        console.log("推进生产队列", this.coord);
         const currentItem = this.productQueue[0];
         if (this.productQueue.length > 0) {
             currentItem.productProcess += this.provinceProduction.production + this.productionLeft;
@@ -222,7 +232,7 @@ export class Province extends Behaviour {
                 getGameObjectById("UnitRoot").addChild(newUnitPrefab);
             }
             else {
-                console.log("无法识别的生产类型")
+                console.log("无法识别的生产类型", currentItem.productType, currentItem.productName, this.coord);
             }
         }
 
@@ -236,7 +246,7 @@ export class Province extends Behaviour {
 
     becomeCity(): void {
         //升级为城市
-        this.isCity = true;
+        this.cityLevel = 1;
         Nation.nations[this.nationId].cityList.push(this);
         //更换图片
         console.log("更换图片");

@@ -29,9 +29,8 @@ export class Calculator {
 
     //计算城市上线
     static calculateCityMax(nation: Nation) {
-        var cityMax = 5 + nation.level * 2;
-        //我来我见我征服：城市控制上限基础值+3
-        cityMax += Technology.getTechBonus(nation.nationId, Tech.我来我见我征服);
+        //我来我见我征服：每个政府等级提供的城市控制上限+1
+        var cityMax = 3 + nation.level * (1 + Technology.getTechBonus(nation.nationId, Tech.我来我见我征服));
         //劳动资源统合：城市控制上限翻倍
         if (Technology.isTechCompleted(nation.nationId, Tech.劳动资源统合)) {
             cityMax *= 2;
@@ -90,12 +89,12 @@ export class Calculator {
         }
 
         //来自科技的产出
-        //科技再生产：此后，每研究一项科技，当前拥有的地块基础产出+1
-        const techBonus = Technology.getTechBonus(province.nationId, Tech.科技再生产);
-        adder.add(new Resource(techBonus, techBonus, techBonus));
+        //科技再生产：每拥有一项科技，所有地块基础产出+1
+        // const techBonus = Technology.getTechBonus(province.nationId, Tech.科技再生产);
+        // adder.add(new Resource(techBonus, techBonus, techBonus));
         //秘源驱动机械：省份生产力产出+10%
         multiplier.production += Technology.getTechBonus(province.nationId, Tech.秘源驱动机械);
-        //浪淘尽现黄金：省份金钱产出+1
+        //浪淘尽现黄金：省份金钱产出+10
         adder.dora += Technology.getTechBonus(province.nationId, Tech.浪淘尽现黄金);
 
         //负债状态下：生产力-80% 科技点产出-80%

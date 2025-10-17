@@ -292,12 +292,6 @@ export class GameProcess extends Behaviour {
 
     //执行即时的科技效果
     static executeTechEffect(techName: string, nation: Nation) {
-        //研究完成后，若有科技再生产科技，则增加现有地块的产出加成+1
-        if (Technology.isTechCompleted(nation.nationId, Tech.科技再生产)) {
-            Technology.getNationTechByName(nation.nationId, Tech.科技再生产).techEffectValueList[0] += 1;
-            const bonusFromTech = Technology.getTechBonus(nation.nationId, Tech.科技再生产);
-            console.log(bonusFromTech);
-        }
     }
 
 

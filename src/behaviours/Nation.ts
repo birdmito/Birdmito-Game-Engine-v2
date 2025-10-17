@@ -183,9 +183,7 @@ export class Nation {
         //不重复的抽取三个科技
         while (techListRandom.length < 3) {
             const random = Math.floor(Math.random() * techList.length);
-            if (!techListRandom.includes(techList[random])) {
-                techListRandom.push(techList[random]);
-            }
+            techListRandom.push(techList.splice(random, 1)[0]); //从可选科技列表中移除已抽取的科技，避免重复抽取
         }
         return techListRandom;
     }

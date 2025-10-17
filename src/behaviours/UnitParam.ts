@@ -8,13 +8,13 @@ export class UnitParam implements infoShowable {
         new UnitParam("开拓者", 100, 30, 8, 0, 1),
         new UnitParam("筑城者", 100, 30, 8, 0, 1),
         new UnitParam("士兵", 150, 50, 8, 20, 1, true, 1, 10),
-        new UnitParam("骑兵", 180, 70, 12, 25, 1, true, 1, 10),
-        new UnitParam("战法师", 190, 75, 6, 30, 1, true, 1, 20),
-        new UnitParam("自走火炮", 200, 100, 8, 40, 1, true, 1, 15, Tech.先进自走火炮),
+        new UnitParam("骑兵", 180, 70, 12, 25, 1, true, 1, 10, 2),
+        new UnitParam("战法师", 190, 75, 6, 30, 1, true, 1, 20, 3),
+        new UnitParam("自走火炮", 200, 100, 8, 40, 1, true, 1, 15, 4, Tech.先进自走火炮),
     ];
 
     private constructor(name: string, cost: number, recruitProcessMax: number, apMax: number,
-        maintCost: number, nationId: number = 1, isBattleUnit: boolean = false, quantity: number = 1, power: number = 0, techRequired = '') {
+        maintCost: number, nationId: number = 1, isBattleUnit: boolean = false, quantity: number = 1, power: number = 0, priority: number = 1, techRequired = '') {
         this.name = name;
         this.cost = cost;
         this.recruitProcessMax = recruitProcessMax;
@@ -25,6 +25,7 @@ export class UnitParam implements infoShowable {
         this.isBattleUnit = isBattleUnit;
         this.quantity = quantity;
         this.power = power;
+        this.priority = priority;
         this.techRequired = techRequired;
     }
 
@@ -32,14 +33,14 @@ export class UnitParam implements infoShowable {
         const result: UnitParam[] = [];
         UnitParam.originUnitParamList.forEach((unitParam) => {
             result.push(new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax,
-                unitParam.maintCost, nationId, unitParam.isBattleUnit, unitParam.quantity, unitParam.power));
+                unitParam.maintCost, nationId, unitParam.isBattleUnit, unitParam.quantity, unitParam.power, unitParam.priority, unitParam.techRequired));
         });
         return result;
     }
 
     static copyUnitParam(unitParam: UnitParam): UnitParam {
         return new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax,
-            unitParam.maintCost, unitParam.nationId, unitParam.isBattleUnit, unitParam.quantity, unitParam.power, unitParam.techRequired);
+            unitParam.maintCost, unitParam.nationId, unitParam.isBattleUnit, unitParam.quantity, unitParam.power, unitParam.priority, unitParam.techRequired);
     }
 
     /**获得目标省份可招募单位列表中的目标单位（属性已经过修正） */
@@ -79,6 +80,8 @@ export class UnitParam implements infoShowable {
     quantity: number = 1;
     //战力
     power: number = 1;
+    //战损优先级
+    priority: number = 1;
 
     static OneUnitParam(): UnitParam {
         return new UnitParam('这是一段不应该被看到的文本', 1, 1, 1, 1, 1);
