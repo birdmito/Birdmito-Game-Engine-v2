@@ -18,13 +18,18 @@ import { Statement } from "ts-morph";
 import { Transform } from "../engine/Transform";
 import { UI_NextTurnButtonRotate } from "./UI_NextButtonRotate";
 import { generateTip } from "./Tip";
+import { NetworkManager } from "./NetworkManager";
 
 export class GameProcess extends Behaviour {
     static isCheat = false;  //是否开启作弊模式
     static gamingState: 'playerTurn' | 'botTurn' | 'settlement' = 'playerTurn';
     static playerNationId = 1;  //玩家的nationId
-    //游戏模式：热座模式、PVE模式
-    static gameMode: 'hotSeat' | 'PVE' = 'hotSeat';
+    //游戏模式：热座模式、PVE模式、联机模式
+    static gameMode: 'hotSeat' | 'PVE' | 'multiplayer' = 'hotSeat';
+
+    // 网络相关
+    static networkManager: NetworkManager | null = null;
+    static isMultiplayer: boolean = false;
 
 
     static nextState() {
@@ -57,8 +62,51 @@ export class GameProcess extends Behaviour {
         GameProcess.turnrNow = 1;
         GameProcess.turnTotal = 300;
         this.initialNation();
+
+        // 检查是否为联机模式
+        if (GameProcess.gameMode === 'multiplayer') {
+            this.initializeMultiplayer();
+        }
         // GameProcess.nextTurn();
         //让第一个电脑帝国的isThisBotsTurn为true
+    }
+
+    // 初始化联机模式
+    private async initializeMultiplayer() {
+        console.log('初始化联机模式...');
+        GameProcess.isMultiplayer = true;
+
+        // 创建网络管理器
+        const networkManagerObject = new GameObject();
+        GameProcess.networkManager = new NetworkManager();
+        networkManagerObject.addBehaviour(GameProcess.networkManager);
+
+        // 设置网络事件回调
+        GameProcess.networkManager.setOnConnected(() => {
+            console.log('网络连接成功');
+            // 可以显示连接成功的UI提示
+        });
+
+        GameProcess.networkManager.setOnDisconnected(() => {
+            console.log('网络连接断开');
+            // 显示断线重连UI
+        });
+
+        GameProcess.networkManager.setOnError((error) => {
+            console.error('网络错误:', error);
+            // 显示错误提示
+        });
+
+        try {
+            // 连接到服务器
+            await GameProcess.networkManager.connect();
+            console.log('联机模式初始化完成');
+        } catch (error) {
+            console.error('联机模式初始化失败:', error);
+            // 回退到单机模式
+            GameProcess.gameMode = 'PVE';
+            GameProcess.isMultiplayer = false;
+        }
     }
 
     onUpdate(): void {

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>文明游戏 - 多人测试</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .section {
+                margin: 20px 0;
+                padding: 15px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            button {
+                padding: 10px 15px;
+                margin: 5px;
+                background: #007cba;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+            button:hover {
+                background: #005a8b;
+            }
+            button:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+            }
+            .log {
+                background: #f5f5f5;
+                padding: 10px;
+                height: 200px;
+                overflow-y: auto;
+                font-family: monospace;
+                white-space: pre-line;
+            }
+            .status {
+                padding: 5px;
+                margin: 5px 0;
+                border-radius: 3px;
+            }
+            .status.connected {
+                background: #d4edda;
+                color: #155724;
+            }
+            .status.disconnected {
+                background: #f8d7da;
+                color: #721c24;
+            }
+            .room-list {
+                margin: 10px 0;
+            }
+            .room-item {
+                padding: 10px;
+                margin: 5px 0;
+                background: #f8f9fa;
+                border: 1px solid #dee2e6;
+                border-radius: 3px;
+            }
+            input {
+                padding: 8px;
+                margin: 5px;
+                border: 1px solid #ddd;
+                border-radius: 3px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>文明游戏 - 多人模式测试</h1>
+
+            <div class="section">
+                <h3>连接状态</h3>
+                <div id="status" class="status disconnected">未连接</div>
+                <button id="connectBtn" onclick="connect()">连接服务器</button>
+                <button id="disconnectBtn" onclick="disconnect()" disabled>断开连接</button>
+            </div>
+
+            <div class="section">
+                <h3>房间管理</h3>
+                <div>
+                    <input type="text" id="roomName" placeholder="房间名称" value="测试房间" />
+                    <input type="number" id="maxPlayers" placeholder="最大玩家数" value="4" min="2" max="8" />
+                    <button id="createRoomBtn" onclick="createRoom()" disabled>创建房间</button>
+                </div>
+                <button id="refreshRoomsBtn" onclick="refreshRooms()" disabled>刷新房间列表</button>
+                <div id="roomList" class="room-list"></div>
+            </div>
+
+            <div class="section">
+                <h3>游戏操作</h3>
+                <button id="endTurnBtn" onclick="endTurn()" disabled>结束回合</button>
+                <button id="moveUnitBtn" onclick="testMoveUnit()" disabled>测试移动单位</button>
+                <button id="buildStructureBtn" onclick="testBuildStructure()" disabled>测试建造建筑</button>
+            </div>
+
+            <div class="section">
+                <h3>消息日志</h3>
+                <button onclick="clearLog()">清空日志</button>
+                <div id="log" class="log"></div>
+            </div>
+        </div>
+
+        <script>
+            let ws = null;
+            let isConnected = false;
+            let playerId = null;
+            let currentRoomId = null;
+
+            // 生成玩家ID
+            if (!localStorage.getItem("playerId")) {
+                playerId = "player_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem("playerId", playerId);
+            } else {
+                playerId = localStorage.getItem("playerId");
+            }
+
+            function log(message) {
+                const logElement = document.getElementById("log");
+                const timestamp = new Date().toLocaleTimeString();
+                logElement.textContent += `[${timestamp}] ${message}\n`;
+                logElement.scrollTop = logElement.scrollHeight;
+            }
+
+            function updateStatus(connected) {
+                isConnected = connected;
+                const statusElement = document.getElementById("status");
+                const connectBtn = document.getElementById("connectBtn");
+                const disconnectBtn = document.getElementById("disconnectBtn");
+                const createRoomBtn = document.getElementById("createRoomBtn");
+                const refreshRoomsBtn = document.getElementById("refreshRoomsBtn");
+                const endTurnBtn = document.getElementById("endTurnBtn");
+                const moveUnitBtn = document.getElementById("moveUnitBtn");
+                const buildStructureBtn = document.getElementById("buildStructureBtn");
+
+                if (connected) {
+                    statusElement.textContent = "已连接";
+                    statusElement.className = "status connected";
+                    connectBtn.disabled = true;
+                    disconnectBtn.disabled = false;
+                    createRoomBtn.disabled = false;
+                    refreshRoomsBtn.disabled = false;
+                    endTurnBtn.disabled = false;
+                    moveUnitBtn.disabled = false;
+                    buildStructureBtn.disabled = false;
+                } else {
+                    statusElement.textContent = "未连接";
+                    statusElement.className = "status disconnected";
+                    connectBtn.disabled = false;
+                    disconnectBtn.disabled = true;
+                    createRoomBtn.disabled = true;
+                    refreshRoomsBtn.disabled = true;
+                    endTurnBtn.disabled = true;
+                    moveUnitBtn.disabled = true;
+                    buildStructureBtn.disabled = true;
+                }
+            }
+
+            function connect() {
+                log("正在连接服务器...");
+                ws = new WebSocket(`ws://localhost:8080?playerId=${playerId}`);
+
+                ws.onopen = function () {
+                    log("WebSocket连接已建立");
+                    updateStatus(true);
+                };
+
+                ws.onmessage = function (event) {
+                    try {
+                        const message = JSON.parse(event.data);
+                        log(`收到消息: ${message.type} - ${JSON.stringify(message.data)}`);
+                        handleMessage(message);
+                    } catch (error) {
+                        log(`解析消息失败: ${error.message}`);
+                    }
+                };
+
+                ws.onclose = function () {
+                    log("WebSocket连接已关闭");
+                    updateStatus(false);
+                };
+
+                ws.onerror = function (error) {
+                    log(`WebSocket错误: ${error}`);
+                };
+            }
+
+            function disconnect() {
+                if (ws) {
+                    ws.close();
+                    ws = null;
+                }
+            }
+
+            function handleMessage(message) {
+                switch (message.type) {
+                    case "room_created":
+                        log("房间创建成功");
+                        currentRoomId = message.data.roomId;
+                        refreshRooms();
+                        break;
+                    case "room_joined":
+                        log("成功加入房间");
+                        currentRoomId = message.data.roomId;
+                        break;
+                    case "room_left":
+                        log("已离开房间");
+                        currentRoomId = null;
+                        break;
+                    case "player_joined":
+                        log(`玩家加入: ${message.data.playerName}`);
+                        break;
+                    case "player_left":
+                        log(`玩家离开: ${message.data.playerName}`);
+                        break;
+                    case "game_start":
+                        log("游戏开始！");
+                        break;
+                    case "turn_change":
+                        log(
+                            `回合变化: 当前回合 ${message.data.currentTurn}, 当前玩家 ${message.data.currentPlayer}`
+                        );
+                        break;
+                    case "game_action":
+                        log(`游戏行动: ${message.data.type} - ${JSON.stringify(message.data.data)}`);
+                        break;
+                    case "error":
+                        log(`错误: ${message.data.message || "未知错误"}`);
+                        break;
+                }
+            }
+
+            function sendMessage(message) {
+                if (ws && isConnected) {
+                    ws.send(JSON.stringify(message));
+                    log(`发送消息: ${message.type}`);
+                } else {
+                    log("未连接到服务器");
+                }
+            }
+
+            async function createRoom() {
+                const roomName = document.getElementById("roomName").value;
+                const maxPlayers = parseInt(document.getElementById("maxPlayers").value);
+
+                try {
+                    const response = await fetch("http://localhost:3000/api/rooms", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            roomName,
+                            maxPlayers,
+                            gameMode: "civilization",
+                        }),
+                    });
+
+                    if (response.ok) {
+                        const room = await response.json();
+                        log(`房间创建成功: ${room.roomId}`);
+                        // 自动加入创建的房间
+                        await joinRoom(room.roomId);
+                    } else {
+                        log("创建房间失败");
+                    }
+                } catch (error) {
+                    log(`创建房间错误: ${error.message}`);
+                }
+            }
+
+            async function refreshRooms() {
+                try {
+                    const response = await fetch("http://localhost:3000/api/rooms");
+                    const rooms = await response.json();
+
+                    const roomListElement = document.getElementById("roomList");
+                    roomListElement.innerHTML = "";
+
+                    if (rooms.length === 0) {
+                        roomListElement.innerHTML = '<div class="room-item">暂无可用房间</div>';
+                    } else {
+                        rooms.forEach((room) => {
+                            const roomDiv = document.createElement("div");
+                            roomDiv.className = "room-item";
+                            roomDiv.innerHTML = `
+                            <strong>${room.roomName}</strong> 
+                            (${room.playerCount}/${room.maxPlayers}) 
+                            - ${room.status}
+                            <button onclick="joinRoom('${room.roomId}')" ${
+                                room.playerCount >= room.maxPlayers ? "disabled" : ""
+                            }>
+                                加入
+                            </button>
+                        `;
+                            roomListElement.appendChild(roomDiv);
+                        });
+                    }
+
+                    log(`刷新房间列表: 找到 ${rooms.length} 个房间`);
+                } catch (error) {
+                    log(`刷新房间列表错误: ${error.message}`);
+                }
+            }
+
+            async function joinRoom(roomId) {
+                try {
+                    const response = await fetch(`http://localhost:3000/api/rooms/${roomId}/join`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            playerName: `Player_${playerId.slice(-6)}`,
+                        }),
+                    });
+
+                    if (response.ok) {
+                        const room = await response.json();
+                        log(`成功加入房间: ${room.roomName}`);
+                        currentRoomId = roomId;
+
+                        // 重新连接WebSocket到房间
+                        if (ws) {
+                            ws.close();
+                        }
+                        connectToRoom(roomId);
+                    } else {
+                        log("加入房间失败");
+                    }
+                } catch (error) {
+                    log(`加入房间错误: ${error.message}`);
+                }
+            }
+
+            function connectToRoom(roomId) {
+                log(`连接到房间 WebSocket: ${roomId}`);
+                ws = new WebSocket(`ws://localhost:8080/room/${roomId}?playerId=${playerId}`);
+
+                ws.onopen = function () {
+                    log("房间WebSocket连接已建立");
+                    updateStatus(true);
+                };
+
+                ws.onmessage = function (event) {
+                    try {
+                        const message = JSON.parse(event.data);
+                        log(`房间消息: ${message.type} - ${JSON.stringify(message.data)}`);
+                        handleMessage(message);
+                    } catch (error) {
+                        log(`解析房间消息失败: ${error.message}`);
+                    }
+                };
+
+                ws.onclose = function () {
+                    log("房间WebSocket连接已关闭");
+                    updateStatus(false);
+                };
+
+                ws.onerror = function (error) {
+                    log(`房间WebSocket错误: ${error}`);
+                };
+            }
+
+            function endTurn() {
+                sendMessage({
+                    type: "game_action",
+                    data: {
+                        type: "end_turn",
+                        data: { playerId },
+                    },
+                });
+            }
+
+            function testMoveUnit() {
+                sendMessage({
+                    type: "game_action",
+                    data: {
+                        type: "move_unit",
+                        data: {
+                            unitId: "test_unit_1",
+                            fromProvinceId: "province_1",
+                            toProvinceId: "province_2",
+                            playerId,
+                        },
+                    },
+                });
+            }
+
+            function testBuildStructure() {
+                sendMessage({
+                    type: "game_action",
+                    data: {
+                        type: "build_structure",
+                        data: {
+                            structureType: "city",
+                            provinceId: "province_1",
+                            playerId,
+                        },
+                    },
+                });
+            }
+
+            function clearLog() {
+                document.getElementById("log").textContent = "";
+            }
+
+            // 页面加载时初始化
+            window.onload = function () {
+                log(`玩家ID: ${playerId}`);
+                log("准备连接到多人游戏服务器");
+            };
+        </script>
+    </body>
+</html>
