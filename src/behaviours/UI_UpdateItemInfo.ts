@@ -6,6 +6,46 @@ import { Province } from "./Province";
 import { Tech, Technology } from "./Technology";
 import { UnitParam } from "./UnitParam";
 
+const IconMap: { [key: string]: string } = {
+    "金矿": './assets/images/Icon_BuildingMine.png',
+    "兵营": './assets/images/Icon_BuildingArmy.png',
+    "大学": './assets/images/Icon_BuildingUniversity.png',
+    "秘源金矿": './assets/images/Icon_BuildingMagicMine.png',
+    "机械工业厂": './assets/images/Icon_BuildingIndustry.png',
+    "贸易站": './assets/images/Icon_BuildingTrade.png',
+    "秘源精炼厂": './assets/images/Icon_BuildingMagicIndustry.png',
+    "工厂": './assets/images/Icon_BuildingFactory.png',
+    [Tech.探秘奥坎之径]: './assets/images/Icon_Technology_1.png',
+    [Tech.我来我见我征服]: './assets/images/Icon_Technology_1.png',
+    [Tech.科技第一生产力]: './assets/images/Icon_Technology_1.png',
+    [Tech.劳动资源统合]: './assets/images/Icon_Technology_1.png',
+    [Tech.政府规模升级]: './assets/images/Icon_Technology_1.png',
+    [Tech.劳动力再升级]: './assets/images/Icon_Technology_1.png',
+    [Tech.征服星辰大海]: './assets/images/Icon_Technology_1.png',
+    [Tech.战火狂潮之道]: './assets/images/Icon_Technology_2.png',
+    [Tech.下岗士兵再就业]: './assets/images/Icon_Technology_2.png',
+    [Tech.配置士兵开拓车]: './assets/images/Icon_Technology_2.png',
+    [Tech.先进作战机械]: './assets/images/Icon_Technology_2.png',
+    [Tech.小兵团作战]: './assets/images/Icon_Technology_2.png',
+    [Tech.彻查士兵档案]: './assets/images/Icon_Technology_2.png',
+    [Tech.配置飞行装置]: './assets/images/Icon_Technology_2.png',
+    [Tech.配置秘源护盾]: './assets/images/Icon_Technology_2.png',
+    [Tech.先进自走火炮]: './assets/images/Icon_Technology_2.png',
+    [Tech.先进机械装配]: './assets/images/Icon_Technology_2.png',
+    [Tech.奇迹工坊之路]: './assets/images/Icon_Technology_3.png',
+    [Tech.秘源驱动机械]: './assets/images/Icon_Technology_3.png',
+    [Tech.发掘秘源之金]: './assets/images/Icon_Technology_3.png',
+    [Tech.全民机械浪潮]: './assets/images/Icon_Technology_3.png',
+    [Tech.新型机械工业]: './assets/images/Icon_Technology_3.png',
+    [Tech.浪淘尽现黄金]: './assets/images/Icon_Technology_3.png',
+    [Tech.秘源金销全国]: './assets/images/Icon_Technology_3.png',
+    [Tech.秘源金再升级]: './assets/images/Icon_Technology_3.png',
+    '开拓者': './assets/images/Icon_Unit_Explore.png',
+    '筑城者': './assets/images/Icon_Unit_BuildCity.png',
+    '士兵': './assets/images/Icon_Unit_Soldier.png',
+    '自行火炮': './assets/images/Icon_Unit_Soldier.png'
+};
+
 export class UI_UpdateItemInfo extends Behaviour {
     province: Province;
     itemName: string;
@@ -34,79 +74,10 @@ export class UI_UpdateItemInfo extends Behaviour {
         }
 
         //更新图标
-        const itemButton = this.gameObject.parent.getChildById("_ItemButton");
-        switch (this.itemName) {
-            case "金矿":
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingMine.png'
-                break;
-            case "兵营":
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingArmy.png'
-                break;
-            case "大学":
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingUniversity.png'
-                break;
-            case "秘源金矿":
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingMagicMine.png'
-                break;
-            case "机械工业厂":
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingIndustry.png'
-                break;
-            case "贸易站":
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingTrade.png'
-                break;
-            case "秘源精炼厂":
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingMagicIndustry.png'
-                break;
-            case "工厂":
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_BuildingFactory.png'
-                break;
-            case Tech.探秘奥坎之径:
-            case Tech.我来我见我征服:
-            case Tech.科技第一生产力:
-            case Tech.劳动资源统合:
-            case Tech.政府规模升级:
-            case Tech.劳动力再升级:
-            // case Tech.科技再生产:
-            case Tech.征服星辰大海:
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Technology_1.png'
-                break;
-            case Tech.战火狂潮之道:
-            case Tech.下岗士兵再就业:
-            case Tech.配置士兵开拓车:
-            case Tech.先进作战机械:
-            case Tech.小兵团作战:
-            case Tech.彻查士兵档案:
-            case Tech.配置飞行装置:
-            case Tech.配置秘源护盾:
-            case Tech.先进自走火炮:
-            case Tech.先进机械装配:
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Technology_2.png'
-                break;
-            case Tech.奇迹工坊之路:
-            case Tech.秘源驱动机械:
-            case Tech.发掘秘源之金:
-            case Tech.全民机械浪潮:
-            case Tech.新型机械工业:
-            case Tech.浪淘尽现黄金:
-            case Tech.秘源金销全国:
-            case Tech.秘源金再升级:
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Technology_3.png'
-                break;
-            case '开拓者':
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Unit_Explore.png'
-                break;
-            case '筑城者':
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Unit_BuildCity.png'
-                break;
-            case '士兵':
-            case '自行火炮':
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Unit_Soldier.png'
-                break;
-            default:
-                itemButton.getBehaviour(BitmapRenderer).source = './assets/images/Icon_Unit_Soldier.png'
-                break;
 
-        }
+        const itemButton = this.gameObject.parent.getChildById("_ItemButton");
+        const iconPath = IconMap[this.itemName] || './assets/images/Icon_Unit_Soldier.png';
+        itemButton.getBehaviour(BitmapRenderer).source = iconPath;
     }
 }
 

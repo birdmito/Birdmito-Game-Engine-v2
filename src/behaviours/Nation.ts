@@ -13,7 +13,7 @@ import { generateTip } from "./Tip";
 import { UnitBehaviour } from "./UnitBehaviour";
 import { UnitParam } from "./UnitParam";
 import { TextRenderer } from "../engine/TextRenderer";
-import { GameProcess } from "./GameProcess";
+import { GameProcessMgr } from "./GameProcessMgr";
 
 
 export class Nation {
@@ -68,7 +68,7 @@ export class Nation {
         if (nation.botActMode !== undefined) {
             if (nation.botActMode.acceptPeaceRequest.get(this.nationId) < 0) {
                 //对方拒绝了我们的和平请求
-                if (this.nationId === GameProcess.playerNationId) {
+                if (this.nationId === GameProcessMgr.playerNationId) {
                     generateTip(this._capitalProvince, '对方拒绝了我们的和平请求');
                 }
                 return;
@@ -223,14 +223,14 @@ export class Nation {
         if (newBuilding.isUniqueInProvince &&
             (province.buildingList.some(building => building.name === newBuilding.name) || province.productQueue.some(item => item.productName === newBuilding.name))) {
             console.log("建筑：" + newBuilding.name + "在同一省份中只能建造一次");
-            if (this.nationId === GameProcess.playerNationId)
+            if (this.nationId === GameProcessMgr.playerNationId)
                 generateTip(province, "建筑：" + newBuilding.name + "在同一省份中只能建造一次");
             return false;
         }
         //生产队列最多有5个
         if (province.productQueue.length >= 5) {
             console.log("生产队列最多只能有5个单位或建筑");
-            if (this.nationId === GameProcess.playerNationId) {
+            if (this.nationId === GameProcessMgr.playerNationId) {
                 generateTip(province, "生产队列最多只能有5个单位或建筑");
             }
             return;
@@ -239,14 +239,14 @@ export class Nation {
         const buildingNumIncludingQueue = province.buildingList.length + province.productQueue.filter(item => item.productType === 'building').length;
         if (buildingNumIncludingQueue >= 10) {
             console.log("省份最多只能建造10个建筑");
-            if (this.nationId === GameProcess.playerNationId)
+            if (this.nationId === GameProcessMgr.playerNationId)
                 generateTip(province, "省份最多只能建造10个建筑");
             return false;
         }
         //判断金币数
         if (this.dora < newBuilding.cost) {
             console.log("金币不足");
-            if (this.nationId === GameProcess.playerNationId)
+            if (this.nationId === GameProcessMgr.playerNationId)
                 generateTip(province, "金币不足");
             return false;
         }
@@ -254,7 +254,7 @@ export class Nation {
         if (newBuilding.name === '秘源金矿') {
             if (province.mountainPercent < 0.5) {
                 console.log("秘源金矿只能建在山地上");
-                if (this.nationId === GameProcess.playerNationId)
+                if (this.nationId === GameProcessMgr.playerNationId)
                     generateTip(province, "秘源金矿只能建在山地上");
                 return false;
             }
@@ -267,7 +267,7 @@ export class Nation {
         if (newBuilding.name === '秘源精炼厂') {
             if (!province.buildingList.some(building => building.name === '秘源金矿')) {
                 console.log("秘源精炼厂需要建造在秘源金矿上");
-                if (this.nationId === GameProcess.playerNationId)
+                if (this.nationId === GameProcessMgr.playerNationId)
                     generateTip(province, "秘源精炼厂需要建造在秘源金矿上");
                 return false;
             }
@@ -300,7 +300,7 @@ export class Nation {
         const newUnit = UnitParam.copyUnitParam(UnitParam.getProvinceUnitParamByName(province, unitName));
         if (this.dora < newUnit.cost) {
             console.log("金币不足");
-            if (this.nationId === GameProcess.playerNationId) {
+            if (this.nationId === GameProcessMgr.playerNationId) {
                 generateTip(province, "金币不足");
             }
             return;
@@ -308,7 +308,7 @@ export class Nation {
         //生产队列最多有5个
         if (province.productQueue.length >= 5) {
             console.log("生产队列最多只能有5个单位或建筑");
-            if (this.nationId === GameProcess.playerNationId) {
+            if (this.nationId === GameProcessMgr.playerNationId) {
                 generateTip(province, "生产队列最多只能有5个单位或建筑");
             }
             return;
@@ -350,7 +350,7 @@ export class Nation {
         }
         else {
             console.log("金币不足");
-            if (this.nationId === GameProcess.playerNationId)
+            if (this.nationId === GameProcessMgr.playerNationId)
                 generateTip(this.provinceOwnedList[0], "金币不足");
         }
     }

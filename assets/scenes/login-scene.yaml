@@ -1,204 +1,222 @@
 id: LoginScene
 behaviours:
-  - type: Transform
-    properties:
-      x: 0
-      y: 0
-      scaleX: 1
-      scaleY: 1
-      rotation: 0
+    - type: Transform
+      properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
 children:
-  - behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: "./assets/images/ScreenArt_Start.png"
-    id: 背景
-  - behaviours:
-      - type: Transform
-        properties:
-          x: 250
-          y: 800
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: "./assets/images/Icon_PanelMenu.png"
-          renderType: "ui"
-          scaleXForUI: 2
-          scaleYForUI: 3
-          borderWidthForUI: 100
-          anchorType: "center"
-    id: MainMenuBackGround
-  - id: StartButton # 开始游戏按钮
-    behaviours:
-      - type: Transform
-        properties:
-          x: 250
-          y: 720
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: Au_GeneralButton
-      - type: LoginBehaviour
-    children:
-      - id: GameStartButtonBackGround
-        behaviours:
+    - behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
+                x: 0
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
           - type: BitmapRenderer
             properties:
-              source: "./assets/images/Icon_TextFrame5050.png"
-              renderType: "ui"
-              scaleXForUI: 9
-              scaleYForUI: 2
-              borderWidthForUI: 15
-              anchorType: "center"
-          - type: UI_ButtonState
-      - id: GameStartButton
-        behaviours:
+                source: "./assets/images/ScreenArt_Start.png"
+      id: 背景
+    - behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: -10
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 40
-              fontFamily: "fangsong" 
-              text: 开始游戏
-              anchorType: "center"
-              hitAreaType: none
-        children: []
-  - id: StaffButton # 制作人员按钮
-    behaviours:
-      - type: Transform
-        properties:
-          x: 250
-          y: 800
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: UI_StaffButton
-      - type: Au_GeneralButton
-    children:
-      - id: GameStartButtonBackGround
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
+                x: 250
+                y: 800
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
           - type: BitmapRenderer
             properties:
-              source: "./assets/images/Icon_TextFrame5050.png"
-              renderType: "ui"
-              scaleXForUI: 9
-              scaleYForUI: 2
-              borderWidthForUI: 15
-              anchorType: "center"
-          - type: UI_ButtonState
-      - id: GameStartButton
-        behaviours:
+                source: "./assets/images/Icon_PanelMenu.png"
+                renderType: "ui"
+                scaleXForUI: 2
+                scaleYForUI: 3
+                borderWidthForUI: 100
+                anchorType: "center"
+      id: MainMenuBackGround
+    - id: StartButton # 开始游戏按钮
+      behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: -10
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
+                x: 250
+                y: 720
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+          - type: Au_GeneralButton
+          - type: LoginBehaviour
+      children:
+          - id: GameStartButtonBackGround
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: BitmapRenderer
+                  properties:
+                      source: "./assets/images/Icon_TextFrame5050.png"
+                      renderType: "ui"
+                      scaleXForUI: 9
+                      scaleYForUI: 2
+                      borderWidthForUI: 15
+                      anchorType: "center"
+                - type: UI_ButtonState
+          - id: GameStartButton
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: -10
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: TextRenderer
+                  properties:
+                      fontSize: 40
+                      fontFamily: "fangsong"
+                      text: 开始游戏
+                      anchorType: "center"
+                      hitAreaType: none
+            children: []
+    - id: StaffButton # 制作人员按钮
+      behaviours:
+          - type: Transform
+            properties:
+                x: 250
+                y: 800
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+          - type: UI_StaffButton
+          - type: Au_GeneralButton
+      children:
+          - id: GameStartButtonBackGround
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: BitmapRenderer
+                  properties:
+                      source: "./assets/images/Icon_TextFrame5050.png"
+                      renderType: "ui"
+                      scaleXForUI: 9
+                      scaleYForUI: 2
+                      borderWidthForUI: 15
+                      anchorType: "center"
+                - type: UI_ButtonState
+          - id: GameStartButton
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: -10
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: TextRenderer
+                  properties:
+                      fontSize: 40
+                      fontFamily: "fangsong"
+                      text: 制作人员
+                      anchorType: "center"
+                      hitAreaType: none
+            children: []
+    - id: _ChangeGameModeButton
+      behaviours:
+          - type: Transform
+            properties:
+                x: 250
+                y: 880
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+          - type: Au_GeneralButton
+          - type: UI_ChangeGameModeButton
+          # - type: 关闭游戏
+      children:
+          - id: GameStartButtonBackGround
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: BitmapRenderer
+                  properties:
+                      source: "./assets/images/Icon_TextFrame5050.png"
+                      renderType: "ui"
+                      scaleXForUI: 9
+                      scaleYForUI: 2
+                      borderWidthForUI: 15
+                      anchorType: "center"
+                - type: UI_ButtonState
+          - id: _GameModeText
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: -10
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: TextRenderer
+                  properties:
+                      fontSize: 40
+                      fontFamily: "fangsong"
+                      text: 热座
+                      anchorType: "center"
+                      hitAreaType: none
+                - type: FPSDisplay
+            children: []
+    - id: FPS
+      behaviours:
+          - type: Transform
+            properties:
+                x: 1920
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
           - type: TextRenderer
             properties:
-              fontSize: 40
-              fontFamily: "fangsong" 
-              text: 制作人员
-              anchorType: "center"
-              hitAreaType: none
-        children: []
-  - id: _ChangeGameModeButton 
-    behaviours:
-      - type: Transform
-        properties:
-          x: 250
-          y: 880
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: Au_GeneralButton
-      - type: UI_ChangeGameModeButton
-      # - type: 关闭游戏
-    children:
-      - id: GameStartButtonBackGround
-        behaviours:
+                fontSize: 40
+                fontFamily: "fangsong"
+                text: "FPS: "
+                anchorType: "right-top"
+                hitAreaType: none
+          - type: FPSDisplay
+    - id: GameLogo
+      behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
+                x: 1900
+                y: 20
+                scaleX: .4
+                scaleY: .4
+                rotation: 0
           - type: BitmapRenderer
             properties:
-              source: "./assets/images/Icon_TextFrame5050.png"
-              renderType: "ui"
-              scaleXForUI: 9
-              scaleYForUI: 2
-              borderWidthForUI: 15
-              anchorType: "center"
-          - type: UI_ButtonState
-      - id: _GameModeText
-        behaviours:
+                source: "./assets/images/ArcaneEra.png"
+                anchorType: right-top
+    - id: StaffRoot # 制作人员窗口
+      behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: -10
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 40
-              fontFamily: "fangsong" 
-              text: 热座
-              anchorType: "center"
-              hitAreaType: none
-        children: []
-  - id: GameLogo
-    behaviours:
-      - type: Transform
-        properties:
-          x: 1900
-          y: 20
-          scaleX: .4
-          scaleY: .4
-          rotation: 0
-      - type: BitmapRenderer
-        properties:
-          source: "./assets/images/ArcaneEra.png"
-          anchorType: right-top
-  - id: StaffRoot # 制作人员窗口
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-    children: []
+                x: 0
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+      children: []

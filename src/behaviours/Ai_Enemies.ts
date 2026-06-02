@@ -1,7 +1,7 @@
 import { GameObject, getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { Transform } from "../engine/Transform";
-import { GameProcess } from "./GameProcess";
+import { GameProcessMgr } from "./GameProcessMgr";
 import { Nation } from "./Nation";
 import { Province } from "./Province";
 import { ProvinceGenerator } from "./ProvinceGenerator";
@@ -31,7 +31,7 @@ export class Ai_Enemies extends Behaviour {
 
     moveToOtherProvinces(): void {
         const playerSoilderCoor = getGameObjectById("Unit").getBehaviour(UnitBehaviour).unitCoor;
-        const ownedProvinces = Nation.nations[GameProcess.playerNationId].provinceOwnedList
+        const ownedProvinces = Nation.nations[GameProcessMgr.playerNationId].provinceOwnedList
         // this.aiCoor = ownedProvinces[0].getBehaviour(Province).coord;
         // console.log(ownedProvinces[Ai_Enemies.i].getBehaviour(Province).buildingList[0])
         // ownedProvinces[0].getBehaviour(Province).buildingList.splice(0,1);
@@ -64,9 +64,9 @@ export class Ai_Enemies extends Behaviour {
 
     attack(): void {
         const playerSoilderCoor = getGameObjectById("Unit").getBehaviour(UnitBehaviour).unitCoor;
-        const ownedProvinces = Nation.nations[GameProcess.playerNationId].provinceOwnedList
+        const ownedProvinces = Nation.nations[GameProcessMgr.playerNationId].provinceOwnedList
 
-        if (ownedProvinces[Ai_Enemies.i].nationId === GameProcess.playerNationId) {
+        if (ownedProvinces[Ai_Enemies.i].nationId === GameProcessMgr.playerNationId) {
             ownedProvinces[Ai_Enemies.i].changeNationId(2);
             console.log('AI已占领该省份');
         }
@@ -76,7 +76,7 @@ export class Ai_Enemies extends Behaviour {
     }
 
     attackBuilding(): void {
-        const ownedProvinces = Nation.nations[GameProcess.playerNationId].provinceOwnedList;
+        const ownedProvinces = Nation.nations[GameProcessMgr.playerNationId].provinceOwnedList;
 
         if (ownedProvinces[Ai_Enemies.i].buildingList != null) {
             // for(let i = 0; i < ownedProvinces[Ai_Enemies.i].buildableBuildingList.length; i++){

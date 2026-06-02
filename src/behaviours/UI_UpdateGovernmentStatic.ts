@@ -3,7 +3,7 @@ import { getGameObjectById } from "../engine";
 import { Behaviour } from "../engine/Behaviour";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 import { TextRenderer } from "../engine/TextRenderer";
-import { GameProcess } from "./GameProcess";
+import { GameProcessMgr } from "./GameProcessMgr";
 import { Nation } from "./Nation";
 import { Technology } from "./Technology";
 
@@ -14,21 +14,21 @@ export class UI_UpdateGovernmentStatic extends Behaviour {
 
     onUpdate(): void {
         //更新玩家帝国金钱显示
-        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '奥坎盾：' + Nation.nations[GameProcess.playerNationId].dora.toString();
+        getGameObjectById("PlayerGoldText").getBehaviour(TextRenderer).text = '奥坎盾：' + Nation.nations[GameProcessMgr.playerNationId].dora.toString();
         //更新玩家帝国等级显示
-        getGameObjectById("PlayerLevelText").getBehaviour(TextRenderer).text = '政府等级：' + Nation.nations[GameProcess.playerNationId].level.toString()
-        getGameObjectById("PlayerCapacityText").getBehaviour(TextRenderer).text = "城市上限：" + Nation.nations[GameProcess.playerNationId].cityList.length.toString() + '/' + Nation.nations[GameProcess.playerNationId].cityMax.toString();
+        getGameObjectById("PlayerLevelText").getBehaviour(TextRenderer).text = '政府等级：' + Nation.nations[GameProcessMgr.playerNationId].level.toString()
+        getGameObjectById("PlayerCapacityText").getBehaviour(TextRenderer).text = "城市上限：" + Nation.nations[GameProcessMgr.playerNationId].cityList.length.toString() + '/' + Nation.nations[GameProcessMgr.playerNationId].cityMax.toString();
         //更新玩家帝国科技点增长显示
-        getGameObjectById("PlayerTechText").getBehaviour(TextRenderer).text = '科技点：+' + Nation.nations[GameProcess.playerNationId].techPerTurn.toString();
+        getGameObjectById("PlayerTechText").getBehaviour(TextRenderer).text = '科技点：+' + Nation.nations[GameProcessMgr.playerNationId].techPerTurn.toString();
         //更新旗帜
-        getGameObjectById("_PlayersGovernmentFlag").getBehaviour(BitmapRenderer).source = Nation.nations[GameProcess.playerNationId].nationFlagUrl;
+        getGameObjectById("_PlayersGovernmentFlag").getBehaviour(BitmapRenderer).source = Nation.nations[GameProcessMgr.playerNationId].nationFlagUrl;
         //更新玩家帝国下回合金钱变化
-        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text = '每回合变动' + Nation.nations[GameProcess.playerNationId].doraChangeNextTurn.toString();
-        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += `|省份：${Nation.nations[GameProcess.playerNationId].doraChangeFromProvince.toString()}`;
-        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += `|建筑：${Nation.nations[GameProcess.playerNationId].doraChangeFromBuilding.toString()}`;
-        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += `|单位：${Nation.nations[GameProcess.playerNationId].doraChangeFromUnit.toString()}`;
-        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += `|其他：${Nation.nations[GameProcess.playerNationId].doraChangeFromOther.toString()}`;
-        if (Nation.nations[GameProcess.playerNationId].dora < 0) {
+        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text = '每回合变动' + Nation.nations[GameProcessMgr.playerNationId].doraChangeNextTurn.toString();
+        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += `|省份：${Nation.nations[GameProcessMgr.playerNationId].doraChangeFromProvince.toString()}`;
+        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += `|建筑：${Nation.nations[GameProcessMgr.playerNationId].doraChangeFromBuilding.toString()}`;
+        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += `|单位：${Nation.nations[GameProcessMgr.playerNationId].doraChangeFromUnit.toString()}`;
+        getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += `|其他：${Nation.nations[GameProcessMgr.playerNationId].doraChangeFromOther.toString()}`;
+        if (Nation.nations[GameProcessMgr.playerNationId].dora < 0) {
             getGameObjectById("_PlayerGoldChangeText").getBehaviour(TextRenderer).text += '||我们正在负债！|科研进度-80%|所有省份生产力-80%|单位战力-80%';
         }
 
@@ -40,18 +40,18 @@ export class UI_UpdateGovernmentStatic extends Behaviour {
                 getGameObjectById("GovernmentWindowRoot").children[0].destroy();
             } else {
                 getGameObjectById("GovernmentWindowRoot").addChild(governmentWindow);//更新玩家帝国当前科技显示 
-                if (Nation.nations[GameProcess.playerNationId].currentTechName !== '') {
+                if (Nation.nations[GameProcessMgr.playerNationId].currentTechName !== '') {
                     getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
-                        "当前科技：" + Technology.getNationTechByName(1, Nation.nations[GameProcess.playerNationId].currentTechName).getInfo();
+                        "当前科技：" + Technology.getNationTechByName(1, Nation.nations[GameProcessMgr.playerNationId].currentTechName).getInfo();
                 }
             }
         }
 
         // if (getGameObjectById("UI_governmentWindow")) {
         //     //更新玩家帝国当前科技显示 
-        //     if (Nation.nations[GameProcess.playerNationId].currentTechName !== '') {
+        //     if (Nation.nations[GameProcessMgr.playerNationId].currentTechName !== '') {
         //         getGameObjectById("CurrentTechText").getBehaviour(TextRenderer).text =
-        //             "当前科技：" + Technology.getNationTechByName(1, Nation.nations[GameProcess.playerNationId].currentTechName).getInfo();
+        //             "当前科技：" + Technology.getNationTechByName(1, Nation.nations[GameProcessMgr.playerNationId].currentTechName).getInfo();
         //     }
         // }
     }

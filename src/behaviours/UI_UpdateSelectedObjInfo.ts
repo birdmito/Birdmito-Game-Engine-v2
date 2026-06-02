@@ -14,7 +14,7 @@ import { UI_BuildButton } from "./UI_BuildButton";
 import { Building } from "./Building";
 import { Nation } from "./Nation";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
-import { GameProcess } from "./GameProcess";
+import { GameProcessMgr } from "./GameProcessMgr";
 import { UI_UpdateItemInfo } from "./UI_UpdateItemInfo";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
 
@@ -56,12 +56,12 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
             this.updateSelectedProvinceProductQueueUI();
 
             //若当前选中项不在玩家国家的city中，则删除建造按钮
-            if (!Nation.nations[GameProcess.playerNationId].cityList.some(city => city === province)) {
+            if (!Nation.nations[GameProcessMgr.playerNationId].cityList.some(city => city === province)) {
                 getGameObjectById("BuildButton").destroy();
             }
 
             //若当前选中项不在玩家国家的city中，或者当前选中项没有兵营，则删除征兵按钮
-            if (!Nation.nations[GameProcess.playerNationId].cityList.some(city => city === province) || !province.buildingList.some(building => building.name === "兵营")) {
+            if (!Nation.nations[GameProcessMgr.playerNationId].cityList.some(city => city === province) || !province.buildingList.some(building => building.name === "兵营")) {
                 getGameObjectById("RecruitButton").destroy();
             }
 
@@ -75,16 +75,16 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
         else if (this.selectedBehaviour instanceof UnitBehaviour) {
             const unit = this.selectedBehaviour as UnitBehaviour;
             //若不是玩家的单位，或单位没有特殊行为，则销毁UI_UnitBehaviourButton
-            if (unit.nationId !== GameProcess.playerNationId ||
+            if (unit.nationId !== GameProcessMgr.playerNationId ||
                 (unit.unitParam.name !== '开拓者' && unit.unitParam.name !== '筑城者')) {
                 getGameObjectById("UI_UnitBehaviourButton").destroy();
             }
             //若不是玩家的单位，则销毁_UnitSeparateButton
-            if (unit.nationId !== GameProcess.playerNationId) {
+            if (unit.nationId !== GameProcessMgr.playerNationId) {
                 getGameObjectById("_UnitSeparateButton").destroy();
             }
             //若不是玩家的单位，则销毁_UnitDeleteButton
-            if (unit.nationId !== GameProcess.playerNationId) {
+            if (unit.nationId !== GameProcessMgr.playerNationId) {
                 getGameObjectById("_UnitDeleteButton").destroy();
             }
 
@@ -184,7 +184,7 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 const UI_buildingBinding = new UI_itemPrefabBinding;
                 UI_buildingBinding.item = building.name;
                 UI_buildingBinding.idInList = i;
-                if (province.nationId === 1 || GameProcess.isCheat) {
+                if (province.nationId === 1 || GameProcessMgr.isCheat) {
                     UI_buildingBinding.itemClickEventText = "拆除";
                 }
                 else {
@@ -197,7 +197,7 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
         }
 
         //若当前选中项不在玩家国家的city中，或者当前选中项没有兵营，则删除征兵按钮
-        if (!Nation.nations[GameProcess.playerNationId].cityList.some(city => city === province) || !province.buildingList.some(building => building.name === "兵营")) {
+        if (!Nation.nations[GameProcessMgr.playerNationId].cityList.some(city => city === province) || !province.buildingList.some(building => building.name === "兵营")) {
             if (getGameObjectById("RecruitButton") !== null)
                 getGameObjectById("RecruitButton").destroy();
         }
@@ -227,7 +227,7 @@ export class UI_UpdateSelectedObjInfo extends Behaviour {
                 const UI_itemBinding = new UI_itemPrefabBinding;
                 UI_itemBinding.item = productedItem.productName;
                 UI_itemBinding.idInList = i;
-                if (province.nationId === GameProcess.playerNationId || GameProcess.isCheat) {
+                if (province.nationId === GameProcessMgr.playerNationId || GameProcessMgr.isCheat) {
                     UI_itemBinding.itemClickEventText = "取消";
                 }
                 else {

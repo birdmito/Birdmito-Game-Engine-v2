@@ -1,6 +1,6 @@
 import { Province } from "./Province";
 import { infoShowable } from "./infoShowable";
-import { GameProcess } from "./GameProcess";
+import { GameProcessMgr } from "./GameProcessMgr";
 import { Tech } from "./Technology";
 
 export class UnitParam implements infoShowable {
@@ -29,7 +29,7 @@ export class UnitParam implements infoShowable {
         this.techRequired = techRequired;
     }
 
-    static copyOriginUnitParamList(nationId: number = GameProcess.playerNationId): UnitParam[] {
+    static copyOriginUnitParamList(nationId: number = GameProcessMgr.playerNationId): UnitParam[] {
         const result: UnitParam[] = [];
         UnitParam.originUnitParamList.forEach((unitParam) => {
             result.push(new UnitParam(unitParam.name, unitParam.cost, unitParam.recruitProcessMax, unitParam.apMax,

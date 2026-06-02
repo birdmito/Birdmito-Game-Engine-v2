@@ -15,7 +15,7 @@ import { Building } from "./Building";
 import { Nation } from "./Nation";
 import { UI_UpdateSelectedObjInfo } from "./UI_UpdateSelectedObjInfo";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
-import { GameProcess } from "./GameProcess";
+import { GameProcessMgr } from "./GameProcessMgr";
 import { Au_UnitActButton } from "./Au_UnitActButton";
 
 export class SelectedObjectInfoMangaer extends Behaviour {

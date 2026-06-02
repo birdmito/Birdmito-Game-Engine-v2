@@ -55,6 +55,17 @@ export class GameEngine {
 
     public mode: "edit" | "preview" | "play" = "edit";
 
+    // 系统性能统计
+    private _logSystemPerformance = false;
+    private _systemStatsFrameCount = 0;
+    private _systemStatsTargetFrames = 60;
+    private _systemStats = new Map<string, {
+        tickTime: { total: number, count: number, min: number, max: number },
+        updateTime: { total: number, count: number, min: number, max: number },
+        lateUpdateTime: { total: number, count: number, min: number, max: number }
+    }>();
+    private _autoDownloadReport = false; // 是否自动下载报告
+
     constructor(mode: string) {
         if (mode !== "edit" && mode !== "preview" && mode !== "play") {
             alert('mode must be "edit" or "preview" or "play"');
@@ -67,6 +78,19 @@ export class GameEngine {
         this.rootGameObject.active = true;
         this.rootGameObject.addBehaviour(new Transform());
         this.editorGameObject.addBehaviour(new Transform());
+
+        // 注册全局性能统计函数
+        window["logSystemPerformance"] = (frames = 60, autoDownload = false) => {
+            this._logSystemPerformance = true;
+            this._systemStatsFrameCount = 0;
+            this._systemStatsTargetFrames = frames;
+            this._autoDownloadReport = autoDownload;
+            this._systemStats.clear();
+            console.log(`🔍 开始统计系统性能 (${frames} 帧)...`);
+            if (autoDownload) {
+                console.log(`📥 统计完成后将自动下载报告`);
+            }
+        };
     }
 
     async loadAssets() {
@@ -200,15 +224,185 @@ export class GameEngine {
         return text;
     }
 
+    private recordSystemTime(systemName: string, phase: 'tick' | 'update' | 'lateUpdate', time: number) {
+        if (!this._logSystemPerformance) return;
+
+        let stats = this._systemStats.get(systemName);
+        if (!stats) {
+            stats = {
+                tickTime: { total: 0, count: 0, min: Infinity, max: 0 },
+                updateTime: { total: 0, count: 0, min: Infinity, max: 0 },
+                lateUpdateTime: { total: 0, count: 0, min: Infinity, max: 0 }
+            };
+            this._systemStats.set(systemName, stats);
+        }
+
+        const phaseKey = phase === 'tick' ? 'tickTime' : phase === 'update' ? 'updateTime' : 'lateUpdateTime';
+        stats[phaseKey].total += time;
+        stats[phaseKey].count++;
+        stats[phaseKey].min = Math.min(stats[phaseKey].min, time);
+        stats[phaseKey].max = Math.max(stats[phaseKey].max, time);
+    }
+
+    private generateReportText(): string {
+        let report = '';
+
+        report += '='.repeat(100) + '\n';
+        report += `📊 系统性能统计报告 (${this._systemStatsTargetFrames} 帧平均)\n`;
+        report += `生成时间: ${new Date().toLocaleString('zh-CN')}\n`;
+        report += '='.repeat(100) + '\n\n';
+
+        // 计算总时间
+        let totalTickTime = 0;
+        let totalUpdateTime = 0;
+        let totalLateUpdateTime = 0;
+
+        this._systemStats.forEach((stats) => {
+            const avgTick = stats.tickTime.count > 0 ? stats.tickTime.total / stats.tickTime.count : 0;
+            const avgUpdate = stats.updateTime.count > 0 ? stats.updateTime.total / stats.updateTime.count : 0;
+            const avgLateUpdate = stats.lateUpdateTime.count > 0 ? stats.lateUpdateTime.total / stats.lateUpdateTime.count : 0;
+            totalTickTime += avgTick;
+            totalUpdateTime += avgUpdate;
+            totalLateUpdateTime += avgLateUpdate;
+        });
+
+        const totalFrameTime = totalTickTime + totalUpdateTime + totalLateUpdateTime;
+
+        // 打印表头
+        report += '系统名称'.padEnd(30) + 'Tick(ms)'.padEnd(15) + 'Update(ms)'.padEnd(15) + 'LateUpdate(ms)'.padEnd(15) + '总计(ms)'.padEnd(15) + '占比\n';
+        report += '-'.repeat(100) + '\n';
+
+        // 按总耗时排序
+        const sortedStats = Array.from(this._systemStats.entries())
+            .map(([name, stats]) => {
+                const avgTick = stats.tickTime.count > 0 ? stats.tickTime.total / stats.tickTime.count : 0;
+                const avgUpdate = stats.updateTime.count > 0 ? stats.updateTime.total / stats.updateTime.count : 0;
+                const avgLateUpdate = stats.lateUpdateTime.count > 0 ? stats.lateUpdateTime.total / stats.lateUpdateTime.count : 0;
+                const total = avgTick + avgUpdate + avgLateUpdate;
+                return { name, stats, avgTick, avgUpdate, avgLateUpdate, total };
+            })
+            .sort((a, b) => b.total - a.total);
+
+        // 打印每个系统的统计
+        sortedStats.forEach(({ name, stats, avgTick, avgUpdate, avgLateUpdate, total }) => {
+            const percentage = ((total / totalFrameTime) * 100).toFixed(2);
+            report += name.padEnd(30) +
+                (avgTick > 0 ? avgTick.toFixed(4) : '-').padEnd(15) +
+                (avgUpdate > 0 ? avgUpdate.toFixed(4) : '-').padEnd(15) +
+                (avgLateUpdate > 0 ? avgLateUpdate.toFixed(4) : '-').padEnd(15) +
+                total.toFixed(4).padEnd(15) +
+                `${percentage}%\n`;
+        });
+
+        report += '-'.repeat(100) + '\n\n';
+
+        // 打印详细信息
+        report += '📈 详细性能信息:\n\n';
+        sortedStats.forEach(({ name, stats, avgTick, avgUpdate, avgLateUpdate }) => {
+            report += `🔹 ${name}:\n`;
+
+            if (stats.tickTime.count > 0) {
+                report += `  ⏱️  Tick: 平均 ${avgTick.toFixed(4)}ms | 最小 ${stats.tickTime.min.toFixed(4)}ms | 最大 ${stats.tickTime.max.toFixed(4)}ms\n`;
+            }
+
+            if (stats.updateTime.count > 0) {
+                report += `  🔄 Update: 平均 ${avgUpdate.toFixed(4)}ms | 最小 ${stats.updateTime.min.toFixed(4)}ms | 最大 ${stats.updateTime.max.toFixed(4)}ms\n`;
+            }
+
+            if (stats.lateUpdateTime.count > 0) {
+                report += `  🔚 LateUpdate: 平均 ${avgLateUpdate.toFixed(4)}ms | 最小 ${stats.lateUpdateTime.min.toFixed(4)}ms | 最大 ${stats.lateUpdateTime.max.toFixed(4)}ms\n`;
+            }
+
+            report += '\n';
+        });
+
+        // 打印总体性能
+        report += '⏱️  总体帧性能:\n';
+        report += `平均 Tick 总耗时: ${totalTickTime.toFixed(4)}ms\n`;
+        report += `平均 Update 总耗时: ${totalUpdateTime.toFixed(4)}ms\n`;
+        report += `平均 LateUpdate 总耗时: ${totalLateUpdateTime.toFixed(4)}ms\n`;
+        report += `平均帧总耗时: ${totalFrameTime.toFixed(4)}ms\n\n`;
+
+        const targetFrameTime = 16.67; // 60fps
+        report += '📊 性能占用率分析 (目标 60fps = 16.67ms/帧):\n';
+        report += `系统总占用: ${((totalFrameTime / targetFrameTime) * 100).toFixed(2)}%\n`;
+        report += `性能评级: ${this.getPerformanceGrade(totalFrameTime)}\n\n`;
+
+        report += '💡 提示:\n';
+        report += '  - Tick: 固定时间步长的逻辑更新 (物理、游戏逻辑等)\n';
+        report += '  - Update: 每帧执行的更新 (渲染、UI等)\n';
+        report += '  - LateUpdate: 帧末尾执行的更新 (摄像机跟随等)\n';
+        report += '  - 此统计不包括浏览器的帧同步等待时间\n\n';
+
+        report += '='.repeat(100) + '\n';
+
+        return report;
+    }
+
+    private downloadReport(reportText: string) {
+        // 创建 Blob 对象
+        const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
+
+        // 创建下载链接
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+
+        // 生成文件名（包含时间戳）
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+        link.download = `performance-report-${timestamp}.txt`;
+
+        // 触发下载
+        document.body.appendChild(link);
+        link.click();
+
+        // 清理
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        console.log(`📥 性能报告已下载: ${link.download}`);
+    }
+
+    private printSystemPerformanceReport() {
+        const reportText = this.generateReportText();
+
+        // 打印到控制台
+        console.log('\n' + reportText);
+
+        // 如果启用自动下载，则下载报告
+        if (this._autoDownloadReport) {
+            this.downloadReport(reportText);
+        } else {
+            // 提供手动下载选项
+            console.log('💾 如需下载报告，请在控制台执行: downloadPerformanceReport()');
+            window["downloadPerformanceReport"] = () => {
+                this.downloadReport(reportText);
+            };
+        }
+    }
+    private getPerformanceGrade(frameTime: number): string {
+        const usage = (frameTime / 16.67) * 100;
+        if (usage < 30) return '🟢 优秀 (有大量性能余量)';
+        if (usage < 50) return '🟡 良好 (性能充足)';
+        if (usage < 70) return '🟠 一般 (接近性能瓶颈)';
+        if (usage < 90) return '🔴 较差 (可能影响帧率)';
+        return '🔴 严重 (严重影响帧率)';
+    }
+
     enterFrame(advancedTime: number) {
         let duringTime = advancedTime - this.lastTime + this.storeDuringTime;
         const milesecondPerFrame = 1000 / 60;
+
         while (duringTime > milesecondPerFrame) {
             for (const system of this.systems) {
+                const startTime = performance.now();
                 system.onTick(milesecondPerFrame);
+                const tickTime = performance.now() - startTime;
+                this.recordSystemTime(system.constructor.name, 'tick', tickTime);
             }
             duringTime -= milesecondPerFrame;
         }
+
         this.storeDuringTime = duringTime;
         this.deltaTime = advancedTime - this.lastTime;
 
@@ -218,12 +412,31 @@ export class GameEngine {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         for (const system of this.systems) {
+            const startTime = performance.now();
             system.onUpdate();
+            const updateTime = performance.now() - startTime;
+            this.recordSystemTime(system.constructor.name, 'update', updateTime);
         }
+
         for (const system of this.systems) {
-            system.onLaterUpdate(); 22
+            const startTime = performance.now();
+            system.onLaterUpdate();
+            const lateUpdateTime = performance.now() - startTime;
+            this.recordSystemTime(system.constructor.name, 'lateUpdate', lateUpdateTime);
         }
+
         this.lastTime = advancedTime;
+
+        // 检查是否需要输出统计报告
+        if (this._logSystemPerformance) {
+            this._systemStatsFrameCount++;
+            if (this._systemStatsFrameCount >= this._systemStatsTargetFrames) {
+                this.printSystemPerformanceReport();
+                this._logSystemPerformance = false;
+                this._systemStatsFrameCount = 0;
+                this._systemStats.clear();
+            }
+        }
     }
 }
 

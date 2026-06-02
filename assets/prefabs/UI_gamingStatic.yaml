@@ -1,613 +1,613 @@
 id: UI_gamingStatic
 behaviours:
-  - type: Transform
-    properties:
-      x: 0
-      y: 0
-      scaleX: 1
-      scaleY: 1
-      rotation: 0
+    - type: Transform
+      properties:
+          x: 0
+          y: 0
+          scaleX: 1
+          scaleY: 1
+          rotation: 0
 children:
-  - id: GovernmentWindowRoot
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-  - id: gameProcess
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: GameProcess
-    children: []
-  - id: MapFrame #地图边框
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-    children:
-      - id: MapFrameImageTopLeft
-        behaviours:
+    - id: GovernmentWindowRoot
+      behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameMap_1.png
-              anchorType: left-top
-      - id: MapFrameImageTopRight
-        behaviours:
+                x: 0
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+    - id: GameProcessMgr
+      behaviours:
           - type: Transform
             properties:
-              x: 1920
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 90
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameMap_1.png
-              anchorType: left-top
-      - id: MapFrameImageBottomLeft
-        behaviours:
+                x: 0
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+          - type: GameProcessMgr
+      children: []
+    - id: MapFrame #地图边框
+      behaviours:
           - type: Transform
             properties:
-              x: 0
-              y: 1080
-              scaleX: 1
-              scaleY: 1
-              rotation: 270
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameMap_1.png
-              anchorType: left-top
-      - id: MapFrameImageBottomRight
-        behaviours:
-          - type: Transform
-            properties:
-              x: 1920
-              y: 1080
-              scaleX: 1
-              scaleY: 1
-              rotation: 180
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameMap_1.png
-              anchorType: left-top
-      - id: MapFrameImageLeft
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameMap_2.png
-              anchorType: left-top
-      - id: MapFrameImageRight
-        behaviours:
-          - type: Transform
-            properties:
-              x: 1920
-              y: 1080
-              scaleX: 1
-              scaleY: 1
-              rotation: 180
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameMap_2.png
-              anchorType: left-top
-      - id: MapFrameImageTop
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameMap_3.png
-              anchorType: left-top
-      - id: MapFrameImageBottom
-        behaviours:
-          - type: Transform
-            properties:
-              x: 1920
-              y: 1080
-              scaleX: 1
-              scaleY: 1
-              rotation: 180
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameMap_3.png
-              anchorType: left-top
-        children: []
-  - id: NextTurnUI #下一回合
-    behaviours:
-      - type: Transform
-        properties:
-          x: 1920
-          y: 1080
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-    children:
-      - id: NextTurnImage #下一回合按钮
-        behaviours:
-          - type: Transform
-            properties:
-              x: -100
-              y: -100
-              scaleX: 1
-              scaleY: 1
-              rotation: 15
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Interface_ButtonRound.png
-              anchorType: center
-              hitAreaType: circle
-          - type: UI_NextTurnButton
-          - type: Au_CustomButton
-            properties:
-              enterAudio: 下一回合鼠标进入音效
-              clickAudio: 下一回合音效
-      - id: NextTurnFrame #下一回合边框
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameRound.png
-              anchorType: right-bottom
-              hitAreaType: none
-      - id: NextTurnText #下一回合文字
-        behaviours:
-          - type: Transform
-            properties:
-              x: 10
-              y: 35
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 20
-              text: 下一回合
-              color: white
-        children: []
-  - id: turnDisplay
-    behaviours:
-      - type: Transform
-        properties:
-          x: 1920
-          y: 1080
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-    children:
-      - id: TurnText
-        behaviours:
-          - type: Transform
-            properties:
-              x: -99.5
-              y: -99.5
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: TextRenderer
-            properties:
-              fontSize: 40
-              text: '00/100'
-              color: white
-              anchorType: center
-        children: []
-  - id: SettingButton
-    behaviours:
-      - type: Transform
-        properties:
-          x: 1530
-          y: 1020
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: UI_SettingButton
-      - type: Au_GeneralButton
-    children:
-      - id: SettingImage #设置按钮
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Interface_ButtonControl.png
-          - type: UI_ButtonState
-        children: []
-  - id: Government
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-    children:
-      - id: GovernmentBgImage
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: BitmapRenderer
-            properties:
-              source: ./assets/images/Icon_FrameGovernment.png
-              hitAreaType: none
-        children: []
-      - id: GovernmentButton #政府按钮
-        behaviours:
-          - type: Transform
-            properties:
-              x: 0
-              y: 0
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-          - type: UI_UpdateGovernmentStatic
-        children:
-          - id: _PlayersGovernmentFlag
+                x: 0
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+      children:
+          - id: MapFrameImageTopLeft
             behaviours:
-              - type: Transform
-                properties:
-                  x: 0
-                  y: 0
-                  scaleX: 1
-                  scaleY: 1
-                  rotation: 0
-              - type: BitmapRenderer
-                properties:
-                  source: ./assets/images/Icon_Flag_1.png
-            children: []
-          - id: GovernmentFrame #政府边框
-            behaviours:
-              - type: Transform
-                properties:
-                  x: 0
-                  y: 0
-                  scaleX: 1
-                  scaleY: 1
-                  rotation: 0
-              - type: BitmapRenderer
-                properties:
-                  source: ./assets/images/Interface_ButtonCountry.png
-              - type: UI_ButtonState
-              - type: Au_CustomButton
-                properties:
-                  enterAudio: 按钮进入音效
-                  clickAudio: 国家选择音效
-            children: []
-      - id: ResourceShow
-        behaviours:
-          - type: Transform
-            properties:
-              x: 182
-              y: 14
-              scaleX: 1
-              scaleY: 1
-              rotation: 0
-        children:
-          - id: PlayerLevel #玩家政府等级
-            behaviours:
-              - type: Transform
-                properties:
-                  x: 0
-                  y: 0
-                  scaleX: 1
-                  scaleY: 1
-                  rotation: 0
-            children:
-              - id: PlayerLevelImage
-                behaviours:
-                  - type: Transform
-                    properties:
+                - type: Transform
+                  properties:
                       x: 0
                       y: 0
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
-                  - type: BitmapRenderer
-                    properties:
-                      source: ./assets/images/Icon_GovernmentLevel.png
-                      hitAreaType: none
-                children: []
-              - id: PlayerLevelFrame
-                behaviours:
-                  - type: Transform
-                    properties:
-                      x: 50
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Icon_FrameMap_1.png
+                      anchorType: left-top
+          - id: MapFrameImageTopRight
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 1920
                       y: 0
                       scaleX: 1
                       scaleY: 1
-                      rotation: 0
-                  - type: BitmapRenderer
-                    properties:
-                      source: ./assets/images/Icon_Show.png
-                      hitAreaType: none
-                children: []
-              - id: PlayerLevelText
-                behaviours:
-                  - type: Transform
-                    properties:
-                      x: 59
-                      y: 21
+                      rotation: 90
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Icon_FrameMap_1.png
+                      anchorType: left-top
+          - id: MapFrameImageBottomLeft
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: 1080
                       scaleX: 1
                       scaleY: 1
-                      rotation: 0
-                  - type: TextRenderer
-                    properties:
-                      fontSize: 22
-                      text: '这里应该显示等级'
-                      color: "#DEEEFE"
-                      anchorType: left-center
-                      fontFamily: FangSong_GB2312
-                children: []
-          - id: PlayerGold #玩家奥坎盾
+                      rotation: 270
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Icon_FrameMap_1.png
+                      anchorType: left-top
+          - id: MapFrameImageBottomRight
             behaviours:
-              - type: Transform
-                properties:
-                  x: 200
-                  y: 0
-                  scaleX: 1
-                  scaleY: 1
-                  rotation: 0
-            children:
-              - id: PlayerGoldImage
-                behaviours:
-                  - type: Transform
-                    properties:
+                - type: Transform
+                  properties:
+                      x: 1920
+                      y: 1080
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 180
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Icon_FrameMap_1.png
+                      anchorType: left-top
+          - id: MapFrameImageLeft
+            behaviours:
+                - type: Transform
+                  properties:
                       x: 0
                       y: 0
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
-                  - type: BitmapRenderer
-                    properties:
-                      source: ./assets/images/Icon_Money.png
-                      hitAreaType: none
-                children: []
-              - id: PlayerGoldFrame
-                behaviours:
-                  - type: Transform
-                    properties:
-                      x: 50
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Icon_FrameMap_2.png
+                      anchorType: left-top
+          - id: MapFrameImageRight
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 1920
+                      y: 1080
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 180
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Icon_FrameMap_2.png
+                      anchorType: left-top
+          - id: MapFrameImageTop
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
                       y: 0
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
-                  - type: BitmapRenderer
-                    properties:
-                      source: ./assets/images/Icon_Show.png
-                      hitAreaType: none
-                children: []
-              - id: PlayerGoldText
-                behaviours:
-                  - type: Transform
-                    properties:
-                      x: 58
-                      y: 21
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Icon_FrameMap_3.png
+                      anchorType: left-top
+          - id: MapFrameImageBottom
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 1920
+                      y: 1080
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 180
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Icon_FrameMap_3.png
+                      anchorType: left-top
+            children: []
+    - id: NextTurnUI #下一回合
+      behaviours:
+          - type: Transform
+            properties:
+                x: 1920
+                y: 1080
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+      children:
+          - id: NextTurnImage #下一回合按钮
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: -100
+                      y: -100
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 15
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Interface_ButtonRound.png
+                      anchorType: center
+                      hitAreaType: circle
+                - type: UI_NextTurnButton
+                - type: Au_CustomButton
+                  properties:
+                      enterAudio: 下一回合鼠标进入音效
+                      clickAudio: 下一回合音效
+          - id: NextTurnFrame #下一回合边框
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: 0
                       scaleX: 1
                       scaleY: 1
                       rotation: 0
-                  - type: TextRenderer
-                    properties:
-                      fontSize: 22
-                      text: '这里应该显示奥坎盾'
-                      color: "#DEEEFE"
-                      anchorType: left-center
-                      fontFamily: FangSong_GB2312
-                children: 
-                  - id: PlayerGoldChange #玩家奥坎盾变化
-                    behaviours:
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Icon_FrameRound.png
+                      anchorType: right-bottom
+                      hitAreaType: none
+          - id: NextTurnText #下一回合文字
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 10
+                      y: 35
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: TextRenderer
+                  properties:
+                      fontSize: 20
+                      text: 下一回合
+                      color: white
+            children: []
+    - id: turnDisplay
+      behaviours:
+          - type: Transform
+            properties:
+                x: 1920
+                y: 1080
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+      children:
+          - id: TurnText
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: -99.5
+                      y: -99.5
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: TextRenderer
+                  properties:
+                      fontSize: 40
+                      text: "00/100"
+                      color: white
+                      anchorType: center
+            children: []
+    - id: SettingButton
+      behaviours:
+          - type: Transform
+            properties:
+                x: 1530
+                y: 1020
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+          - type: UI_SettingButton
+          - type: Au_GeneralButton
+      children:
+          - id: SettingImage #设置按钮
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Interface_ButtonControl.png
+                - type: UI_ButtonState
+            children: []
+    - id: Government
+      behaviours:
+          - type: Transform
+            properties:
+                x: 0
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+      children:
+          - id: GovernmentBgImage
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: BitmapRenderer
+                  properties:
+                      source: ./assets/images/Icon_FrameGovernment.png
+                      hitAreaType: none
+            children: []
+          - id: GovernmentButton #政府按钮
+            behaviours:
+                - type: Transform
+                  properties:
+                      x: 0
+                      y: 0
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
+                - type: UI_UpdateGovernmentStatic
+            children:
+                - id: _PlayersGovernmentFlag
+                  behaviours:
                       - type: Transform
                         properties:
-                          x: -50
-                          y: 50
-                          scaleX: 1
-                          scaleY: 1
-                          rotation: 0
-                      - type: AutoHide
-                    children: 
-                      - id: PlayerGoldChangeImage
-                        behaviours:
-                          - type: Transform
-                            properties:
-                              x: 0
-                              y: 0
-                              scaleX: 1
-                              scaleY: 1
-                              rotation: 0
-                          - type: BitmapRenderer
-                            properties:
-                              source: ./assets/images/Icon_TextFrame5050.png
-                              hitAreaType: none
-                              renderType: 'ui'
-                              scaleXForUI: 10
-                              scaleYForUI: 6
-                              borderWidthForUI: 15
-                        children: []
-                      - id: _PlayerGoldChangeText
-                        behaviours:
-                          - type: Transform
-                            properties:
-                              x: 20
-                              y: 20
-                              scaleX: 1
-                              scaleY: 1
-                              rotation: 0
-                          - type: TextRenderer
-                            properties:
-                              fontSize: 22
-                              text: '这里应该显示奥坎盾变化'
-                              color: "#DEEEFE"
-                              fontFamily: FangSong_GB2312
-                        children: []
-          - id: PlayerTech #玩家科技点
+                            x: 0
+                            y: 0
+                            scaleX: 1
+                            scaleY: 1
+                            rotation: 0
+                      - type: BitmapRenderer
+                        properties:
+                            source: ./assets/images/Icon_Flag_1.png
+                  children: []
+                - id: GovernmentFrame #政府边框
+                  behaviours:
+                      - type: Transform
+                        properties:
+                            x: 0
+                            y: 0
+                            scaleX: 1
+                            scaleY: 1
+                            rotation: 0
+                      - type: BitmapRenderer
+                        properties:
+                            source: ./assets/images/Interface_ButtonCountry.png
+                      - type: UI_ButtonState
+                      - type: Au_CustomButton
+                        properties:
+                            enterAudio: 按钮进入音效
+                            clickAudio: 国家选择音效
+                  children: []
+          - id: ResourceShow
             behaviours:
-              - type: Transform
-                properties:
-                  x: 400
-                  y: 0
-                  scaleX: 1
-                  scaleY: 1
-                  rotation: 0
+                - type: Transform
+                  properties:
+                      x: 182
+                      y: 14
+                      scaleX: 1
+                      scaleY: 1
+                      rotation: 0
             children:
-              - id: PlayerTechImage
-                behaviours:
-                  - type: Transform
-                    properties:
-                      x: 0
-                      y: 0
-                      scaleX: 1
-                      scaleY: 1
-                      rotation: 0
-                  - type: BitmapRenderer
-                    properties:
-                      source: ./assets/images/Icon_TechPoint.png
-                      hitAreaType: none
-                children: []
-              - id: PlayerTechFrame
-                behaviours:
-                  - type: Transform
-                    properties:
-                      x: 50
-                      y: 0
-                      scaleX: 1
-                      scaleY: 1
-                      rotation: 0
-                  - type: BitmapRenderer
-                    properties:
-                      source: ./assets/images/Icon_Show.png
-                      hitAreaType: none
-                children: []
-              - id: PlayerTechText
-                behaviours:
-                  - type: Transform
-                    properties:
-                      x: 52
-                      y: 21
-                      scaleX: 1
-                      scaleY: 1
-                      rotation: 0
-                  - type: TextRenderer
-                    properties:
-                      fontSize: 22
-                      text: '这里应该显示科技等级'
-                      color: "#DEEEFE"
-                      anchorType: left-center
-                      fontFamily: FangSong_GB2312
-                children: []
-          - id: PlayerCapacity #玩家行政容量
-            behaviours:
-              - type: Transform
-                properties:
-                  x: 600
-                  y: 0
-                  scaleX: 1
-                  scaleY: 1
-                  rotation: 0
-            children:
-              - id: PlayerCapacityImage
-                behaviours:
-                  - type: Transform
-                    properties:
-                      x: 0
-                      y: 0
-                      scaleX: 1
-                      scaleY: 1
-                      rotation: 0
-                  - type: BitmapRenderer
-                    properties:
-                      source: ./assets/images/Icon_Capacity.png
-                      hitAreaType: none
-                children: []
-              - id: PlayerCapacityFrame
-                behaviours:
-                  - type: Transform
-                    properties:
-                      x: 50
-                      y: 0
-                      scaleX: 1
-                      scaleY: 1
-                      rotation: 0
-                  - type: BitmapRenderer
-                    properties:
-                      source: ./assets/images/Icon_Show.png
-                      hitAreaType: none
-                children: []
-              - id: PlayerCapacityText
-                behaviours:
-                  - type: Transform
-                    properties:
-                      x: 52
-                      y: 21
-                      scaleX: 1
-                      scaleY: 1
-                      rotation: 0
-                  - type: TextRenderer
-                    properties:
-                      fontSize: 22
-                      text: '这里应该显示容量'
-                      color: "#DEEEFE"
-                      anchorType: left-center
-                      fontFamily: FangSong_GB2312
-                children: []
-  - id: FPS
-    behaviours:
-      - type: Transform
-        properties:
-          x: 0
-          y: 0
-          scaleX: 1
-          scaleY: 1
-          rotation: 0
-      - type: TextRenderer
-        properties:
-          fontSize: 22
-          text: 'FPS: 60'
-          color: "#DEEEFE"
-          anchorType: left-top
-          fontFamily: FangSong_GB2312
-      - type: FPSDisplay
+                - id: PlayerLevel #玩家政府等级
+                  behaviours:
+                      - type: Transform
+                        properties:
+                            x: 0
+                            y: 0
+                            scaleX: 1
+                            scaleY: 1
+                            rotation: 0
+                  children:
+                      - id: PlayerLevelImage
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 0
+                                  y: 0
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: BitmapRenderer
+                              properties:
+                                  source: ./assets/images/Icon_GovernmentLevel.png
+                                  hitAreaType: none
+                        children: []
+                      - id: PlayerLevelFrame
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 50
+                                  y: 0
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: BitmapRenderer
+                              properties:
+                                  source: ./assets/images/Icon_Show.png
+                                  hitAreaType: none
+                        children: []
+                      - id: PlayerLevelText
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 59
+                                  y: 21
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: TextRenderer
+                              properties:
+                                  fontSize: 22
+                                  text: "这里应该显示等级"
+                                  color: "#DEEEFE"
+                                  anchorType: left-center
+                                  fontFamily: FangSong_GB2312
+                        children: []
+                - id: PlayerGold #玩家奥坎盾
+                  behaviours:
+                      - type: Transform
+                        properties:
+                            x: 200
+                            y: 0
+                            scaleX: 1
+                            scaleY: 1
+                            rotation: 0
+                  children:
+                      - id: PlayerGoldImage
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 0
+                                  y: 0
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: BitmapRenderer
+                              properties:
+                                  source: ./assets/images/Icon_Money.png
+                                  hitAreaType: none
+                        children: []
+                      - id: PlayerGoldFrame
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 50
+                                  y: 0
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: BitmapRenderer
+                              properties:
+                                  source: ./assets/images/Icon_Show.png
+                                  hitAreaType: none
+                        children: []
+                      - id: PlayerGoldText
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 58
+                                  y: 21
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: TextRenderer
+                              properties:
+                                  fontSize: 22
+                                  text: "这里应该显示奥坎盾"
+                                  color: "#DEEEFE"
+                                  anchorType: left-center
+                                  fontFamily: FangSong_GB2312
+                        children:
+                            - id: PlayerGoldChange #玩家奥坎盾变化
+                              behaviours:
+                                  - type: Transform
+                                    properties:
+                                        x: -50
+                                        y: 50
+                                        scaleX: 1
+                                        scaleY: 1
+                                        rotation: 0
+                                  - type: AutoHide
+                              children:
+                                  - id: PlayerGoldChangeImage
+                                    behaviours:
+                                        - type: Transform
+                                          properties:
+                                              x: 0
+                                              y: 0
+                                              scaleX: 1
+                                              scaleY: 1
+                                              rotation: 0
+                                        - type: BitmapRenderer
+                                          properties:
+                                              source: ./assets/images/Icon_TextFrame5050.png
+                                              hitAreaType: none
+                                              renderType: "ui"
+                                              scaleXForUI: 10
+                                              scaleYForUI: 6
+                                              borderWidthForUI: 15
+                                    children: []
+                                  - id: _PlayerGoldChangeText
+                                    behaviours:
+                                        - type: Transform
+                                          properties:
+                                              x: 20
+                                              y: 20
+                                              scaleX: 1
+                                              scaleY: 1
+                                              rotation: 0
+                                        - type: TextRenderer
+                                          properties:
+                                              fontSize: 22
+                                              text: "这里应该显示奥坎盾变化"
+                                              color: "#DEEEFE"
+                                              fontFamily: FangSong_GB2312
+                                    children: []
+                - id: PlayerTech #玩家科技点
+                  behaviours:
+                      - type: Transform
+                        properties:
+                            x: 400
+                            y: 0
+                            scaleX: 1
+                            scaleY: 1
+                            rotation: 0
+                  children:
+                      - id: PlayerTechImage
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 0
+                                  y: 0
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: BitmapRenderer
+                              properties:
+                                  source: ./assets/images/Icon_TechPoint.png
+                                  hitAreaType: none
+                        children: []
+                      - id: PlayerTechFrame
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 50
+                                  y: 0
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: BitmapRenderer
+                              properties:
+                                  source: ./assets/images/Icon_Show.png
+                                  hitAreaType: none
+                        children: []
+                      - id: PlayerTechText
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 52
+                                  y: 21
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: TextRenderer
+                              properties:
+                                  fontSize: 22
+                                  text: "这里应该显示科技等级"
+                                  color: "#DEEEFE"
+                                  anchorType: left-center
+                                  fontFamily: FangSong_GB2312
+                        children: []
+                - id: PlayerCapacity #玩家行政容量
+                  behaviours:
+                      - type: Transform
+                        properties:
+                            x: 600
+                            y: 0
+                            scaleX: 1
+                            scaleY: 1
+                            rotation: 0
+                  children:
+                      - id: PlayerCapacityImage
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 0
+                                  y: 0
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: BitmapRenderer
+                              properties:
+                                  source: ./assets/images/Icon_Capacity.png
+                                  hitAreaType: none
+                        children: []
+                      - id: PlayerCapacityFrame
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 50
+                                  y: 0
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: BitmapRenderer
+                              properties:
+                                  source: ./assets/images/Icon_Show.png
+                                  hitAreaType: none
+                        children: []
+                      - id: PlayerCapacityText
+                        behaviours:
+                            - type: Transform
+                              properties:
+                                  x: 52
+                                  y: 21
+                                  scaleX: 1
+                                  scaleY: 1
+                                  rotation: 0
+                            - type: TextRenderer
+                              properties:
+                                  fontSize: 22
+                                  text: "这里应该显示容量"
+                                  color: "#DEEEFE"
+                                  anchorType: left-center
+                                  fontFamily: FangSong_GB2312
+                        children: []
+    - id: FPS
+      behaviours:
+          - type: Transform
+            properties:
+                x: 0
+                y: 0
+                scaleX: 1
+                scaleY: 1
+                rotation: 0
+          - type: TextRenderer
+            properties:
+                fontSize: 22
+                text: "FPS: 60"
+                color: "#DEEEFE"
+                anchorType: left-top
+                fontFamily: FangSong_GB2312
+          - type: FPSDisplay

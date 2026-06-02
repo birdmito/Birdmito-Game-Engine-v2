@@ -53,13 +53,13 @@ export class CanvasContextRenderingSystem extends System {
             component.setAnchor(component.anchorType);
         }
         // 加载TextRenderer
-        if(component instanceof TextRenderer){
+        if (component instanceof TextRenderer) {
 
             component.measuredTextWidth = this.context.measureText(component.text).width;
-            if(component.lineWidth === undefined){
+            if (component.lineWidth === undefined) {
                 component.lineWidth = String(component.measuredTextWidth);
             }
-            if(component.lineHeight === undefined){
+            if (component.lineHeight === undefined) {
                 component.lineHeight = '1';
             }
             // component.setAnchor(component.anchorType);
@@ -86,12 +86,23 @@ export class CanvasContextRenderingSystem extends System {
         }
     }
 
+    _logRenderTimeStatistics = false;
+    _timeRecord = 0;
+    _frameCount = 0;
+    _renderStats = new Map<string, { totalTime: number, count: number, minTime: number, maxTime: number }>();
+    _statisticsFrames = 60; // 统计60帧的平均数据
+
+    onStart(): void {
+        window["logRenderTimeStatistics"] = (frames = 60) => {
+            this._logRenderTimeStatistics = true;
+            this._frameCount = 0;
+            this._renderStats.clear();
+            this._statisticsFrames = frames;
+        }
+    }
+
     onUpdate(): void {
         const context = this.context;
-        // const canvas = this.canvas;
-        // context.setTransform(1, 0, 0, 1, 0, 0);
-        // context.clearRect(0, 0, canvas.width, canvas.height);
-
 
         const cameraGameObject =
             this.gameEngine.mode === "play" ? getGameObjectById("Camera") : this.gameEngine.editorGameObject;
@@ -100,20 +111,27 @@ export class CanvasContextRenderingSystem extends System {
         const viewportMatrix = camera.calculateViewportMatrix();
 
         const self = this;
+        const frameStartTime = performance.now();
+        let renderCount = 0;
 
         function visitChildren(gameObject: GameObject) {
             for (const child of gameObject.children) {
+                const itemStartTime = performance.now();
+
                 if (child.renderer) {
-                    if(child.active == false){
+                    if (child.active == false) {
                         continue;
                     }
+                    renderCount++;
+
                     const transform = child.getBehaviour(Transform);
                     const matrix = matrixAppendMatrix(transform.globalMatrix, viewportMatrix);
                     context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
+
                     if (child.renderer instanceof TextRenderer) {
                         const renderer = child.renderer as TextRenderer;
                         drawText(context, renderer);
-                    } 
+                    }
                     else if (child.renderer instanceof ShapeRectRenderer) {
                         const renderer = child.renderer as ShapeRectRenderer;
                         context.save();
@@ -125,24 +143,14 @@ export class CanvasContextRenderingSystem extends System {
                         context.save();
                         const img = self.gameEngine.resourceManager.getImage(renderer.source);
 
-                        // context.drawImage(img, renderer.anchor.x, renderer.anchor.y);
-
                         if (renderer.renderType === 'ui') {
                             const originalWidth = img.width;
                             const originalHeight = img.height;
-
-                            // 缩放比例
                             const scaleX = renderer.scaleX;
                             const scaleY = renderer.scaleY;
-
-                            // 边框大小
                             const borderWidth = renderer.borderWidth;
-
-                            // 计算九宫格单元格的大小
                             const cellSize = Math.floor((Math.min(originalWidth, originalHeight) - (borderWidth * 2)));
 
-                            // 绘制九宫格图片
-                            //图源、起始点、起始点宽高、绘制点、绘制点宽高
                             context.drawImage(img, 0, 0, borderWidth, borderWidth, renderer.anchor.x, renderer.anchor.y, borderWidth, borderWidth);
                             context.drawImage(img, borderWidth, 0, cellSize, borderWidth, renderer.anchor.x + borderWidth, renderer.anchor.y, cellSize * scaleX, borderWidth);
                             context.drawImage(img, originalWidth - borderWidth, 0, borderWidth, borderWidth, renderer.anchor.x + borderWidth + cellSize * scaleX, renderer.anchor.y, borderWidth, borderWidth);
@@ -156,7 +164,7 @@ export class CanvasContextRenderingSystem extends System {
                             context.drawImage(img, originalWidth - borderWidth, originalHeight - borderWidth, borderWidth, borderWidth, renderer.anchor.x + borderWidth + cellSize * scaleX, renderer.anchor.y + borderWidth + cellSize * scaleY, borderWidth, borderWidth);
 
                         }
-                        else {// 图片原始尺寸
+                        else {
                             context.drawImage(img, renderer.anchor.x, renderer.anchor.y);
                         }
 
@@ -179,23 +187,106 @@ export class CanvasContextRenderingSystem extends System {
                             destinationRect.height
                         );
                         context.restore();
-                    } else if (child.renderer instanceof HexagonBorderRenderer){
+                    } else if (child.renderer instanceof HexagonBorderRenderer) {
                         const renderer = child.renderer as HexagonBorderRenderer;
                         context.save()
-                        for(let i = 1; i <= Nation.nationQuantity; i++){
-                            drawHexagon(context,i);
+                        for (let i = 1; i <= Nation.nationQuantity; i++) {
+                            drawHexagon(context, i);
                         }
                         context.restore();
-
                     }
                 }
+
+                // 记录统计数据
+                if (self._logRenderTimeStatistics) {
+                    const renderTime = performance.now() - itemStartTime;
+                    const stats = self._renderStats.get(child.id) || {
+                        totalTime: 0,
+                        count: 0,
+                        minTime: Infinity,
+                        maxTime: 0
+                    };
+                    stats.totalTime += renderTime;
+                    stats.count++;
+                    stats.minTime = Math.min(stats.minTime, renderTime);
+                    stats.maxTime = Math.max(stats.maxTime, renderTime);
+                    self._renderStats.set(child.id, stats);
+                }
+
                 visitChildren(child);
             }
         }
+
         visitChildren(this.rootGameObject);
+
+        // 统计完整帧数据
+        if (self._logRenderTimeStatistics) {
+            const totalFrameTime = performance.now() - frameStartTime;
+            const frameStats = self._renderStats.get('__FRAME__') || {
+                totalTime: 0,
+                count: 0,
+                minTime: Infinity,
+                maxTime: 0
+            };
+            frameStats.totalTime += totalFrameTime;
+            frameStats.count++;
+            frameStats.minTime = Math.min(frameStats.minTime, totalFrameTime);
+            frameStats.maxTime = Math.max(frameStats.maxTime, totalFrameTime);
+            self._renderStats.set('__FRAME__', frameStats);
+
+            self._frameCount++;
+
+            // 达到统计帧数后输出报告
+            if (self._frameCount >= self._statisticsFrames) {
+                console.log(`\n========== 渲染性能统计报告 (${self._statisticsFrames} 帧平均) ==========`);
+
+                // 按平均渲染时间排序
+                const sortedStats = Array.from(self._renderStats.entries())
+                    .filter(([id]) => id !== '__FRAME__')
+                    .sort((a, b) => (b[1].totalTime / b[1].count) - (a[1].totalTime / a[1].count));
+
+                console.log(`\n🎯 渲染对象统计 (共 ${renderCount} 个对象):`);
+                console.log('对象ID'.padEnd(30) + '平均耗时'.padEnd(15) + '最小耗时'.padEnd(15) + '最大耗时'.padEnd(15) + '占比');
+                console.log('-'.repeat(90));
+
+                const frameTotal = self._renderStats.get('__FRAME__');
+                const avgFrameTime = frameTotal.totalTime / frameTotal.count;
+
+                // 只显示前20个最耗时的对象
+                sortedStats.slice(0, 20).forEach(([id, stats]) => {
+                    const avg = stats.totalTime / stats.count;
+                    const percentage = ((avg / avgFrameTime) * 100).toFixed(2);
+                    console.log(
+                        id.padEnd(30) +
+                        `${avg.toFixed(4)}ms`.padEnd(15) +
+                        `${stats.minTime.toFixed(4)}ms`.padEnd(15) +
+                        `${stats.maxTime.toFixed(4)}ms`.padEnd(15) +
+                        `${percentage}%`
+                    );
+                });
+
+                if (sortedStats.length > 20) {
+                    console.log(`... 还有 ${sortedStats.length - 20} 个对象未显示`);
+                }
+
+                console.log('\n⏱️  总体性能:');
+                console.log(`平均帧时间: ${avgFrameTime.toFixed(4)}ms`);
+                console.log(`最小帧时间: ${frameTotal.minTime.toFixed(4)}ms`);
+                console.log(`最大帧时间: ${frameTotal.maxTime.toFixed(4)}ms`);
+                console.log(`平均帧率: ${(1000 / avgFrameTime).toFixed(2)} FPS`);
+                console.log(`最高帧率: ${(1000 / frameTotal.minTime).toFixed(2)} FPS`);
+                console.log(`最低帧率: ${(1000 / frameTotal.maxTime).toFixed(2)} FPS`);
+                console.log('='.repeat(90) + '\n');
+
+                // 重置统计
+                self._logRenderTimeStatistics = false;
+                self._frameCount = 0;
+                self._renderStats.clear();
+            }
+        }
     }
 }
-function drawText(context: CanvasRenderingContext2D, renderer: TextRenderer){
+function drawText(context: CanvasRenderingContext2D, renderer: TextRenderer) {
     context.font = renderer.fontSize + "px" + " " + renderer.fontFamily;
     //设置字体颜色
     if (renderer.color) {
@@ -212,7 +303,7 @@ function drawText(context: CanvasRenderingContext2D, renderer: TextRenderer){
     let lines = [];
     let currentLine = words[0];
     for (let i = 1; i < words.length; i++) {
-        if(words[i] === '|'){
+        if (words[i] === '|') {
             lines.push(currentLine);
             currentLine = '';
             continue;
@@ -225,7 +316,7 @@ function drawText(context: CanvasRenderingContext2D, renderer: TextRenderer){
             lines.push(currentLine);
             currentLine = word;
         }
-        maxWidth = Math.max(maxWidth,context.measureText(currentLine).width)
+        maxWidth = Math.max(maxWidth, context.measureText(currentLine).width)
     }
     lines.push(currentLine);
     renderer.measuredTextWidth = maxWidth;
@@ -246,97 +337,96 @@ function drawText(context: CanvasRenderingContext2D, renderer: TextRenderer){
     // console.log(renderer.measuredTextWidth)
 }
 
-function drawHexagon(context: CanvasRenderingContext2D,nationId:number){
+function drawHexagon(context: CanvasRenderingContext2D, nationId: number) {
     //这一段相当于判定了一个六边形中的0-1，1-2，2-3，3-4，4-5的链接
-    for(let i = 0;i<Nation.nations[nationId].vertices.length-1;i++){
+    for (let i = 0; i < Nation.nations[nationId].vertices.length - 1; i++) {
         const vertex = Nation.nations[nationId].vertices[i]
-        const vertex1 = Nation.nations[nationId].vertices[i+1]
-        let isDraw = !judgeVertex(vertex,Nation.nations[nationId].needJumpVertices)
-        
+        const vertex1 = Nation.nations[nationId].vertices[i + 1]
+        let isDraw = !judgeVertex(vertex, Nation.nations[nationId].needJumpVertices)
+
         //我们需要跳过5-6的链接，所以需要判定5-6的链接
-        if((i+1)%6==0 && i!=0){
+        if ((i + 1) % 6 == 0 && i != 0) {
             isDraw = false
         };
-        
-        
-        if(isDraw){drawOneLine(context,nationId,vertex,vertex1,Nation.nations[nationId].nationBorderColor)}
-    
 
 
-    
-    
+        if (isDraw) { drawOneLine(context, nationId, vertex, vertex1, Nation.nations[nationId].nationBorderColor) }
+
+
+
+
+
     }
     //判断画了多少个六边形
     let length = Nation.nations[nationId].vertices.length
-    let number = Math.floor(length/6)
+    let number = Math.floor(length / 6)
     //nuber 即为需要判定多少0-5的链接
     //这一段相当于判定了0-5的链接
-    for(let k=1;k<=number;k++){
-        if(judgeVertex(Nation.nations[nationId].vertices[k*6-1],Nation.nations[nationId].needJumpVertices)){
+    for (let k = 1; k <= number; k++) {
+        if (judgeVertex(Nation.nations[nationId].vertices[k * 6 - 1], Nation.nations[nationId].needJumpVertices)) {
             continue;
-        }else{
-            drawOneLine(context,nationId,Nation.nations[nationId].vertices[k*6-1],Nation.nations[nationId].vertices[(k-1)*6],Nation.nations[nationId].nationBorderColor)
+        } else {
+            drawOneLine(context, nationId, Nation.nations[nationId].vertices[k * 6 - 1], Nation.nations[nationId].vertices[(k - 1) * 6], Nation.nations[nationId].nationBorderColor)
         }
     }
 
 
 }
 
-function judgeVertex(vertexNeedJudge:{x:number,y:number},judgeVertex:{x:number,y:number}[]){
-    for(let i=0;i<judgeVertex.length;i++){
-        if(vertexNeedJudge==judgeVertex[i]){
+function judgeVertex(vertexNeedJudge: { x: number, y: number }, judgeVertex: { x: number, y: number }[]) {
+    for (let i = 0; i < judgeVertex.length; i++) {
+        if (vertexNeedJudge == judgeVertex[i]) {
             return true
         }
     }
     return false
 }
 
-function drawOneLine(context: CanvasRenderingContext2D,nationId:number,vertex1:{x:number,y:number},vertex2:{x:number,y:number},color:string)
-{
-  // 计算线段的长度和角度
-  var dx = vertex2.x - vertex1.x;
-  var dy = vertex2.y - vertex1.y;
-  var line_length = Math.sqrt(dx * dx + dy * dy);
-  var angle = Math.atan2(dy, dx);
+function drawOneLine(context: CanvasRenderingContext2D, nationId: number, vertex1: { x: number, y: number }, vertex2: { x: number, y: number }, color: string) {
+    // 计算线段的长度和角度
+    var dx = vertex2.x - vertex1.x;
+    var dy = vertex2.y - vertex1.y;
+    var line_length = Math.sqrt(dx * dx + dy * dy);
+    var angle = Math.atan2(dy, dx);
 
-  // 计算垂直线的中点
-  var mid_x = (vertex1.x + vertex2.x) / 2;
-  var mid_y = (vertex1.y + vertex2.y) / 2;
+    // 计算垂直线的中点
+    var mid_x = (vertex1.x + vertex2.x) / 2;
+    var mid_y = (vertex1.y + vertex2.y) / 2;
 
-  // 计算垂直线的起点和终点
-  var perpendicular_length = 5;
-  var perpendicular_start_x = mid_x - perpendicular_length * Math.sin(angle);
-  var perpendicular_start_y = mid_y + perpendicular_length * Math.cos(angle);
-  var perpendicular_end_x = mid_x + perpendicular_length * Math.sin(angle);
-  var perpendicular_end_y = mid_y - perpendicular_length * Math.cos(angle);
-
-
-   // 创建渐变对象
-   var gradient = context.createLinearGradient(perpendicular_start_x, perpendicular_start_y, perpendicular_end_x, perpendicular_end_y);
-  
-   // 添加渐变颜色停止点
-   gradient.addColorStop(0,  getTransparentColor(color, 0)); // 起始点颜色，完全不透明
-   gradient.addColorStop(1,color); // 终点颜色，完全透明
+    // 计算垂直线的起点和终点
+    var perpendicular_length = 5;
+    var perpendicular_start_x = mid_x - perpendicular_length * Math.sin(angle);
+    var perpendicular_start_y = mid_y + perpendicular_length * Math.cos(angle);
+    var perpendicular_end_x = mid_x + perpendicular_length * Math.sin(angle);
+    var perpendicular_end_y = mid_y - perpendicular_length * Math.cos(angle);
 
 
-  // 开始绘制线条
-  context.beginPath();
-  context.moveTo(perpendicular_start_x, perpendicular_start_y);
-  context.lineTo(perpendicular_end_x, perpendicular_end_y);
+    // 创建渐变对象
+    var gradient = context.createLinearGradient(perpendicular_start_x, perpendicular_start_y, perpendicular_end_x, perpendicular_end_y);
 
-  // 设置线条宽度和颜色
-  context.lineWidth = line_length+8;
-  context.strokeStyle = gradient;
+    // 添加渐变颜色停止点
+    gradient.addColorStop(0, getTransparentColor(color, 0)); // 起始点颜色，完全不透明
+    gradient.addColorStop(1, color); // 终点颜色，完全透明
 
-  // 绘制线条
-  context.stroke();
-        
+
+    // 开始绘制线条
+    context.beginPath();
+    context.moveTo(perpendicular_start_x, perpendicular_start_y);
+    context.lineTo(perpendicular_end_x, perpendicular_end_y);
+
+    // 设置线条宽度和颜色
+    context.lineWidth = line_length + 8;
+    context.strokeStyle = gradient;
+
+    // 绘制线条
+    context.stroke();
+
 }
 
 function getTransparentColor(color, alpha) {
     // 将 RGB 格式的颜色字符串转换为 RGBA 格式，并设置透明度
     return color.replace('rgb', 'rgba').replace(')', ', ' + alpha + ')');
-  }
+}
 //     // 创建一个空的 Map 对象来保存边信息和重叠次数
 //         const edgeMap = new Map();
 
@@ -397,6 +487,5 @@ function getTransparentColor(color, alpha) {
 //     }
 //     return true;
 //   }
-  
- 
-  
+
+

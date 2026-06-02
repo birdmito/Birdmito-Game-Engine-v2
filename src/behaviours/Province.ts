@@ -1,6 +1,6 @@
 import { Behaviour } from "../engine/Behaviour";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
-import { GameProcess } from "../behaviours/GameProcess";
+import { GameProcessMgr } from "./GameProcessMgr";
 import { GameObject, getBehaviourClassByName, getGameObjectById } from "../engine";
 import { SelectedObjectInfoMangaer } from "./SelectedObjectInfoManager";
 import { UnitBehaviour } from "./UnitBehaviour";
@@ -97,7 +97,7 @@ export class Province extends Behaviour {
                 console.log("selected is unit, move to province")
                 //若当前选中的是单位，则移动
                 const unit = SelectedObjectInfoMangaer.selectedBehaviour as UnitBehaviour;
-                if ((unit.nationId === GameProcess.playerNationId || GameProcess.isCheat)) {
+                if ((unit.nationId === GameProcessMgr.playerNationId || GameProcessMgr.isCheat)) {
                     unit.moveToProvince(this);
                 }
             }
@@ -135,7 +135,7 @@ export class Province extends Behaviour {
     changeNationId(nationId: number) {
         //改变领地所属国家
         // if (nationId !== 0) {
-            // Nation.nations[nationId].doraChangeNextTurn += this.provinceProduction.dora;  //更新预计的dora变动
+        // Nation.nations[nationId].doraChangeNextTurn += this.provinceProduction.dora;  //更新预计的dora变动
         // }
         //若领地原本有主，从原主的领地列表中删除
         if (this.nationId > 0) {
@@ -167,7 +167,7 @@ export class Province extends Behaviour {
     updateApCost(apCostPlused: number = 0) {
         //更新行动力消耗
         this.apCost = 1 + this.lakePercent * 5 + this.forestPercent * 2 + this.mountainPercent * 8 + apCostPlused;
-        if(!this.isLand){
+        if (!this.isLand) {
             this.apCost = 8;
         }
         this.apCost = Math.floor(this.apCost);

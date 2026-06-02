@@ -12,7 +12,7 @@ import { UnitBehaviour } from "./UnitBehaviour";
 import { generateTip } from "./Tip";
 import { ObjectDisableSimulator } from "./ObjectDisableSimulator";
 import { BitmapRenderer } from "../engine/BitmapRenderer";
-import { GameProcess } from "./GameProcess";
+import { GameProcessMgr } from "./GameProcessMgr";
 import { UI_UpdateSelectedObjInfo } from "./UI_UpdateSelectedObjInfo";
 import { Au_GeneralButton } from "./Au_GeneralButton";
 import { Au_ItemButton } from "./Au_ItemButton";
@@ -91,14 +91,14 @@ export class UI_ItemButton extends Behaviour {
                 case "建造":
                     console.log("建造 is clicked");
                     const newBuilding = Building.copyBuilding(originBuilding);
-                    Nation.nations[GameProcess.playerNationId].buildBuilding(targetProvince, newBuilding.name);
+                    Nation.nations[GameProcessMgr.playerNationId].buildBuilding(targetProvince, newBuilding.name);
                     break;
                 case "拆除":
                     targetProvince.buildingList.splice(this.idInList, 1);  //从建筑列表中删除
                     targetProvince.updateProvinceProperties();  //拆除建筑时，资源产出减少
                     console.log("拆除成功");
                     console.log("获得金币：" + originBuilding.cost);
-                    Nation.nations[GameProcess.playerNationId].dora += originBuilding.cost;
+                    Nation.nations[GameProcessMgr.playerNationId].dora += originBuilding.cost;
                     break;
                 case "取消":
                     console.log("取消 is clicked");
@@ -106,22 +106,22 @@ export class UI_ItemButton extends Behaviour {
                     console.log("取消成功");
                     if (originBuilding) {
                         console.log("获得金币：" + originBuilding.cost);
-                        Nation.nations[GameProcess.playerNationId].dora += originBuilding.cost;
+                        Nation.nations[GameProcessMgr.playerNationId].dora += originBuilding.cost;
                     }
                     if (originUnitParam) {
                         console.log("获得金币：" + originUnitParam.cost);
-                        Nation.nations[GameProcess.playerNationId].dora += originUnitParam.cost;
+                        Nation.nations[GameProcessMgr.playerNationId].dora += originUnitParam.cost;
                     }
                     break;
                 case "招募":
                     console.log("招募 is clicked");
                     //向生产队列中push item
-                    Nation.nations[GameProcess.playerNationId].recruitUnit(targetProvince, this.itemName);
+                    Nation.nations[GameProcessMgr.playerNationId].recruitUnit(targetProvince, this.itemName);
                     break;
                 case "研究":
                     console.log("研究 is clicked");
                     //更改当前科技
-                    Nation.nations[GameProcess.playerNationId].currentTechName = this.itemName;
+                    Nation.nations[GameProcessMgr.playerNationId].currentTechName = this.itemName;
                     break;
                 default:
                     console.log("Item" + this.gameObject.id + ": " + this.itemName + "没有设置点击事件)");

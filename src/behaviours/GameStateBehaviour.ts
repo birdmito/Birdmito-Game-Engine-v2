@@ -33,7 +33,7 @@ export class GameStateBehaviour extends Behaviour {
         // 播放背景音乐
         switch (gameState) {
             case 0:
-                if(this.audioManager.currentBackgroundMusic){
+                if (this.audioManager.currentBackgroundMusic) {
                     if (this.audioManager.currentBackgroundMusic.isPlaying()) {
                         this.audioManager.currentBackgroundMusic.stop();
                     }
@@ -42,7 +42,7 @@ export class GameStateBehaviour extends Behaviour {
                 this.audioManager.currentBackgroundMusic = this.audios["登录界面背景音乐"];
                 break;
             case 1:
-                if(this.audioManager.currentBackgroundMusic){
+                if (this.audioManager.currentBackgroundMusic) {
                     if (this.audioManager.currentBackgroundMusic.isPlaying()) {
                         this.audioManager.currentBackgroundMusic.stop();
                     }
@@ -73,24 +73,24 @@ export class GameStateBehaviour extends Behaviour {
 
         //获取摄像机
         const camera = getGameObjectById("Camera");
-        
+
         //删除旧场景小地图
-        if(camera.getChildById("MiniMapRoot")){
+        if (camera.getChildById("MiniMapRoot")) {
             camera.removeChild(camera.getChildById("MiniMapRoot"));
         }
 
         //创建新的小地图
         switch (gameState) {
             case 1:
-                this.gameObject.engine.createPrefab2Children(new MiniMapBoxPrefabBinding(),camera);
+                this.gameObject.engine.createPrefab2Children(new MiniMapBoxPrefabBinding(), camera);
                 break;
             default:
-                break;    
+                break;
         }
 
         //创建新场景
         const newScene = this.gameObject.engine.createPrefab(this.scenePrefabBindings[gameState]);
-        this.gameObject.addChild(newScene);        
+        this.gameObject.addChild(newScene);
 
         //生成新场景的静态UI
         switch (gameState) {
